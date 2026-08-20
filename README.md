@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://raw.githubusercontent.com/echechelev/cassandra-framework/main/assets/evknopia-banner.png" alt="Evknopia - Cassandra Framework" width="100%">
+  <img src="https://raw.githubusercontent.com/echechelev/cassandra-framework/main/assets/evknopia-banner.png" alt="Evknopia - Cassandra Framework" width="300">
 </p>
 
 <h1 align="center">Cassandra Framework</h1>
