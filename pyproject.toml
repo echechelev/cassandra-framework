@@ -1,0 +1,14 @@
+# --- Метаданные проекта (Бренд и Автор) ---
+[project]
+name = "cassandra-framework"
+version = "0.1.0"
+description = "EVKNOPIA presents: CASSANDRA. Протокол априорной оценки планетарных систем."
+readme = "README.md"
+requires-python = ">=3.10"
+authors = [
+    {name = "Evgeny Chechelev", email = "echechelev@users.noreply.github.com"}
+]
+maintainers = [
+    {name = "Evknopia"}
+]
+keywords = ["qa", "automation", "pytest", "selene", "allure", "evknopia"]
