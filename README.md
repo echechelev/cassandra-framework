@@ -1,19 +1,26 @@
-# 🌌 CASSANDRA
-> *Проект оценки жизнепригодности планет*
+# 🌌 Cassandra Framework
 
-**EVKNOPIA presents:** Архитектурный фреймворк для автоматизированной оценки пригодности планет к колонизации.
+**EVKNOPIA presents: CASSANDRA** — A planetary assessment automation framework.
 
-##  О проекте
+## 📋 About
+Cassandra is an architectural test automation framework designed for assessing planetary systems' habitability. Built with modern QA practices in mind.
 
-**Cassandra** — это личный архитектурный фреймворк, созданный для демонстрации полного цикла разработки QA-автоматизации. 
+## 🚧 Status
+**Work in Progress** — Currently developing core architecture and login page automation (CASS-002).
 
-Название отсылает к мифической Кассандре, даром которой было предвидение. В мире QA наша задача — предвидеть проблемы и непригодность системы до того, как они случатся в продакшене.
+## 📦 Project Structure
+- `docs/` — Technical specifications and architecture docs
+- `app/` — Application frontend code
+- `pages/` — Page Object Model implementation
+- `tests/` — Automated test suites
+- `locators/` — UI element locators
 
-## ️ Стек технологий
-- **Язык:** Python 3.10+
-- **Фреймворк:** Pytest
-- **UI Автоматизация:** Selene
-- **Отчётность:** Allure Report
+## 🔧 Tech Stack
+- Python 3.11+
+- pytest
+- Selene (Selenium wrapper)
+- Allure Reports
+- Black + isort + Flake8
 
-## 🚀 Статус
-🟡 **В активной разработке** (Evknopia)
+---
+*By Evknopia | QA Automation Engineer*
