@@ -1,3 +1,15 @@
+<p align="center">
+  <img src="https://raw.githubusercontent.com/echechelev/cassandra-framework/main/assets/evknopia-banner.png" alt="Evknopia - Cassandra Framework" width="100%">
+</p>
+
+<h1 align="center">Cassandra Framework</h1>
+<p align="center">
+  <strong>QA Automation Framework for Colonization Assessment System</strong><br>
+  <em>Built with love by Evgenii Chechelev & his space cat 🐱🚀</em>
+</p>
+
+---
+
 # 🌌 Cassandra Framework
 
 **EVKNOPIA presents: CASSANDRA** — A planetary assessment automation framework.
