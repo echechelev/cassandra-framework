@@ -1,0 +1,16 @@
+{
+  "users": {
+    "ORION": {
+      "callsign": "ORION",
+      "access_code": "NEBULA_7",
+      "role": "Commander",
+      "full_name": "Orion"
+    },
+    "AURORA": {
+      "callsign": "AURORA",
+      "access_code": "COMET_42",
+      "role": "Specialist",
+      "full_name": "Aurora"
+    }
+  }
+}
