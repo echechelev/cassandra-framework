@@ -9,7 +9,7 @@ from pages.login import LoginPage
 
 # 🌍 КОНФИГУРАЦИЯ ОКРУЖЕНИЯ (Environment)
 BASE_URL = os.getenv("CASSANDRA_URL", "file:///D:/Python/cassandra/app")
-SHOW_BROWSER = os.getenv("SHOW_BROWSER", "false").lower() == "true"
+SHOW_BROWSER = os.getenv("SHOW_BROWSER", "true").lower() == "true"
 
 
 @pytest.fixture(scope="function", autouse=True)
@@ -20,7 +20,6 @@ def setup_browser():
     if not SHOW_BROWSER:
         chrome_options.add_argument("--headless=new")
     
-    chrome_options.add_argument("--headless=new")
     chrome_options.add_argument("--disable-gpu")
     chrome_options.add_argument("--no-sandbox")
     chrome_options.add_argument("--disable-dev-shm-usage")
