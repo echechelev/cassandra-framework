@@ -8,7 +8,7 @@ from . import data
 @allure.title("🚀 Успешная авторизация пользователя 'AURORA'")
 @allure.label("owner", "Evgeniy Chechelev")
 @allure.label("feature", "authentication")
-@allure.label("component", "login_page")
+@allure.label("component", "login")
 @pytest.mark.regress
 @pytest.mark.login
 @pytest.mark.basic
@@ -47,7 +47,7 @@ def test_successful_authorization_aurora(login_page):
 @allure.title("🚀 Успешная авторизация пользователя 'ORION'")
 @allure.label("owner", "Evgeniy Chechelev")
 @allure.label("feature", "authentication")
-@allure.label("component", "login_page")
+@allure.label("component", "login")
 @pytest.mark.regress
 @pytest.mark.login
 @pytest.mark.basic
@@ -86,7 +86,7 @@ def test_successful_authorization_orion(login_page):
 @allure.title("📡 Состояние страницы при загрузке")
 @allure.label("owner", "Evgeniy Chechelev")
 @allure.label("feature", "authentication")
-@allure.label("component", "login_page")
+@allure.label("component", "login")
 @pytest.mark.regress
 @pytest.mark.login
 @pytest.mark.basic
@@ -110,7 +110,7 @@ def test_default_page_state_on_load(login_page):
 @allure.title("📡 Реактивное состояние кнопки Establish Connection.")
 @allure.label("owner", "Evgeniy Chechelev")
 @allure.label("feature", "authentication")
-@allure.label("component", "login_page")
+@allure.label("component", "login")
 @pytest.mark.regress
 @pytest.mark.login
 @pytest.mark.basic

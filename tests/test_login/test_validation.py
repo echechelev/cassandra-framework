@@ -8,7 +8,7 @@ from . import data
 @allure.title("📏 Позывной короче минимальной длины.")
 @allure.label("owner", "Evgeniy Chechelev")
 @allure.label("feature", "authentication")
-@allure.label("component", "login_page")
+@allure.label("component", "login")
 @pytest.mark.regress
 @pytest.mark.login
 @pytest.mark.validation
@@ -34,7 +34,7 @@ def test_сallsign_less_than_min_length(login_page):
 @allure.title("🔑 Ключ доступа короче минимальной длины.")
 @allure.label("owner", "Evgeniy Chechelev")
 @allure.label("feature", "authentication")
-@allure.label("component", "login_page")
+@allure.label("component", "login")
 @pytest.mark.regress
 @pytest.mark.login
 @pytest.mark.validation
@@ -60,7 +60,7 @@ def test_access_code_less_than_min_length(login_page):
 @allure.title("🌌 Пустой позывной при заполненном ключе.")
 @allure.label("owner", "Evgeniy Chechelev")
 @allure.label("feature", "authentication")
-@allure.label("component", "login_page")
+@allure.label("component", "login")
 @pytest.mark.regress
 @pytest.mark.login
 @pytest.mark.validation
@@ -85,7 +85,7 @@ def test_empty_callsign_with_valid_code(login_page):
 @allure.title("🗝️ Пустой ключ доступа при заполненном позывном.")
 @allure.label("owner", "Evgeniy Chechelev")
 @allure.label("feature", "authentication")
-@allure.label("component", "login_page")
+@allure.label("component", "login")
 @pytest.mark.regress
 @pytest.mark.login
 @pytest.mark.validation
@@ -110,7 +110,7 @@ def test_empty_access_code_with_valid_callsign(login_page):
 @allure.title("🛸 Неверный позывной при валидном ключе.")
 @allure.label("owner", "Evgeniy Chechelev")
 @allure.label("feature", "authentication")
-@allure.label("component", "login_page")
+@allure.label("component", "login")
 @pytest.mark.regress
 @pytest.mark.login
 @pytest.mark.validation
@@ -143,7 +143,7 @@ def test_invalid_callsign_with_valid_code(login_page):
 @allure.title("🔒 Валидный позывной при неверном ключе.")
 @allure.label("owner", "Evgeniy Chechelev")
 @allure.label("feature", "authentication")
-@allure.label("component", "login_page")
+@allure.label("component", "login")
 @pytest.mark.regress
 @pytest.mark.login
 @pytest.mark.validation
@@ -176,7 +176,7 @@ def test_valid_callsign_with_invalid_code(login_page):
 @allure.title("💥 Оба поля неверны.")
 @allure.label("owner", "Evgeniy Chechelev")
 @allure.label("feature", "authentication")
-@allure.label("component", "login_page")
+@allure.label("component", "login")
 @pytest.mark.regress
 @pytest.mark.login
 @pytest.mark.validation

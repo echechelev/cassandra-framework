@@ -8,7 +8,7 @@ from . import data
 @allure.title("🚫 Превышение максимальной длины Callsign >100.")
 @allure.label("owner", "Evgeniy Chechelev")
 @allure.label("feature", "authentication")
-@allure.label("component", "login_page")
+@allure.label("component", "login")
 @pytest.mark.regress
 @pytest.mark.login
 @pytest.mark.edge_cases
@@ -27,7 +27,7 @@ def test_callsign_exceeds_max_length(login_page):
 @allure.title("🚫 Превышение максимальной длины Access Code >30.")
 @allure.label("owner", "Evgeniy Chechelev")
 @allure.label("feature", "authentication")
-@allure.label("component", "login_page")
+@allure.label("component", "login")
 @pytest.mark.regress
 @pytest.mark.login
 @pytest.mark.edge_cases
@@ -46,7 +46,7 @@ def test_access_code_exceeds_max_length(login_page):
 @allure.title("🧪 Попытка ввести SQL-инъекции.")
 @allure.label("owner", "Evgeniy Chechelev")
 @allure.label("feature", "authentication")
-@allure.label("component", "login_page")
+@allure.label("component", "login")
 @pytest.mark.regress
 @pytest.mark.login
 @pytest.mark.edge_cases
@@ -79,7 +79,7 @@ def test_sql_injection_attempt(login_page):
 @allure.title("👁️ Переключение видимости ключа доступа")
 @allure.label("owner", "Evgeniy Chechelev")
 @allure.label("feature", "authentication")
-@allure.label("component", "login_page")
+@allure.label("component", "login")
 @pytest.mark.regress
 @pytest.mark.login
 @pytest.mark.edge_cases

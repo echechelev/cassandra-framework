@@ -55,12 +55,12 @@ cassandra/
 ├── assets/                     # Global project assets (images, GIFs, banners)
 ├── data/                       # Frontend mock data (JS/JSON configurations)
 ├── docs/                       # Project documentation
-│   └── login_page/             # Login Page specific documentation
+│   └── login/             # Login Page specific documentation
 │       ├── assets/             # Images and GIFs for Login Page
 │       ├── design/             # Mockups and screenshots for Login Page
 │       └── specification/      # Technical Specification for Login Page
 ├── pages/                      # Page Object Model implementation
-│   └── login_page/             # Locators and methods for the Authorization page
+│   └── login/             # Locators and methods for the Authorization page
 ── tests/                      # Automated test suites
 │   └── test_login/             # Authorization page test modules
 │       ├── data/               # Test data (demo credentials, constants)*

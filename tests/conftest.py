@@ -9,7 +9,7 @@ from pages.login import LoginPage
 
 # 🌍 КОНФИГУРАЦИЯ ОКРУЖЕНИЯ (Environment)
 BASE_URL = os.getenv("CASSANDRA_URL", "file:///D:/Python/cassandra/app")
-SHOW_BROWSER = os.getenv("SHOW_BROWSER", "true").lower() == "true"
+SHOW_BROWSER = os.getenv("SHOW_BROWSER", "false").lower() == "true"
 
 
 @pytest.fixture(scope="function", autouse=True)
