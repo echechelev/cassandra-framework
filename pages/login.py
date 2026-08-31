@@ -2,9 +2,10 @@ import allure
 from selene import be, browser, have
 from selenium.common.exceptions import TimeoutException, WebDriverException
 
+from pages.hub import HubPage
 
-class LoginPage:
-    """Страница авторизации (login.html)."""
+
+class LoginPage(HubPage):
 
     # URL
     PATH = "/login.html"
@@ -21,7 +22,6 @@ class LoginPage:
     restore_clearance_link = browser.element('[data-wm-id="restore-clearance-link"]')
     lost_access_text = browser.element('[data-wm-id="lost-access-text"]')
     auth_error_message = browser.element('[data-wm-id="auth-error-message"]')
-    system_telemetry = browser.element('[data-wm-id="system-telemetry"]')
 
     # ========================================================================
     # region 1️⃣ 🌐 НАВИГАЦИЯ
@@ -29,8 +29,32 @@ class LoginPage:
 
     @allure.step("🌐 Открытие страницы авторизации")
     def open(self):
-        """Открывает страницу авторизации."""
-        browser.open(self.PATH)
+        """Открывает страницу авторизации и проверяет её загрузку.
+
+        Returns:
+            self: Экземпляр LoginPage для chaining-а методов.
+    
+        Raises:
+            AssertionError: Если страница не загрузилась в течение таймаута.
+        """
+        with allure.step(f"Открываем страницу: {self.PATH}"):
+            try:
+                browser.open(self.PATH)
+                self.callsign_input.should(be.visible)
+            
+            except TimeoutException:
+                raise AssertionError(
+                    "❌ Login page did not load!\n"
+                    f"   Expected URL: {self.PATH}\n"
+                    f"   Actual URL: {browser.driver.current_url}\n"
+                    "   Timeout: callsign_input did not appear in time"
+                )
+            except Exception as e:
+                raise AssertionError(
+                    f"❌ Unexpected error while opening login page!\n"
+                    f"   Path: {self.PATH}\n"
+                    f"   Error: {e}"
+                ) from e
         return self
 
     # endregion
@@ -143,23 +167,6 @@ class LoginPage:
     # region 4️⃣ ✅ ПРОВЕРКИ СОСТОЯНИЙ
     # ========================================================================
 
-    @allure.step("Проверка URL страницы авторизации")
-    def should_be_on_login_page(self):
-        """Проверяет, что браузер находится на странице Login Page."""
-        with allure.step("Ожидаем, что URL содержит 'login.html'"):
-            try:
-                browser.should(have.url_containing("login.html"))
-            except TimeoutException:
-                raise AssertionError(
-                    "❌ Not on Login Page!\n"
-                    "   Timeout: URL did not contain 'login.html' in time"
-                )
-            except Exception as e:
-                raise AssertionError(
-                    f"❌ Unexpected error while checking URL!\n" f"   Error: {e}"
-                ) from e
-        return self
-
     @allure.step("Проверка типа поля Access Code")
     def verify_access_code_type(self, expected_type: str):
         """Проверяет атрибут type поля ввода.
@@ -184,83 +191,6 @@ class LoginPage:
                 f"   Expected: {expected_type}\n"
                 f"   Error: {e}"
             ) from e
-        return self
-
-    @allure.step("Проверка текста телеметрии")
-    def verify_telemetry_text(self, expected_text: str):
-        """Проверяет, что текст телеметрии точно совпадает с ожидаемым.
-
-        Args:
-            expected_type: точный текст для проверки
-        """
-        with allure.step(f"Ожидаемый текст: '{expected_text}'"):
-            try:
-                self.system_telemetry.should(have.exact_text(expected_text))
-            except TimeoutException:
-                raise AssertionError(
-                    "❌ Telemetry text does not match!\n"
-                    f"   Expected: {expected_text}\n"
-                    "   Timeout: element did not appear in time"
-                )
-            except Exception as e:
-                raise AssertionError(
-                    f"❌ Unexpected error while verifying telemetry text!\n"
-                    f"   Expected: {expected_text}\n"
-                    f"   Error: {e}"
-                ) from e
-        return self
-
-    @allure.step("Проверка цвета телеметрии")
-    def verify_telemetry_color(
-        self, green: bool = False, red: bool = False, blue: bool = False
-    ):
-        """Проверяет цвет телеметрии. Необходимо передать green=True, red=True или blue=True.
-
-        Args:
-            green: зеленый, если True передан, проверяет.
-            red: красный, если True передан, проверяет.
-            blue: синий, если True передан, проверяет.
-        """
-
-        if green:
-            expected_color = "rgb(46, 204, 113)"
-            color_name = "зелёный"
-        elif red:
-            expected_color = "rgb(231, 76, 60)"
-            color_name = "красный"
-        elif blue:
-            expected_color = "rgb(77, 166, 255)"
-            color_name = "синий"
-        else:
-            raise ValueError(
-                "You must specify either green=True, red=True, or blue=True"
-            )
-
-        with allure.step(f"Ожидаемый цвет: {color_name}"):
-            try:
-                script = (
-                    "return window.getComputedStyle("
-                    "document.querySelector('[data-wm-id=\"system-telemetry\"]')"
-                    ").color.replace('rgba(', 'rgb(').replace(', 1)', '');"
-                )
-                actual_color = browser.driver.execute_script(script)
-
-                if actual_color != expected_color:
-                    raise AssertionError(
-                        f"❌ Telemetry color does not match!\n"
-                        f"   Expected: {color_name} ({expected_color})\n"
-                        f"   Actual: {actual_color}"
-                    )
-
-            except AssertionError:
-                raise
-            except Exception as e:
-                raise AssertionError(
-                    f"❌ Unexpected error while verifying telemetry color!\n"
-                    f"   Expected: {color_name} ({expected_color})\n"
-                    f"   Error: {e}"
-                ) from e
-
         return self
 
     @allure.step("Проверка появления блока ошибки авторизации")
