@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>404 — Cassandra Framework</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
+    body {
+      color: #e8ecff;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background-color: #050816;
+      overflow: hidden;
+    }
+    /* Фон */
+    .stars {
+      position: fixed; inset: 0; z-index: -2;
+      background: radial-gradient(1px 1px at 10% 10%, #fff, transparent 50%),
+                  radial-gradient(2px 2px at 40% 20%, #fff, transparent 50%),
+                  radial-gradient(1px 1px at 70% 40%, #fff, transparent 50%),
+                  linear-gradient(180deg, #050816 0%, #0a0e27 50%, #131b3a 100%);
+    }
+    .milkyway {
+      position: fixed; inset: 0; z-index: -1;
+      background: linear-gradient(180deg, transparent, rgba(120, 160, 255, .1) 50%, transparent);
+      transform: rotate(-28deg); filter: blur(2vmin);
+    }
+    /* Логотип */
+    .logo { font-size: 8vmin; font-weight: 800; letter-spacing: 1vmin; margin-bottom: 6vmin; }
+    .logo .w { color: #fff; }
+    .logo .b { color: #4da6ff; text-shadow: 0 0 2vmin rgba(77, 166, 255, 0.6); }
+    /* Блок 404 */
+    .error-box {
+      text-align: center;
+      padding: 4vmin 8vmin;
+      border: 0.2vmin solid rgba(231, 76, 60, 0.5);
+      border-radius: 1.5vmin;
+      background: rgba(10, 15, 40, 0.6);
+      backdrop-filter: blur(1vmin);
+      box-shadow: 0 0 3vmin rgba(231, 76, 60, 0.3);
+    }
+    .code { font-size: 10vmin; font-weight: 900; color: #e74c3c; text-shadow: 0 0 2vmin #e74c3c; line-height: 1; }
+    .title { font-size: 2.5vmin; font-weight: 700; color: #e8ecff; text-transform: uppercase; margin: 2vmin 0 1vmin; letter-spacing: 0.1vmin; }
+    .desc { font-size: 1.5vmin; color: #7a86b8; margin-bottom: 4vmin; }
+    /* Кнопка назад */
+    .back-btn {
+      display: inline-block;
+      padding: 1.2vmin 3vmin;
+      border: 0.15vmin solid rgba(77, 166, 255, 0.6);
+      border-radius: 0.6vmin;
+      background: rgba(10, 15, 40, 0.8);
+      color: #4da6ff;
+      font-size: 1.4vmin;
+      font-weight: 600;
+      text-decoration: none;
+      text-transform: uppercase;
+      transition: all 0.3s;
+    }
+    .back-btn:hover {
+      background: rgba(77, 166, 255, 0.2);
+      box-shadow: 0 0 2vmin rgba(77, 166, 255, 0.5);
+      transform: translateY(-0.2vmin);
+    }
+    .footer { position: absolute; bottom: 3vmin; color: #5a6488; font-size: 1.2vmin; }
+  </style>
+</head>
+<body>
+  <div class="stars"></div>
+  <div class="milkyway"></div>
+
+  <div class="logo">
+    <span class="w">CASSAN</span><span class="b">DRA</span>
+  </div>
+
+  <div class="error-box">
+    <div class="code">404</div>
+    <div class="title">Module Under Construction</div>
+    <div class="desc">This page is currently in development.<br>Please return to dashboard.</div>
+    <a href="dashboard.html" class="back-btn">← Back to Dashboard</a>
+  </div>
+
+  <div class="footer">Evknopia © 2026</div>
+</body>
+</html>
