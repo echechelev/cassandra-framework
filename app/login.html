@@ -19,7 +19,6 @@
       min-height: 100vh; 
       position: relative; 
       overflow-x: hidden;
-      font-family: 'Segoe UI', 'Roboto', sans-serif; 
     }
 
     /* ============ КОСМИЧЕСКИЙ ФОН ============ */
@@ -36,9 +35,9 @@
         radial-gradient(2px 2px at 80% 90%, rgba(255,255,255,.5), transparent 50%),
         radial-gradient(1px 1px at 90% 15%, rgba(255,255,255,.9), transparent 50%),
         linear-gradient(180deg, #050816 0%, #0a0e27 50%, #131b3a 100%);
-      background-size:  150px 150px, 200px 200px, 180px 180px, 250px 250px,
-                        160px 160px, 220px 220px, 190px 190px, 280px 280px,
-                        170px 170px, 100% 100%; 
+      background-size:  15vmin 15vmin, 20vmin 20vmin, 18vmin 18vmin, 25vmin 25vmin,
+                        16vmin 16vmin, 22vmin 22vmin, 19vmin 19vmin, 28vmin 28vmin,
+                        17vmin 17vmin, 100% 100%; 
     }
 
     .milkyway {
@@ -46,7 +45,7 @@
     }
 
     .milkyway .band {
-      position: absolute; top: 50%; left: 50%; width: 280vmax; height: 500px;
+      position: absolute; top: 50%; left: 50%; width: 280vmax; height: 25vmin;
       transform: translate(-50%, -50%) rotate(-28deg);
       background: linear-gradient(180deg,
         transparent,
@@ -56,19 +55,19 @@
         rgba(190,215,255,.18) 65%, 
         rgba(120,160,255,.08) 85%,
         transparent);
-      filter: blur(15px);  
+      filter: blur(1.5vmin); 
     }
 
     /* КАРТОЧКА */
     .login-card {
-      width: 100%;
-      max-width: 420px;
-      padding: 40px;
+      width: 90%;
+      max-width: 45vmin;
+      padding: 4vmin;
       background: rgba(10, 15, 40, 0.75);
-      border: 1px solid rgba(77, 166, 255, 0.3);
-      border-radius: 16px;
+      border: 0.1vmin solid rgba(77, 166, 255, 0.3);
+      border-radius: 1.5vmin;
       backdrop-filter: blur(12px);
-      box-shadow: 0 0 40px rgba(77, 166, 255, 0.15), inset 0 0 15px rgba(77, 166, 255, 0.05);
+      box-shadow: 0 0 4vmin rgba(77, 166, 255, 0.15), inset 0 0 1.5vmin rgba(77, 166, 255, 0.05);
       text-align: center;
       position: relative;
       z-index: 2;
@@ -76,58 +75,55 @@
 
     /* ЛОГОТИП */
     .login-logo {
-      font-size: 28px;
+      font-size: 3.5vmin;
       font-weight: 800;
-      letter-spacing: 4px;
-      margin-bottom: 8px;
+      letter-spacing: 0.5vmin;
+      margin-bottom: 1vmin;
     }
 
-    .login-logo .white-part {
-      color: #ffffff;
-    }
-
+    .login-logo .white-part { color: #ffffff; }
     .login-logo .blue-part {
       color: #4da6ff;
-      text-shadow: 0 0 15px rgba(77, 166, 255, 0.6);
+      text-shadow: 0 0 1.5vmin rgba(77, 166, 255, 0.6);
     }
 
     .login-sub {
-      font-size: 13px;
+      font-size: 1.5vmin;
       color: #7a86b8;
-      margin-bottom: 30px;
-      letter-spacing: 1px;
+      margin-bottom: 3vmin;
+      letter-spacing: 0.1vmin;
     }
 
     /* ПОЛЯ */
     .input-group {
-      margin-bottom: 20px;
+      margin-bottom: 2vmin;
       text-align: left;
     }
 
     .input-label {
       display: block;
-      font-size: 12px;
+      font-size: 1.3vmin;
       color: #9fb0e8;
-      margin-bottom: 8px;
-      letter-spacing: 1px;
+      margin-bottom: 0.8vmin;
+      letter-spacing: 0.1vmin;
       text-transform: uppercase;
     }
 
     .input-field {
       width: 100%;
-      padding: 14px 16px;
-      border-radius: 8px;
+      padding: 1.5vmin 1.6vmin;
+      border-radius: 0.8vmin;
       border: 1px solid rgba(77, 166, 255, 0.3);
       background: rgba(5, 8, 22, 0.8);
       color: #fff;
-      font-size: 15px;
+      font-size: 1.6vmin;
       outline: none;
       transition: 0.3s;
     }
 
     .input-field:focus {
       border-color: #4da6ff;
-      box-shadow: 0 0 15px rgba(77, 166, 255, 0.2);
+      box-shadow: 0 0 1.5vmin rgba(77, 166, 255, 0.2);
     }
 
     .input-field::placeholder {
@@ -136,7 +132,7 @@
 
     .input-field.error {
       border-color: #e74c3c;
-      box-shadow: 0 0 15px rgba(231, 76, 60, 0.2);
+      box-shadow: 0 0 1.5vmin rgba(231, 76, 60, 0.2);
     }
 
     /* КОНТЕЙНЕР ДЛЯ ПОЛЯ ПАРОЛЯ С ИКОНКОЙ */
@@ -147,17 +143,17 @@
     }
 
     .password-wrapper .input-field {
-      padding-right: 45px;
+      padding-right: 4.5vmin;
     }
 
     /* КНОПКА ПЕРЕКЛЮЧЕНИЯ ВИДИМОСТИ ПАРОЛЯ */
     .password-toggle {
       position: absolute;
-      right: 12px;
+      right: 1.2vmin;
       background: none;
       border: none;
       cursor: pointer;
-      padding: 4px;
+      padding: 0.4vmin;
       color: #7a86b8;
       transition: color 0.2s ease;
       display: flex;
@@ -183,10 +179,10 @@
       background: rgba(231, 76, 60, 0.1);
       border: 1px solid rgba(231, 76, 60, 0.4);
       color: #ffadad;
-      padding: 12px;
-      border-radius: 8px;
-      margin-bottom: 20px;
-      font-size: 13px;
+      padding: 1.2vmin;
+      border-radius: 0.8vmin;
+      margin-bottom: 2vmin;
+      font-size: 1.3vmin;
       font-weight: 600;
     }
 
@@ -198,32 +194,30 @@
     /* КНОПКА ВХОДА */
     .login-btn {
       width: 100%;
-      padding: 14px;
-      margin-top: 10px;
-      border-radius: 8px;
+      padding: 1.5vmin;
+      margin-top: 1vmin;
+      border-radius: 0.8vmin;
       border: none;
       cursor: pointer;
       background: linear-gradient(135deg, #1e5fbf, #4da6ff);
       color: white;
       font-weight: 700;
-      font-size: 15px;
-      letter-spacing: 1px;
+      font-size: 1.6vmin;
+      letter-spacing: 0.1vmin;
       text-transform: uppercase;
-      box-shadow: 0 0 20px rgba(77, 166, 255, 0.3);
+      box-shadow: 0 0 2vmin rgba(77, 166, 255, 0.3);
       transition: transform 0.1s ease, box-shadow 0.3s ease;
     }
 
-    /* Физический прожим кнопки (когда палец/мышь давит) */
     .login-btn:active:not(:disabled) {
-      transform: translateY(2px) scale(0.98);
-      box-shadow: 0 0 10px rgba(77, 166, 255, 0.3);
+      transform: translateY(0.2vmin) scale(0.98);
+      box-shadow: 0 0 1vmin rgba(77, 166, 255, 0.3);
     }
 
     .login-btn:hover:not(:disabled) {
-      box-shadow: 0 0 30px rgba(77, 166, 255, 0.6);
+      box-shadow: 0 0 3vmin rgba(77, 166, 255, 0.6);
     }
 
-    /* Стандартное серое состояние (когда поля не заполнены) */
     .login-btn:disabled:not(.processing) {
       opacity: 0.5;
       cursor: not-allowed;
@@ -231,7 +225,6 @@
       box-shadow: none;
     }
 
-    /* === ВАЙБУЮЩИЙ ПУЛЬСАР (Состояние обработки) === */
     .login-btn.processing {
       background: #1e5fbf;
       opacity: 0.9;
@@ -239,7 +232,6 @@
       animation: pulse-btn 1.5s infinite ease-in-out;
     }
 
-    /* Переопределяем серый disabled для пульсара */
     .login-btn.processing:disabled {
       opacity: 0.9;
       filter: none;
@@ -247,42 +239,34 @@
     }
 
     @keyframes pulse-btn {
-      0% {
-        box-shadow: 0 0 15px rgba(77, 166, 255, 0.3);
-      }
-
-      50% {
-        box-shadow: 0 0 40px rgba(77, 166, 255, 0.9);
-      }
-
-      100% {
-        box-shadow: 0 0 15px rgba(77, 166, 255, 0.3);
-      }
+      0% { box-shadow: 0 0 1.5vmin rgba(77, 166, 255, 0.3); }
+      50% { box-shadow: 0 0 4vmin rgba(77, 166, 255, 0.9); }
+      100% { box-shadow: 0 0 1.5vmin rgba(77, 166, 255, 0.3); }
     }
 
     /* БЛОК ВОССТАНОВЛЕНИЯ */
     .recovery-actions {
       display: flex;
       flex-direction: column;
-      gap: 12px;
-      margin-top: 25px;
+      gap: 1.2vmin;
+      margin-top: 2.5vmin;
       align-items: center;
     }
 
     .recovery-text {
-      font-size: 12px;
+      font-size: 1.2vmin;
       color: #5a6488;
-      letter-spacing: 0.5px;
+      letter-spacing: 0.05vmin;
       cursor: default;
     }
 
     .recovery-link {
-      font-size: 12px;
+      font-size: 1.2vmin;
       text-decoration: none;
       transition: 0.2s;
-      letter-spacing: 0.5px;
-      padding: 6px 16px;
-      border-radius: 12px;
+      letter-spacing: 0.05vmin;
+      padding: 0.6vmin 1.6vmin;
+      border-radius: 1.2vmin;
       color: #4da6ff;
       border: 1px solid rgba(77, 166, 255, 0.3);
       background: rgba(77, 166, 255, 0.05);
@@ -291,46 +275,44 @@
     .recovery-link:hover {
       background: rgba(77, 166, 255, 0.15);
       border-color: #4da6ff;
-      box-shadow: 0 0 15px rgba(77, 166, 255, 0.2);
+      box-shadow: 0 0 1.5vmin rgba(77, 166, 255, 0.2);
     }
 
     /* ФУТЕР */
     .login-footer {
-      margin-top: 30px;
+      margin-top: 3vmin;
       text-align: center;
       color: #4a5480;
-      font-size: 12px;
-      letter-spacing: 1px;
-      padding-bottom: 20px;
+      font-size: 1.2vmin;
+      letter-spacing: 0.1vmin;
+      padding-bottom: 2vmin;
     }
 
     .copyright {
-      margin-top: 40px;
-      font-size: 14px;
-      letter-spacing: 1.5px;
+      margin-top: 4vmin;
+      font-size: 1.4vmin;
+      letter-spacing: 0.15vmin;
       color: #5a6488;
     }
 
     .telemetry {
       color: #4da6ff;
       font-family: 'Courier New', monospace;
-      margin-bottom: 8px;
-      font-size: 13px;
+      margin-bottom: 0.8vmin;
+      font-size: 1.3vmin;
       text-transform: uppercase;
-      letter-spacing: 2px;
-      text-shadow: 0 0 8px rgba(77, 166, 255, 0.4);
+      letter-spacing: 0.2vmin;
+      text-shadow: 0 0 0.8vmin rgba(77, 166, 255, 0.4);
     }
 
     .telemetry::after {
       content: "█";
       animation: blink 1s step-end infinite;
-      margin-left: 4px;
+      margin-left: 0.4vmin;
     }
 
     @keyframes blink {
-      50% {
-        opacity: 0;
-      }
+      50% { opacity: 0; }
     }
 
     /* СПУТНИК */
@@ -340,7 +322,7 @@
       left: 0;
       z-index: 1;
       pointer-events: none;
-      filter: drop-shadow(0 0 8px rgba(77, 166, 255, 0.4));
+      filter: drop-shadow(0 0 0.8vmin rgba(77, 166, 255, 0.4));
     }
 
     .radio-wave {
@@ -353,30 +335,13 @@
       pointer-events: none;
     }
 
-    .radio-wave:nth-of-type(1) {
-      animation-delay: 0s;
-    }
-
-    .radio-wave:nth-of-type(2) {
-      animation-delay: 0.6s;
-    }
-
-    .radio-wave:nth-of-type(3) {
-      animation-delay: 1.2s;
-    }
+    .radio-wave:nth-of-type(1) { animation-delay: 0s; }
+    .radio-wave:nth-of-type(2) { animation-delay: 0.6s; }
+    .radio-wave:nth-of-type(3) { animation-delay: 1.2s; }
 
     @keyframes pulse-wave {
-      0% {
-        transform: scale(0.5);
-        opacity: 0.8;
-        stroke-width: 3;
-      }
-
-      100% {
-        transform: scale(3.5);
-        opacity: 0;
-        stroke-width: 0.5;
-      }
+      0% { transform: scale(0.5); opacity: 0.8; stroke-width: 3; }
+      100% { transform: scale(3.5); opacity: 0; stroke-width: 0.5; }
     }
 
     /* ОБЁРТКА ДЛЯ ЦЕНТРИРОВАНИЯ КАРТОЧКИ И ФУТЕРА */
@@ -387,7 +352,7 @@
       justify-content: center;
       min-height: 100vh;
       width: 100%;
-      padding: 20px 0;
+      padding: 2vmin 0;
       box-sizing: border-box;
     }
   </style>
@@ -398,9 +363,9 @@
   <div class="stars"></div>
   <div class="milkyway"><div class="band"></div></div>
 
-  <!-- ЛЕТАЮЩИЙ СПУТНИК С РАДИОВОЛНАМИ -->
+  <!-- ЛЕТАЮЩИЙ СПУТНИК С РАДИОВОЛНАМИ (размеры переведены в vmin) -->
   <div id="satellite">
-    <svg width="60" height="40" viewBox="0 0 100 60">
+    <svg width="8vmin" height="5.3vmin" viewBox="0 0 100 60">
       <circle cx="50" cy="30" r="15" class="radio-wave" />
       <circle cx="50" cy="30" r="15" class="radio-wave" />
       <circle cx="50" cy="30" r="15" class="radio-wave" />
@@ -446,12 +411,12 @@
               minlength="4" inputmode="text" data-wm-id="login-access-code-input" autocomplete="off">
             <button type="button" class="password-toggle" id="toggle-password" data-wm-id="toggle-password-btn"
               aria-label="Toggle password visibility">
-              <svg class="eye-icon eye-open" viewBox="0 0 24 24" width="20" height="20">
+              <svg class="eye-icon eye-open" viewBox="0 0 24 24" width="2.5vmin" height="2.5vmin">
                 <path
                   d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"
                   fill="currentColor" />
               </svg>
-              <svg class="eye-icon eye-closed" viewBox="0 0 24 24" width="20" height="20" style="display:none;">
+              <svg class="eye-icon eye-closed" viewBox="0 0 24 24" width="2.5vmin" height="2.5vmin" style="display:none;">
                 <path
                   d="M12 7c2.76 0 5 2.24 5 5 0 .65-.13 1.26-.36 1.83l2.92 2.92c1.51-1.26 2.7-2.89 3.43-4.75-1.73-4.39-6-7.5-11-7.5-1.4 0-2.74.25-3.98.7l2.16 2.16C10.74 7.13 11.35 7 12 7zM2 4.27l2.28 2.28.46.46C3.08 8.3 1.78 10.02 1 12c1.73 4.39 6 7.5 11 7.5 1.55 0 3.03-.3 4.38-.84l.42.42L19.73 22 21 20.73 3.27 3 2 4.27zM7.53 9.8l1.55 1.55c-.05.21-.08.43-.08.65 0 1.66 1.34 3 3 3 .22 0 .44-.03.65-.08l1.55 1.55c-.67.33-1.41.53-2.2.53-2.76 0-5-2.24-5-5 0-.79.2-1.53.53-2.2zm4.31-.78l3.15 3.15.02-.16c0-1.66-1.34-3-3-3l-.17.01z"
                   fill="currentColor" />
@@ -486,8 +451,8 @@
     const satellite = document.getElementById('satellite');
     let x = Math.random() * (window.innerWidth - 60);
     let y = Math.random() * (window.innerHeight - 40);
-    let dx = 1.2;
-    let dy = 0.9;
+    let dx = window.innerWidth * 0.0008; 
+    let dy = window.innerHeight * 0.0008;
 
     function animateSatellite() {
       const rect = satellite.getBoundingClientRect();
@@ -512,7 +477,6 @@
     const authErrorBlock = document.getElementById('auth-error');
     const telemetryText = document.querySelector('.telemetry');
 
-    // Валидация Access Code: только латиница, цифры и _
     accessCodeInput.addEventListener('input', (e) => {
       e.target.value = e.target.value.replace(/[^a-zA-Z0-9_]/g, '');
       checkFormState();
@@ -538,7 +502,6 @@
       }
     });
 
-    // Кнопка активна только при достижении минимальной длины
     function checkFormState() {
       clearErrors();
       const isCallsignValid = callsignInput.value.length >= 3;
@@ -553,62 +516,46 @@
       const callsign = callsignInput.value.trim().toUpperCase();
       const accessCode = accessCodeInput.value.trim();
 
-      // Защита от отправки невалидных данных (хотя кнопка и так disabled)
       if (callsign.length < 3 || accessCode.length < 4) {
         return;
       }
 
-      // 🚀 БЛОКИРУЕМ КНОПКУ И ВКЛЮЧАЕМ ПУЛЬСАР
       submitBtn.classList.add('processing');
       submitBtn.disabled = true;
       submitBtn.textContent = 'CONNECTING...';
 
-      // 🌌 ИМИТАЦИЯ ЗАДЕРЖКИ СЕТИ (3 секунды "полета сигнала")
       setTimeout(() => {
-
-        // ПРОВЕРКА БАЗЕ MOCK_USERS
         const user = MOCK_USERS[callsign];
         const isAuthenticated = user && user.accessCode === accessCode;
 
         if (isAuthenticated) {
-          // ✅ УСПЕХ
           localStorage.setItem('currentUser', JSON.stringify(user));
-
+          sessionStorage.setItem('freshLogin', 'true');
           authErrorBlock.style.display = 'none';
           telemetryText.style.color = '#2ecc71';
           telemetryText.innerHTML = `> CONNECTION ESTABLISHED. WELCOME, ${user.role.toUpperCase()} ${user.fullName.toUpperCase()}`;
 
           setTimeout(() => {
-            window.location.href = 'landing.html';
+            window.location.href = 'dashboard.html';
           }, 3000);
 
         } else {
-          // ❌ ОШИБКА
           authErrorBlock.classList.add('visible');
           telemetryText.style.color = '#e74c3c';
           telemetryText.innerHTML = '> SYSTEM FAILURE. INVALID CREDENTIALS';
 
-          // Сбрасываем кнопку
           submitBtn.classList.remove('processing');
           submitBtn.disabled = false;
           submitBtn.textContent = 'Establish Connection';
         }
-
       }, 3000);
     }
 
     function clearErrors() {
-      // 1. Скрываем блок ошибки сверху
       authErrorBlock.classList.remove('visible');
-
-      // 2. Убираем красную обводку с полей ввода
       document.querySelectorAll('.input-field').forEach(el => el.classList.remove('error'));
-
-      // 3. 🌌 СБРАСЫВАЕМ ТЕЛЕМЕТРИЮ В ИСХОДНОЕ СОСТОЯНИЕ (Нейтральный синий)
       telemetryText.style.color = '#4da6ff';
       telemetryText.innerHTML = '> SYSTEM READY. AWAITING CONNECTION';
-
-      // 4. Сбрасываем состояние кнопки
       submitBtn.classList.remove('processing');
       submitBtn.textContent = 'Establish Connection';
     }
@@ -616,12 +563,10 @@
     callsignInput.addEventListener('focus', clearErrors);
     accessCodeInput.addEventListener('focus', clearErrors);
 
-    // Ждем полной загрузки DOM
     document.addEventListener('DOMContentLoaded', () => {
       const callsignInputEl = document.querySelector('[data-wm-id="login-callsign-input"]');
       if (callsignInputEl) {
         callsignInputEl.addEventListener('input', function () {
-          // Блокируем только кириллицу, разрешая латиницу, цифры и спецсимволы
           this.value = this.value.replace(/[а-яА-ЯёЁ]/g, '');
         });
       }
