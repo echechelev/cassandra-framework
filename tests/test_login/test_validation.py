@@ -27,7 +27,7 @@ def test_сallsign_less_than_min_length(login_page):
 
     # ✅ ASSERT
     login_page.should_be_establish_connect_btn(is_enabled=False)
-    login_page.should_be_on_login_page()
+    login_page.verify_current_url(expected_url_part=data.LOGIN)
 
 
 @allure.id("CAS-06")
@@ -53,7 +53,7 @@ def test_access_code_less_than_min_length(login_page):
 
     # ✅ ASSERT
     login_page.should_be_establish_connect_btn(is_enabled=False)
-    login_page.should_be_on_login_page()
+    login_page.verify_current_url(expected_url_part=data.LOGIN)
 
 
 @allure.id("CAS-07")
@@ -78,7 +78,7 @@ def test_empty_callsign_with_valid_code(login_page):
 
     # ✅ ASSERT
     login_page.should_be_establish_connect_btn(is_enabled=False)
-    login_page.should_be_on_login_page()
+    login_page.verify_current_url(expected_url_part=data.LOGIN)
 
 
 @allure.id("CAS-08")
@@ -103,7 +103,7 @@ def test_empty_access_code_with_valid_callsign(login_page):
 
     # ✅ ASSERT
     login_page.should_be_establish_connect_btn(is_enabled=False)
-    login_page.should_be_on_login_page()
+    login_page.verify_current_url(expected_url_part=data.LOGIN)
 
 
 @allure.id("CAS-09")
@@ -133,10 +133,10 @@ def test_invalid_callsign_with_valid_code(login_page):
     login_page.click_establish_connect()
 
     # ✅ ASSERT
-    login_page.verify_telemetry_color(red=True)
+    login_page.verify_telemetry_color_not_cassandra(red=True)
     login_page.verify_telemetry_text(expected_text=data.ERROR_TEXT_TELEMETRY_RED)
     login_page.should_show_auth_error(expected_text=data.AUTH_ERROR_BLOCK_TEXT)
-    login_page.should_be_on_login_page()
+    login_page.verify_current_url(expected_url_part=data.LOGIN)
 
 
 @allure.id("CAS-10")
@@ -166,10 +166,10 @@ def test_valid_callsign_with_invalid_code(login_page):
     login_page.click_establish_connect()
 
     # ✅ ASSERT
-    login_page.verify_telemetry_color(red=True)
+    login_page.verify_telemetry_color_not_cassandra(red=True)
     login_page.verify_telemetry_text(expected_text=data.ERROR_TEXT_TELEMETRY_RED)
     login_page.should_show_auth_error(expected_text=data.AUTH_ERROR_BLOCK_TEXT)
-    login_page.should_be_on_login_page()
+    login_page.verify_current_url(expected_url_part=data.LOGIN)
 
 
 @allure.id("CAS-11")
@@ -199,7 +199,7 @@ def test_both_fields_invalid(login_page):
     login_page.click_establish_connect()
 
     # ✅ ASSERT
-    login_page.verify_telemetry_color(red=True)
+    login_page.verify_telemetry_color_not_cassandra(red=True)
     login_page.verify_telemetry_text(expected_text=data.ERROR_TEXT_TELEMETRY_RED)
     login_page.should_show_auth_error(expected_text=data.AUTH_ERROR_BLOCK_TEXT)
-    login_page.should_be_on_login_page()
+    login_page.verify_current_url(expected_url_part=data.LOGIN)

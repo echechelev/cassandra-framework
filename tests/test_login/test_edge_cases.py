@@ -69,7 +69,7 @@ def test_sql_injection_attempt(login_page):
     login_page.click_establish_connect()
 
     # ✅ ASSERT
-    login_page.verify_telemetry_color(red=True)
+    login_page.verify_telemetry_color_not_cassandra(red=True)
     login_page.verify_telemetry_text(expected_text=data.ERROR_TEXT_TELEMETRY_RED)
     login_page.should_show_auth_error(expected_text=data.AUTH_ERROR_BLOCK_TEXT)
     login_page.verify_user_saved_in_localstorage(is_saved=False)
