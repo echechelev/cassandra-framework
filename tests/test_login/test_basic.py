@@ -12,7 +12,7 @@ from . import data
 @pytest.mark.regress
 @pytest.mark.login
 @pytest.mark.basic
-def test_successful_authorization_aurora(login_page):
+def test_successful_authorization_aurora(login_page, dashboard_page_selectors):
     """
     Сценарий:
     1. Вводим валидный позывной в поле 'Callsign'
@@ -23,8 +23,6 @@ def test_successful_authorization_aurora(login_page):
     6. Проверяем данных сохраняются в localStorage
     7. Проверяем: открылась страница '/dashboard'
     """
-    # TODO: Дописать проверку на редирект страницы ('/dashboard' in page.url)
-    # На текущий момент страницы '/dashboard' нет физически
 
     # 🎬 ARRANGE
     login_page.enter_callsign(callsign=data.AURORA_CALLSIGN)
@@ -34,13 +32,16 @@ def test_successful_authorization_aurora(login_page):
     login_page.click_establish_connect()
 
     # ✅ ASSERT
-    login_page.verify_telemetry_color(green=True)
+    login_page.verify_telemetry_color_not_cassandra(green=True)
     login_page.verify_telemetry_text(data.SUCCESS_TELEMETRY_TEXT_AURORA)
     login_page.verify_user_saved_in_localstorage(
         expected_callsign=data.AURORA_CALLSIGN,
         expected_role=data.ROLE_SPECIALIST,
         expected_full_name=data.NAME_AURORA,
     )
+    login_page.verify_current_url(
+        expected_url_part=data.DASHBOARD_URL,
+        wait_for_element=dashboard_page_selectors.start_diagnostics_btn)
 
 
 @allure.id("CAS-02")
@@ -51,7 +52,7 @@ def test_successful_authorization_aurora(login_page):
 @pytest.mark.regress
 @pytest.mark.login
 @pytest.mark.basic
-def test_successful_authorization_orion(login_page):
+def test_successful_authorization_orion(login_page, dashboard_page_selectors):
     """
     Сценарий:
     1. Вводим валидный позывной в поле 'Callsign'
@@ -62,8 +63,6 @@ def test_successful_authorization_orion(login_page):
     6. Проверяем данных сохраняются в localStorage
     7. Проверяем: открылась страница '/dashboard'
     """
-    # TODO: Дописать проверку на редирект страницы '/dashboard' in page.url)
-    # На текущий момент страницы '/dashboard' нет физически
 
     # 🎬 ARRANGE
     login_page.enter_callsign(callsign=data.ORION_CALLSIGN)
@@ -73,13 +72,16 @@ def test_successful_authorization_orion(login_page):
     login_page.click_establish_connect()
 
     # ✅ ASSERT
-    login_page.verify_telemetry_color(green=True)
+    login_page.verify_telemetry_color_not_cassandra(green=True)
     login_page.verify_telemetry_text(data.SUCCESS_TELEMETRY_TEXT_ORION)
     login_page.verify_user_saved_in_localstorage(
         expected_callsign=data.ORION_CALLSIGN,
         expected_role=data.ROLE_COMMANDER,
         expected_full_name=data.NAME_ORION,
     )
+    login_page.verify_current_url(
+        expected_url_part=data.DASHBOARD_URL,
+        wait_for_element=dashboard_page_selectors.start_diagnostics_btn)
 
 
 @allure.id("CAS-03")
@@ -101,10 +103,9 @@ def test_default_page_state_on_load(login_page):
 
     # ✅ ASSERT
     login_page.should_be_establish_connect_btn(is_enabled=False)
-    login_page.verify_telemetry_color(blue=True)
+    login_page.verify_telemetry_color_not_cassandra(blue=True)
     login_page.verify_telemetry_text(data.DEFAULT_TEXT_TELEMETRY_BLUE)
 
-    
 
 @allure.id("CAS-04")
 @allure.title("📡 Реактивное состояние кнопки Establish Connection.")
@@ -133,12 +134,12 @@ def test_reactive_button_state(login_page):
     login_page.should_be_establish_connect_btn(is_enabled=False)
 
     # ⚡ ACT
-    login_page.enter_callsign(callsign=data.CALLSIGN_MIN_VALID_3_CHARS, clear_first=True)
+    login_page.enter_callsign(
+        callsign=data.CALLSIGN_MIN_VALID_3_CHARS, clear_first=True
+    )
     login_page.enter_access_code(
         access_code=data.ACCESS_CODE_MIN_VALID_4_CHARS, clear_first=True
     )
 
     # ✅ ASSERT
     login_page.should_be_establish_connect_btn(is_enabled=True)
-
-  
