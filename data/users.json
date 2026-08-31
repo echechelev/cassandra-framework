@@ -4,13 +4,21 @@
       "callsign": "ORION",
       "access_code": "NEBULA_7",
       "role": "Commander",
-      "full_name": "Orion"
+      "full_name": "Orion",
+      "role_icon": "🏅",
+      "function": "Mission Command & Strategy",
+      "access_level": "1",
+      "id": "001-1A"
     },
     "AURORA": {
       "callsign": "AURORA",
       "access_code": "COMET_42",
       "role": "Specialist",
-      "full_name": "Aurora"
+      "full_name": "Aurora",
+      "role_icon": "🛰️",
+      "function": "Comms & Diagnostics",
+      "access_level": "2",
+      "id": "884-2A"
     }
   }
 }
