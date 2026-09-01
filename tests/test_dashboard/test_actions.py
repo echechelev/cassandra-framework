@@ -8,8 +8,7 @@ from . import data
 @allure.id("CAS-11")
 @allure.title("💡 Динамическая подстановка данных в тултипы для 'AURORA'.")
 @allure.label("owner", "Evgeniy Chechelev")
-@allure.label("feature", "system_initialization")
-@allure.label("component", "dashboard")
+@allure.label("feature", "dashboard")
 @pytest.mark.regress
 @pytest.mark.dashboard
 @pytest.mark.actions
@@ -36,8 +35,7 @@ def test_tooltips_display_dynamic_data_aurora(dashboard_page_aurora):
 @allure.id("CAS-12")
 @allure.title("💡 Динамическая подстановка данных в тултипы для 'ORION'.")
 @allure.label("owner", "Evgeniy Chechelev")
-@allure.label("feature", "system_initialization")
-@allure.label("component", "dashboard")
+@allure.label("feature", "dashboard")
 @pytest.mark.regress
 @pytest.mark.dashboard
 @pytest.mark.actions
@@ -64,8 +62,7 @@ def test_tooltips_display_dynamic_data_orion(dashboard_page_orion):
 @allure.id("CAS-13")
 @allure.title("🖱️ Hover-эффект кнопки Logout в активном состоянии.")
 @allure.label("owner", "Evgeniy Chechelev")
-@allure.label("feature", "system_initialization")
-@allure.label("component", "dashboard")
+@allure.label("feature", "dashboard")
 @pytest.mark.regress
 @pytest.mark.dashboard
 @pytest.mark.actions
@@ -91,8 +88,7 @@ def test_logout_button_hover_effect(dashboard_page_aurora):
 @allure.id("CAS-14")
 @allure.title("🔌 Успешный выход из системы 'Happy Path Logout'.")
 @allure.label("owner", "Evgeniy Chechelev")
-@allure.label("feature", "system_initialization")
-@allure.label("component", "dashboard")
+@allure.label("feature", "dashboard")
 @pytest.mark.regress
 @pytest.mark.dashboard
 @pytest.mark.actions
@@ -120,8 +116,7 @@ def test_happy_path_logout(dashboard_page_aurora):
 @allure.id("CAS-15")
 @allure.title("🌌 Пост-активационная навигация 'Happy Path Navigation'.")
 @allure.label("owner", "Evgeniy Chechelev")
-@allure.label("feature", "system_initialization")
-@allure.label("component", "dashboard")
+@allure.label("feature", "dashboard")
 @pytest.mark.regress
 @pytest.mark.dashboard
 @pytest.mark.actions
@@ -150,8 +145,7 @@ def test_navigate_planet_bar_after_uplink(dashboard_page_aurora):
 @allure.id("CAS-16")
 @allure.title("↩️ Восстановление состояния дашборда после возврата с другой страницы.")
 @allure.label("owner", "Evgeniy Chechelev")
-@allure.label("feature", "system_initialization")
-@allure.label("component", "dashboard")
+@allure.label("feature", "dashboard")
 @pytest.mark.regress
 @pytest.mark.dashboard
 @pytest.mark.actions
@@ -192,8 +186,7 @@ def test_dashboard_state_restore_after_browser_back(dashboard_page_aurora):
 @allure.id("CAS-17")
 @allure.title("🛡️ Защита от восстановления сессии через кнопку 'Назад' после 'Logout'.")
 @allure.label("owner", "Evgeniy Chechelev")
-@allure.label("feature", "system_initialization")
-@allure.label("component", "dashboard")
+@allure.label("feature", "dashboard")
 @pytest.mark.regress
 @pytest.mark.dashboard
 @pytest.mark.actions

@@ -7,8 +7,7 @@ from . import data
 @allure.id("CAS-01")
 @allure.title("🚀 Успешная инициализация панели для пользователя 'AURORA'")
 @allure.label("owner", "Evgeniy Chechelev")
-@allure.label("feature", "system_initialization")
-@allure.label("component", "dashboard")
+@allure.label("feature", "dashboard")
 @pytest.mark.regress
 @pytest.mark.dashboard
 @pytest.mark.init
@@ -32,8 +31,7 @@ def test_successful_initialization_aurora(dashboard_page_aurora):
 @allure.id("CAS-02")
 @allure.title("🚀 Успешная инициализация панели для пользователя 'ORION'")
 @allure.label("owner", "Evgeniy Chechelev")
-@allure.label("feature", "system_initialization")
-@allure.label("component", "dashboard")
+@allure.label("feature", "dashboard")
 @pytest.mark.regress
 @pytest.mark.dashboard
 @pytest.mark.init
@@ -57,8 +55,7 @@ def test_successful_initialization_orion(dashboard_page_orion):
 @allure.id("CAS-03")
 @allure.title("🚫 Редирект при отсутствии данных в localStorage")
 @allure.label("owner", "Evgeniy Chechelev")
-@allure.label("feature", "system_initialization")
-@allure.label("component", "dashboard")
+@allure.label("feature", "dashboard")
 @pytest.mark.regress
 @pytest.mark.dashboard
 @pytest.mark.init
@@ -81,8 +78,7 @@ def test_access_denied_redirect_on_empty_storage(dashboard_page_unauthorized):
 @allure.id("CAS-04")
 @allure.title("⚠️ Корректная обработка поврежденных данных в 'localStorage'")
 @allure.label("owner", "Evgeniy Chechelev")
-@allure.label("feature", "system_initialization")
-@allure.label("component", "dashboard")
+@allure.label("feature", "dashboard")
 @pytest.mark.regress
 @pytest.mark.dashboard
 @pytest.mark.init

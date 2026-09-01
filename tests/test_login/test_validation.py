@@ -7,8 +7,7 @@ from . import data
 @allure.id("CAS-05")
 @allure.title("📏 Позывной короче минимальной длины.")
 @allure.label("owner", "Evgeniy Chechelev")
-@allure.label("feature", "authentication")
-@allure.label("component", "login")
+@allure.label("feature", "login")
 @pytest.mark.regress
 @pytest.mark.login
 @pytest.mark.validation
@@ -33,8 +32,7 @@ def test_сallsign_less_than_min_length(login_page):
 @allure.id("CAS-06")
 @allure.title("🔑 Ключ доступа короче минимальной длины.")
 @allure.label("owner", "Evgeniy Chechelev")
-@allure.label("feature", "authentication")
-@allure.label("component", "login")
+@allure.label("feature", "login")
 @pytest.mark.regress
 @pytest.mark.login
 @pytest.mark.validation
@@ -59,8 +57,7 @@ def test_access_code_less_than_min_length(login_page):
 @allure.id("CAS-07")
 @allure.title("🌌 Пустой позывной при заполненном ключе.")
 @allure.label("owner", "Evgeniy Chechelev")
-@allure.label("feature", "authentication")
-@allure.label("component", "login")
+@allure.label("feature", "login")
 @pytest.mark.regress
 @pytest.mark.login
 @pytest.mark.validation
@@ -84,8 +81,7 @@ def test_empty_callsign_with_valid_code(login_page):
 @allure.id("CAS-08")
 @allure.title("🗝️ Пустой ключ доступа при заполненном позывном.")
 @allure.label("owner", "Evgeniy Chechelev")
-@allure.label("feature", "authentication")
-@allure.label("component", "login")
+@allure.label("feature", "login")
 @pytest.mark.regress
 @pytest.mark.login
 @pytest.mark.validation
@@ -109,8 +105,7 @@ def test_empty_access_code_with_valid_callsign(login_page):
 @allure.id("CAS-09")
 @allure.title("🛸 Неверный позывной при валидном ключе.")
 @allure.label("owner", "Evgeniy Chechelev")
-@allure.label("feature", "authentication")
-@allure.label("component", "login")
+@allure.label("feature", "login")
 @pytest.mark.regress
 @pytest.mark.login
 @pytest.mark.validation
@@ -142,8 +137,7 @@ def test_invalid_callsign_with_valid_code(login_page):
 @allure.id("CAS-10")
 @allure.title("🔒 Валидный позывной при неверном ключе.")
 @allure.label("owner", "Evgeniy Chechelev")
-@allure.label("feature", "authentication")
-@allure.label("component", "login")
+@allure.label("feature", "login")
 @pytest.mark.regress
 @pytest.mark.login
 @pytest.mark.validation
@@ -175,8 +169,7 @@ def test_valid_callsign_with_invalid_code(login_page):
 @allure.id("CAS-11")
 @allure.title("💥 Оба поля неверны.")
 @allure.label("owner", "Evgeniy Chechelev")
-@allure.label("feature", "authentication")
-@allure.label("component", "login")
+@allure.label("feature", "login")
 @pytest.mark.regress
 @pytest.mark.login
 @pytest.mark.validation
