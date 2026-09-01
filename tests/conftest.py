@@ -6,6 +6,7 @@ from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 
 from pages.dashboard import DashboardPage
+from pages.index import IndexPage
 from pages.login import LoginPage
 
 # ========================================================================
@@ -13,7 +14,7 @@ from pages.login import LoginPage
 # ========================================================================
 # 🌍 КОНФИГУРАЦИЯ ОКРУЖЕНИЯ (Environment)
 BASE_URL = os.getenv("CASSANDRA_URL", "file:///D:/Python/cassandra/app")
-SHOW_BROWSER = os.getenv("SHOW_BROWSER", "false").lower() == "true"
+SHOW_BROWSER = os.getenv("SHOW_BROWSER", "true").lower() == "true"
 
 # 🌐 URL АДРЕСА (URL Addresses)
 DASHBOARD_URL = "/dashboard.html"
@@ -107,7 +108,19 @@ def dashboard_page_orion():
 
 
 # ========================================================================
-# region 4️⃣ 🧹 ОЧИСТКА И СПЕЦИАЛЬНЫЕ СОСТОЯНИЯ (Edge Cases)
+# region 4️⃣ 🌐 НАВИГАЦИЯ и ПЕРЕХОДЫ
+# ========================================================================
+@pytest.fixture(scope="function")
+def index_page():
+    """Открывает страницу индекса без авторизации."""
+    index = IndexPage() 
+    index.open()
+
+    yield index
+
+
+# ========================================================================
+# region 5️⃣ 🧹 ОЧИСТКА И СПЕЦИАЛЬНЫЕ СОСТОЯНИЯ (Edge Cases)
 # ========================================================================
 @pytest.fixture(scope="function")
 def ensure_empty_storage():
