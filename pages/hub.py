@@ -143,7 +143,7 @@ class HubPage:
     # endregion
 
     # ========================================================================
-    # region 2️⃣ 💬 ТЕЛЕМЕТРИЯ
+    # region 2️⃣ 💬 ТЕЛЕМЕТРИЯ И ТЕКСТЫ
     # ========================================================================
 
     @allure.step("Проверка текста телеметрии")
@@ -282,6 +282,24 @@ class HubPage:
                 ) from e
 
         return self
+
+    def verify_check_text(self, element, expected_text: str) -> bool:
+        """Проверяет текстовое содержимое элемента по локатору.
+
+        Args:
+            element: Selene Element для проверки.
+            expected_text: Ожидаемый текст.
+
+        Returns:
+            bool: True, если текст совпадает.
+
+        Raises:
+            AssertionError: Если текст не совпадает (через Selene should).
+        """
+        with allure.step(f"✅ Проверяем текст: '{expected_text}'"):
+            element.should(have.text(expected_text.strip()))
+    
+        return True
 
     # endregion
 
