@@ -35,7 +35,6 @@ NAME_ORION = "ORION"
 # ==========================================
 # 💬 ОЖИДАЕМЫЕ ТЕКСТЫ (Как отображаются в UI / Телеметрии)
 # ==========================================
-# В tests/test_dashboard/data.py
 TELEMETRY_ACCESS_DENIED_REDIRECT = "> CASSANDRA: ACCESS DENIED. REDIRECTING..."
 TELEMETRY_DATA_CORRUPTED_REDIRECT = "> CASSANDRA: DATA CORRUPTED. REDIRECTING..."
 TELEMETRY_SYSTEM_READY_AURORA = (

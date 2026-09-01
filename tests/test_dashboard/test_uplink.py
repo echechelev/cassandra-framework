@@ -7,8 +7,7 @@ from . import data
 @allure.id("CAS-05")
 @allure.title("📡 Полная последовательность активации 'Uplink'")
 @allure.label("owner", "Evgeniy Chechelev")
-@allure.label("feature", "system_initialization")
-@allure.label("component", "dashboard")
+@allure.label("feature", "dashboard")
 @pytest.mark.regress
 @pytest.mark.dashboard
 @pytest.mark.uplink
@@ -41,8 +40,7 @@ def test_full_uplink_activation_sequence(dashboard_page_aurora):
 @allure.id("CAS-06")
 @allure.title("🚫 Проверка неактивности кнопки `Logout` до полной активации")
 @allure.label("owner", "Evgeniy Chechelev")
-@allure.label("feature", "system_initialization")
-@allure.label("component", "dashboard")
+@allure.label("feature", "dashboard")
 @pytest.mark.regress
 @pytest.mark.dashboard
 @pytest.mark.uplink
@@ -66,8 +64,7 @@ def test_logout_button_inactive_before_activation(dashboard_page_aurora):
 @allure.id("CAS-07")
 @allure.title("🚫 Проверка неактивности кнопок 'Planet Bar' до полной активации")
 @allure.label("owner", "Evgeniy Chechelev")
-@allure.label("feature", "system_initialization")
-@allure.label("component", "dashboard")
+@allure.label("feature", "dashboard")
 @pytest.mark.regress
 @pytest.mark.dashboard
 @pytest.mark.uplink
@@ -91,8 +88,7 @@ def test_planet_bar_buttons_inactive_before_activation(dashboard_page_aurora):
 @allure.id("CAS-08")
 @allure.title("📊 Валидация анимации и значений прогресс-бара.")
 @allure.label("owner", "Evgeniy Chechelev")
-@allure.label("feature", "system_initialization")
-@allure.label("component", "dashboard")
+@allure.label("feature", "dashboard")
 @pytest.mark.regress
 @pytest.mark.dashboard
 @pytest.mark.uplink
@@ -120,8 +116,7 @@ def test_progress_bar_animation_and_values(dashboard_page_aurora):
 @allure.id("CAS-09")
 @allure.title("💤 Визуальное угасание кнопки 'Uplink' после 100% загрузки")
 @allure.label("owner", "Evgeniy Chechelev")
-@allure.label("feature", "system_initialization")
-@allure.label("component", "dashboard")
+@allure.label("feature", "dashboard")
 @pytest.mark.regress
 @pytest.mark.dashboard
 @pytest.mark.uplink
@@ -146,8 +141,7 @@ def test_uplink_button_visual_fade_out_after_100_load(dashboard_page_aurora):
 @allure.id("CAS-10")
 @allure.title("🛡️ Защита от спама кликов по кнопке `Uplink`.")
 @allure.label("owner", "Evgeniy Chechelev")
-@allure.label("feature", "system_initialization")
-@allure.label("component", "dashboard")
+@allure.label("feature", "dashboard")
 @pytest.mark.regress
 @pytest.mark.dashboard
 @pytest.mark.uplink
