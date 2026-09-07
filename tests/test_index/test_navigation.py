@@ -47,6 +47,27 @@ def test_successful_navigation_to_signup_page(index_page):
 
 
 @allure.id("CAS-06")
+@allure.title("🧭 Успешная навигация на страницу 'Access Restoration'")
+@allure.label("owner", "Evgeniy Chechelev")
+@allure.label("feature", "index")
+@pytest.mark.regress
+@pytest.mark.index
+@pytest.mark.navigation
+def test_successful_navigation_to_access_restoration_page(index_page):
+    """
+    Сценарий:
+    1. Кликнуть на кнопку 'Restore'.
+    2. Проверяем: открылась страница востановления и проверить ее url.
+    """
+
+    # ⚡ ACT
+    index_page.click_restore()
+
+    # ✅ ASSERT
+    index_page.verify_current_url(expected_url_part=data.ACCESS_RESTORATION_URL)
+
+
+@allure.id("CAS-07")
 @allure.title("🔄 Автоматический редирект на дашборд при наличии активной сессии")
 @allure.label("owner", "Evgeniy Chechelev")
 @allure.label("feature", "index")

@@ -380,7 +380,7 @@
     <!-- СЛОГАН -->
     <div class="project-slogan" data-wm-id="project-slogan">«We Find a New Home Among the Stars»</div>
 
-    <!-- КНОПКИ ВХОДА И РЕГИСТРАЦИИ -->
+    <!-- КНОПКИ ВХОДА, РЕГИСТРАЦИИ И ВОССТАНОВЛЕНИЯ -->
     <div class="buttons-container">
       <a href="login.html" class="btn" data-wm-id="btn-login">
         <span class="btn-icon">🔭</span>
@@ -390,23 +390,26 @@
         <span class="btn-icon">📡</span>
         <span class="btn-label">Sign Up</span>
       </a>
+      <a href="access-restoration.html" class="btn" data-wm-id="btn-restore">
+        <span class="btn-icon">🔑</span>
+        <span class="btn-label">Restore</span>
+      </a>
     </div>
-  </div>
 
-  <!-- ФУТЕР -->
-  <footer class="landing-footer">
-    <div class="copyright" data-wm-id="footer-copyright">Evknopia © 2026</div>
-  </footer>
+    <!-- ФУТЕР -->
+    <footer class="landing-footer">
+      <div class="copyright" data-wm-id="footer-copyright">Evknopia © 2026</div>
+    </footer>
 
-  <!-- Проверка сессии при загрузке -->
-  <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      const currentUser = sessionStorage.getItem('currentUser');
-      if (currentUser) {
-        window.location.href = 'dashboard.html';
-      }
-    });
-  </script>
+    <!-- Проверка сессии при загрузке -->
+    <script>
+      document.addEventListener('DOMContentLoaded', () => {
+        const currentUser = sessionStorage.getItem('currentUser');
+        if (currentUser) {
+          window.location.href = 'dashboard.html';
+        }
+      });
+    </script>
 
 </body>
 
