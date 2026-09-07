@@ -19,10 +19,9 @@ class LoginPage(HubPage):
     # Кнопки
     establish_connect_btn = browser.element('[data-wm-id="establish-connect-btn"]')
     toggle_password_btn = browser.element('[data-wm-id="toggle-password-btn"]')
+    access_restoration_btn = browser.element('[data-wm-id="access-restoration-link"]') 
 
     # Тексты и ссылки
-    restore_clearance_link = browser.element('[data-wm-id="restore-clearance-link"]')
-    lost_access_text = browser.element('[data-wm-id="lost-access-text"]')
     auth_error_message = browser.element('[data-wm-id="auth-error-message"]')
 
     # ========================================================================
@@ -160,6 +159,18 @@ class LoginPage(HubPage):
         except Exception as e:
             raise AssertionError(
                 f"❌ Failed to click toggle password button!\n" f"   Error: {e}"
+            ) from e
+        return self
+
+    @allure.step("Клик по кнопке Access Restoration")
+    def click_access_restoration_btn(self):
+        """Нажимает на кнопку перехода на страницу восстановления доступа."""
+        try:
+            self.access_restoration_btn.click()
+        except Exception as e:
+            raise AssertionError(
+                f" Failed to click Access Restoration button!\n"
+                f"   Error: {e}"
             ) from e
         return self
 

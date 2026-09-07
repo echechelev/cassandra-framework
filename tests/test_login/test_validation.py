@@ -4,7 +4,7 @@ import pytest
 from tests import data
 
 
-@allure.id("CAS-06")
+@allure.id("CAS-07")
 @allure.title("📏 Позывной короче минимальной длины.")
 @allure.label("owner", "Evgeniy Chechelev")
 @allure.label("feature", "login")
@@ -29,7 +29,7 @@ def test_сallsign_less_than_min_length(login_page):
     login_page.verify_current_url(expected_url_part=data.LOGIN_URL)
 
 
-@allure.id("CAS-07")
+@allure.id("CAS-08")
 @allure.title("🔑 Ключ доступа короче минимальной длины.")
 @allure.label("owner", "Evgeniy Chechelev")
 @allure.label("feature", "login")
@@ -54,7 +54,7 @@ def test_access_code_less_than_min_length(login_page):
     login_page.verify_current_url(expected_url_part=data.LOGIN_URL)
 
 
-@allure.id("CAS-08")
+@allure.id("CAS-09")
 @allure.title("🌌 Пустой позывной при заполненном ключе.")
 @allure.label("owner", "Evgeniy Chechelev")
 @allure.label("feature", "login")
@@ -78,7 +78,7 @@ def test_empty_callsign_with_valid_code(login_page):
     login_page.verify_current_url(expected_url_part=data.LOGIN_URL)
 
 
-@allure.id("CAS-09")
+@allure.id("CAS-10")
 @allure.title("🗝️ Пустой ключ доступа при заполненном позывном.")
 @allure.label("owner", "Evgeniy Chechelev")
 @allure.label("feature", "login")
@@ -102,7 +102,7 @@ def test_empty_access_code_with_valid_callsign(login_page):
     login_page.verify_current_url(expected_url_part=data.LOGIN_URL)
 
 
-@allure.id("CAS-10")
+@allure.id("CAS-11")
 @allure.title("🛸 Неверный позывной при валидном ключе.")
 @allure.label("owner", "Evgeniy Chechelev")
 @allure.label("feature", "login")
@@ -134,7 +134,7 @@ def test_invalid_callsign_with_valid_code(login_page):
     login_page.verify_current_url(expected_url_part=data.LOGIN_URL)
 
 
-@allure.id("CAS-11")
+@allure.id("CAS-12")
 @allure.title("🔒 Валидный позывной при неверном ключе.")
 @allure.label("owner", "Evgeniy Chechelev")
 @allure.label("feature", "login")
@@ -166,7 +166,7 @@ def test_valid_callsign_with_invalid_code(login_page):
     login_page.verify_current_url(expected_url_part=data.LOGIN_URL)
 
 
-@allure.id("CAS-12")
+@allure.id("CAS-13")
 @allure.title("💥 Оба поля неверны.")
 @allure.label("owner", "Evgeniy Chechelev")
 @allure.label("feature", "login")
