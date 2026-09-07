@@ -16,46 +16,56 @@
 
     body {
       color: #e8ecff;
-      min-height: 100vh; 
-      position: relative; 
+      min-height: 100vh;
+      position: relative;
       overflow-x: hidden;
     }
 
     /* ============ КОСМИЧЕСКИЙ ФОН ============ */
     .stars {
-      position: fixed; inset: 0; z-index: -2;
+      position: fixed;
+      inset: 0;
+      z-index: -2;
       background:
-        radial-gradient(1px 1px at 10% 10%, rgba(255,255,255,.9), transparent 50%),
-        radial-gradient(1.5px 1.5px at 20% 30%, rgba(255,255,255,.7), transparent 50%),
-        radial-gradient(1px 1px at 30% 70%, rgba(255,255,255,.8), transparent 50%),
-        radial-gradient(2px 2px at 40% 20%, rgba(255,255,255,.6), transparent 50%),
-        radial-gradient(1px 1px at 50% 50%, rgba(255,255,255,.9), transparent 50%),
-        radial-gradient(1.5px 1.5px at 60% 80%, rgba(255,255,255,.7), transparent 50%),
-        radial-gradient(1px 1px at 70% 40%, rgba(255,255,255,.8), transparent 50%),
-        radial-gradient(2px 2px at 80% 90%, rgba(255,255,255,.5), transparent 50%),
-        radial-gradient(1px 1px at 90% 15%, rgba(255,255,255,.9), transparent 50%),
+        radial-gradient(1px 1px at 10% 10%, rgba(255, 255, 255, .9), transparent 50%),
+        radial-gradient(1.5px 1.5px at 20% 30%, rgba(255, 255, 255, .7), transparent 50%),
+        radial-gradient(1px 1px at 30% 70%, rgba(255, 255, 255, .8), transparent 50%),
+        radial-gradient(2px 2px at 40% 20%, rgba(255, 255, 255, .6), transparent 50%),
+        radial-gradient(1px 1px at 50% 50%, rgba(255, 255, 255, .9), transparent 50%),
+        radial-gradient(1.5px 1.5px at 60% 80%, rgba(255, 255, 255, .7), transparent 50%),
+        radial-gradient(1px 1px at 70% 40%, rgba(255, 255, 255, .8), transparent 50%),
+        radial-gradient(2px 2px at 80% 90%, rgba(255, 255, 255, .5), transparent 50%),
+        radial-gradient(1px 1px at 90% 15%, rgba(255, 255, 255, .9), transparent 50%),
         linear-gradient(180deg, #050816 0%, #0a0e27 50%, #131b3a 100%);
-      background-size:  15vmin 15vmin, 20vmin 20vmin, 18vmin 18vmin, 25vmin 25vmin,
-                        16vmin 16vmin, 22vmin 22vmin, 19vmin 19vmin, 28vmin 28vmin,
-                        17vmin 17vmin, 100% 100%; 
+      background-size: 15vmin 15vmin, 20vmin 20vmin, 18vmin 18vmin, 25vmin 25vmin,
+        16vmin 16vmin, 22vmin 22vmin, 19vmin 19vmin, 28vmin 28vmin,
+        17vmin 17vmin, 100% 100%;
     }
 
     .milkyway {
-      position: fixed; inset: 0; z-index: -1; overflow: hidden; pointer-events: none; 
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      overflow: hidden;
+      pointer-events: none;
     }
 
     .milkyway .band {
-      position: absolute; top: 50%; left: 50%; width: 280vmax; height: 25vmin;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 280vmax;
+      height: 25vmin;
       transform: translate(-50%, -50%) rotate(-28deg);
       background: linear-gradient(180deg,
-        transparent,
-        rgba(120,160,255,.08) 15%, 
-        rgba(190,215,255,.18) 35%, 
-        rgba(255,255,255,.25) 50%, 
-        rgba(190,215,255,.18) 65%, 
-        rgba(120,160,255,.08) 85%,
-        transparent);
-      filter: blur(1.5vmin); 
+          transparent,
+          rgba(120, 160, 255, .08) 15%,
+          rgba(190, 215, 255, .18) 35%,
+          rgba(255, 255, 255, .25) 50%,
+          rgba(190, 215, 255, .18) 65%,
+          rgba(120, 160, 255, .08) 85%,
+          transparent);
+      filter: blur(1.5vmin);
     }
 
     /* КАРТОЧКА */
@@ -81,7 +91,10 @@
       margin-bottom: 1vmin;
     }
 
-    .login-logo .white-part { color: #ffffff; }
+    .login-logo .white-part {
+      color: #ffffff;
+    }
+
     .login-logo .blue-part {
       color: #4da6ff;
       text-shadow: 0 0 1.5vmin rgba(77, 166, 255, 0.6);
@@ -239,9 +252,17 @@
     }
 
     @keyframes pulse-btn {
-      0% { box-shadow: 0 0 1.5vmin rgba(77, 166, 255, 0.3); }
-      50% { box-shadow: 0 0 4vmin rgba(77, 166, 255, 0.9); }
-      100% { box-shadow: 0 0 1.5vmin rgba(77, 166, 255, 0.3); }
+      0% {
+        box-shadow: 0 0 1.5vmin rgba(77, 166, 255, 0.3);
+      }
+
+      50% {
+        box-shadow: 0 0 4vmin rgba(77, 166, 255, 0.9);
+      }
+
+      100% {
+        box-shadow: 0 0 1.5vmin rgba(77, 166, 255, 0.3);
+      }
     }
 
     /* БЛОК ВОССТАНОВЛЕНИЯ */
@@ -311,7 +332,9 @@
     }
 
     @keyframes blink {
-      50% { opacity: 0; }
+      50% {
+        opacity: 0;
+      }
     }
 
     /* СПУТНИК */
@@ -334,13 +357,30 @@
       pointer-events: none;
     }
 
-    .radio-wave:nth-of-type(1) { animation-delay: 0s; }
-    .radio-wave:nth-of-type(2) { animation-delay: 0.6s; }
-    .radio-wave:nth-of-type(3) { animation-delay: 1.2s; }
+    .radio-wave:nth-of-type(1) {
+      animation-delay: 0s;
+    }
+
+    .radio-wave:nth-of-type(2) {
+      animation-delay: 0.6s;
+    }
+
+    .radio-wave:nth-of-type(3) {
+      animation-delay: 1.2s;
+    }
 
     @keyframes pulse-wave {
-      0% { transform: scale(0.5); opacity: 0.8; stroke-width: 3; }
-      100% { transform: scale(3.5); opacity: 0; stroke-width: 0.5; }
+      0% {
+        transform: scale(0.5);
+        opacity: 0.8;
+        stroke-width: 3;
+      }
+
+      100% {
+        transform: scale(3.5);
+        opacity: 0;
+        stroke-width: 0.5;
+      }
     }
 
     /* ОБЁРТКА ДЛЯ ЦЕНТРИРОВАНИЯ КАРТОЧКИ И ФУТЕРА */
@@ -360,7 +400,9 @@
 <body>
 
   <div class="stars"></div>
-  <div class="milkyway"><div class="band"></div></div>
+  <div class="milkyway">
+    <div class="band"></div>
+  </div>
 
   <!-- ЛЕТАЮЩИЙ СПУТНИК С РАДИОВОЛНАМИ (размеры переведены в vmin) -->
   <div id="satellite">
@@ -415,7 +457,8 @@
                   d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"
                   fill="currentColor" />
               </svg>
-              <svg class="eye-icon eye-closed" viewBox="0 0 24 24" width="2.5vmin" height="2.5vmin" style="display:none;">
+              <svg class="eye-icon eye-closed" viewBox="0 0 24 24" width="2.5vmin" height="2.5vmin"
+                style="display:none;">
                 <path
                   d="M12 7c2.76 0 5 2.24 5 5 0 .65-.13 1.26-.36 1.83l2.92 2.92c1.51-1.26 2.7-2.89 3.43-4.75-1.73-4.39-6-7.5-11-7.5-1.4 0-2.74.25-3.98.7l2.16 2.16C10.74 7.13 11.35 7 12 7zM2 4.27l2.28 2.28.46.46C3.08 8.3 1.78 10.02 1 12c1.73 4.39 6 7.5 11 7.5 1.55 0 3.03-.3 4.38-.84l.42.42L19.73 22 21 20.73 3.27 3 2 4.27zM7.53 9.8l1.55 1.55c-.05.21-.08.43-.08.65 0 1.66 1.34 3 3 3 .22 0 .44-.03.65-.08l1.55 1.55c-.67.33-1.41.53-2.2.53-2.76 0-5-2.24-5-5 0-.79.2-1.53.53-2.2zm4.31-.78l3.15 3.15.02-.16c0-1.66-1.34-3-3-3l-.17.01z"
                   fill="currentColor" />
@@ -446,11 +489,19 @@
   <script src="data.js"></script>
 
   <script>
-    // === ЛОГИКА ЛЕТАЮЩЕГО СПУТНИКА ===
+    // === 0. ПРОВЕРКА СЕССИИ ПРИ ЗАГРУЗКЕ ===
+    document.addEventListener('DOMContentLoaded', () => {
+      const currentUser = sessionStorage.getItem('currentUser');
+      if (currentUser) {
+        window.location.href = 'dashboard.html';
+      }
+    });
+
+    // === 1. ЛОГИКА ЛЕТАЮЩЕГО СПУТНИКА ===
     const satellite = document.getElementById('satellite');
     let x = Math.random() * (window.innerWidth - 60);
     let y = Math.random() * (window.innerHeight - 40);
-    let dx = window.innerWidth * 0.0008; 
+    let dx = window.innerWidth * 0.0008;
     let dy = window.innerHeight * 0.0008;
 
     function animateSatellite() {
@@ -469,21 +520,26 @@
     }
     requestAnimationFrame(animateSatellite);
 
-    // === ЛОГИКА АВТОРИЗАЦИИ ===
+    // === 2. ЛОГИКА АВТОРИЗАЦИИ ===
     const callsignInput = document.getElementById('callsign');
     const accessCodeInput = document.getElementById('access-code');
     const submitBtn = document.getElementById('submit-btn');
     const authErrorBlock = document.getElementById('auth-error');
     const telemetryText = document.querySelector('.telemetry');
 
+    // Очистка Callsign от всего, кроме латиницы и цифр, + авто-верхний регистр
+    callsignInput.addEventListener('input', (e) => {
+      e.target.value = e.target.value.replace(/[^a-zA-Z0-9]/g, '').toUpperCase();
+      checkFormState();
+    });
+
+    // Очистка Access Code от спецсимволов (разрешаем буквы, цифры и _)
     accessCodeInput.addEventListener('input', (e) => {
       e.target.value = e.target.value.replace(/[^a-zA-Z0-9_]/g, '');
       checkFormState();
     });
 
-    callsignInput.addEventListener('input', checkFormState);
-
-    // === ПЕРЕКЛЮЧЕНИЕ ВИДИМОСТИ ПАРОЛЯ ===
+    // === 3. ПЕРЕКЛЮЧЕНИЕ ВИДИМОСТИ ПАРОЛЯ ===
     const togglePasswordBtn = document.getElementById('toggle-password');
     const eyeOpen = document.querySelector('.eye-open');
     const eyeClosed = document.querySelector('.eye-closed');
@@ -501,55 +557,82 @@
       }
     });
 
+    // === 4. ПРОВЕРКА СОСТОЯНИЯ ФОРМЫ ===
     function checkFormState() {
-      clearErrors();
-      const isCallsignValid = callsignInput.value.length >= 3;
-      const isAccessCodeValid = accessCodeInput.value.length >= 4;
+      // Убрали clearErrors() отсюда, чтобы ошибка не мерцала при вводе
+      const isCallsignValid = callsignInput.value.trim().length >= 3;
+      const isAccessCodeValid = accessCodeInput.value.trim().length >= 4;
       submitBtn.disabled = !(isCallsignValid && isAccessCodeValid);
     }
 
     function handleLogin(event) {
       event.preventDefault();
-      clearErrors();
 
       const callsign = callsignInput.value.trim().toUpperCase();
       const accessCode = accessCodeInput.value.trim();
 
-      if (callsign.length < 3 || accessCode.length < 4) {
-        return;
-      }
+      if (callsign.length < 3 || accessCode.length < 4) return;
 
       submitBtn.classList.add('processing');
       submitBtn.disabled = true;
       submitBtn.textContent = 'CONNECTING...';
+      telemetryText.style.color = '#4da6ff';
+      telemetryText.innerHTML = '> SYSTEM READY. AWAITING CONNECTION';
 
       setTimeout(() => {
-        const user = MOCK_USERS[callsign];
-        const isAuthenticated = user && user.accessCode === accessCode;
+        // 1. Сначала ищем в динамической базе (зарегистрированные пользователи, например NOVA)
+        let user = null;
+        const registeredUsersStr = localStorage.getItem('registeredUsers');
+        if (registeredUsersStr) {
+          try {
+            const registeredUsers = JSON.parse(registeredUsersStr);
+            user = registeredUsers[callsign] || null;
+          } catch (e) {
+            console.warn('Ошибка парсинга registeredUsers:', e);
+          }
+        }
 
-        if (isAuthenticated) {
-          localStorage.setItem('currentUser', JSON.stringify(user));
-          sessionStorage.setItem('freshLogin', 'true');
-          authErrorBlock.style.display = 'none';
-          telemetryText.style.color = '#2ecc71';
-          telemetryText.innerHTML = `> CONNECTION ESTABLISHED. WELCOME, ${user.role.toUpperCase()} ${user.fullName.toUpperCase()}`;
+        // 2. Если не нашли, ищем в статической базе (AURORA, ORION из data.js)
+        if (!user && typeof MOCK_USERS !== 'undefined') {
+          user = MOCK_USERS[callsign] || null;
+        }
 
-          setTimeout(() => {
-            window.location.href = 'dashboard.html';
-          }, 3000);
+        // 3. Универсальная проверка: Пользователь не найден ИЛИ неверный пароль
+        if (!user || user.accessCode !== accessCode) {
 
-        } else {
+          // Всегда один и тот же текст ошибки, не раскрывающий деталей
+          authErrorBlock.textContent = '⚠️ Invalid callsign or access code';
           authErrorBlock.classList.add('visible');
+
+          // Телеметрия всегда красная и говорит об общей ошибке
           telemetryText.style.color = '#e74c3c';
           telemetryText.innerHTML = '> SYSTEM FAILURE. INVALID CREDENTIALS';
 
+          // Возвращаем кнопку в исходное состояние, чтобы можно было попробовать снова
           submitBtn.classList.remove('processing');
           submitBtn.disabled = false;
           submitBtn.textContent = 'Establish Connection';
+
+          // Прерываем выполнение функции, дальше (к успешному входу) код не пойдет
+          return;
         }
-      }, 3000);
+
+        // 5. Успешный вход
+        sessionStorage.setItem('currentUser', JSON.stringify(user));  // БЫЛО: localStorage
+        sessionStorage.setItem('freshLogin', 'true');
+
+        authErrorBlock.classList.remove('visible');
+        telemetryText.style.color = '#2ecc71';
+        telemetryText.innerHTML = `> CONNECTION ESTABLISHED. WELCOME, ${user.role.toUpperCase()} ${user.fullName.toUpperCase()}`;
+
+        setTimeout(() => {
+          window.location.href = 'dashboard.html';
+        }, 2000);
+
+      }, 1500);
     }
 
+    // === 6. СБРОС ОШИБОК ===
     function clearErrors() {
       authErrorBlock.classList.remove('visible');
       document.querySelectorAll('.input-field').forEach(el => el.classList.remove('error'));
@@ -559,18 +642,11 @@
       submitBtn.textContent = 'Establish Connection';
     }
 
+    // Очищаем ошибки только когда пользователь реально начинает исправлять ввод
     callsignInput.addEventListener('focus', clearErrors);
     accessCodeInput.addEventListener('focus', clearErrors);
-
-    document.addEventListener('DOMContentLoaded', () => {
-      const callsignInputEl = document.querySelector('[data-wm-id="login-callsign-input"]');
-      if (callsignInputEl) {
-        callsignInputEl.addEventListener('input', function () {
-          this.value = this.value.replace(/[а-яА-ЯёЁ]/g, '');
-        });
-      }
-    });
   </script>
 
 </body>
+
 </html>

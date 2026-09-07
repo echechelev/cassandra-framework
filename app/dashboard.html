@@ -652,7 +652,7 @@
     <!-- ВЕРХНЯЯ ЛЕВАЯ КНОПКА (Информационный круг) -->
     <div class="corner-circle-btn top-left panel-offline" data-wm-id="info-panel-role">
       <span class="corner-icon" data-wm-id="role-icon">🛰️</span>
-      <span class="corner-label" data-wm-id="role-label">SPECIALIST</span>
+      <span class="corner-label" data-wm-id="role-label">STANDBY</span>
       <div class="info-tooltip">
         <div class="tooltip-title">SYSTEM ROLE</div>
         <div>Function: Comms & Diagnostics</div>
@@ -664,7 +664,7 @@
     <!-- ВЕРХНЯЯ ПРАВАЯ КНОПКА (Информационный круг) -->
     <div class="corner-circle-btn top-right panel-offline" data-wm-id="info-panel-user">
       <span class="corner-icon" data-wm-id="user-icon">👨‍🚀</span>
-      <span class="corner-label" data-wm-id="user-label">AURORA</span>
+      <span class="corner-label" data-wm-id="user-label">UNKNOWN</span>
       <span class="status-dot" data-wm-id="status-dot"></span>
       <div class="info-tooltip">
         <div class="tooltip-title">CREW MEMBER</div>
@@ -741,132 +741,128 @@
     </footer>
 
     <script>
-
+      // === 1. ИНИЦИАЛИЗАЦИЯ ДАШБОРДА ===
       function initDashboard() {
 
-        const userData = localStorage.getItem('currentUser');
-        const freshLogin = sessionStorage.getItem('freshLogin');
+        let userDataStr = sessionStorage.getItem('currentUser');
 
-        // Группа 1: Верхние панели (Роль и Имя) — делаем неактивными, но ОСТАВЛЯЕМ ВИДИМЫМИ
+
+        const freshLogin = sessionStorage.getItem('freshLogin');
+        const uplinkCompleted = sessionStorage.getItem('uplinkCompleted');
+
+        // Сценарий А: Пользователь не авторизован
+        if (!userDataStr) {
+          const telemetry = document.getElementById('dashboard-telemetry');
+          if (telemetry) {
+            telemetry.innerHTML = `> <span class="telemetry-cassan">CASSAN</span><span class="telemetry-dra">DRA</span>: <span data-wm-id="telemetry-message" style="color: #e74c3c;">ACCESS DENIED. REDIRECTING...</span>`;
+          }
+          setTimeout(() => { window.location.href = 'login.html'; }, 1500);
+          return;
+        }
+
+        // Парсим данные пользователя
+        let user = {};
+        try {
+          user = JSON.parse(userDataStr);
+        } catch (e) {
+          const telemetry = document.getElementById('dashboard-telemetry');
+          if (telemetry) {
+            telemetry.innerHTML = `> <span class="telemetry-cassan">CASSAN</span><span class="telemetry-dra">DRA</span>: <span data-wm-id="telemetry-message" style="color: #e74c3c;">DATA CORRUPTED. REDIRECTING...</span>`;
+          }
+          setTimeout(() => {
+            sessionStorage.removeItem('currentUser');
+            localStorage.removeItem('currentUser'); 
+            window.location.href = 'login.html';
+          }, 1500);
+          return;
+        }
+
+        // === ДИНАМИЧЕСКИЕ ПЕРЕМЕННЫЕ (Работают для NOVA, AURORA, ORION и любых других) ===
+        const callsign = user.callsign ? user.callsign.toUpperCase() : 'UNKNOWN';
+        const fullName = user.fullName || 'Unknown Operator';
+        const role = user.role || 'OPERATOR';
+        const roleIcon = user.roleIcon || '👤';
+        const accessLevel = user.accessLevel || '?';
+        const func = user.function || 'General Duties';
+        const userId = user.id || 'UNKNOWN';
+
+        // === СБРОС СОСТОЯНИЯ ПО УМОЛЧАНИЮ (ВСЁ СКРЫТО) ===
         const topPanels = document.querySelectorAll('.top-left, .top-right');
         topPanels.forEach(panel => {
           panel.classList.remove('panel-online', 'uplink-visible');
-          panel.classList.add('panel-offline'); // <-- ВАЖНО: БЕЗ uplink-hidden!
+          panel.classList.add('panel-offline');
         });
 
-        // Группа 2: Нижние и центральные кнопки — полностью скрываем
         const hiddenPanels = document.querySelectorAll('.bottom-left, .planet-btn');
         hiddenPanels.forEach(panel => {
           panel.classList.remove('panel-online', 'uplink-visible');
           panel.classList.add('panel-offline', 'uplink-hidden');
         });
 
+        const uplinkBtn = document.querySelector('[data-wm-id="start-diagnostics-btn"]');
+        if (uplinkBtn) {
+          uplinkBtn.classList.remove('uplink-inactive');
+          uplinkBtn.classList.add('uplink-active');
+          uplinkBtn.style.pointerEvents = 'auto';
+          uplinkBtn.style.opacity = '1';
+        }
+
         const progressContainer = document.getElementById('uplink-progress-container');
         if (progressContainer) progressContainer.style.display = 'none';
 
-        // Сценарий А: Пользователь не найден (ТВОЙ ПРАВИЛЬНЫЙ БЛОК ОШИБКИ)
-        if (!userData) {
+        // === ДИНАМИЧЕСКОЕ ЗАПОЛНЕНИЕ ПАНЕЛЕЙ (Верхние углы) ===
+        const roleIconEl = document.querySelector('.top-left .corner-icon');
+        const roleLabelEl = document.querySelector('.top-left .corner-label');
+        const roleTooltipEl = document.querySelector('.top-left .info-tooltip');
+
+        if (roleIconEl) roleIconEl.textContent = roleIcon;
+        if (roleLabelEl) roleLabelEl.textContent = role;
+        if (roleTooltipEl) {
+          roleTooltipEl.innerHTML = `<div class="tooltip-title">SYSTEM ROLE</div><div>Function: ${func}</div><div>Access: Level ${accessLevel}</div><div>Status: Active</div>`;
+        }
+
+        const userLabelEl = document.querySelector('.top-right .corner-label');
+        const userTooltipEl = document.querySelector('.top-right .info-tooltip');
+
+        if (userLabelEl) userLabelEl.textContent = fullName.toUpperCase();
+        if (userTooltipEl) {
+          userTooltipEl.innerHTML = `<div class="tooltip-title">CREW MEMBER</div><div>Registered Callsign: ${callsign}</div><div>ID: ${userId}</div><div>Status: Online</div>`;
+        }
+
+        // === СЦЕНАРИЙ 1: ПЕРВЫЙ ВХОД ПОСЛЕ ЛОГИНА ===
+        if (freshLogin === 'true') {
+          sessionStorage.removeItem('freshLogin');
           const telemetry = document.getElementById('dashboard-telemetry');
           if (telemetry) {
-            telemetry.innerHTML = `> <span data-wm-id="cassandra-name" class="telemetry-cassan">CASSAN</span><span data-wm-id="cassandra-name" class="telemetry-dra">DRA</span>: <span data-wm-id="telemetry-message" style="color: #e74c3c;">ACCESS DENIED. REDIRECTING...</span>`;
-          }
-          setTimeout(() => {
-            localStorage.removeItem('dashboardInitialized');
-            window.location.href = 'login.html';
-          }, 1500);
-          return;
-        }
-
-        // Сценарий Б: Первый вход после логина (запускаем анимацию)
-        if (freshLogin === 'true') {
-          sessionStorage.removeItem('freshLogin'); // Удаляем метку
-
-          try {
-            const user = JSON.parse(userData);
-            const name = user.callsign ? user.callsign.toUpperCase() : 'UNKNOWN';
-
-            const roleIconEl = document.querySelector('.top-left .corner-icon');
-            const roleLabelEl = document.querySelector('.top-left .corner-label');
-            const roleTooltipEl = document.querySelector('.top-left .info-tooltip');
-            if (roleIconEl && user.roleIcon) roleIconEl.textContent = user.roleIcon;
-            if (roleLabelEl && user.role) roleLabelEl.textContent = user.role.toUpperCase();
-            if (roleTooltipEl) {
-              roleTooltipEl.innerHTML = `<div class="tooltip-title">SYSTEM ROLE</div><div>Function: ${user.function || 'Unknown'}</div><div>Access: Level ${user.accessLevel || '?'}</div><div>Status: Active</div>`;
-            }
-
-            const userLabelEl = document.querySelector('.top-right .corner-label');
-            const userTooltipEl = document.querySelector('.top-right .info-tooltip');
-            if (userLabelEl && user.fullName) userLabelEl.textContent = user.fullName.toUpperCase();
-            if (userTooltipEl) {
-              userTooltipEl.innerHTML = `<div class="tooltip-title">CREW MEMBER</div><div>Registered Callsign: ${user.callsign.toUpperCase()}</div><div>ID: ${user.id || 'UNKNOWN'}</div><div>Status: Online</div>`;
-            }
-
-            const telemetry = document.getElementById('dashboard-telemetry');
-            telemetry.innerHTML = `> <span class="telemetry-cassan">CASSAN</span><span class="telemetry-dra">DRA</span>: <span id="typing-target" style="color: #4da6ff;"></span>`;
+            telemetry.innerHTML = `> <span class="telemetry-cassan">CASSAN</span><span class="telemetry-dra">DRA</span>: <span id="typing-target" data-wm-id="telemetry-message" style="color: #4da6ff;"></span>`;
             const target = document.getElementById('typing-target');
-            typeWriter(`${name}, SERVER CONNECTION REQUIRED. INITIALIZE UPLINK PROCEDURE.`, target, 3000);
-            localStorage.setItem('dashboardInitialized', 'true');
-
-          } catch (e) {
-            // Сценарий В: Данные повреждены
-            console.error("❌ Ошибка данных:", e);
-            const telemetry = document.getElementById('dashboard-telemetry');
-            if (telemetry) {
-              telemetry.innerHTML = `> <span data-wm-id="cassandra-name" class="telemetry-cassan">CASSAN</span><span data-wm-id="cassandra-name" class="telemetry-dra">DRA</span>: <span data-wm-id="telemetry-message" style="color: #e74c3c;">DATA CORRUPTED. REDIRECTING...</span>`;
-            }
-            setTimeout(() => {
-              localStorage.removeItem('currentUser');
-              localStorage.removeItem('dashboardInitialized');
-              window.location.href = 'login.html';
-            }, 1500);
+            // Динамическое приветствие для ЛЮБОГО пользователя
+            typeWriter(`${callsign}, SERVER CONNECTION REQUIRED. INITIALIZE UPLINK PROCEDURE.`, target, 3000);
           }
           return;
         }
 
-        // Сценарий Г: Возврат назад или обновление (мгновенный показ)
-        showReadyDashboard();
+        // === СЦЕНАРИЙ 2: АПЛИНК УЖЕ БЫЛ ПРОЙДЕН РАНЕЕ ===
+        if (uplinkCompleted === 'true') {
+          showReadyDashboard(callsign);
+          return;
+        }
+
+        // === СЦЕНАРИЙ 3: ОБНОВЛЕНИЕ СТРАНИЦЫ ДО НАЖАТИЯ АПЛИНКА ===
+        const telemetry = document.getElementById('dashboard-telemetry');
+        if (telemetry) {
+          telemetry.innerHTML = `> <span class="telemetry-cassan">CASSAN</span><span class="telemetry-dra">DRA</span>: <span data-wm-id="telemetry-message" style="color: #4da6ff;">${callsign}, SERVER CONNECTION REQUIRED. INITIALIZE UPLINK PROCEDURE.</span>`;
+        }
       }
 
-      // Функция мгновенного отображения готового дашборда (при возврате назад)
-      function showReadyDashboard() {
-
+      // === 2. ФУНКЦИЯ МГНОВЕННОГО ОТОБРАЖЕНИЯ (ДЛЯ СЦЕНАРИЯ 2) ===
+      function showReadyDashboard(dynamicCallsign) {
         const telemetry = document.getElementById('dashboard-telemetry');
-        const userData = localStorage.getItem('currentUser');
-
-        if (!userData) {
-          localStorage.removeItem('dashboardInitialized');
-          window.location.href = 'login.html';
-          return;
-        }
-
-        let name = 'UNKNOWN';
-        try {
-          const user = JSON.parse(userData);
-          name = user.callsign ? user.callsign.toUpperCase() : 'UNKNOWN';
-        } catch (e) {
-          console.error("Ошибка парсинга данных при быстром показе:", e);
-
-          // 1. Показываем красное сообщение
-          if (telemetry) {
-            telemetry.innerHTML = `> <span data-wm-id="cassandra-name" class="telemetry-cassan">CASSAN</span><span data-wm-id="cassandra-name" class="telemetry-dra">DRA</span>: <span data-wm-id="telemetry-message" style="color: #e74c3c;">DATA CORRUPTED. REDIRECTING...</span>`;
-          }
-
-          // 2. Ждём 5 секунд и делаем редирект + очистку
-          setTimeout(() => {
-            localStorage.removeItem('dashboardInitialized');
-            localStorage.removeItem('currentUser');
-            window.location.href = 'login.html';
-          }, 3000);
-
-          return;
-        }
-
-        // === ВОССТАНАВЛИВАЕМ ТЕКСТ ТЕЛЕМЕТРИИ ПРИ ВОЗВРАТЕ ===
         if (telemetry) {
-          telemetry.innerHTML = `> <span class="telemetry-cassan">CASSAN</span><span class="telemetry-dra">DRA</span>: <span id="typing-target" style="color: #2ecc71;">${name}, SYSTEM READY FOR WORK. AWAITING COMMANDS.</span>`;
+          // Динамический текст готовности для ЛЮБОГО пользователя
+          telemetry.innerHTML = `> <span class="telemetry-cassan">CASSAN</span><span class="telemetry-dra">DRA</span>: <span data-wm-id="telemetry-message" style="color: #2ecc71;">${dynamicCallsign}, SYSTEM READY FOR WORK. AWAITING COMMANDS.</span>`;
         }
 
-        // Активируем все основные панели и кнопки
         const panelsToActivate = document.querySelectorAll('.top-left, .top-right, .bottom-left, .planet-btn');
         panelsToActivate.forEach(panel => {
           panel.classList.remove('panel-offline', 'uplink-hidden');
@@ -880,12 +876,10 @@
         }
 
         const progressContainer = document.getElementById('uplink-progress-container');
-        if (progressContainer) {
-          progressContainer.style.display = 'none';
-        }
+        if (progressContainer) progressContainer.style.display = 'none';
       }
 
-      // Вспомогательные функции
+      // === 3. ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ АНИМАЦИИ ===
       function typeWriter(text, element, duration) {
         const chars = text.split('');
         const interval = duration / chars.length;
@@ -911,7 +905,7 @@
         }
       }
 
-      // Анимация UPLINK
+      // === 4. АНИМАЦИЯ UPLINK ===
       async function startUplink() {
         const telemetry = document.getElementById('dashboard-telemetry');
         const progressContainer = document.getElementById('uplink-progress-container');
@@ -995,9 +989,10 @@
         target.style.textShadow = '0 0 0.8vmin rgba(46, 204, 113, 0.4)';
         target.textContent = '';
 
+        // Берем позывной динамически из localStorage
         let userName = "OPERATOR";
         try {
-          const ud = localStorage.getItem('currentUser');
+          const ud = sessionStorage.getItem('currentUser');
           if (ud) {
             const u = JSON.parse(ud);
             if (u.callsign) userName = u.callsign.toUpperCase();
@@ -1022,28 +1017,32 @@
         await sleep(1000);
         progressContainer.style.display = 'none';
 
+        sessionStorage.setItem('uplinkCompleted', 'true');
       }
 
-      // Выход из системы
+      // === 5. ВЫХОД ИЗ СИСТЕМЫ ===
       function handleLogout() {
-        localStorage.removeItem('currentUser');
-        localStorage.removeItem('dashboardInitialized');
+        // Очищаем только текущую сессию и флаги состояния
+        sessionStorage.removeItem('currentUser');
+        sessionStorage.removeItem('uplinkCompleted');
         sessionStorage.removeItem('freshLogin');
+
+        // registeredUsers НЕ трогаем! Пользователь остается в "базе" и может залогиниться снова.
+
         window.location.href = 'login.html';
       }
 
-      // Запуск при обычной загрузке
+      // === 6. ЗАПУСК ===
       initDashboard();
 
-      // Запуск при возврате через кнопку "Назад" (bfcache)
       window.addEventListener('pageshow', function (event) {
         if (event.persisted) {
           console.warn('⚠️ Страница восстановлена из bfcache — принудительная проверка');
           initDashboard();
         }
       });
-
     </script>
+
 </body>
 
 </html>
