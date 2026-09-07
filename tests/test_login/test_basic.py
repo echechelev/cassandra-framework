@@ -191,3 +191,27 @@ def test_reactive_button_state(login_page):
 
     # ✅ ASSERT
     login_page.should_be_establish_connect_btn(is_enabled=True)
+
+
+@allure.id("CAS-06")
+@allure.title("🔗 Переход на страницу восстановления доступа.")
+@allure.label("owner", "Evgeniy Chechelev")
+@allure.label("feature", "login")
+@pytest.mark.regress
+@pytest.mark.login
+@pytest.mark.basic
+def test_navigation_to_access_restoration_page(login_page):
+    """
+    Сценарий:
+    1. Нажимаем на кнопку 'Access Restoration'.
+    6. Проверяем: url страницы 'access-restoration.html'.
+    """
+
+    # ⚡ ACT
+    login_page.click_access_restoration_btn()
+
+    # ✅ ASSERT
+    login_page.verify_current_url(expected_url_part=data.ACCESS_RESTORATION_URL)
+   
+    
+

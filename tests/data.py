@@ -18,6 +18,7 @@ SIGNUP_URL = '/signup.html'
 LOGIN_URL = '/login.html'
 DASHBOARD_URL = '/dashboard.html'
 GALAXY_MAP_URL = '/galaxy-map.html'
+ACCESS_RESTORATION_URL = '/access-restoration.html'
 
 # ==========================================
 # 👨‍🚀 ДАННЫЕ ПОЛЬЗОВАТЕЛЕЙ (User Data)
