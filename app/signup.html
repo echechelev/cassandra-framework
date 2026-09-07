@@ -1,88 +1,950 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
+  <link rel="icon" type="image/png" href="favicon.png">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>404 — Cassandra Framework</title>
+  <title>Cassandra — Sign Up</title>
   <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', 'Roboto', sans-serif;
+    }
+
     body {
       color: #e8ecff;
       min-height: 100vh;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    .stars {
+      position: fixed;
+      inset: 0;
+      z-index: -2;
+      background:
+        radial-gradient(1px 1px at 10% 10%, rgba(255, 255, 255, .9), transparent 50%),
+        radial-gradient(1.5px 1.5px at 20% 30%, rgba(255, 255, 255, .7), transparent 50%),
+        radial-gradient(1px 1px at 30% 70%, rgba(255, 255, 255, .8), transparent 50%),
+        radial-gradient(2px 2px at 40% 20%, rgba(255, 255, 255, .6), transparent 50%),
+        radial-gradient(1px 1px at 50% 50%, rgba(255, 255, 255, .9), transparent 50%),
+        radial-gradient(1.5px 1.5px at 60% 80%, rgba(255, 255, 255, .7), transparent 50%),
+        radial-gradient(1px 1px at 70% 40%, rgba(255, 255, 255, .8), transparent 50%),
+        radial-gradient(2px 2px at 80% 90%, rgba(255, 255, 255, .5), transparent 50%),
+        radial-gradient(1px 1px at 90% 15%, rgba(255, 255, 255, .9), transparent 50%),
+        linear-gradient(180deg, #050816 0%, #0a0e27 50%, #131b3a 100%);
+      background-size: 15vmin 15vmin, 20vmin 20vmin, 18vmin 18vmin, 25vmin 25vmin,
+        16vmin 16vmin, 22vmin 22vmin, 19vmin 19vmin, 28vmin 28vmin,
+        17vmin 17vmin, 100% 100%;
+    }
+
+    .milkyway {
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      overflow: hidden;
+      pointer-events: none;
+    }
+
+    .milkyway .band {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 280vmax;
+      height: 25vmin;
+      transform: translate(-50%, -50%) rotate(-28deg);
+      background: linear-gradient(180deg,
+          transparent,
+          rgba(120, 160, 255, .08) 15%,
+          rgba(190, 215, 255, .18) 35%,
+          rgba(255, 255, 255, .25) 50%,
+          rgba(190, 215, 255, .18) 65%,
+          rgba(120, 160, 255, .08) 85%,
+          transparent);
+      filter: blur(1.5vmin);
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    .login-card {
+      width: 90%;
+      max-width: 45vmin;
+      padding: 4vmin;
+      background: rgba(10, 15, 40, 0.75);
+      border: 0.1vmin solid rgba(77, 166, 255, 0.3);
+      border-radius: 1.5vmin;
+      backdrop-filter: blur(12px);
+      box-shadow: 0 0 4vmin rgba(77, 166, 255, 0.15), inset 0 0 1.5vmin rgba(77, 166, 255, 0.05);
+      text-align: center;
+      position: relative;
+      z-index: 2;
+    }
+
+    .login-logo {
+      font-size: 3.5vmin;
+      font-weight: 800;
+      letter-spacing: 0.5vmin;
+      margin-bottom: 1vmin;
+    }
+
+    .login-logo .white-part {
+      color: #ffffff;
+    }
+
+    .login-logo .blue-part {
+      color: #4da6ff;
+      text-shadow: 0 0 1.5vmin rgba(77, 166, 255, 0.6);
+    }
+
+    .login-sub {
+      font-size: 1.5vmin;
+      color: #7a86b8;
+      margin-bottom: 3vmin;
+      letter-spacing: 0.1vmin;
+    }
+
+    .input-group {
+      margin-bottom: 2vmin;
+      text-align: left;
+    }
+
+    .input-label {
+      display: block;
+      font-size: 1.3vmin;
+      color: #9fb0e8;
+      margin-bottom: 0.8vmin;
+      letter-spacing: 0.1vmin;
+      text-transform: uppercase;
+    }
+
+    .input-field {
+      width: 100%;
+      padding: 1.5vmin 1.6vmin;
+      border-radius: 0.8vmin;
+      border: 1px solid rgba(77, 166, 255, 0.3);
+      background: rgba(5, 8, 22, 0.8);
+      color: #fff;
+      font-size: 1.6vmin;
+      outline: none;
+      transition: 0.3s;
+    }
+
+    .password-wrapper {
+      position: relative;
+    }
+
+    .password-wrapper .input-field {
+      padding-right: 4.5vmin;
+    }
+
+    select.input-field {
+      appearance: none;
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      cursor: pointer;
+      background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%234da6ff' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+      background-repeat: no-repeat;
+      background-position: right 1.6vmin center;
+      background-size: 1.6vmin;
+    }
+
+    .input-field:focus {
+      border-color: #4da6ff;
+      box-shadow: 0 0 1.5vmin rgba(77, 166, 255, 0.2);
+    }
+
+    .input-field::placeholder {
+      color: #4a5480;
+    }
+
+    .input-field[readonly] {
+      cursor: not-allowed;
+      opacity: 0.7;
+      background: rgba(5, 8, 22, 0.95);
+    }
+
+    .input-field.error {
+      border-color: #e74c3c;
+      box-shadow: 0 0 1.5vmin rgba(231, 76, 60, 0.2);
+    }
+
+    .auth-error {
+      display: none;
+      background: rgba(231, 76, 60, 0.1);
+      border: 1px solid rgba(231, 76, 60, 0.4);
+      color: #ffadad;
+      padding: 1.2vmin;
+      border-radius: 0.8vmin;
+      margin-bottom: 2vmin;
+      font-size: 1.3vmin;
+      font-weight: 600;
+    }
+
+    .auth-error.visible {
+      display: block;
+      animation: fadeInUp 0.3s ease;
+    }
+
+    .toggle-password {
+      position: absolute;
+      right: 1.5vmin;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #4da6ff;
+      transition: opacity 0.3s;
+    }
+
+    .toggle-password svg {
+      width: 1.8vmin;
+      height: 1.8vmin;
+      fill: currentColor;
+      opacity: 0.7;
+      transition: opacity 0.3s;
+    }
+
+    .toggle-password:hover svg {
+      opacity: 1;
+    }
+
+    .login-btn {
+      width: 100%;
+      padding: 1.5vmin;
+      margin-top: 1vmin;
+      border-radius: 0.8vmin;
+      border: none;
+      cursor: pointer;
+      background: linear-gradient(135deg, #1e5fbf, #4da6ff);
+      color: white;
+      font-weight: 700;
+      font-size: 1.6vmin;
+      letter-spacing: 0.1vmin;
+      text-transform: uppercase;
+      box-shadow: 0 0 2vmin rgba(77, 166, 255, 0.3);
+      transition: transform 0.1s ease, box-shadow 0.3s ease;
+    }
+
+    .login-btn:active:not(:disabled) {
+      transform: translateY(0.2vmin) scale(0.98);
+      box-shadow: 0 0 1vmin rgba(77, 166, 255, 0.3);
+    }
+
+    .login-btn:hover:not(:disabled) {
+      box-shadow: 0 0 3vmin rgba(77, 166, 255, 0.6);
+    }
+
+    .login-btn:disabled:not(.processing) {
+      opacity: 0.5;
+      cursor: not-allowed;
+      filter: grayscale(0.8);
+      box-shadow: none;
+    }
+
+    .login-btn.processing {
+      background: #1e5fbf;
+      opacity: 0.9;
+      cursor: wait;
+      animation: pulse-btn 1.5s infinite ease-in-out;
+    }
+
+    .login-btn.processing:disabled {
+      opacity: 0.9;
+      filter: none;
+      transform: none;
+    }
+
+    @keyframes pulse-btn {
+      0% { box-shadow: 0 0 1.5vmin rgba(77, 166, 255, 0.3); }
+      50% { box-shadow: 0 0 4vmin rgba(77, 166, 255, 0.9); }
+      100% { box-shadow: 0 0 1.5vmin rgba(77, 166, 255, 0.3); }
+    }
+
+    .operator-summary {
+      background: rgba(5, 8, 22, 0.6);
+      border: 1px solid rgba(77, 166, 255, 0.2);
+      border-radius: 0.8vmin;
+      padding: 2vmin;
+      margin-bottom: 2vmin;
+      text-align: left;
+    }
+
+    .summary-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1vmin 0;
+      border-bottom: 1px solid rgba(77, 166, 255, 0.1);
+      font-size: 1.5vmin;
+    }
+
+    .summary-row:last-child {
+      border-bottom: none;
+    }
+
+    .summary-label {
+      color: #7a86b8;
+      text-transform: uppercase;
+      letter-spacing: 0.1vmin;
+    }
+
+    .summary-value {
+      color: #e8ecff;
+      font-weight: 600;
+      text-align: right;
+    }
+
+    .summary-value.highlight {
+      color: #4da6ff;
+      text-shadow: 0 0 1vmin rgba(77, 166, 255, 0.5);
+    }
+
+    .launch-btn {
+      background: linear-gradient(135deg, #1e5fbf, #2ecc71);
+      font-size: 1.7vmin;
+      letter-spacing: 0.15vmin;
+    }
+
+    .launch-btn:hover {
+      box-shadow: 0 0 4vmin rgba(46, 204, 113, 0.6);
+      transform: translateY(-0.2vmin);
+    }
+
+    .login-footer {
+      position: absolute;
+      bottom: 0;
+      width: 100%;
+      text-align: center;
+      padding-bottom: 2vmin;
+    }
+
+    .copyright {
+      margin-top: 4vmin;
+      font-size: 1.4vmin;
+      letter-spacing: 0.15vmin;
+      color: #5a6488;
+    }
+
+    .telemetry {
+      color: #4da6ff;
+      font-family: 'Courier New', monospace;
+      margin-bottom: 0.8vmin;
+      font-size: 1.3vmin;
+      text-transform: uppercase;
+      letter-spacing: 0.2vmin;
+      text-shadow: 0 0 0.8vmin rgba(77, 166, 255, 0.4);
+    }
+
+    .telemetry::after {
+      content: "█";
+      animation: blink 1s step-end infinite;
+      margin-left: 0.4vmin;
+    }
+
+    @keyframes blink {
+      50% { opacity: 0; }
+    }
+
+    #satellite {
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 1;
+      pointer-events: none;
+      filter: drop-shadow(0 0 0.8vmin rgba(46, 204, 113, 0.4));
+    }
+
+    .radio-wave {
+      fill: none;
+      stroke: #2ecc71;
+      stroke-width: 2;
+      opacity: 0;
+      transform-origin: 50px 30px;
+      animation: pulse-wave 2s infinite ease-out;
+      pointer-events: none;
+    }
+
+    .radio-wave:nth-of-type(1) { animation-delay: 0s; }
+    .radio-wave:nth-of-type(2) { animation-delay: 0.6s; }
+    .radio-wave:nth-of-type(3) { animation-delay: 1.2s; }
+
+    @keyframes pulse-wave {
+      0% { transform: scale(0.5); opacity: 0.8; stroke-width: 3; }
+      100% { transform: scale(3.5); opacity: 0; stroke-width: 0.5; }
+    }
+
+    .login-wrapper {
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      background-color: #050816;
-      overflow: hidden;
+      min-height: 100vh;
+      width: 100%;
+      padding: 2vmin 0;
+      box-sizing: border-box;
     }
-    /* Фон */
-    .stars {
-      position: fixed; inset: 0; z-index: -2;
-      background: radial-gradient(1px 1px at 10% 10%, #fff, transparent 50%),
-                  radial-gradient(2px 2px at 40% 20%, #fff, transparent 50%),
-                  radial-gradient(1px 1px at 70% 40%, #fff, transparent 50%),
-                  linear-gradient(180deg, #050816 0%, #0a0e27 50%, #131b3a 100%);
-    }
-    .milkyway {
-      position: fixed; inset: 0; z-index: -1;
-      background: linear-gradient(180deg, transparent, rgba(120, 160, 255, .1) 50%, transparent);
-      transform: rotate(-28deg); filter: blur(2vmin);
-    }
-    /* Логотип */
-    .logo { font-size: 8vmin; font-weight: 800; letter-spacing: 1vmin; margin-bottom: 6vmin; }
-    .logo .w { color: #fff; }
-    .logo .b { color: #4da6ff; text-shadow: 0 0 2vmin rgba(77, 166, 255, 0.6); }
-    /* Блок 404 */
-    .error-box {
-      text-align: center;
-      padding: 4vmin 8vmin;
-      border: 0.2vmin solid rgba(231, 76, 60, 0.5);
-      border-radius: 1.5vmin;
-      background: rgba(10, 15, 40, 0.6);
-      backdrop-filter: blur(1vmin);
-      box-shadow: 0 0 3vmin rgba(231, 76, 60, 0.3);
-    }
-    .code { font-size: 10vmin; font-weight: 900; color: #e74c3c; text-shadow: 0 0 2vmin #e74c3c; line-height: 1; }
-    .title { font-size: 2.5vmin; font-weight: 700; color: #e8ecff; text-transform: uppercase; margin: 2vmin 0 1vmin; letter-spacing: 0.1vmin; }
-    .desc { font-size: 1.5vmin; color: #7a86b8; margin-bottom: 4vmin; }
-    /* Кнопка назад */
-    .back-btn {
-      display: inline-block;
-      padding: 1.2vmin 3vmin;
-      border: 0.15vmin solid rgba(77, 166, 255, 0.6);
-      border-radius: 0.6vmin;
-      background: rgba(10, 15, 40, 0.8);
-      color: #4da6ff;
-      font-size: 1.4vmin;
-      font-weight: 600;
-      text-decoration: none;
-      text-transform: uppercase;
-      transition: all 0.3s;
-    }
-    .back-btn:hover {
-      background: rgba(77, 166, 255, 0.2);
-      box-shadow: 0 0 2vmin rgba(77, 166, 255, 0.5);
-      transform: translateY(-0.2vmin);
-    }
-    .footer { position: absolute; bottom: 3vmin; color: #5a6488; font-size: 1.2vmin; }
   </style>
 </head>
+
 <body>
+
   <div class="stars"></div>
-  <div class="milkyway"></div>
-
-  <div class="logo">
-    <span class="w">CASSAN</span><span class="b">DRA</span>
+  <div class="milkyway">
+    <div class="band"></div>
   </div>
 
-  <div class="error-box">
-    <div class="code">404</div>
-    <div class="title">Module Under Construction</div>
-    <div class="desc">This page is currently in development.<br>Please return to dashboard.</div>
-    <a href="index.html" class="back-btn">← Back to Index</a>
+  <div id="satellite">
+    <svg width="8vmin" height="5.3vmin" viewBox="0 0 100 60">
+      <circle cx="50" cy="30" r="15" class="radio-wave" />
+      <circle cx="50" cy="30" r="15" class="radio-wave" />
+      <circle cx="50" cy="30" r="15" class="radio-wave" />
+      <rect x="5" y="15" width="30" height="30" rx="2" fill="#1e5fbf" stroke="#4da6ff" stroke-width="2" />
+      <rect x="65" y="15" width="30" height="30" rx="2" fill="#1e5fbf" stroke="#4da6ff" stroke-width="2" />
+      <line x1="15" y1="15" x2="15" y2="45" stroke="#4da6ff" stroke-width="1" opacity="0.5" />
+      <line x1="25" y1="15" x2="25" y2="45" stroke="#4da6ff" stroke-width="1" opacity="0.5" />
+      <line x1="75" y1="15" x2="75" y2="45" stroke="#4da6ff" stroke-width="1" opacity="0.5" />
+      <line x1="85" y1="15" x2="85" y2="45" stroke="#4da6ff" stroke-width="1" opacity="0.5" />
+      <rect x="35" y="20" width="30" height="20" rx="4" fill="#2ecc71" stroke="#2ecc71" stroke-width="2" />
+      <line x1="50" y1="20" x2="50" y2="5" stroke="#2ecc71" stroke-width="2" />
+      <circle cx="50" cy="5" r="3" fill="#2ecc71" />
+      <circle cx="42" cy="30" r="2" fill="#ffffff">
+        <animate attributeName="opacity" values="1;0;1" dur="2s" repeatCount="indefinite" />
+      </circle>
+    </svg>
   </div>
 
-  <div class="footer">Evknopia © 2026</div>
+  <div class="login-wrapper">
+    <div class="login-card">
+      <div class="login-logo">
+        <span class="white-part">CASSAN</span><span class="blue-part">DRA</span>
+      </div>
+
+      <div class="login-sub" id="page-subtitle" data-wm-id="signup-page-subtitle">Phase 1: Operator Identity</div>
+
+      <div class="auth-error" id="signup-error" data-wm-id="signup-error-message">
+        ⚠️ Registration data invalid
+      </div>
+
+      <!-- STEP 1 -->
+      <form id="step-1" novalidate>
+        <div class="input-group">
+          <label class="input-label" for="full-name">Full Name</label>
+          <input type="text" id="full-name" class="input-field" placeholder="Enter full name" maxlength="100"
+            data-wm-id="signup-full-name-input" autocomplete="off">
+        </div>
+
+        <div class="input-group">
+          <label class="input-label" for="callsign">Callsign</label>
+          <input type="text" id="callsign" class="input-field" placeholder="AUTO-GENERATED" readonly
+            data-wm-id="signup-callsign-input" autocomplete="off">
+        </div>
+
+        <div class="input-group">
+          <label class="input-label" for="role">Role</label>
+          <select id="role" class="input-field" data-wm-id="signup-role-select">
+            <option value="" disabled selected>Select role</option>
+            <option value="COMMANDER">COMMANDER - Access Level 1</option>
+            <option value="SPECIALIST">SPECIALIST - Access Level 2</option>
+            <option value="ENGINEER">ENGINEER - Access Level 3</option>
+          </select>
+        </div>
+
+        <div class="input-group">
+          <label class="input-label" for="function">Function</label>
+          <input type="text" id="function" class="input-field" placeholder="Auto-assigned based on role" readonly
+            data-wm-id="signup-function-input" autocomplete="off">
+        </div>
+
+        <button type="submit" class="login-btn" id="submit-btn" data-wm-id="signup-proceed-btn" disabled>
+          PROCEED
+        </button>
+      </form>
+
+      <!-- STEP 2 -->
+      <form id="step-2" class="hidden" novalidate>
+        <div class="auth-error" id="security-error" data-wm-id="signup-security-error">
+          ⚠️ Security protocol failed
+        </div>
+
+        <div class="input-group">
+          <label class="input-label" for="access-code">Access Code</label>
+          <div class="password-wrapper">
+            <input type="password" id="access-code" class="input-field" placeholder="Enter access code" minlength="4"
+              maxlength="30" autocomplete="new-password" data-wm-id="signup-access-code-input">
+            <button type="button" class="toggle-password" data-target="access-code" data-wm-id="signup-toggle-access-code">
+              <svg viewBox="0 0 24 24">
+                <path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z" />
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        <div class="input-group">
+          <label class="input-label" for="confirm-access-code">Confirm Access Code</label>
+          <div class="password-wrapper">
+            <input type="password" id="confirm-access-code" class="input-field" placeholder="Confirm access code"
+              minlength="4" maxlength="30" autocomplete="new-password" data-wm-id="signup-confirm-code-input">
+            <button type="button" class="toggle-password" data-target="confirm-access-code" data-wm-id="signup-toggle-confirm-code">
+              <svg viewBox="0 0 24 24">
+                <path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z" />
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        <div class="input-group">
+          <label class="input-label" for="recovery-cipher">Recovery Cipher</label>
+          <input type="text" id="recovery-cipher" class="input-field" placeholder="Enter recovery word" minlength="4"
+            maxlength="30" autocomplete="off" data-wm-id="signup-recovery-cipher-input">
+        </div>
+
+        <button type="button" class="login-btn" id="back-btn" style="margin-bottom: 1.5vmin;" data-wm-id="signup-back-btn">
+          ← BACK TO OPERATOR DATA
+        </button>
+
+        <button type="submit" class="login-btn" id="complete-btn" disabled data-wm-id="signup-complete-btn">
+          COMPLETE REGISTRATION
+        </button>
+      </form>
+
+      <!-- STEP 3 -->
+      <div id="step-3" class="hidden">
+        <div class="login-logo" data-wm-id="signup-activation-logo">
+          <span class="white-part">ACTIVATION</span><span class="blue-part"> COMPLETE</span>
+        </div>
+
+        <div class="operator-summary">
+          <div class="summary-row">
+            <span class="summary-label">Callsign:</span>
+            <span class="summary-value" id="sum-callsign" data-wm-id="sum-callsign">NOVA</span>
+          </div>
+          <div class="summary-row">
+            <span class="summary-label">Full Name:</span>
+            <span class="summary-value" id="sum-name" data-wm-id="sum-name">Nova</span>
+          </div>
+          <div class="summary-row">
+            <span class="summary-label">Role:</span>
+            <span class="summary-value" id="sum-role" data-wm-id="sum-role">⚙️ Engineer</span>
+          </div>
+          <div class="summary-row">
+            <span class="summary-label">Function:</span>
+            <span class="summary-value" id="sum-function" data-wm-id="sum-function">Systems Engineering</span>
+          </div>
+          <div class="summary-row">
+            <span class="summary-label">Access Level:</span>
+            <span class="summary-value highlight" id="sum-level" data-wm-id="sum-level">3</span>
+          </div>
+          <div class="summary-row">
+            <span class="summary-label">Operator ID:</span>
+            <span class="summary-value" id="sum-id" data-wm-id="sum-id">512-3A</span>
+          </div>
+        </div>
+
+        <button type="button" class="login-btn launch-btn" id="launch-btn" data-wm-id="signup-launch-btn">
+          INITIATE LAUNCH SEQUENCE 🚀
+        </button>
+      </div>
+    </div>
+
+    <footer class="login-footer">
+      <div class="telemetry" data-wm-id="system-telemetry">> SYSTEM READY. AWAITING OPERATOR REGISTRATION</div>
+      <div class="copyright">Evknopia © 2026</div>
+    </footer>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      let isProcessing = false;
+
+      let operatorData = {
+        fullName: '',
+        callsign: '',
+        role: '',
+        roleIcon: '',
+        function: '',
+        accessLevel: '',
+        accessCode: '',
+        recoveryCipher: '',
+        id: '512-3A'
+      };
+
+      // Restore operator data if page was refreshed on Step 2 or 3
+      const savedOperatorData = sessionStorage.getItem('operatorData');
+      if (savedOperatorData) {
+        try {
+          operatorData = JSON.parse(savedOperatorData);
+        } catch (e) {
+          console.warn('Failed to restore operator data:', e);
+        }
+      }
+
+      // === 1. RESTORE STEP ON RELOAD ===
+      const currentStep = sessionStorage.getItem('signupStep') || '1';
+
+      if (currentStep === '2') {
+        document.getElementById('step-1').classList.add('hidden');
+        document.getElementById('step-2').classList.remove('hidden');
+        const subtitle = document.getElementById('page-subtitle');
+        if (subtitle) subtitle.textContent = 'Phase 2: Security Setup';
+      }
+
+      if (currentStep === '3') {
+        document.getElementById('step-1').classList.add('hidden');
+        document.getElementById('step-2').classList.add('hidden');
+        document.getElementById('step-3').classList.remove('hidden');
+
+        const mainLogo = document.querySelector('.login-card > .login-logo');
+        if (mainLogo) mainLogo.classList.add('hidden');
+
+        const subtitle = document.getElementById('page-subtitle');
+        if (subtitle) {
+          subtitle.textContent = 'Welcome aboard, new Operator.';
+          subtitle.style.color = '#2ecc71';
+        }
+
+        if (operatorData.callsign) {
+          document.getElementById('sum-callsign').textContent = operatorData.callsign;
+          document.getElementById('sum-name').textContent = operatorData.fullName;
+          document.getElementById('sum-role').textContent = operatorData.roleIcon + ' ' + operatorData.role.charAt(0).toUpperCase() + operatorData.role.slice(1).toLowerCase();
+          document.getElementById('sum-function').textContent = operatorData.function;
+          document.getElementById('sum-level').textContent = operatorData.accessLevel;
+          document.getElementById('sum-id').textContent = operatorData.id;
+        }
+      }
+
+      // === 2. SATELLITE ANIMATION ===
+      const satellite = document.getElementById('satellite');
+      let x = Math.random() * (window.innerWidth - 60);
+      let y = Math.random() * (window.innerHeight - 40);
+      let dx = window.innerWidth * 0.0008;
+      let dy = window.innerHeight * 0.0008;
+
+      function animateSatellite() {
+        const rect = satellite.getBoundingClientRect();
+        if (x + rect.width > window.innerWidth || x < 0) dx = -dx;
+        if (y + rect.height > window.innerHeight || y < 0) dy = -dy;
+        x += dx; y += dy;
+        satellite.style.transform = `translate(${x}px, ${y}px)`;
+        requestAnimationFrame(animateSatellite);
+      }
+      requestAnimationFrame(animateSatellite);
+
+      // === 3. STEP 1 VARIABLES ===
+      const fullNameInput = document.getElementById('full-name');
+      const callsignInput = document.getElementById('callsign');
+      const roleSelect = document.getElementById('role');
+      const functionInput = document.getElementById('function');
+      const submitBtn = document.getElementById('submit-btn');
+      const telemetryText = document.querySelector('.telemetry');
+      const errorBlock = document.getElementById('signup-error');
+
+      // === 4. STEP 1 HANDLERS ===
+      fullNameInput.addEventListener('input', (e) => {
+        // FIXED: Now allows spaces for "First Last" names
+        e.target.value = e.target.value.replace(/[^a-zA-Z\s]/g, '');
+        callsignInput.value = e.target.value.toUpperCase();
+        checkFormState();
+      });
+
+      roleSelect.addEventListener('change', (e) => {
+        const selectedRole = e.target.value;
+        if (selectedRole === 'COMMANDER') {
+          functionInput.value = 'Command & Strategy';
+          operatorData.accessLevel = '1';
+          operatorData.roleIcon = '🏅';
+        } else if (selectedRole === 'SPECIALIST') {
+          functionInput.value = 'Comms & Diagnostics';
+          operatorData.accessLevel = '2';
+          operatorData.roleIcon = '🛰️';
+        } else if (selectedRole === 'ENGINEER') {
+          functionInput.value = 'Systems Engineering';
+          operatorData.accessLevel = '3';
+          operatorData.roleIcon = '⚙️';
+        } else {
+          functionInput.value = '';
+          operatorData.accessLevel = '';
+          operatorData.roleIcon = '';
+        }
+        checkFormState();
+      });
+
+      function checkFormState() {
+        const isNameValid = fullNameInput.value.length >= 3 && fullNameInput.value.length <= 100;
+        const isRoleValid = roleSelect.value !== "";
+        const isFunctionValid = functionInput.value.length > 0;
+        submitBtn.disabled = !(isNameValid && isRoleValid && isFunctionValid);
+      }
+
+      checkFormState();
+
+      [fullNameInput, callsignInput, roleSelect, functionInput].forEach(el => {
+        el.addEventListener('click', () => {
+          if (isProcessing) return;
+          errorBlock.classList.remove('visible');
+          telemetryText.style.color = '#4da6ff';
+          telemetryText.innerHTML = '> SYSTEM READY. AWAITING OPERATOR REGISTRATION';
+        });
+      });
+
+      // === 5. STEP 1 SUBMIT ===
+      function handleSignupStep1(event) {
+        event.preventDefault();
+        isProcessing = true;
+        errorBlock.classList.remove('visible');
+
+        submitBtn.classList.add('processing');
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'VERIFYING IDENTITY...';
+        telemetryText.style.color = '#4da6ff';
+        telemetryText.innerHTML = '> TRANSMITTING OPERATOR DATA...';
+
+        setTimeout(() => {
+          const currentCallsign = callsignInput.value.trim().toUpperCase();
+          const currentRole = roleSelect.value;
+
+          if (['AURORA', 'ORION'].includes(currentCallsign)) {
+            errorBlock.textContent = `⚠️ Callsign '${currentCallsign}' is already in use. This identity is reserved.`;
+            errorBlock.classList.add('visible');
+            telemetryText.style.color = '#e74c3c';
+            telemetryText.innerHTML = `> SYSTEM LOCKED. CALLSIGN '${currentCallsign}' ALREADY EXISTS`;
+            resetSubmitBtn();
+            return;
+          }
+
+          const registeredUsersStr = localStorage.getItem('registeredUsers');
+          if (registeredUsersStr) {
+            try {
+              const registeredUsers = JSON.parse(registeredUsersStr);
+              if (registeredUsers[currentCallsign]) {
+                errorBlock.textContent = `⚠️ Operator '${currentCallsign}' is already registered in the system.`;
+                errorBlock.classList.add('visible');
+                telemetryText.style.color = '#e74c3c';
+                telemetryText.innerHTML = `> SYSTEM LOCKED. OPERATOR '${currentCallsign}' ALREADY EXISTS`;
+                resetSubmitBtn();
+                return;
+              }
+            } catch (e) { /* Ignore broken JSON */ }
+          }
+
+          if (currentCallsign !== 'NOVA') {
+            errorBlock.textContent = '⚠️ Registration suspended. System capacity reached. Only pending activation: NOVA.';
+            errorBlock.classList.add('visible');
+            telemetryText.style.color = '#e74c3c';
+            telemetryText.innerHTML = '> SYSTEM LOCKED. PLEASE ENTER CORRECT FULL NAME AND CALLSIGN';
+            resetSubmitBtn();
+            return;
+          }
+
+          if (currentRole !== 'ENGINEER') {
+            errorBlock.textContent = '⚠️ Registration suspended. Pre-allocated identity requires ENGINEER role.';
+            errorBlock.classList.add('visible');
+            telemetryText.style.color = '#e74c3c';
+            telemetryText.innerHTML = '> SYSTEM LOCKED. ROLE MISMATCH DETECTED';
+            resetSubmitBtn();
+            return;
+          }
+
+          // Success: Save and go to Step 2
+          operatorData.fullName = fullNameInput.value;
+          operatorData.callsign = callsignInput.value;
+          operatorData.role = roleSelect.value;
+          operatorData.function = functionInput.value;
+
+          document.getElementById('step-1').classList.add('hidden');
+          document.getElementById('step-2').classList.remove('hidden');
+          const subtitle = document.getElementById('page-subtitle');
+          if (subtitle) subtitle.textContent = 'Phase 2: Security Setup';
+          sessionStorage.setItem('signupStep', '2');
+
+          telemetryText.style.color = '#4da6ff';
+          telemetryText.innerHTML = '> SYSTEM READY. AWAITING SECURITY REGISTRATION';
+          isProcessing = false;
+        }, 2000);
+      }
+
+      function resetSubmitBtn() {
+        submitBtn.classList.remove('processing');
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'PROCEED';
+        isProcessing = false;
+      }
+
+      // === 6. STEP 2 VARIABLES ===
+      const accessCodeInput = document.getElementById('access-code');
+      const confirmAccessCodeInput = document.getElementById('confirm-access-code');
+      const recoveryCipherInput = document.getElementById('recovery-cipher');
+      const completeBtn = document.getElementById('complete-btn');
+      const securityErrorBlock = document.getElementById('security-error');
+
+      function togglePassword(inputId) {
+        const input = document.getElementById(inputId);
+        input.type = input.type === 'password' ? 'text' : 'password';
+      }
+
+      document.querySelectorAll('.toggle-password').forEach(btn => {
+        btn.addEventListener('click', function () {
+          togglePassword(this.getAttribute('data-target'));
+        });
+      });
+
+      function filterAccessCode(e) {
+        e.target.value = e.target.value.replace(/[^a-zA-Z0-9_]/g, '');
+        checkSecurityFormState();
+      }
+
+      function filterRecoveryCipher(e) {
+        e.target.value = e.target.value.replace(/[^a-zA-Z]/g, '');
+        checkSecurityFormState();
+      }
+
+      accessCodeInput.addEventListener('input', filterAccessCode);
+      confirmAccessCodeInput.addEventListener('input', filterAccessCode);
+      recoveryCipherInput.addEventListener('input', filterRecoveryCipher);
+
+      [accessCodeInput, confirmAccessCodeInput, recoveryCipherInput].forEach(el => {
+        el.addEventListener('focus', () => securityErrorBlock.classList.remove('visible'));
+      });
+
+      function checkSecurityFormState() {
+        const accessCode = accessCodeInput.value;
+        const confirmCode = confirmAccessCodeInput.value;
+        const recoveryCipher = recoveryCipherInput.value;
+
+        const isAccessCodeValid = accessCode.length >= 4 && accessCode.length <= 30;
+        const isConfirmValid = confirmCode.length >= 4 && confirmCode.length <= 30;
+        const isRecoveryValid = recoveryCipher.length >= 4 && recoveryCipher.length <= 30;
+
+        completeBtn.disabled = !(isAccessCodeValid && isConfirmValid && isRecoveryValid);
+      }
+
+      function goBackToStep1() {
+        // FIXED: Do NOT remove operatorData, just clear Step 2 inputs
+        document.getElementById('step-2').classList.add('hidden');
+        document.getElementById('step-1').classList.remove('hidden');
+
+        const subtitle = document.getElementById('page-subtitle');
+        if (subtitle) subtitle.textContent = 'Phase 1: Operator Identity';
+        sessionStorage.setItem('signupStep', '1');
+
+        accessCodeInput.value = '';
+        confirmAccessCodeInput.value = '';
+        recoveryCipherInput.value = '';
+        accessCodeInput.type = 'password';
+        confirmAccessCodeInput.type = 'password';
+
+        securityErrorBlock.classList.remove('visible');
+        securityErrorBlock.textContent = '⚠️ Security protocol failed';
+
+        resetSubmitBtn();
+        checkFormState();
+        checkSecurityFormState(); 
+        
+        telemetryText.style.color = '#4da6ff';
+        telemetryText.innerHTML = '> SYSTEM READY. AWAITING OPERATOR REGISTRATION';
+      }
+
+      document.getElementById('back-btn').addEventListener('click', goBackToStep1);
+
+      // === 7. STEP 2 SUBMIT ===
+      function handleSignupStep2(event) {
+        event.preventDefault();
+
+        const accessCode = accessCodeInput.value;
+        const confirmCode = confirmAccessCodeInput.value;
+        const recoveryCipher = recoveryCipherInput.value;
+
+        if (accessCode !== confirmCode) {
+          securityErrorBlock.textContent = '⚠️ Access codes do not match. Please verify and try again.';
+          securityErrorBlock.classList.add('visible');
+          telemetryText.style.color = '#e74c3c';
+          telemetryText.innerHTML = '> SECURITY PROTOCOL FAILED. CODES MISMATCH DETECTED';
+          return;
+        }
+
+        if (accessCode !== 'QUASAR_5') {
+          securityErrorBlock.textContent = '⚠️ Access Code invalid. Pre-configured credentials required.';
+          securityErrorBlock.classList.add('visible');
+          telemetryText.style.color = '#e74c3c';
+          telemetryText.innerHTML = '> SECURITY PROTOCOL FAILED. INVALID ACCESS CODE';
+          return;
+        }
+
+        if (recoveryCipher !== 'COMETA') {
+          securityErrorBlock.textContent = '⚠️ Recovery Cipher invalid. Pre-configured credentials required.';
+          securityErrorBlock.classList.add('visible');
+          telemetryText.style.color = '#e74c3c';
+          telemetryText.innerHTML = '> SECURITY PROTOCOL FAILED. INVALID RECOVERY CIPHER';
+          return;
+        }
+
+        operatorData.accessCode = accessCode;
+        operatorData.recoveryCipher = recoveryCipher;
+
+        sessionStorage.setItem('operatorData', JSON.stringify(operatorData));
+        sessionStorage.setItem('signupStep', '3');
+        
+        document.getElementById('step-2').classList.add('hidden');
+        document.getElementById('step-3').classList.remove('hidden');
+
+        const mainLogo = document.querySelector('.login-card > .login-logo');
+        if (mainLogo) mainLogo.classList.add('hidden');
+
+        const subtitle = document.getElementById('page-subtitle');
+        if (subtitle) {
+          subtitle.textContent = 'Welcome aboard, new Operator.';
+          subtitle.style.color = '#2ecc71';
+        }
+
+        document.getElementById('sum-callsign').textContent = operatorData.callsign;
+        document.getElementById('sum-name').textContent = operatorData.fullName;
+        document.getElementById('sum-role').textContent = operatorData.roleIcon + ' ' + operatorData.role.charAt(0).toUpperCase() + operatorData.role.slice(1).toLowerCase();
+        document.getElementById('sum-function').textContent = operatorData.function;
+        document.getElementById('sum-level').textContent = operatorData.accessLevel;
+        document.getElementById('sum-id').textContent = operatorData.id;
+
+        telemetryText.style.color = '#2ecc71';
+        telemetryText.innerHTML = '> REGISTRATION COMPLETE. OPERATOR ACCOUNT ACTIVATED.';
+      }
+
+      // === 8. LAUNCH SEQUENCE ===
+      document.getElementById('launch-btn').addEventListener('click', function () {
+        let registeredUsers = {};
+        const registeredUsersStr = localStorage.getItem('registeredUsers');
+
+        if (registeredUsersStr) {
+          try {
+            registeredUsers = JSON.parse(registeredUsersStr);
+          } catch (e) {
+            registeredUsers = {};
+          }
+        }
+
+        registeredUsers[operatorData.callsign] = operatorData;
+        localStorage.setItem('registeredUsers', JSON.stringify(registeredUsers));
+
+        sessionStorage.setItem('currentUser', JSON.stringify(operatorData));
+        sessionStorage.setItem('freshLogin', 'true');
+
+        sessionStorage.removeItem('operatorData');
+        sessionStorage.removeItem('signupStep');
+
+        window.location.href = 'dashboard.html';
+      });
+
+      // === 9. EVENT BINDINGS ===
+      document.getElementById('step-1').addEventListener('submit', handleSignupStep1);
+      document.getElementById('step-2').addEventListener('submit', handleSignupStep2);
+    });
+  </script>
 </body>
 </html>
