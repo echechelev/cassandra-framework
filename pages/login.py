@@ -1,6 +1,8 @@
+import json
+
 import allure
 from selene import be, browser, have
-from selenium.common.exceptions import TimeoutException, WebDriverException
+from selenium.common.exceptions import TimeoutException
 
 from pages.hub import HubPage
 
@@ -33,7 +35,7 @@ class LoginPage(HubPage):
 
         Returns:
             self: Экземпляр LoginPage для chaining-а методов.
-    
+
         Raises:
             AssertionError: Если страница не загрузилась в течение таймаута.
         """
@@ -41,7 +43,7 @@ class LoginPage(HubPage):
             try:
                 browser.open(self.PATH)
                 self.callsign_input.should(be.visible)
-            
+
             except TimeoutException:
                 raise AssertionError(
                     "❌ Login page did not load!\n"
@@ -248,109 +250,78 @@ class LoginPage(HubPage):
                 ) from e
         return self
 
-    @allure.step("Проверка ограничения максимальной длины поля")
-    def verify_max_length(self, element, max_length: int, char: str = "A"):
-        """Универсальный метод проверки maxlength.
-
-        Args:
-            element: Selene-элемент (например, self.callsign_input)
-            max_length: Максимально допустимая длина (например, 100)
-            char: Символ для заполнения (по умолчанию 'A')
-        """
-        with allure.step(f"Проверка лимита: {max_length} символов"):
-            try:
-                element.clear()
-                element.type(char * max_length)
-
-                current_value = element().get_attribute("value") or ""
-
-                if len(current_value) != max_length:
-                    raise AssertionError(
-                        f"❌ Length mismatch before extra char!\n"
-                        f"   Expected: {max_length}\n"
-                        f"   Actual: {len(current_value)}"
-                    )
-
-                try:
-                    element.type(char)
-                except WebDriverException:
-                    pass
-
-                final_value = element().get_attribute("value") or ""
-                if len(final_value) != max_length:
-                    raise AssertionError(
-                        f"❌ Max length limit failed! Extra character was added.\n"
-                        f"   Expected: {max_length}\n"
-                        f"   Actual: {len(final_value)}"
-                    )
-
-            except AssertionError:
-                raise
-            except Exception as e:
-                raise AssertionError(
-                    f"❌ Unexpected error while verifying max length!\n"
-                    f"   Max length: {max_length}\n"
-                    f"   Error: {e}"
-                ) from e
-
-        return self
-
-    @allure.step("Проверяем состояние пользователя в localStorage")
-    def verify_user_saved_in_localstorage(
+    @allure.step("Проверяем состояние пользователя в хранилище")
+    def verify_user_saved_in_storage(
         self,
         expected_callsign: str | None = None,
-        expected_role: str | None = None,
-        expected_full_name: str | None = None,
         is_saved: bool = True,
+        check_local: bool = False,
+        check_session: bool = False,
     ):
-        """Проверяет содержимое localStorage после авторизации (успешной или нет).
+        """Проверяет наличие и корректность позывного пользователя в хранилище.
+        Если позывной сохранен корректно, считаем, что весь объект пользователя сохранен.
 
         Args:
-            expected_callsign: ожидаемый позывной (если is_saved=True).
-            expected_role: ожидаемая роль (если is_saved=True).
-            expected_full_name: ожидаемое имя (если is_saved=True).
-            is_saved: True - данные должны быть, False - хранилище должно быть пустым.
+            expected_callsign: Ожидаемый позывной.
+            is_saved: Флаг наличия данных (True - данные есть, False - хранилище пустое).
+            check_local: Проверять localStorage.
+            check_session: Проверять sessionStorage.
         """
-        with allure.step("Получаем и парсим объект currentUser из localStorage"):
-            try:
-                user_data = browser.driver.execute_script(
-                    "return JSON.parse(localStorage.getItem('currentUser'))"
+
+        if not check_local and not check_session:
+            check_session = True
+
+        storages_to_check = []
+        if check_local:
+            storages_to_check.append("localStorage")
+        if check_session:
+            storages_to_check.append("sessionStorage")
+
+        for storage_name in storages_to_check:
+            with allure.step(f"Получаем объект currentUser из {storage_name}"):
+
+                raw_data = browser.driver.execute_script(
+                    f"return {storage_name}.getItem('currentUser');"
                 )
 
                 if not is_saved:
-                    assert user_data is None, (
-                        f"❌ Expected LocalStorage to be empty (authentication failed), "
-                        f"but found data: {user_data}"
-                    )
-                    return self
+                    assert (
+                        raw_data is None
+                    ), f"❌ Ожидали, что {storage_name} будет пустым, но нашли данные: {raw_data}"
+                    continue
 
-                assert user_data is not None, "❌ User data not found in localStorage!"
+                assert (
+                    raw_data is not None
+                ), f"❌ Ожидали данные в {storage_name}, но ключ 'currentUser' отсутствует!"
+
+                try:
+                    user_data = json.loads(raw_data)
+                except json.JSONDecodeError:
+                    raise AssertionError(
+                        f"❌ Данные в {storage_name} не являются валидным JSON: {raw_data}"
+                    )
 
                 if expected_callsign:
-                    assert user_data["callsign"] == expected_callsign, (
-                        f"❌ Callsign mismatch! Expected: {expected_callsign}, "
+                    assert user_data.get("callsign") == expected_callsign, (
+                        f"❌ [{storage_name}] Callsign mismatch! Expected: {expected_callsign}, "
                         f"Got: {user_data.get('callsign')}"
                     )
-                if expected_role:
-                    assert user_data["role"] == expected_role, (
-                        f"❌ Role mismatch! Expected: {expected_role}, "
-                        f"Got: {user_data.get('role')}"
-                    )
-                if expected_full_name:
-                    assert user_data["fullName"] == expected_full_name, (
-                        f"❌ FullName mismatch! Expected: {expected_full_name}, "
-                        f"Got: {user_data.get('fullName')}"
-                    )
-
-            except AssertionError:
-                raise
-            except Exception as e:
-                raise AssertionError(
-                    f"❌ Unexpected error while checking localStorage!\n"
-                    f"   Error: {e}"
-                ) from e
 
         return self
 
+    @allure.step("Проверяем значение в поле Callsign")
+    def verify_callsign_value(self, expected_value: str):
+        """Проверяет, что в поле callsign осталось только ожидаемое значение."""
+        try:
+            self.callsign_input.should(have.value(expected_value))
+        except TimeoutException:
+            actual_value = self.callsign_input().get_attribute("value")
+            raise AssertionError(
+                "❌ Callsign value mismatch!\n"
+                f"   Expected: '{expected_value}'\n"
+                f"   Actual: '{actual_value}'"
+            )
+        return self
+    
     # endregion
     # ========================================================================

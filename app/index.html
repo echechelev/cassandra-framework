@@ -107,7 +107,7 @@
       padding: 2vmin 0;
     }
 
-    .dashboard-logo {
+    .landing-logo {
       font-size: 10vmin;
       font-weight: 800;
       letter-spacing: 1.5vmin;
@@ -117,12 +117,12 @@
       z-index: 1;
     }
 
-    .dashboard-logo .white-part {
+    .landing-logo .white-part {
       color: #ffffff;
       position: relative;
     }
 
-    .dashboard-logo .blue-part {
+    .landing-logo .blue-part {
       color: #4da6ff;
       text-shadow: 0 0 4vmin rgba(77, 166, 255, 0.6);
       position: relative;
@@ -325,8 +325,9 @@
 
     <!-- ЛОГОТИП С ЛИНИЯМИ ЭКГ -->
     <div class="logo-wrapper">
-      <div class="dashboard-logo">
-        <span class="white-part" data-wm-id="logo-cassan">CASSAN</span><span class="blue-part" data-wm-id="logo-dra">DRA</span>
+      <div class="landing-logo">
+        <span class="white-part" data-wm-id="logo-cassan">CASSAN</span><span class="blue-part"
+          data-wm-id="logo-dra">DRA</span>
       </div>
 
       <!-- Синяя линия над CASSAN -->
@@ -396,6 +397,16 @@
   <footer class="landing-footer">
     <div class="copyright" data-wm-id="footer-copyright">Evknopia © 2026</div>
   </footer>
+
+  <!-- Проверка сессии при загрузке -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const currentUser = sessionStorage.getItem('currentUser');
+      if (currentUser) {
+        window.location.href = 'dashboard.html';
+      }
+    });
+  </script>
 
 </body>
 

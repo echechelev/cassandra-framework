@@ -1,10 +1,10 @@
 import allure
 import pytest
 
-from . import data
+from tests import data
 
 
-@allure.id("CAS-12")
+@allure.id("CAS-13")
 @allure.title("🚫 Превышение максимальной длины Callsign >100.")
 @allure.label("owner", "Evgeniy Chechelev")
 @allure.label("component", "login")
@@ -22,7 +22,7 @@ def test_callsign_exceeds_max_length(login_page):
     login_page.verify_max_length(element=login_page.callsign_input, max_length=100)
 
 
-@allure.id("CAS-13")
+@allure.id("CAS-14")
 @allure.title("🚫 Превышение максимальной длины Access Code >30.")
 @allure.label("owner", "Evgeniy Chechelev")
 @allure.label("feature", "login")
@@ -40,39 +40,43 @@ def test_access_code_exceeds_max_length(login_page):
     login_page.verify_max_length(element=login_page.access_code_input, max_length=30)
 
 
-@allure.id("CAS-14")
-@allure.title("🧪 Попытка ввести SQL-инъекции.")
+@allure.id("CAS-15")
+@allure.title("🛡️ Санитизация ввода — попытка ввести спецсимволы в поле Callsign.")
 @allure.label("owner", "Evgeniy Chechelev")
 @allure.label("feature", "login")
 @pytest.mark.regress
 @pytest.mark.login
 @pytest.mark.edge_cases
-def test_sql_injection_attempt(login_page):
+def test_input_sanitization_callsign(login_page):
     """
     Сценарий:
     1. В поле 'Callsign', ввести '' OR '1'='1'.
-    2. В поле 'Access Code', ввести валидный ключ доступа
-    3. Нажимаем на кнопку 'Establish Connection'
-    4. Проверяем: блок ошибки с текстом '⚠️ Invalid callsign or access code'.
-    5. Проверяем: текст 'Telemetry' меняется на красный: '> SYSTEM FAILURE. INVALID CREDENTIALS'
-    6. Проверяем: данные не сохранились в localStorage
+    2. Проверяем: фронтенд отсек спецсимволы — в поле осталось только 'OR11'.
+    3. В поле 'Access Code', ввести валидный ключ доступа.
+    4. Нажимаем на кнопку 'Establish Connection'.
+    5. Проверяем: блок ошибки с текстом '⚠️ Invalid callsign or access code'.
+    6. Проверяем: текст 'Telemetry' меняется на красный: '> SYSTEM FAILURE. INVALID CREDENTIALS'.
+    7. Проверяем: данные не сохранились в 'sessionStorage'.
     """
 
     # 🎬 ARRANGE
     login_page.enter_callsign(callsign=data.SQL_INJECTION_PAYLOAD)
-    login_page.enter_access_code(access_code=data.AURORA_ACCESS_CODE)
+
+    # ✅ ASSERT
+    login_page.verify_callsign_value(expected_value="OR11")
 
     # ⚡ ACT
+    login_page.enter_access_code(access_code=data.ACCESS_CODE_AURORA)
     login_page.click_establish_connect()
 
     # ✅ ASSERT
     login_page.verify_telemetry_color_not_cassandra(red=True)
     login_page.verify_telemetry_text(expected_text=data.ERROR_TEXT_TELEMETRY_RED)
     login_page.should_show_auth_error(expected_text=data.AUTH_ERROR_BLOCK_TEXT)
-    login_page.verify_user_saved_in_localstorage(is_saved=False)
+    login_page.verify_user_saved_in_storage(is_saved=False, check_session=True)
 
 
-@allure.id("CAS-15")
+@allure.id("CAS-16")
 @allure.title("👁️ Переключение видимости ключа доступа")
 @allure.label("owner", "Evgeniy Chechelev")
 @allure.label("feature", "login")
@@ -90,9 +94,9 @@ def test_toggle_access_code_visibility(login_page):
     """
 
     # 🎬 ARRANGE
-    login_page.enter_callsign(callsign=data.AURORA_CALLSIGN)
+    login_page.enter_callsign(callsign=data.CALLSIGN_AURORA)
 
-    # ⚡ ACT 
+    # ⚡ ACT
     login_page.click_toggle_password()
 
     # ✅ ASSERT
