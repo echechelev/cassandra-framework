@@ -16,11 +16,14 @@
 ### 3. Hover-эффект — кнопка Sign Up (увеличение и свечение)
 ![Hover Sing up](assets/03-hover-sing-up.png)
 
+### 4. Hover-эффект — кнопка Restore (увеличение и свечение)
+![Hover Restore](assets/04-hover-restore.png)
+
 ### 4. Детализация логотипа — линии ЭКГ поверх текста
-![Heartbeat line](assets/04-heartbeat-line.png)
+![Heartbeat line](assets/05-heartbeat-line.png)
 
 ### 5. Заголовок проекта
-![Project-title](assets/05-project-title.png)
+![Project-title](assets/06-project-title.png)
 
 ### 6. Слоган проекта
-![Project-slogan](assets/06-project-slogan.png)
+![Project-slogan](assets/07-project-slogan.png)

@@ -2,7 +2,7 @@ import allure
 import pytest
 
 
-@allure.id("CAS-07")
+@allure.id("CAS-08")
 @allure.title("🖱️ Валидация 'hover'-эффекта кнопки")
 @allure.label("owner", "Evgeniy Chechelev")
 @allure.label("feature", "index")
@@ -24,7 +24,7 @@ def test_validate_button_hover_effect(index_page):
     index_page.verify_log_in_hover_effects()
 
 
-@allure.id("CAS-08")
+@allure.id("CAS-09")
 @allure.title("💓 Проверка наличия и параметров анимации ЭКГ в DOM")
 @allure.label("owner", "Evgeniy Chechelev")
 @allure.label("feature", "index")

@@ -21,6 +21,7 @@ class IndexPage(HubPage):
     # Кнопки
     log_in_btn = browser.element('[data-wm-id="btn-login"]')
     sign_up_btn = browser.element('[data-wm-id="btn-signup"]')
+    restore_btn = browser.element('[data-wm-id="btn-restore"]') 
 
     # Футер
     footer_copyright = browser.element('[data-wm-id="footer-copyright"]')
@@ -100,6 +101,26 @@ class IndexPage(HubPage):
             except Exception as e:
                 raise AssertionError(
                     f"❌ Unexpected error while clicking Sign up!\n" f"   Error: {e}"
+                ) from e
+        return self
+
+    @allure.step("Нажатие кнопки Restore")
+    def click_restore(self):
+        """Нажимает кнопку перехода на страницу восстановления доступа."""
+        with allure.step("Кликаем по кнопке Restore"):
+            try:
+                self.restore_btn.should(be.visible).should(be.enabled)
+                self.restore_btn.click()
+
+            except TimeoutException:
+                raise AssertionError(
+                    "❌ Restore button not found or not clickable!\n"
+                    "   Timeout: button did not appear in time"
+                )
+            except Exception as e:
+                raise AssertionError(
+                    f"❌ Unexpected error while clicking Restore!\n"
+                    f"   Error: {e}"
                 ) from e
         return self
 
