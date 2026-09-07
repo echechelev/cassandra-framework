@@ -8,13 +8,15 @@ from selenium.webdriver.chrome.options import Options
 from pages.dashboard import DashboardPage
 from pages.index import IndexPage
 from pages.login import LoginPage
+from pages.signup import SignupPage
+from tests import data
 
 # ========================================================================
 # region 1️⃣ ⚙️ КОНФИГУРАЦИЯ И БРАУЗЕР
 # ========================================================================
 # 🌍 КОНФИГУРАЦИЯ ОКРУЖЕНИЯ (Environment)
 BASE_URL = os.getenv("CASSANDRA_URL", "file:///D:/Python/cassandra/app")
-SHOW_BROWSER = os.getenv("SHOW_BROWSER", "true").lower() == "true"
+SHOW_BROWSER = os.getenv("SHOW_BROWSER", "false").lower() == "true"
 
 # 🌐 URL АДРЕСА (URL Addresses)
 DASHBOARD_URL = "/dashboard.html"
@@ -77,14 +79,6 @@ def _do_login(callsign: str, access_code: str) -> DashboardPage:
 # ========================================================================
 # region 3️⃣ 👤 АВТОРИЗАЦИЯ И ПОЛЬЗОВАТЕЛИ (Happy Path)
 # ========================================================================
-@pytest.fixture
-def login_page():
-    """🔓 Открывает страницу логина и очищает LocalStorage после теста."""
-    page = LoginPage()
-    page.open()
-    yield page
-
-    browser.driver.execute_script("localStorage.clear()")
 
 
 @pytest.fixture(scope="function")
@@ -94,7 +88,6 @@ def dashboard_page_aurora():
     page.verify_current_url(expected_url_part=LOGIN_URL)
 
     yield page
-    browser.driver.execute_script("localStorage.clear()")
 
 
 @pytest.fixture(scope="function")
@@ -104,7 +97,6 @@ def dashboard_page_orion():
     page.verify_current_url(expected_url_part=LOGIN_URL)
 
     yield page
-    browser.driver.execute_script("localStorage.clear()")
 
 
 # ========================================================================
@@ -113,10 +105,49 @@ def dashboard_page_orion():
 @pytest.fixture(scope="function")
 def index_page():
     """Открывает страницу индекса без авторизации."""
-    index = IndexPage() 
+    index = IndexPage()
     index.open()
 
     yield index
+
+
+@pytest.fixture
+def login_page():
+    """🔓 Открывает страницу логина и очищает Storage после теста."""
+    page = LoginPage()
+    page.open()
+    yield page
+
+
+@pytest.fixture
+def signup_page():
+    """🔓 Открывает страницу регистрации и очищает Storage после теста."""
+    page = SignupPage()
+    page.open()
+    yield page
+
+
+@pytest.fixture
+def signup_page_step_2(signup_page):
+    """🔓 Открывает страницу регстрации и заполняет форму шага 1 ."""
+
+    signup_page.enter_full_name(name=data.NAME_NOVA)
+    signup_page.select_role(role_value=data.INFO_PANEL_ROLE_ENGINEER)
+    signup_page.click_proceed()
+
+    yield signup_page
+
+
+@pytest.fixture
+def nova_created(signup_page_step_2):
+    """Доходит до 3 формы и создает пользователя 'Нову'."""
+
+    signup_page_step_2.enter_access_code(code=data.ACCESS_CODE_NOVA)
+    signup_page_step_2.enter_confirm_access_code(confirm_code=data.ACCESS_CODE_NOVA)
+    signup_page_step_2.enter_recovery_cipher(cipher=data.RECOVERY_CIPHER_NOVA)
+    signup_page_step_2.click_complete_registration()
+
+    yield signup_page_step_2
 
 
 # ========================================================================
@@ -126,7 +157,8 @@ def index_page():
 def ensure_empty_storage():
     """Гарантирует пустой localStorage (открывает login.html для активации домена)."""
     browser.open("/login.html")
-    browser.driver.execute_script("localStorage.clear();")
+
+    browser.driver.execute_script("sessionStorage.clear()")
 
 
 @pytest.fixture(scope="function")
@@ -147,7 +179,7 @@ def dashboard_page_corrupted(login_page):
     2. Записываем битый JSON в currentUser.
     3. Открываем дашборд (JS попадёт в catch).
     """
-    login_page.set_corrupted_user_data()
+    login_page.set_corrupted_user_data(check_session=True)
 
     page = DashboardPage()
     page.open()
@@ -156,5 +188,10 @@ def dashboard_page_corrupted(login_page):
 
 @pytest.fixture
 def dashboard_page_selectors():
-    """Возвращает экземпляр DashboardPage без открытия страницы (только для доступа к селекторам)."""
+    """Возвращает экземпляр DashboardPage без открытия страницы."""
     return DashboardPage()
+
+@pytest.fixture
+def login_page_not_open():
+    """🔓 Возвращает экземпляр LoginPage без открытия страницы."""
+    return LoginPage()
