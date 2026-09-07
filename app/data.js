@@ -5,9 +5,10 @@ const MOCK_USERS = {
         role: 'Commander',
         fullName: 'Orion',
         roleIcon: '🏅',
-        function: 'Mission Command & Strategy',
+        function: 'Command & Strategy',
         accessLevel: '1',
         id: '001-1A'
+
     },
     AURORA: {
         callsign: 'AURORA',
@@ -18,5 +19,5 @@ const MOCK_USERS = {
         function: 'Comms & Diagnostics',
         accessLevel: '2',
         id: '884-2A'
-    }
+    },
 };
