@@ -1,7 +1,7 @@
 import allure
 import pytest
 
-from . import data
+from tests import data
 
 
 @allure.id("CAS-04")
@@ -22,7 +22,7 @@ def test_successful_navigation_to_login_page(index_page):
     index_page.click_log_in()
 
     # ✅ ASSERT
-    index_page.verify_current_url(expected_url_part=data.LOGIN)
+    index_page.verify_current_url(expected_url_part=data.LOGIN_URL)
 
 
 @allure.id("CAS-05")
@@ -43,4 +43,25 @@ def test_successful_navigation_to_signup_page(index_page):
     index_page.click_sign_up()
 
     # ✅ ASSERT
-    index_page.verify_current_url(expected_url_part=data.SIGNUP)
+    index_page.verify_current_url(expected_url_part=data.SIGNUP_URL)
+
+
+@allure.id("CAS-06")
+@allure.title("🔄 Автоматический редирект на дашборд при наличии активной сессии")
+@allure.label("owner", "Evgeniy Chechelev")
+@allure.label("feature", "index")
+@pytest.mark.regress
+@pytest.mark.index
+@pytest.mark.navigation
+def test_redirect_to_dashboard_with_active_session(dashboard_page_aurora):
+    """
+    Сценарий:
+    1. Принудительно перейти по URL главной страницы 'index.html'.
+    2. Проверяем: редирект сработал, url содержит 'dashboard.html'.
+    """
+
+    # ⚡ ACT
+    dashboard_page_aurora.open_url(path=data.INDEX_URL)
+
+    # ✅ ASSERT
+    dashboard_page_aurora.verify_current_url(expected_url_part=data.DASHBOARD_URL)

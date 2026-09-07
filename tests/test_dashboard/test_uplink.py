@@ -1,10 +1,10 @@
 import allure
 import pytest
 
-from . import data
+from tests import data
 
 
-@allure.id("CAS-05")
+@allure.id("CAS-06")
 @allure.title("📡 Полная последовательность активации 'Uplink'")
 @allure.label("owner", "Evgeniy Chechelev")
 @allure.label("feature", "dashboard")
@@ -26,7 +26,7 @@ def test_full_uplink_activation_sequence(dashboard_page_aurora):
     dashboard_page_aurora.click_uplink()
 
     # ⚡ ACT
-    dashboard_page_aurora.wait_for_uplink_complete(callsign=data.NAME_AURORA)
+    dashboard_page_aurora.wait_for_uplink_complete(callsign=data.CALLSIGN_AURORA)
 
     # ✅ ASSERT
     dashboard_page_aurora.verify_uplink_button_disabled()
@@ -37,7 +37,7 @@ def test_full_uplink_activation_sequence(dashboard_page_aurora):
     )
 
 
-@allure.id("CAS-06")
+@allure.id("CAS-07")
 @allure.title("🚫 Проверка неактивности кнопки `Logout` до полной активации")
 @allure.label("owner", "Evgeniy Chechelev")
 @allure.label("feature", "dashboard")
@@ -61,7 +61,7 @@ def test_logout_button_inactive_before_activation(dashboard_page_aurora):
     dashboard_page_aurora.verify_logout_button_inactive()
 
 
-@allure.id("CAS-07")
+@allure.id("CAS-08")
 @allure.title("🚫 Проверка неактивности кнопок 'Planet Bar' до полной активации")
 @allure.label("owner", "Evgeniy Chechelev")
 @allure.label("feature", "dashboard")
@@ -83,9 +83,10 @@ def test_planet_bar_buttons_inactive_before_activation(dashboard_page_aurora):
 
     # ✅ ASSERT
     dashboard_page_aurora.verify_planet_bar_buttons_inactive()
+    dashboard_page_aurora.verify_current_url(expected_url_part=data.DASHBOARD_URL)
 
 
-@allure.id("CAS-08")
+@allure.id("CAS-09")
 @allure.title("📊 Валидация анимации и значений прогресс-бара.")
 @allure.label("owner", "Evgeniy Chechelev")
 @allure.label("feature", "dashboard")
@@ -106,14 +107,11 @@ def test_progress_bar_animation_and_values(dashboard_page_aurora):
     # 🎬 ARRANGE
     dashboard_page_aurora.click_uplink()
 
-    # ⚡ ACT
-    dashboard_page_aurora.wait_for_uplink_complete(callsign=data.NAME_AURORA)
-
     # ✅ ASSERT
     dashboard_page_aurora.verify_progress_bar_animation()
 
 
-@allure.id("CAS-09")
+@allure.id("CAS-10")
 @allure.title("💤 Визуальное угасание кнопки 'Uplink' после 100% загрузки")
 @allure.label("owner", "Evgeniy Chechelev")
 @allure.label("feature", "dashboard")
@@ -132,13 +130,13 @@ def test_uplink_button_visual_fade_out_after_100_load(dashboard_page_aurora):
     dashboard_page_aurora.click_uplink()
 
     # ⚡ ACT
-    dashboard_page_aurora.wait_for_uplink_complete(callsign=data.NAME_AURORA)
+    dashboard_page_aurora.wait_for_uplink_complete(callsign=data.CALLSIGN_AURORA)
 
     # ✅ ASSERT
     dashboard_page_aurora.verify_uplink_button_disabled()
 
 
-@allure.id("CAS-10")
+@allure.id("CAS-11")
 @allure.title("🛡️ Защита от спама кликов по кнопке `Uplink`.")
 @allure.label("owner", "Evgeniy Chechelev")
 @allure.label("feature", "dashboard")
@@ -158,3 +156,5 @@ def test_uplink_spam_click_protection(dashboard_page_aurora):
     # ✅ ASSERT
     dashboard_page_aurora.verify_progress_bar_appeared_once()
     dashboard_page_aurora.verify_uplink_button_disabled()
+  
+

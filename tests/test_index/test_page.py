@@ -1,7 +1,7 @@
 import allure
 import pytest
 
-from . import data
+from tests import data
 
 
 @allure.id("CAS-01")
@@ -20,10 +20,10 @@ def test_validate_cassandra_logo(index_page):
     """
 
     # ✅ ASSERT
-    index_page.verify_check_text(
+    index_page.verify_text(
         element=index_page.logo_cassan, expected_text=data.LOGO_CASSAN
     )
-    index_page.verify_check_text(
+    index_page.verify_text(
         element=index_page.logo_dra, expected_text=data.LOGO_DRA
     )
 
@@ -44,10 +44,10 @@ def test_validate_title_and_slogan(index_page):
     """
 
     # ✅ ASSERT
-    index_page.verify_check_text(
+    index_page.verify_text(
         element=index_page.project_title, expected_text=data.PROJECT_TITLE
     )
-    index_page.verify_check_text(
+    index_page.verify_text(
         element=index_page.project_slogan, expected_text=data.PROJECT_SLOGAN
     )
 
@@ -66,7 +66,7 @@ def test_validate_footer_copyright(index_page):
     2. Проверяем: наличие футера и текста по 'data-wm-id'.
     """
     # ✅ ASSERT
-    index_page.verify_check_text(
+    index_page.verify_text(
         element=index_page.footer_copyright, expected_text=data.COPYRIGHT_TEXT
     )
    
