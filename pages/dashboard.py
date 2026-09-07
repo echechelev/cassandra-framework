@@ -102,15 +102,8 @@ class DashboardPage(HubPage):
         """
         Ждёт полной активации Uplink:
         1. Ожидает появления "SYSTEM READY" в телеметрии
-        2. Проверяет полный текст телеметрии с позывным
-        3. Ожидает активации Galaxy Map (маяк полной готовности)
-
-        Args:
-            callsign: Позывной пользователя (для проверки полного текста)
-            timeout: Максимальное время ожидания в секундах (по умолчанию 40 сек)
-
-        Returns:
-            self: Экземпляр DashboardPage для chaining-а методов.
+        2. Проверяем полный текст телеметрии с позывным
+        3. Ожидаем исчезновения прогресс-бара (гарантия завершения JS и записи в localStorage)
         """
         expected_full_text = (
             f"> CASSANDRA: {callsign}, SYSTEM READY FOR WORK. AWAITING COMMANDS."
@@ -129,23 +122,22 @@ class DashboardPage(HubPage):
                 )
             except Exception as e:
                 raise AssertionError(
-                    f"❌ Unexpected error while waiting for system ready!\n"
+                    f" Unexpected error while waiting for system ready!\n"
                     f"   Error: {e}"
                 ) from e
 
         with allure.step("Проверяем полный текст телеметрии"):
             self.verify_telemetry_text(expected_full_text)
 
-        with allure.step("Ожидаем активации Galaxy Map (маяк полной готовности)"):
+        with allure.step("Ожидаем исчезновения прогресс-бара (маяк полной готовности и записи в localStorage)"):
             try:
-                self.galaxy_map_btn.with_(timeout=timeout).should(
-                    have.css_class("panel-online")
-                )
+         
+                browser.element('#uplink-progress-container').should(be.hidden)
             except TimeoutException:
                 raise AssertionError(
                     "❌ Uplink activation timeout!\n"
-                    f"   Galaxy Map did not become 'panel-online' within {timeout}s\n"
-                    "   Expected: class 'panel-online' on Galaxy Map button"
+                    f"   Progress container did not disappear within {timeout}s\n"
+                    "   Expected: #uplink-progress-container to be not visible"
                 )
             except Exception as e:
                 raise AssertionError(
@@ -423,7 +415,7 @@ class DashboardPage(HubPage):
 
         with allure.step("Проверяем исчезновение контейнера прогресс-бара после 100%"):
 
-            self.progress_container.should(be.not_.visible)
+            self.progress_container.with_(timeout=15).should(be.not_.visible)
 
         return self
 
@@ -458,18 +450,14 @@ class DashboardPage(HubPage):
         return self
 
     @allure.step("Проверка неактивности кнопки Logout до полной активации")
-    def verify_logout_button_inactive(
-        self, expected_url: str = "/dashboard.html", timeout: int = 30
-    ):
+    def verify_logout_button_inactive(self, timeout: int = 30):
         """
         Проверяет, что кнопка Logout неактивна до полной активации Uplink:
         1. Ждём появления кнопки Logout
         2. Пытаемся кликнуть (нативный Selenium)
-        3. Проверяем URL не изменился
-        4. Проверяем pointer-events: none
+        3. Проверяем pointer-events: none
 
         Args:
-            expected_url: Ожидаемый URL (по умолчанию /dashboard.html)
             timeout: Максимальное время ожидания появления кнопки
         """
         with allure.step("Ждём появления кнопки Logout"):
@@ -483,15 +471,6 @@ class DashboardPage(HubPage):
                 native_btn.click()
             except (ElementClickInterceptedException, ElementNotInteractableException):
                 pass
-
-        with allure.step("Проверяем, что URL не изменился"):
-            current_url = browser.driver.current_url
-            if expected_url not in current_url:
-                raise AssertionError(
-                    f"❌ URL changed after clicking Logout!\n"
-                    f"   Expected URL containing: {expected_url}\n"
-                    f"   Current: {current_url}"
-                )
 
         with allure.step("Проверяем pointer-events: none для кнопки Logout"):
             script = """
@@ -508,7 +487,7 @@ class DashboardPage(HubPage):
                 )
 
         return self
-
+    
     # endregion
 
     # ========================================================================

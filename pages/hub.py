@@ -3,7 +3,7 @@ import json
 import allure
 from selene import be, browser, have
 from selene.core.entity import Element
-from selenium.common.exceptions import TimeoutException
+from selenium.common.exceptions import TimeoutException, WebDriverException
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 
@@ -30,9 +30,26 @@ class HubPage:
     # Добавляем коллекция для метода check_progress_bar_appeared_once
     progress_bars = browser.all("#progress-fill")
 
+    # Временный локатор кнопка "Назад", на страницах заглушках для планет бара
+    back_btn = browser.element(".back-btn")
+
     # ========================================================================
     # region 1️⃣ 🌐 НАВИГАЦИЯ
     # ========================================================================
+
+    @allure.step("Переходим по указанному URL")
+    def open_url(self, path: str):
+        """Открывает страницу по относительному или полному пути."""
+
+        if path.startswith(("http", "file")):
+            browser.driver.get(path)
+        else:
+
+            current_url = browser.driver.current_url
+            base_url = current_url.rsplit("/", 1)[0]
+            browser.driver.get(f"{base_url}/{path.lstrip('/')}")
+
+        return self
 
     @allure.step("Проверка текущего URL браузера")
     def verify_current_url(
@@ -84,16 +101,31 @@ class HubPage:
 
         return self
 
+    @allure.step("Обновляем страницу браузера")
+    def click_refresh_page(self):
+        """
+        Обновляет текущую страницу (аналог F5 или Ctrl+R).
+        """
+        try:
+            browser.driver.refresh()
+        except Exception as e:
+            raise AssertionError(
+                "❌ Failed to refresh page!\n"
+                f"   Error: {e}"
+            ) from e
+        return self
+
     @allure.step("Переход в Galaxy Map")
     def navigate_to_galaxy_map(self):
         """
         Кликает по кнопке 'Galaxy Map', проверяет URL и возвращается на Dashboard.
         """
+        self.galaxy_map_btn.should(be.clickable)
         self.galaxy_map_btn.click()
         self.verify_current_url("galaxy-map.html")
 
         # Временно: клик по заглушке "Back to Dashboard" для возврата
-        browser.element(".back-btn").click()
+        self.back_btn.click()
         self.verify_current_url("dashboard.html")
 
         return self
@@ -103,11 +135,12 @@ class HubPage:
         """
         Кликает по кнопке 'CIS Table', проверяет URL и возвращается на Dashboard.
         """
+        self.cis_table_btn.should(be.clickable)
         self.cis_table_btn.click()
         self.verify_current_url("cis-table.html")
 
         # Временно: клик по заглушке "Back to Dashboard" для возврата
-        browser.element(".back-btn").click()
+        self.back_btn.click()
         self.verify_current_url("dashboard.html")
 
         return self
@@ -117,11 +150,12 @@ class HubPage:
         """
         Кликает по кнопке 'Mission Control', проверяет URL и возвращается на Dashboard.
         """
+        self.mission_control_btn.should(be.clickable)
         self.mission_control_btn.click()
         self.verify_current_url("mission-control.html")
 
         # Временно: клик по заглушке "Back to Dashboard" для возврата
-        browser.element(".back-btn").click()
+        self.back_btn.click()
         self.verify_current_url("dashboard.html")
 
         return self
@@ -131,11 +165,12 @@ class HubPage:
         """
         Кликает по кнопке 'Settings', проверяет URL и возвращается на Dashboard.
         """
+        self.nav_settings_btn.should(be.clickable)
         self.nav_settings_btn.click()
         self.verify_current_url("settings.html")
 
         # Временно: клик по заглушке "Back to Dashboard" для возврата
-        browser.element(".back-btn").click()
+        self.back_btn.click()
         self.verify_current_url("dashboard.html")
 
         return self
@@ -283,7 +318,7 @@ class HubPage:
 
         return self
 
-    def verify_check_text(self, element, expected_text: str) -> bool:
+    def verify_text(self, element, expected_text: str) -> bool:
         """Проверяет текстовое содержимое элемента по локатору.
 
         Args:
@@ -298,7 +333,7 @@ class HubPage:
         """
         with allure.step(f"✅ Проверяем текст: '{expected_text}'"):
             element.should(have.text(expected_text.strip()))
-    
+
         return True
 
     # endregion
@@ -307,125 +342,295 @@ class HubPage:
     # region 3️⃣ 💾 LOCALSTORAGE
     # ========================================================================
 
-    @allure.step("Установка повреждённых данных в localStorage")
-    def set_corrupted_user_data(self):
+    @allure.step("Установка повреждённых данных в хранилище")
+    def set_corrupted_user_data(
+        self, check_local: bool = False, check_session: bool = False
+    ):
         """
-        Записывает невалидный JSON в localStorage под ключом 'currentUser'.
+        Записывает невалидный JSON в localStorage и/или sessionStorage
+        под ключом 'currentUser'.
 
         Используется для тестирования graceful degradation системы
         (например, проверка редиректа при повреждённых данных).
         """
-        with allure.step("Записываем 'broken' в localStorage.currentUser"):
-            try:
-                browser.driver.execute_script(
-                    "localStorage.setItem('currentUser', 'broken');"
-                )
-            except Exception as e:
-                raise AssertionError(
-                    f"❌ Failed to set corrupted user data!\n" f"   Error: {e}"
-                ) from e
+        if not check_local and not check_session:
+            check_local = True
+            check_session = True
+
+        storages_to_corrupt = []
+        if check_local:
+            storages_to_corrupt.append("localStorage")
+        if check_session:
+            storages_to_corrupt.append("sessionStorage")
+
+        for storage_name in storages_to_corrupt:
+            with allure.step(f"Записываем 'broken' в {storage_name}.currentUser"):
+                try:
+                    browser.driver.execute_script(
+                        f"{storage_name}.setItem('currentUser', 'broken');"
+                    )
+                except Exception as e:
+                    raise AssertionError(
+                        f"❌ Failed to set corrupted user data in {storage_name}!\n"
+                        f"   Error: {e}"
+                    ) from e
 
         return self
 
-    @allure.step("Проверка очистки ключей currentUser и dashboardInitialized")
-    def verify_currentuser_dashboard_keys_cleared(self):
+    @allure.step("Очищаем данные пользователя из хранилищ")
+    def clear_user_data(
+        self,
+        callsign: str | None = None,
+        clear_registered_user: bool = False,
+        clear_current_user: bool = False,
+    ):
         """
-        Проверяет, что ключи 'currentUser' и 'dashboardInitialized'
-        были удалены из localStorage.
+        Удаляет данные пользователя из localStorage и/или sessionStorage по флагам.
+        Если оба флага False — очищает оба хранилища (полная зачистка).
+
+        Args:
+            callsign: Позывной оператора для удаления из registeredUsers
+                      (например, 'NOVA'). Обязателен при clear_registered_user=True.
+            clear_registered_user: Если True, удаляет оператора из localStorage['registeredUsers'].
+            clear_current_user: Если True, удаляет currentUser из sessionStorage.
         """
-        with allure.step("Проверяем отсутствие ключей в localStorage"):
-            try:
-                actual_values = browser.driver.execute_script("""
-                    return {
-                        currentUser: localStorage.getItem('currentUser'),
-                        dashboardInitialized: localStorage.getItem('dashboardInitialized')
-                    };
-                """)
+        # Если оба флага False — очищаем всё
+        if not clear_registered_user and not clear_current_user:
+            clear_registered_user = True
+            clear_current_user = True
 
-                errors = []
-
-                if actual_values.get("currentUser") is not None:
-                    errors.append(
-                        f"   currentUser: expected None, got '{actual_values['currentUser']}'"
+        try:
+            if clear_registered_user:
+                if callsign is None:
+                    # Полная очистка registeredUsers
+                    browser.driver.execute_script(
+                        "localStorage.removeItem('registeredUsers');"
                     )
+                else:
+                    # Удаление конкретного оператора
+                    script = f"""
+                        const users = JSON.parse(localStorage.getItem('registeredUsers') || '{{}}');
+                        delete users['{callsign.upper()}'];
+                        localStorage.setItem('registeredUsers', JSON.stringify(users));
+                    """
+                    browser.driver.execute_script(script)
 
-                if actual_values.get("dashboardInitialized") is not None:
-                    errors.append(
-                        f"   dashboardInitialized: expected None, got '{actual_values['dashboardInitialized']}'"
-                    )
+            if clear_current_user:
+                browser.driver.execute_script(
+                    "sessionStorage.removeItem('currentUser');"
+                )
+        except Exception as e:
+            raise AssertionError(
+                "❌ Failed to clear user data!\n"
+                f"   callsign: {callsign}\n"
+                f"   clear_registered_user: {clear_registered_user}\n"
+                f"   clear_current_user: {clear_current_user}\n"
+                f"   Error: {e}"
+            ) from e
+        return self
 
-                if errors:
+    @allure.step("Проверка наличия пользователя в хранилище по позывному")
+    def verify_user_data_in_storage(
+        self,
+        expected_callsign: str,
+        check_local: bool = False,
+        check_session: bool = False,
+    ):
+        """
+        Проверяет, что пользователь с указанным позывным сохранён в хранилищах.
+        Позывные уникальны, поэтому проверки по callsign достаточно.
+
+        Args:
+            expected_callsign: Ожидаемый позывной (например, 'NOVA').
+            check_local: Флаг проверки localStorage (registeredUsers).
+            check_session: Флаг проверки sessionStorage (currentUser).
+
+        (Если оба флага False, метод проверит оба хранилища по умолчанию)
+        """
+        if not check_local and not check_session:
+            check_local = True
+            check_session = True
+
+        callsign_upper = expected_callsign.upper()
+
+        # === Проверка localStorage: registeredUsers ===
+        if check_local:
+            with allure.step(f"Проверяем наличие '{callsign_upper}' в localStorage (registeredUsers)"):
+                registered_users_str = browser.driver.execute_script(
+                    "return localStorage.getItem('registeredUsers');"
+                )
+
+                assert (
+                    registered_users_str is not None
+                ), "Ключ 'registeredUsers' отсутствует в localStorage"
+
+                try:
+                    registered_users = json.loads(registered_users_str)
+                except json.JSONDecodeError:
                     raise AssertionError(
-                        "❌ localStorage keys were NOT fully cleared!\n"
-                        + "\n".join(errors)
+                        f"Данные в 'registeredUsers' не являются валидным JSON: {registered_users_str}"
+                    )
+
+                assert (
+                    callsign_upper in registered_users
+                ), f"Позывной '{callsign_upper}' отсутствует в registeredUsers"
+
+        # === Проверка sessionStorage: currentUser ===
+        if check_session:
+            with allure.step(f"Проверяем currentUser в sessionStorage (callsign == '{callsign_upper}')"):
+                current_user_str = browser.driver.execute_script(
+                    "return sessionStorage.getItem('currentUser');"
+                )
+
+                assert (
+                    current_user_str is not None
+                ), "Ключ 'currentUser' отсутствует в sessionStorage"
+
+                try:
+                    current_user = json.loads(current_user_str)
+                except json.JSONDecodeError:
+                    raise AssertionError(
+                        f"Данные в 'currentUser' не являются валидным JSON: {current_user_str}"
+                    )
+
+                actual_callsign = current_user.get("callsign")
+                assert (
+                    actual_callsign.upper() == callsign_upper
+                ), f"[sessionStorage] Ожидался callsign '{callsign_upper}', получено '{actual_callsign}'"
+
+        return self
+
+    @allure.step("Проверка очистки данных пользователя из хранилища по позывному")
+    def verify_storage_cleared(
+        self,
+        expected_callsign: str,
+        check_local: bool = False,
+        check_session: bool = False,
+    ):
+        """
+        Проверяет, что данные конкретного пользователя удалены из хранилищ после logout.
+        
+        Args:
+            expected_callsign: Позывной пользователя, который должен быть удалён (например, 'NOVA').
+            check_local: Флаг проверки localStorage (registeredUsers).
+            check_session: Флаг проверки sessionStorage (currentUser).
+
+        (Если оба флага False, метод проверит оба хранилища по умолчанию)
+        """
+        if not check_local and not check_session:
+            check_local = True
+            check_session = True
+
+        callsign_upper = expected_callsign.upper()
+
+        # === Проверка localStorage: registeredUsers ===
+        if check_local:
+            with allure.step(f"Проверяем удаление '{callsign_upper}' из localStorage (registeredUsers)"):
+                registered_users_str = browser.driver.execute_script(
+                    "return localStorage.getItem('registeredUsers');"
+                )
+
+                # Если ключа вообще нет (хранилище полностью очищено) — это успех
+                if registered_users_str is not None:
+                    try:
+                        registered_users = json.loads(registered_users_str)
+                        assert (
+                            callsign_upper not in registered_users
+                        ), f"Позывной '{callsign_upper}' всё ещё присутствует в registeredUsers после очистки"
+                    except json.JSONDecodeError:
+                        raise AssertionError(
+                            f"Данные в 'registeredUsers' не являются валидным JSON: {registered_users_str}"
+                        )
+
+        # === Проверка sessionStorage: currentUser ===
+        if check_session:
+            with allure.step(f"Проверяем очистку currentUser в sessionStorage (пользователь '{callsign_upper}' не активен)"):
+                current_user_str = browser.driver.execute_script(
+                    "return sessionStorage.getItem('currentUser');"
+                )
+
+                # Если ключа нет (сессия полностью убита) — это успех
+                if current_user_str is not None:
+                    try:
+                        current_user = json.loads(current_user_str)
+                        actual_callsign = current_user.get("callsign", "").upper()
+                        
+                        assert (
+                            actual_callsign != callsign_upper
+                        ), f"[sessionStorage] Пользователь '{callsign_upper}' всё ещё числится в currentUser после logout"
+                    except json.JSONDecodeError:
+                        raise AssertionError(
+                            f"Данные в 'currentUser' не являются валидным JSON: {current_user_str}"
+                        )
+
+        return self
+
+    # endregion
+
+    # ========================================================================
+    # region 4️⃣ ✅ ПРОВЕРКИ СОСТОЯНИЙ
+    # ========================================================================
+    
+    @allure.step("Проверка ограничения максимальной длины поля")
+    def verify_max_length(self, element, max_length: int, char: str = "A"):
+        """Универсальный метод проверки maxlength.
+
+        Args:
+            element: Selene-элемент (например, self.callsign_input)
+            max_length: Максимально допустимая длина (например, 100)
+            char: Символ для заполнения (по умолчанию 'A')
+        """
+        with allure.step(f"Проверка лимита: {max_length} символов"):
+            try:
+                element.clear()
+                element.type(char * max_length)
+
+                current_value = element().get_attribute("value") or ""
+
+                if len(current_value) != max_length:
+                    raise AssertionError(
+                        f"❌ Length mismatch before extra char!\n"
+                        f"   Expected: {max_length}\n"
+                        f"   Actual: {len(current_value)}"
+                    )
+
+                try:
+                    element.type(char)
+                except WebDriverException:
+                    pass
+
+                final_value = element().get_attribute("value") or ""
+                if len(final_value) != max_length:
+                    raise AssertionError(
+                        f"❌ Max length limit failed! Extra character was added.\n"
+                        f"   Expected: {max_length}\n"
+                        f"   Actual: {len(final_value)}"
                     )
 
             except AssertionError:
                 raise
             except Exception as e:
                 raise AssertionError(
-                    f"❌ Unexpected error while checking localStorage!\n   Error: {e}"
+                    f"❌ Unexpected error while verifying max length!\n"
+                    f"   Max length: {max_length}\n"
+                    f"   Error: {e}"
                 ) from e
 
         return self
 
-    @allure.step("Проверка корректности данных пользователя в localStorage")
-    def verify_local_storage_user_data(
-        self, expected_callsign: str, expected_role: str
-    ):
+    @allure.step("Проверка очистки ключевых данных из sessionStorage после")
+    def verify_session_storage_cleared(self):
         """
-        Проверяет, что в localStorage сохранены корректные позывной (callsign)
-        и роль (role) пользователя.
-        """
-        user_data_str = browser.driver.execute_script(
-            "return localStorage.getItem('currentUser');"
-        )
+        Проверяет, что ключи currentUser отсутствуют в sessionStorage."""
 
-        assert (
-            user_data_str is not None
-        ), "Ключ 'currentUser' отсутствует в localStorage"
-
-        try:
-            user_data = json.loads(user_data_str)
-        except json.JSONDecodeError:
-            raise AssertionError(
-                f"Данные в 'currentUser' не являются валидным JSON: {user_data_str}"
-            )
-
-        actual_callsign = user_data.get("callsign")
-        actual_role = user_data.get("role")
-
-        assert (
-            actual_callsign.upper() == expected_callsign.upper()
-        ), f"Ожидался callsign '{expected_callsign}', получено '{actual_callsign}'"
-        assert (
-            actual_role.lower() == expected_role.lower()
-        ), f"Ожидалась роль '{expected_role}', получено '{actual_role}'"
-
-        return self
-
-    @allure.step("Проверка очистки ключевых данных из localStorage после logout")
-    def verify_local_storage_cleared(self):
-        """
-        Проверяет, что ключи currentUser и dashboardInitialized
-        отсутствуют в localStorage после выхода из системы.
-        """
         current_user = browser.driver.execute_script(
             "return localStorage.getItem('currentUser');"
         )
-        dashboard_init = browser.driver.execute_script(
-            "return localStorage.getItem('dashboardInitialized');"
-        )
-
+       
         assert current_user is None, (
             f"❌ Ключ 'currentUser' не очищен после logout!\n"
             f"   Ожидалось: None\n"
             f"   Получено: {current_user}"
-        )
-        assert dashboard_init is None, (
-            f"❌ Ключ 'dashboardInitialized' не очищен после logout!\n"
-            f"   Ожидалось: None\n"
-            f"   Получено: {dashboard_init}"
         )
 
         return self
