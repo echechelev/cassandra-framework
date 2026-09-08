@@ -18,11 +18,6 @@ class IndexPage(HubPage):
     project_title = browser.element('[data-wm-id="project-title"]')
     project_slogan = browser.element('[data-wm-id="project-slogan"]')
 
-    # Кнопки
-    log_in_btn = browser.element('[data-wm-id="btn-login"]')
-    sign_up_btn = browser.element('[data-wm-id="btn-signup"]')
-    restore_btn = browser.element('[data-wm-id="btn-restore"]') 
-
     # Футер
     footer_copyright = browser.element('[data-wm-id="footer-copyright"]')
 
@@ -65,64 +60,6 @@ class IndexPage(HubPage):
     # ========================================================================
     # region 2️⃣ 🖱️ ДЕЙСТВИЯ С КНОПКАМИ
     # ========================================================================
-
-    @allure.step("Нажатие кнопки Log in")
-    def click_log_in(self):
-        """Нажимает кнопку инициализации системы Log in."""
-        with allure.step("Кликаем по кнопке Log in"):
-            try:
-                self.log_in_btn.should(be.visible).should(be.enabled)
-                self.log_in_btn.click()
-
-            except TimeoutException:
-                raise AssertionError(
-                    "❌ Log in button not found or not clickable!\n"
-                    "   Timeout: button did not appear in time"
-                )
-            except Exception as e:
-                raise AssertionError(
-                    f"❌ Unexpected error while clicking Log in!\n" f"   Error: {e}"
-                ) from e
-        return self
-
-    @allure.step("Нажатие кнопки Sign up")
-    def click_sign_up(self):
-        """Нажимает кнопку инициализации системы Sign up."""
-        with allure.step("Кликаем по кнопке Sign up"):
-            try:
-                self.sign_up_btn.should(be.visible).should(be.enabled)
-                self.sign_up_btn.click()
-
-            except TimeoutException:
-                raise AssertionError(
-                    "❌ Sign up button not found or not clickable!\n"
-                    "   Timeout: button did not appear in time"
-                )
-            except Exception as e:
-                raise AssertionError(
-                    f"❌ Unexpected error while clicking Sign up!\n" f"   Error: {e}"
-                ) from e
-        return self
-
-    @allure.step("Нажатие кнопки Restore")
-    def click_restore(self):
-        """Нажимает кнопку перехода на страницу восстановления доступа."""
-        with allure.step("Кликаем по кнопке Restore"):
-            try:
-                self.restore_btn.should(be.visible).should(be.enabled)
-                self.restore_btn.click()
-
-            except TimeoutException:
-                raise AssertionError(
-                    "❌ Restore button not found or not clickable!\n"
-                    "   Timeout: button did not appear in time"
-                )
-            except Exception as e:
-                raise AssertionError(
-                    f"❌ Unexpected error while clicking Restore!\n"
-                    f"   Error: {e}"
-                ) from e
-        return self
 
     @allure.step("🖱️ Наведение на кнопку Log in")
     def hover_log_in(self):

@@ -194,13 +194,34 @@ def test_reactive_button_state(login_page):
 
 
 @allure.id("CAS-06")
-@allure.title("🔗 Переход на страницу восстановления доступа.")
+@allure.title("📡 Успешная навигация на страницу `Sign Up`.")
 @allure.label("owner", "Evgeniy Chechelev")
 @allure.label("feature", "login")
 @pytest.mark.regress
 @pytest.mark.login
 @pytest.mark.basic
-def test_navigation_to_access_restoration_page(login_page):
+def test_successful_navigatio_to_the_signup(login_page):
+    """
+    Сценарий:
+    1. Нажимаем на кнопку 'Sign Up'.
+    6. Проверяем: url страницы 'signup.html'.
+    """
+
+    # ⚡ ACT
+    login_page.click_sign_up()
+
+    # ✅ ASSERT
+    login_page.verify_current_url(expected_url_part=data.SIGNUP_URL)
+
+
+@allure.id("CAS-06")
+@allure.title("🔑 Успешная навигация на страницу `Access Restoration`.")
+@allure.label("owner", "Evgeniy Chechelev")
+@allure.label("feature", "login")
+@pytest.mark.regress
+@pytest.mark.login
+@pytest.mark.basic
+def test_successful_navigation_to_the_access_restoration(login_page):
     """
     Сценарий:
     1. Нажимаем на кнопку 'Access Restoration'.
@@ -208,7 +229,7 @@ def test_navigation_to_access_restoration_page(login_page):
     """
 
     # ⚡ ACT
-    login_page.click_access_restoration_btn()
+    login_page.click_restore()
 
     # ✅ ASSERT
     login_page.verify_current_url(expected_url_part=data.ACCESS_RESTORATION_URL)

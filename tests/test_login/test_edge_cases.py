@@ -4,7 +4,7 @@ import pytest
 from tests import data
 
 
-@allure.id("CAS-14")
+@allure.id("CAS-15")
 @allure.title("🚫 Превышение максимальной длины Callsign >100.")
 @allure.label("owner", "Evgeniy Chechelev")
 @allure.label("component", "login")
@@ -22,7 +22,7 @@ def test_callsign_exceeds_max_length(login_page):
     login_page.verify_max_length(element=login_page.callsign_input, max_length=100)
 
 
-@allure.id("CAS-15")
+@allure.id("CAS-16")
 @allure.title("🚫 Превышение максимальной длины Access Code >30.")
 @allure.label("owner", "Evgeniy Chechelev")
 @allure.label("feature", "login")
@@ -40,7 +40,7 @@ def test_access_code_exceeds_max_length(login_page):
     login_page.verify_max_length(element=login_page.access_code_input, max_length=30)
 
 
-@allure.id("CAS-16")
+@allure.id("CAS-17")
 @allure.title("🛡️ Санитизация ввода — попытка ввести спецсимволы в поле Callsign.")
 @allure.label("owner", "Evgeniy Chechelev")
 @allure.label("feature", "login")
@@ -76,7 +76,7 @@ def test_input_sanitization_callsign(login_page):
     login_page.verify_user_saved_in_storage(is_saved=False, check_session=True)
 
 
-@allure.id("CAS-17")
+@allure.id("CAS-18")
 @allure.title("👁️ Переключение видимости ключа доступа")
 @allure.label("owner", "Evgeniy Chechelev")
 @allure.label("feature", "login")

@@ -419,6 +419,8 @@
 | Логотип Шага 3 | `signup-activation-logo`|
 | Кнопка глазик для Access Code  | `signup-toggle-access-code`|
 | Кнопка глазик для Confirm Access Code  | `signup-toggle-confirm-code`|
+| Угловая кнопка регистрации (Log in)| `btn-login`|
+| Угловая кнопка восстановления (Restore)| `btn-restore`|
 
 ## 9. 🌐 URL и маршрутизация
 
