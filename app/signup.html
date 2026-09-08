@@ -265,9 +265,17 @@
     }
 
     @keyframes pulse-btn {
-      0% { box-shadow: 0 0 1.5vmin rgba(77, 166, 255, 0.3); }
-      50% { box-shadow: 0 0 4vmin rgba(77, 166, 255, 0.9); }
-      100% { box-shadow: 0 0 1.5vmin rgba(77, 166, 255, 0.3); }
+      0% {
+        box-shadow: 0 0 1.5vmin rgba(77, 166, 255, 0.3);
+      }
+
+      50% {
+        box-shadow: 0 0 4vmin rgba(77, 166, 255, 0.9);
+      }
+
+      100% {
+        box-shadow: 0 0 1.5vmin rgba(77, 166, 255, 0.3);
+      }
     }
 
     .operator-summary {
@@ -352,7 +360,9 @@
     }
 
     @keyframes blink {
-      50% { opacity: 0; }
+      50% {
+        opacity: 0;
+      }
     }
 
     #satellite {
@@ -374,13 +384,30 @@
       pointer-events: none;
     }
 
-    .radio-wave:nth-of-type(1) { animation-delay: 0s; }
-    .radio-wave:nth-of-type(2) { animation-delay: 0.6s; }
-    .radio-wave:nth-of-type(3) { animation-delay: 1.2s; }
+    .radio-wave:nth-of-type(1) {
+      animation-delay: 0s;
+    }
+
+    .radio-wave:nth-of-type(2) {
+      animation-delay: 0.6s;
+    }
+
+    .radio-wave:nth-of-type(3) {
+      animation-delay: 1.2s;
+    }
 
     @keyframes pulse-wave {
-      0% { transform: scale(0.5); opacity: 0.8; stroke-width: 3; }
-      100% { transform: scale(3.5); opacity: 0; stroke-width: 0.5; }
+      0% {
+        transform: scale(0.5);
+        opacity: 0.8;
+        stroke-width: 3;
+      }
+
+      100% {
+        transform: scale(3.5);
+        opacity: 0;
+        stroke-width: 0.5;
+      }
     }
 
     .login-wrapper {
@@ -392,6 +419,95 @@
       width: 100%;
       padding: 2vmin 0;
       box-sizing: border-box;
+    }
+
+    /* ============================================
+       УГЛОВЫЕ КНОПКИ НАВИГАЦИИ (Единый стиль)
+       ============================================ */
+    .corner-nav {
+      position: fixed;
+      bottom: 3vmin;
+      left: 0;
+      right: 0;
+      display: flex;
+      justify-content: space-between;
+      padding: 0 4vmin;
+      pointer-events: none;
+      /* Контейнер прозрачен для кликов */
+      z-index: 10;
+    }
+
+    .nav-circle-btn {
+      pointer-events: auto;
+      /* Сами кнопки кликабельны */
+      appearance: none;
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      outline: none;
+      width: 10vmin;
+      height: 10vmin;
+      border-radius: 50%;
+      border: 0.2vmin solid rgba(77, 166, 255, 0.6);
+      background: rgba(10, 15, 40, 0.7);
+      backdrop-filter: blur(1vmin);
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 0.35vmin;
+      position: relative;
+      transition: all 0.3s ease;
+      box-shadow:
+        0 0 0.5vmin rgba(77, 166, 255, 0.3),
+        inset 0 0 0.5vmin rgba(77, 166, 255, 0.2),
+        0 0 1.5vmin rgba(77, 166, 255, 0.4);
+      text-decoration: none;
+    }
+
+    .nav-circle-btn:hover {
+      transform: scale(1.15);
+      border-color: rgba(77, 166, 255, 1);
+      box-shadow:
+        0 0 1vmin rgba(77, 166, 255, 0.6),
+        inset 0 0 1vmin rgba(77, 166, 255, 0.4),
+        0 0 3vmin rgba(77, 166, 255, 0.8);
+    }
+
+    .nav-circle-btn:active {
+      transform: scale(0.95);
+      /* Эффект лёгкого проваливания */
+    }
+
+    .nav-icon {
+      font-size: 3vmin;
+      line-height: 1;
+      filter: drop-shadow(0 0 1vmin rgba(77, 166, 255, 0.5));
+      margin-top: -0.5vmin;
+    }
+
+    .nav-label {
+      font-size: 1.3vmin;
+      font-weight: 600;
+      color: #e8ecff;
+      text-transform: uppercase;
+      letter-spacing: 0.05vmin;
+      text-align: center;
+      line-height: 1.2;
+      text-shadow: 0 0 1vmin rgba(0, 0, 0, 0.8);
+    }
+
+    /* Состояние блокировки угловой навигации (для 3-го шага) */
+    .corner-nav.locked {
+      pointer-events: none;
+      opacity: 0.3;
+      filter: grayscale(100%);
+      transition: opacity 0.3s ease, filter 0.3s ease;
+    }
+
+    /* ВАЖНО: Отключаем pointer-events у кнопок внутри заблокированного контейнера */
+    .corner-nav.locked .nav-circle-btn {
+      pointer-events: none !important;
     }
   </style>
 </head>
@@ -481,9 +597,11 @@
           <div class="password-wrapper">
             <input type="password" id="access-code" class="input-field" placeholder="Enter access code" minlength="4"
               maxlength="30" autocomplete="new-password" data-wm-id="signup-access-code-input">
-            <button type="button" class="toggle-password" data-target="access-code" data-wm-id="signup-toggle-access-code">
+            <button type="button" class="toggle-password" data-target="access-code"
+              data-wm-id="signup-toggle-access-code">
               <svg viewBox="0 0 24 24">
-                <path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z" />
+                <path
+                  d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z" />
               </svg>
             </button>
           </div>
@@ -494,9 +612,11 @@
           <div class="password-wrapper">
             <input type="password" id="confirm-access-code" class="input-field" placeholder="Confirm access code"
               minlength="4" maxlength="30" autocomplete="new-password" data-wm-id="signup-confirm-code-input">
-            <button type="button" class="toggle-password" data-target="confirm-access-code" data-wm-id="signup-toggle-confirm-code">
+            <button type="button" class="toggle-password" data-target="confirm-access-code"
+              data-wm-id="signup-toggle-confirm-code">
               <svg viewBox="0 0 24 24">
-                <path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z" />
+                <path
+                  d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z" />
               </svg>
             </button>
           </div>
@@ -508,12 +628,12 @@
             maxlength="30" autocomplete="off" data-wm-id="signup-recovery-cipher-input">
         </div>
 
-        <button type="button" class="login-btn" id="back-btn" style="margin-bottom: 1.5vmin;" data-wm-id="signup-back-btn">
-          ← BACK TO OPERATOR DATA
-        </button>
-
         <button type="submit" class="login-btn" id="complete-btn" disabled data-wm-id="signup-complete-btn">
           COMPLETE REGISTRATION
+        </button>
+
+        <button type="button" class="login-btn" id="back-btn" style="margin-top: 1.5vmin;" data-wm-id="signup-back-btn">
+          ← BACK TO OPERATOR DATA
         </button>
       </form>
 
@@ -560,6 +680,18 @@
       <div class="telemetry" data-wm-id="system-telemetry">> SYSTEM READY. AWAITING OPERATOR REGISTRATION</div>
       <div class="copyright">Evknopia © 2026</div>
     </footer>
+
+    <!-- УГЛОВЫЕ КНОПКИ НАВИГАЦИИ -->
+    <div class="corner-nav">
+      <a href="login.html" class="nav-circle-btn" data-wm-id="btn-login">
+        <span class="nav-icon">🔭</span>
+        <span class="nav-label">Log In</span>
+      </a>
+      <a href="access-restoration.html" class="nav-circle-btn" data-wm-id="btn-restore">
+        <span class="nav-icon">🔑</span>
+        <span class="nav-label">Restore</span>
+      </a>
+    </div>
   </div>
 
   <script>
@@ -602,6 +734,9 @@
         document.getElementById('step-1').classList.add('hidden');
         document.getElementById('step-2').classList.add('hidden');
         document.getElementById('step-3').classList.remove('hidden');
+
+        const cornerNav = document.querySelector('.corner-nav');
+        if (cornerNav) cornerNav.classList.add('locked');
 
         const mainLogo = document.querySelector('.login-card > .login-logo');
         if (mainLogo) mainLogo.classList.add('hidden');
@@ -847,8 +982,8 @@
 
         resetSubmitBtn();
         checkFormState();
-        checkSecurityFormState(); 
-        
+        checkSecurityFormState();
+
         telemetryText.style.color = '#4da6ff';
         telemetryText.innerHTML = '> SYSTEM READY. AWAITING OPERATOR REGISTRATION';
       }
@@ -892,9 +1027,12 @@
 
         sessionStorage.setItem('operatorData', JSON.stringify(operatorData));
         sessionStorage.setItem('signupStep', '3');
-        
+
         document.getElementById('step-2').classList.add('hidden');
         document.getElementById('step-3').classList.remove('hidden');
+
+        const cornerNav = document.querySelector('.corner-nav');
+        if (cornerNav) cornerNav.classList.add('locked');
 
         const mainLogo = document.querySelector('.login-card > .login-logo');
         if (mainLogo) mainLogo.classList.add('hidden');
@@ -947,4 +1085,5 @@
     });
   </script>
 </body>
+
 </html>
