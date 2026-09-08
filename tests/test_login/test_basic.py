@@ -108,7 +108,7 @@ def test_successful_authorization_nova(
     """
 
     # 🎬 ARRANGE
-    nova_created.click_launch_dashbord()
+    nova_created.click_launch_dashboard()
     nova_created.clear_user_data(callsign=data.CALLSIGN_NOVA, clear_current_user=True)
     nova_created.click_refresh_page()
     nova_created.wait_for_url(expected_url_part=data.LOGIN_URL)
@@ -204,7 +204,7 @@ def test_successful_navigatio_to_the_signup(login_page):
     """
     Сценарий:
     1. Нажимаем на кнопку 'Sign Up'.
-    6. Проверяем: url страницы 'signup.html'.
+    2. Проверяем: url страницы 'signup.html'.
     """
 
     # ⚡ ACT
@@ -225,7 +225,7 @@ def test_successful_navigation_to_the_access_restoration(login_page):
     """
     Сценарий:
     1. Нажимаем на кнопку 'Access Restoration'.
-    6. Проверяем: url страницы 'access-restoration.html'.
+    2. Проверяем: url страницы 'access-restoration.html'.
     """
 
     # ⚡ ACT

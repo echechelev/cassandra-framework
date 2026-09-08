@@ -1,6 +1,9 @@
 import allure
 from selene import be, browser, have
-from selenium.common.exceptions import NoSuchElementException, TimeoutException
+from selenium.common.exceptions import (
+    NoSuchElementException,
+    TimeoutException,
+)
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import Select
 
@@ -31,7 +34,9 @@ class SignupPage(HubPage):
     complete_btn = browser.element('[data-wm-id="signup-complete-btn"]')
     launch_btn = browser.element('[data-wm-id="signup-launch-btn"]')
     toggle_access_code_btn = browser.element('[data-wm-id="signup-toggle-access-code"]')
-    toggle_confirm_code_btn = browser.element('[data-wm-id="signup-toggle-confirm-code"]')
+    toggle_confirm_code_btn = browser.element(
+        '[data-wm-id="signup-toggle-confirm-code"]'
+    )
 
     # Тексты и сообщения
     error_message = browser.element('[data-wm-id="signup-error-message"]')
@@ -164,7 +169,7 @@ class SignupPage(HubPage):
                 "   Timeout: recovery_cipher_input did not appear or was not interactable"
             )
         return self
-    
+
     @allure.step("Выбираем роль из выпадающего списка")
     def select_role(self, role_value: str):
         """
@@ -176,7 +181,9 @@ class SignupPage(HubPage):
         """
         try:
             # Находим элемент напрямую через драйвер (IDE это любит)
-            webelement = browser.driver.find_element(By.CSS_SELECTOR, '[data-wm-id="signup-role-select"]')
+            webelement = browser.driver.find_element(
+                By.CSS_SELECTOR, '[data-wm-id="signup-role-select"]'
+            )
             Select(webelement).select_by_value(role_value)
         except TimeoutException:
             raise AssertionError(
@@ -190,6 +197,7 @@ class SignupPage(HubPage):
                 f"   Element: [data-wm-id='signup-role-select']"
             )
         return self
+
     # endregion
 
     # ========================================================================
@@ -249,7 +257,7 @@ class SignupPage(HubPage):
     ):
         """
         Переключает видимость полей Access Code и/или Confirm Access Code.
-        
+
         Args:
             access_code: Если True, кликает по кнопке переключения видимости Access Code.
             confirm_code: Если True, кликает по кнопке переключения видимости Confirm Access Code.
@@ -335,8 +343,10 @@ class SignupPage(HubPage):
                 element.should(be.enabled)
         except TimeoutException:
             expected_state = "DISABLED" if is_disabled else "ENABLED"
-            actual_state = "DISABLED" if element.get_attribute("disabled") else "ENABLED"
-            
+            actual_state = (
+                "DISABLED" if element.get_attribute("disabled") else "ENABLED"
+            )
+
             raise AssertionError(
                 f"❌ Button state mismatch!\n"
                 f"   Expected state: {expected_state}\n"
@@ -387,7 +397,7 @@ class SignupPage(HubPage):
         """
         try:
             self.full_name_input.should(have.value(expected_full_name))
-            
+
             if expected_callsign is not None:
                 self.callsign_input.should(have.value(expected_callsign))
             if expected_role is not None:
@@ -411,9 +421,9 @@ class SignupPage(HubPage):
         Проверяет, что все поля Шага 2 пустые, а кнопка Complete Registration заблокирована.
         """
         try:
-            self.access_code_input.should(have.value(''))
-            self.confirm_access_code_input.should(have.value(''))
-            self.recovery_cipher_input.should(have.value(''))
+            self.access_code_input.should(have.value(""))
+            self.confirm_access_code_input.should(have.value(""))
+            self.recovery_cipher_input.should(have.value(""))
             self.complete_btn.should(be.disabled)
         except TimeoutException:
             raise AssertionError(
@@ -441,9 +451,11 @@ class SignupPage(HubPage):
         """
         try:
             if access_code:
-                self.access_code_input.should(have.attribute('type', expected_type))
+                self.access_code_input.should(have.attribute("type", expected_type))
             if confirm_code:
-                self.confirm_access_code_input.should(have.attribute('type', expected_type))
+                self.confirm_access_code_input.should(
+                    have.attribute("type", expected_type)
+                )
         except TimeoutException:
             raise AssertionError(
                 "❌ Field type verification failed!\n"
@@ -525,6 +537,41 @@ class SignupPage(HubPage):
         """
         browser.driver.execute_script("localStorage.removeItem('registeredUsers')")
         return self
-    
+
+    @allure.step("Проверка блокировки угловой навигации на Шаге 3")
+    def check_corner_nav_locked(self):
+        """Проверяет, что угловая навигация заблокирована на Шаге 3."""
+        corner_nav = browser.element(".corner-nav")
+
+        # Проверка наличия класса locked
+        corner_nav.should(have.css_class("locked"))
+
+        # Проверка CSS-свойств
+        corner_nav.should(have.css_property("pointer-events", "none"))
+        corner_nav.should(have.css_property("opacity", "0.3"))
+
+        return self
+
+    @allure.step("Проверка, что кнопка {button_id} некликабельна на Шаге 3")
+    def check_button_not_clickable(self, button_id: str):
+        """Проверяет CSS-свойство pointer-events через нативный Selenium."""
+        from selenium.webdriver.common.by import By
+
+        # 1. Находим "сырой" элемент через чистый Selenium (без Selene-оберток)
+        raw_btn = browser.driver.find_element(
+            By.CSS_SELECTOR, f'[data-wm-id="{button_id}"]'
+        )
+
+        # 2. Нативно запрашиваем CSS-свойство pointer-events
+        pointer_events = raw_btn.value_of_css_property("pointer-events")
+
+        # 3. Проверяем, что оно равно 'none'
+        assert pointer_events == "none", (
+            f"❌ Button '{button_id}' должна быть заблокирована (pointer-events: none), "
+            f"но получено: '{pointer_events}'"
+        )
+
+        return self
+
     # endregion
     # ========================================================================
