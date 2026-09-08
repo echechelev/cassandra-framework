@@ -18,6 +18,11 @@ class HubPage:
     mission_control_btn = browser.element('[data-wm-id="mission-control-btn"]')
     nav_settings_btn = browser.element('[data-wm-id="nav-settings"]')
 
+    # Кнопки "Log in", "Sign up" "Restore"
+    log_in_btn = browser.element('[data-wm-id="btn-login"]')
+    sign_up_btn = browser.element('[data-wm-id="btn-signup"]')
+    restore_btn = browser.element('[data-wm-id="btn-restore"]')
+
     # Служебные элементы (для тестов анимации и состояний)
     system_telemetry = browser.element('[data-wm-id="system-telemetry"]')
     telemetry_message = browser.element(
@@ -109,10 +114,7 @@ class HubPage:
         try:
             browser.driver.refresh()
         except Exception as e:
-            raise AssertionError(
-                "❌ Failed to refresh page!\n"
-                f"   Error: {e}"
-            ) from e
+            raise AssertionError("❌ Failed to refresh page!\n" f"   Error: {e}") from e
         return self
 
     @allure.step("Переход в Galaxy Map")
@@ -178,7 +180,68 @@ class HubPage:
     # endregion
 
     # ========================================================================
-    # region 2️⃣ 💬 ТЕЛЕМЕТРИЯ И ТЕКСТЫ
+    # region 2️⃣ 🖱️ ДЕЙСТВИЯ С КНОПКАМИ
+    # ========================================================================
+
+    @allure.step("Нажатие кнопки Log in")
+    def click_log_in(self):
+        """Нажимает кнопку инициализации системы Log in."""
+        with allure.step("Кликаем по кнопке Log in"):
+            try:
+                self.log_in_btn.should(be.visible).should(be.enabled)
+                self.log_in_btn.click()
+
+            except TimeoutException:
+                raise AssertionError(
+                    "❌ Log in button not found or not clickable!\n"
+                    "   Timeout: button did not appear in time"
+                )
+            except Exception as e:
+                raise AssertionError(
+                    f"❌ Unexpected error while clicking Log in!\n" f"   Error: {e}"
+                ) from e
+        return self
+
+    @allure.step("Нажатие кнопки Sign up")
+    def click_sign_up(self):
+        """Нажимает кнопку инициализации системы Sign up."""
+        with allure.step("Кликаем по кнопке Sign up"):
+            try:
+                self.sign_up_btn.should(be.visible).should(be.enabled)
+                self.sign_up_btn.click()
+
+            except TimeoutException:
+                raise AssertionError(
+                    "❌ Sign up button not found or not clickable!\n"
+                    "   Timeout: button did not appear in time"
+                )
+            except Exception as e:
+                raise AssertionError(
+                    f"❌ Unexpected error while clicking Sign up!\n" f"   Error: {e}"
+                ) from e
+        return self
+
+    @allure.step("Нажатие кнопки Restore")
+    def click_restore(self):
+        """Нажимает кнопку перехода на страницу восстановления доступа."""
+        with allure.step("Кликаем по кнопке Restore"):
+            try:
+                self.restore_btn.should(be.visible).should(be.enabled)
+                self.restore_btn.click()
+
+            except TimeoutException:
+                raise AssertionError(
+                    "❌ Restore button not found or not clickable!\n"
+                    "   Timeout: button did not appear in time"
+                )
+            except Exception as e:
+                raise AssertionError(
+                    f"❌ Unexpected error while clicking Restore!\n" f"   Error: {e}"
+                ) from e
+        return self
+
+    # ========================================================================
+    # region 3️⃣ 💬 ТЕЛЕМЕТРИЯ И ТЕКСТЫ
     # ========================================================================
 
     @allure.step("Проверка текста телеметрии")
@@ -339,7 +402,7 @@ class HubPage:
     # endregion
 
     # ========================================================================
-    # region 3️⃣ 💾 LOCALSTORAGE
+    # region 4️⃣ 💾 LOCALSTORAGE
     # ========================================================================
 
     @allure.step("Установка повреждённых данных в хранилище")
@@ -455,7 +518,9 @@ class HubPage:
 
         # === Проверка localStorage: registeredUsers ===
         if check_local:
-            with allure.step(f"Проверяем наличие '{callsign_upper}' в localStorage (registeredUsers)"):
+            with allure.step(
+                f"Проверяем наличие '{callsign_upper}' в localStorage (registeredUsers)"
+            ):
                 registered_users_str = browser.driver.execute_script(
                     "return localStorage.getItem('registeredUsers');"
                 )
@@ -477,7 +542,9 @@ class HubPage:
 
         # === Проверка sessionStorage: currentUser ===
         if check_session:
-            with allure.step(f"Проверяем currentUser в sessionStorage (callsign == '{callsign_upper}')"):
+            with allure.step(
+                f"Проверяем currentUser в sessionStorage (callsign == '{callsign_upper}')"
+            ):
                 current_user_str = browser.driver.execute_script(
                     "return sessionStorage.getItem('currentUser');"
                 )
@@ -509,7 +576,7 @@ class HubPage:
     ):
         """
         Проверяет, что данные конкретного пользователя удалены из хранилищ после logout.
-        
+
         Args:
             expected_callsign: Позывной пользователя, который должен быть удалён (например, 'NOVA').
             check_local: Флаг проверки localStorage (registeredUsers).
@@ -525,7 +592,9 @@ class HubPage:
 
         # === Проверка localStorage: registeredUsers ===
         if check_local:
-            with allure.step(f"Проверяем удаление '{callsign_upper}' из localStorage (registeredUsers)"):
+            with allure.step(
+                f"Проверяем удаление '{callsign_upper}' из localStorage (registeredUsers)"
+            ):
                 registered_users_str = browser.driver.execute_script(
                     "return localStorage.getItem('registeredUsers');"
                 )
@@ -544,7 +613,9 @@ class HubPage:
 
         # === Проверка sessionStorage: currentUser ===
         if check_session:
-            with allure.step(f"Проверяем очистку currentUser в sessionStorage (пользователь '{callsign_upper}' не активен)"):
+            with allure.step(
+                f"Проверяем очистку currentUser в sessionStorage (пользователь '{callsign_upper}' не активен)"
+            ):
                 current_user_str = browser.driver.execute_script(
                     "return sessionStorage.getItem('currentUser');"
                 )
@@ -554,7 +625,7 @@ class HubPage:
                     try:
                         current_user = json.loads(current_user_str)
                         actual_callsign = current_user.get("callsign", "").upper()
-                        
+
                         assert (
                             actual_callsign != callsign_upper
                         ), f"[sessionStorage] Пользователь '{callsign_upper}' всё ещё числится в currentUser после logout"
@@ -568,9 +639,9 @@ class HubPage:
     # endregion
 
     # ========================================================================
-    # region 4️⃣ ✅ ПРОВЕРКИ СОСТОЯНИЙ
+    # region 5️⃣ ✅ ПРОВЕРКИ СОСТОЯНИЙ
     # ========================================================================
-    
+
     @allure.step("Проверка ограничения максимальной длины поля")
     def verify_max_length(self, element, max_length: int, char: str = "A"):
         """Универсальный метод проверки maxlength.
@@ -626,7 +697,7 @@ class HubPage:
         current_user = browser.driver.execute_script(
             "return localStorage.getItem('currentUser');"
         )
-       
+
         assert current_user is None, (
             f"❌ Ключ 'currentUser' не очищен после logout!\n"
             f"   Ожидалось: None\n"
