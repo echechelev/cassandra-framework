@@ -8,12 +8,13 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import Select
 
 from pages.hub import HubPage
+from tests import data
 
 
 class SignupPage(HubPage):
 
     # URL
-    PATH = "/signup.html"
+    PATH = data.SIGNUP_URL
 
     # Поля ввода
     full_name_input = browser.element('[data-wm-id="signup-full-name-input"]')
@@ -32,7 +33,6 @@ class SignupPage(HubPage):
     proceed_btn = browser.element('[data-wm-id="signup-proceed-btn"]')
     back_btn = browser.element('[data-wm-id="signup-back-btn"]')
     complete_btn = browser.element('[data-wm-id="signup-complete-btn"]')
-    launch_btn = browser.element('[data-wm-id="signup-launch-btn"]')
     toggle_access_code_btn = browser.element('[data-wm-id="signup-toggle-access-code"]')
     toggle_confirm_code_btn = browser.element(
         '[data-wm-id="signup-toggle-confirm-code"]'
@@ -59,22 +59,26 @@ class SignupPage(HubPage):
         """Открывает страницу регистрации и проверяет её загрузку.
 
         Returns:
-            self: Экземпляр SignipPage для chaining-а методов.
+            self: Экземпляр SignupPage для chaining-а методов.
 
         Raises:
             AssertionError: Если страница не загрузилась в течение таймаута.
         """
         with allure.step(f"Открываем страницу: {self.PATH}"):
+            browser.open(self.PATH)
+            
+        with allure.step("Проверяем URL и отрисовку элементов"):
             try:
-                browser.open(self.PATH)
+                self.wait_for_url(expected_url_part=data.SIGNUP_URL)
+                
                 self.full_name_input.should(be.visible)
 
             except TimeoutException:
                 raise AssertionError(
-                    "❌ signup page did not load!\n"
-                    f"   Expected URL: {self.PATH}\n"
+                    "❌ Signup page did not load!\n"
+                    f"   Expected URL part: {data.SIGNUP_URL}\n"
                     f"   Actual URL: {browser.driver.current_url}\n"
-                    "   Timeout: full_name_input did not appear in time"
+                    "   Timeout: page did not load or URL did not match"
                 )
             except Exception as e:
                 raise AssertionError(
@@ -82,6 +86,7 @@ class SignupPage(HubPage):
                     f"   Path: {self.PATH}\n"
                     f"   Error: {e}"
                 ) from e
+                
         return self
 
     # endregion
@@ -91,23 +96,36 @@ class SignupPage(HubPage):
     # ========================================================================
 
     @allure.step("Вводим текст в поле Full Name")
-    def enter_full_name(self, name: str):
+    def enter_full_name(self, name: str, clear_first: bool = False):
         """
-        Вводит текст в поле Full Name.
+        Вводит текст в поле Full Name. Если clear_first=True, сначала очищает поле.
         Использует .type() для корректного срабатывания JS-события input.
 
         Args:
             name: Строка с именем оператора (например, 'Nova').
+            clear_first: Если True, сначала очищает поле.
         """
-        try:
-            self.full_name_input.type(name)
-        except TimeoutException:
-            raise AssertionError(
-                "❌ Failed to enter Full Name!\n"
-                f"   Expected input: '{name}'\n"
-                f"   Element: {self.full_name_input}\n"
-                "   Timeout: full_name_input did not appear or was not interactable"
-            )
+        with allure.step(f"Вводим Full Name: '{name}' (очистка: {clear_first})"):
+            try:
+                self.full_name_input.should(be.visible)
+
+                if clear_first:
+                    self.full_name_input.clear()
+
+                self.full_name_input.type(name)
+
+            except TimeoutException:
+                raise AssertionError(
+                    "❌ Full Name field not found or not visible!\n"
+                    f"   Expected input: '{name}'\n"
+                    "   Timeout: element did not appear in time"
+                )
+            except Exception as e:
+                raise AssertionError(
+                    f" Unexpected error while entering Full Name!\n"
+                    f"   Expected input: '{name}'\n"
+                    f"   Error: {e}"
+                ) from e
         return self
 
     @allure.step("Вводим текст в поле Access Code")
@@ -219,19 +237,25 @@ class SignupPage(HubPage):
             )
         return self
 
-    @allure.step("Нажимаем на кнопку Complete Registration")
+    @allure.step("Нажатие на кнопку Complete Registration и ожидание ответа системы")
     def click_complete_registration(self):
         """
-        Нажимает на кнопку COMPLETE REGISTRATION для завершения регистрации.
+        Кликает по кнопке COMPLETE REGISTRATION и ждет, пока JS обработает запрос (2 секунды).
+        Ожидает смены статуса телеметрии (уход из состояния SYSTEM READY).
         """
-        try:
+        with allure.step("Кликаем на кнопку COMPLETE REGISTRATION"):
             self.complete_btn.click()
-        except TimeoutException:
-            raise AssertionError(
-                "❌ Failed to click Complete Registration button!\n"
-                f"   Element: {self.complete_btn}\n"
-                "   Timeout: complete_btn was not clickable or not visible"
-            )
+
+        with allure.step("Ожидание смены статуса телеметрии (уход из SYSTEM READY)"):
+            try:
+                self.system_telemetry.should(have.no.text("SYSTEM READY"))
+            except Exception as e:
+                raise AssertionError(
+                    "❌ System did not respond after registration attempt!\n"
+                    "   Telemetry is still showing 'SYSTEM READY'. "
+                    "Check if JS timeout or button click failed."
+                ) from e
+
         return self
 
     @allure.step("Нажимаем на кнопку Back")
@@ -276,106 +300,12 @@ class SignupPage(HubPage):
             )
         return self
 
-    @allure.step("Нажимаем на кнопку INITIATE LAUNCH SEQUENCE")
-    def click_launch_dashboard(self):
-        """
-        Нажимает на кнопку INITIATE LAUNCH SEQUENCE 🚀 для перехода на дашборд.
-        """
-        try:
-            self.launch_btn.click()
-        except TimeoutException:
-            raise AssertionError(
-                "❌ Failed to click Launch button!\n"
-                f"   Element: {self.launch_btn}\n"
-                "   Timeout: launch_btn was not clickable or not visible"
-            )
-        return self
 
     # endregion
 
     # ========================================================================
     # region 4️⃣ ✅ ПРОВЕРКИ СОСТОЯНИЙ
     # ========================================================================
-
-    @allure.step("Проверяем, что поле пустое и только для чтения (readonly)")
-    def verify_empty_readonly_field(self, element):
-        """
-        Проверяет, что поле ввода пустое и имеет атрибут readonly.
-
-        Args:
-            element: Элемент поля ввода (input) для проверки.
-        """
-        try:
-            element.should(have.value(""))
-        except TimeoutException:
-            raise AssertionError(
-                "❌ Field is not empty!\n"
-                f"   Expected value: ''\n"
-                f"   Actual value: '{element.get_attribute('value')}'\n"
-                "   Condition: Field must be empty and readonly"
-            )
-
-        try:
-            element.should(have.attribute("readonly"))
-        except TimeoutException:
-            raise AssertionError(
-                "❌ Field is not readonly!\n"
-                f"   Expected attribute: 'readonly'\n"
-                f"   Actual attributes: {element.get_attribute('attributes')}\n"
-                "   Condition: Field must be blocked for editing"
-            )
-
-        return self
-
-    @allure.step("Проверяем состояние кнопки")
-    def verify_button_state(self, element, is_disabled: bool = True):
-        """
-        Проверяет состояние кнопки (активна или неактивна).
-
-        Args:
-            element: Элемент кнопки (button) для проверки.А
-            is_disabled: Ожидаемое состояние. True - неактивна (disabled), False - активна (enabled).
-        """
-        try:
-            if is_disabled:
-                element.should(be.disabled)
-            else:
-                element.should(be.enabled)
-        except TimeoutException:
-            expected_state = "DISABLED" if is_disabled else "ENABLED"
-            actual_state = (
-                "DISABLED" if element.get_attribute("disabled") else "ENABLED"
-            )
-
-            raise AssertionError(
-                f"❌ Button state mismatch!\n"
-                f"   Expected state: {expected_state}\n"
-                f"   Actual state: {actual_state}\n"
-                f"   Element: {element}"
-            )
-
-        return self
-
-    @allure.step("Проверяем значение поля ввода (input)")
-    def verify_input_value(self, element, expected_value: str):
-        """
-        Проверяет, что поле ввода содержит ожидаемое значение.
-        Использует have.value() для корректной проверки тегов <input>.
-
-        Args:
-            element: Элемент поля ввода (input) для проверки.
-            expected_value: Ожидаемое значение поля.
-        """
-        try:
-            element.should(have.value(expected_value))
-        except TimeoutException:
-            raise AssertionError(
-                "❌ Input value mismatch!\n"
-                f"   Expected value: '{expected_value}'\n"
-                f"   Actual value: '{element.get_attribute('value')}'\n"
-                "   Condition: Input field must contain the exact value"
-            )
-        return self
 
     @allure.step("Проверяем поля формы Шага 1")
     def verify_step_1_fields(
@@ -557,15 +487,12 @@ class SignupPage(HubPage):
         """Проверяет CSS-свойство pointer-events через нативный Selenium."""
         from selenium.webdriver.common.by import By
 
-        # 1. Находим "сырой" элемент через чистый Selenium (без Selene-оберток)
         raw_btn = browser.driver.find_element(
             By.CSS_SELECTOR, f'[data-wm-id="{button_id}"]'
         )
 
-        # 2. Нативно запрашиваем CSS-свойство pointer-events
         pointer_events = raw_btn.value_of_css_property("pointer-events")
-
-        # 3. Проверяем, что оно равно 'none'
+        
         assert pointer_events == "none", (
             f"❌ Button '{button_id}' должна быть заблокирована (pointer-events: none), "
             f"но получено: '{pointer_events}'"

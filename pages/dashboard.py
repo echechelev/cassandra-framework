@@ -13,12 +13,13 @@ from selenium.common.exceptions import (
 from selenium.webdriver import ActionChains
 
 from pages.hub import HubPage
+from tests import data
 
 
 class DashboardPage(HubPage):
 
     # URL
-    PATH = "/dashboard.html"
+    PATH = data.DASHBOARD_URL
 
     # Информационные панели
     role_tooltip = browser.element('[data-wm-id="info-panel-role"] .info-tooltip')
@@ -32,20 +33,31 @@ class DashboardPage(HubPage):
     user_status = browser.element('[data-wm-id="status-dot"]')
 
     # Нижние кнопки
-    start_diagnostics_btn = browser.element('[data-wm-id="start-diagnostics-btn"]')
+    uplink_btn = browser.element('[data-wm-id="uplink-btn"]')
     logout_btn = browser.element('[data-wm-id="logout-btn"]')
 
     # ========================================================================
     # region 1️⃣ 🌐 НАВИГАЦИЯ
     # ========================================================================
 
-    @allure.step("🌐 Открытие страницы Dashboard")
+    @allure.step("🌐 Открытие страницы дашборда")
     def open(self):
-        """Открывает страницу Dashboard и проверяет её загрузку."""
+        """Открывает страницу регистрации и проверяет её загрузку.
+
+        Returns:
+            self: Экземпляр SignupPage для chaining-а методов.
+
+        Raises:
+            AssertionError: Если страница не загрузилась в течение таймаута.
+        """
         with allure.step(f"Открываем страницу: {self.PATH}"):
+            browser.open(self.PATH)
+
+        with allure.step("Проверяем URL и отрисовку элементов"):
             try:
-                browser.open(self.PATH)
-                self.start_diagnostics_btn.should(be.visible)
+                self.wait_for_url(expected_url_part=data.DASHBOARD_URL)       
+
+                self.uplink_btn.should(be.visible)
 
             except TimeoutException:
                 raise AssertionError(
@@ -83,8 +95,8 @@ class DashboardPage(HubPage):
         """Нажимает кнопку инициализации системы Uplink."""
         with allure.step("Кликаем по кнопке Uplink"):
             try:
-                self.start_diagnostics_btn.should(be.visible).should(be.enabled)
-                self.start_diagnostics_btn.click()
+                self.uplink_btn.should(be.visible).should(be.enabled)
+                self.uplink_btn.click()
 
             except TimeoutException:
                 raise AssertionError(
@@ -158,11 +170,11 @@ class DashboardPage(HubPage):
         """
         with allure.step("Проверяем состояние кнопки Uplink"):
             try:
-                self.start_diagnostics_btn.should(have.no.css_class("uplink-active"))
-                self.start_diagnostics_btn.should(have.css_class("uplink-inactive"))
+                self.uplink_btn.should(have.no.css_class("uplink-active"))
+                self.uplink_btn.should(have.css_class("uplink-inactive"))
 
                 script = """
-                    const btn = document.querySelector('[data-wm-id="start-diagnostics-btn"]');
+                    const btn = document.querySelector('[data-wm-id="uplink-btn"]');
                     const style = window.getComputedStyle(btn);
                     return {
                         pointerEvents: style.pointerEvents,
@@ -435,10 +447,10 @@ class DashboardPage(HubPage):
             self: Экземпляр страницы для цепочки вызовов.
         """
 
-        self.start_diagnostics_btn.should(be.visible)
+        self.uplink_btn.should(be.visible)
 
         native_btn = browser.driver.find_element(
-            "css selector", '[data-wm-id="start-diagnostics-btn"]'
+            "css selector", '[data-wm-id="uplink-btn"]'
         )
 
         for _ in range(times):
