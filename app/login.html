@@ -373,7 +373,6 @@
       justify-content: space-between;
       padding: 0 4vmin;
       pointer-events: none;
-      /* Контейнер прозрачен для кликов */
       z-index: 10;
     }
 
@@ -423,7 +422,8 @@
       font-size: 3vmin;
       line-height: 1;
       filter: drop-shadow(0 0 1vmin rgba(77, 166, 255, 0.5));
-      margin-top: -0.5vmin;
+      margin-top: -1.3vmin;
+      margin-bottom: 0.7vmin;
     }
 
     .nav-label {
@@ -474,7 +474,7 @@
         <span class="white-part">CASSAN</span><span class="blue-part">DRA</span>
       </div>
 
-      <div class="login-sub">Access to Colonization Assessment System</div>
+      <div class="login-sub" data-wm-id="login-page-subtitle">Access to Colonization Assessment System</div>
 
       <div class="auth-error" id="auth-error" data-wm-id="auth-error-message">
         ⚠️ Invalid callsign or access code
@@ -484,7 +484,7 @@
         <div class="input-group">
           <label class="input-label" for="callsign">Callsign</label>
           <input type="text" id="callsign" class="input-field" placeholder="Enter callsign" maxlength="100"
-            minlength="3" data-wm-id="login-callsign-input" autocomplete="off">
+            minlength="4" data-wm-id="login-callsign-input" autocomplete="off">
         </div>
 
         <div class="input-group">
@@ -609,19 +609,19 @@
 
     // === 4. ПРОВЕРКА СОСТОЯНИЯ ФОРМЫ ===
     function checkFormState() {
-      // Убрали clearErrors() отсюда, чтобы ошибка не мерцала при вводе
-      const isCallsignValid = callsignInput.value.trim().length >= 3;
+      const isCallsignValid = callsignInput.value.trim().length >= 4;
       const isAccessCodeValid = accessCodeInput.value.trim().length >= 4;
       submitBtn.disabled = !(isCallsignValid && isAccessCodeValid);
     }
 
+    // === 5. ОБРАБОТЧИК ВХОДА ===
     function handleLogin(event) {
       event.preventDefault();
 
       const callsign = callsignInput.value.trim().toUpperCase();
       const accessCode = accessCodeInput.value.trim();
 
-      if (callsign.length < 3 || accessCode.length < 4) return;
+      if (callsign.length < 4 || accessCode.length < 4) return;
 
       submitBtn.classList.add('processing');
       submitBtn.disabled = true;
@@ -630,45 +630,72 @@
       telemetryText.innerHTML = '> SYSTEM READY. AWAITING CONNECTION';
 
       setTimeout(() => {
-        // 1. Сначала ищем в динамической базе (зарегистрированные пользователи, например NOVA)
         let user = null;
+        let userSource = 'none'; // Отслеживаем, откуда мы взяли пользователя
+
+        // 1. ПЕРВЫЙ ПРИОРИТЕТ: Зарегистрированные пользователи (они прошли полную регистрацию, им доверяем)
         const registeredUsersStr = localStorage.getItem('registeredUsers');
         if (registeredUsersStr) {
           try {
             const registeredUsers = JSON.parse(registeredUsersStr);
-            user = registeredUsers[callsign] || null;
-          } catch (e) {
-            console.warn('Ошибка парсинга registeredUsers:', e);
+            if (registeredUsers[callsign]) {
+              user = registeredUsers[callsign];
+              userSource = 'registered';
+            }
+          } catch (e) { console.warn('Ошибка парсинга registeredUsers:', e); }
+        }
+
+        // 2. ВТОРОЙ ПРИОРИТЕТ: Восстановленные пользователи
+        if (!user) {
+          const restoredUsersStr = localStorage.getItem('restoredUsers');
+          if (restoredUsersStr) {
+            try {
+              const restoredUsers = JSON.parse(restoredUsersStr);
+              if (restoredUsers[callsign]) {
+                user = restoredUsers[callsign];
+                userSource = 'restored';
+              }
+            } catch (e) { console.warn('Ошибка парсинга restoredUsers:', e); }
           }
         }
 
-        // 2. Если не нашли, ищем в статической базе (AURORA, ORION из data.js)
+        // 3. ТРЕТИЙ ПРИОРИТЕТ: Статическая база (MOCK_USERS, например, KNOPA)
         if (!user && typeof MOCK_USERS !== 'undefined') {
           user = MOCK_USERS[callsign] || null;
+          userSource = 'mock';
         }
 
-        // 3. Универсальная проверка: Пользователь не найден ИЛИ неверный пароль
-        if (!user || user.accessCode !== accessCode) {
-
-          // Всегда один и тот же текст ошибки, не раскрывающий деталей
+        // 4. ПРОВЕРКА БЕЗОПАСНОСТИ: Только для пользователей из MOCK_USERS
+        // Если пользователь найден ТОЛЬКО в MOCK_USERS и у него есть recoveryCipher,
+        // он ОБЯЗАН быть в restoredUsers. Но мы уже проверили restoredUsers выше!
+        // Значит, если мы здесь и source === 'mock', он НЕ восстановлен. Блокируем.
+        if (userSource === 'mock' && user && user.recoveryCipher) {
           authErrorBlock.textContent = '⚠️ Invalid callsign or access code';
           authErrorBlock.classList.add('visible');
-
-          // Телеметрия всегда красная и говорит об общей ошибке
           telemetryText.style.color = '#e74c3c';
           telemetryText.innerHTML = '> SYSTEM FAILURE. INVALID CREDENTIALS';
 
-          // Возвращаем кнопку в исходное состояние, чтобы можно было попробовать снова
           submitBtn.classList.remove('processing');
           submitBtn.disabled = false;
           submitBtn.textContent = 'Establish Connection';
+          return; // Прерываем выполнение
+        }
 
-          // Прерываем выполнение функции, дальше (к успешному входу) код не пойдет
+        // 5. Универсальная проверка пароля (для registered, restored и разрешенных mock)
+        if (!user || user.accessCode !== accessCode) {
+          authErrorBlock.textContent = '⚠️ Invalid callsign or access code';
+          authErrorBlock.classList.add('visible');
+          telemetryText.style.color = '#e74c3c';
+          telemetryText.innerHTML = '> SYSTEM FAILURE. INVALID CREDENTIALS';
+
+          submitBtn.classList.remove('processing');
+          submitBtn.disabled = false;
+          submitBtn.textContent = 'Establish Connection';
           return;
         }
 
-        // 5. Успешный вход
-        sessionStorage.setItem('currentUser', JSON.stringify(user));  // БЫЛО: localStorage
+        // 6. Успешный вход
+        sessionStorage.setItem('currentUser', JSON.stringify(user));
         sessionStorage.setItem('freshLogin', 'true');
 
         authErrorBlock.classList.remove('visible');
@@ -679,7 +706,7 @@
           window.location.href = 'dashboard.html';
         }, 2000);
 
-      }, 1500);
+      }, 2000);
     }
 
     // === 6. СБРОС ОШИБОК ===
