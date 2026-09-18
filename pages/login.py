@@ -1,16 +1,15 @@
-import json
-
 import allure
 from selene import be, browser, have
 from selenium.common.exceptions import TimeoutException
 
 from pages.hub import HubPage
+from tests import data
 
 
 class LoginPage(HubPage):
 
     # URL
-    PATH = "/login.html"
+    PATH = data.LOGIN_URL
 
     # Поля ввода
     callsign_input = browser.element('[data-wm-id="login-callsign-input"]')
@@ -21,6 +20,7 @@ class LoginPage(HubPage):
     toggle_password_btn = browser.element('[data-wm-id="toggle-password-btn"]')
 
     # Тексты и ссылки
+    page_subtitle = browser.element('[data-wm-id="login-page-subtitle"]')
     auth_error_message = browser.element('[data-wm-id="auth-error-message"]')
 
     # ========================================================================
@@ -29,25 +29,23 @@ class LoginPage(HubPage):
 
     @allure.step("🌐 Открытие страницы авторизации")
     def open(self):
-        """Открывает страницу авторизации и проверяет её загрузку.
+        """Открывает страницу авторизации и проверяет её загрузку."""
 
-        Returns:
-            self: Экземпляр LoginPage для chaining-а методов.
-
-        Raises:
-            AssertionError: Если страница не загрузилась в течение таймаута.
-        """
         with allure.step(f"Открываем страницу: {self.PATH}"):
+            browser.open(self.PATH)
+
+        with allure.step("Проверяем URL и отрисовку элементов"):
             try:
-                browser.open(self.PATH)
+                self.wait_for_url(expected_url_part=data.LOGIN_URL)
+
                 self.callsign_input.should(be.visible)
 
             except TimeoutException:
                 raise AssertionError(
                     "❌ Login page did not load!\n"
-                    f"   Expected URL: {self.PATH}\n"
+                    f"   Expected URL part: {data.LOGIN_URL}\n"
                     f"   Actual URL: {browser.driver.current_url}\n"
-                    "   Timeout: callsign_input did not appear in time"
+                    "   Timeout: page did not load or URL did not match"
                 )
             except Exception as e:
                 raise AssertionError(
@@ -55,6 +53,7 @@ class LoginPage(HubPage):
                     f"   Path: {self.PATH}\n"
                     f"   Error: {e}"
                 ) from e
+
         return self
 
     # endregion
@@ -193,32 +192,6 @@ class LoginPage(HubPage):
             ) from e
         return self
 
-    @allure.step("Проверка появления блока ошибки авторизации")
-    def should_show_auth_error(self, expected_text: str):
-        """Проверяет, что блок ошибки авторизации отображается и содержит верный текст.
-
-        Args:
-            expected_type: точный текст для проверки
-        """
-        with allure.step(f"Ожидаемый текст ошибки: '{expected_text}'"):
-            try:
-                self.auth_error_message.should(be.visible).should(
-                    have.text(expected_text)
-                )
-            except TimeoutException:
-                raise AssertionError(
-                    "❌ Auth error message is not visible or text does not match!\n"
-                    f"   Expected text: {expected_text}\n"
-                    "   Timeout: element did not appear in time"
-                )
-            except Exception as e:
-                raise AssertionError(
-                    f"❌ Unexpected error while checking auth error visibility!\n"
-                    f"   Expected text: {expected_text}\n"
-                    f"   Error: {e}"
-                ) from e
-        return self
-
     @allure.step("Проверка состояния кнопки Establish Connect")
     def should_be_establish_connect_btn(self, is_enabled: bool = False):
         """
@@ -248,78 +221,5 @@ class LoginPage(HubPage):
                 ) from e
         return self
 
-    @allure.step("Проверяем состояние пользователя в хранилище")
-    def verify_user_saved_in_storage(
-        self,
-        expected_callsign: str | None = None,
-        is_saved: bool = True,
-        check_local: bool = False,
-        check_session: bool = False,
-    ):
-        """Проверяет наличие и корректность позывного пользователя в хранилище.
-        Если позывной сохранен корректно, считаем, что весь объект пользователя сохранен.
-
-        Args:
-            expected_callsign: Ожидаемый позывной.
-            is_saved: Флаг наличия данных (True - данные есть, False - хранилище пустое).
-            check_local: Проверять localStorage.
-            check_session: Проверять sessionStorage.
-        """
-
-        if not check_local and not check_session:
-            check_session = True
-
-        storages_to_check = []
-        if check_local:
-            storages_to_check.append("localStorage")
-        if check_session:
-            storages_to_check.append("sessionStorage")
-
-        for storage_name in storages_to_check:
-            with allure.step(f"Получаем объект currentUser из {storage_name}"):
-
-                raw_data = browser.driver.execute_script(
-                    f"return {storage_name}.getItem('currentUser');"
-                )
-
-                if not is_saved:
-                    assert (
-                        raw_data is None
-                    ), f"❌ Ожидали, что {storage_name} будет пустым, но нашли данные: {raw_data}"
-                    continue
-
-                assert (
-                    raw_data is not None
-                ), f"❌ Ожидали данные в {storage_name}, но ключ 'currentUser' отсутствует!"
-
-                try:
-                    user_data = json.loads(raw_data)
-                except json.JSONDecodeError:
-                    raise AssertionError(
-                        f"❌ Данные в {storage_name} не являются валидным JSON: {raw_data}"
-                    )
-
-                if expected_callsign:
-                    assert user_data.get("callsign") == expected_callsign, (
-                        f"❌ [{storage_name}] Callsign mismatch! Expected: {expected_callsign}, "
-                        f"Got: {user_data.get('callsign')}"
-                    )
-
-        return self
-
-    @allure.step("Проверяем значение в поле Callsign")
-    def verify_callsign_value(self, expected_value: str):
-        """Проверяет, что в поле callsign осталось только ожидаемое значение."""
-        try:
-            self.callsign_input.should(have.value(expected_value))
-        except TimeoutException:
-            actual_value = self.callsign_input().get_attribute("value")
-            raise AssertionError(
-                "❌ Callsign value mismatch!\n"
-                f"   Expected: '{expected_value}'\n"
-                f"   Actual: '{actual_value}'"
-            )
-        return self
-    
     # endregion
     # ========================================================================

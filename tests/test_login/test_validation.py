@@ -4,33 +4,32 @@ import pytest
 from tests import data
 
 
-@allure.id("CAS-08")
-@allure.title("📏 Позывной короче минимальной длины.")
+@allure.id("CAS-01")
+@allure.title("📏 Позывной короче минимальной длины")
 @allure.label("owner", "Evgeniy Chechelev")
 @allure.label("feature", "login")
 @pytest.mark.regress
 @pytest.mark.login
 @pytest.mark.validation
-def test_сallsign_less_than_min_length(login_page):
+def test_callsign_less_than_min_length(login_page):
     """
     Сценарий:
-    1. Вводим 1-2 символа в поле 'Callsign'.
-    2. Вводим валидный ключ доступа в поле 'Access Code'.
-    3. Проверяем: кнопка `Establish Connection` остаётся неактивной `disabled`.
-    4. Проверяем: отправка формы не производится.
+    1. Перейти на страницу 'Login Page'.
+    2. Ввести 3 символа в поле 'Callsign'.
+    3. Ввести валидный ключ доступа 'COMET_42' в поле 'Access Code'.
+    4. Проверить: кнопка `Establish Connection` остаётся неактивной `disabled`.
     """
 
     # 🎬 ARRANGE
-    login_page.enter_callsign(callsign=data.CALLSIGN_TOO_SHORT_2_CHARS)
+    login_page.enter_callsign(callsign=data.CALLSIGN_TOO_SHORT_3_CHARS)
     login_page.enter_access_code(access_code=data.ACCESS_CODE_AURORA)
 
     # ✅ ASSERT
     login_page.should_be_establish_connect_btn(is_enabled=False)
-    login_page.verify_current_url(expected_url_part=data.LOGIN_URL)
 
 
-@allure.id("CAS-09")
-@allure.title("🔑 Ключ доступа короче минимальной длины.")
+@allure.id("CAS-02")
+@allure.title("🔑 Ключ доступа короче минимальной длины")
 @allure.label("owner", "Evgeniy Chechelev")
 @allure.label("feature", "login")
 @pytest.mark.regress
@@ -39,10 +38,10 @@ def test_сallsign_less_than_min_length(login_page):
 def test_access_code_less_than_min_length(login_page):
     """
     Сценарий:
-    1. Вводим валидный позывной в поле 'Callsign'.
-    2. Вводим 2-3 символа в поле 'Access Code'.
-    3. Проверяем: кнопка `Establish Connection` остаётся неактивной `disabled`.
-    4. Проверяем: отправка формы не производится.
+    1. Перейти на страницу 'Login Page'.
+    2. Ввести валидный позывной 'AURORA' в поле 'Callsign'.
+    3. Ввести 3 символа в поле 'Access Code'.
+    4. Проверить: кнопка `Establish Connection` остаётся неактивной `disabled`.
     """
 
     # 🎬 ARRANGE
@@ -51,11 +50,10 @@ def test_access_code_less_than_min_length(login_page):
 
     # ✅ ASSERT
     login_page.should_be_establish_connect_btn(is_enabled=False)
-    login_page.verify_current_url(expected_url_part=data.LOGIN_URL)
 
 
-@allure.id("CAS-10")
-@allure.title("🌌 Пустой позывной при заполненном ключе.")
+@allure.id("CAS-03")
+@allure.title("🌌 Пустой позывной при заполненном ключе")
 @allure.label("owner", "Evgeniy Chechelev")
 @allure.label("feature", "login")
 @pytest.mark.regress
@@ -64,10 +62,10 @@ def test_access_code_less_than_min_length(login_page):
 def test_empty_callsign_with_valid_code(login_page):
     """
     Сценарий:
-    1. Поле 'Callsign', оставляем пустым.
-    2. В поле 'Access Code', вводим валидный ключ доступа.
-    3. Проверяем: кнопка `Establish Connection` остаётся неактивной `disabled`.
-    4. Проверяем: отправка формы не производится.
+    1. Перейти на страницу 'Login Page'.
+    2. Оставить поле 'Callsign' пустым.
+    3. Ввести валидный ключ доступа 'COMET_42' в поле 'Access Code'.
+    4. Проверить: кнопка `Establish Connection` остаётся неактивной `disabled`.
     """
 
     # 🎬 ARRANGE
@@ -75,11 +73,10 @@ def test_empty_callsign_with_valid_code(login_page):
 
     # ✅ ASSERT
     login_page.should_be_establish_connect_btn(is_enabled=False)
-    login_page.verify_current_url(expected_url_part=data.LOGIN_URL)
 
 
-@allure.id("CAS-11")
-@allure.title("🗝️ Пустой ключ доступа при заполненном позывном.")
+@allure.id("CAS-04")
+@allure.title("🗝️ Пустой ключ доступа при заполненном позывном")
 @allure.label("owner", "Evgeniy Chechelev")
 @allure.label("feature", "login")
 @pytest.mark.regress
@@ -88,10 +85,10 @@ def test_empty_callsign_with_valid_code(login_page):
 def test_empty_access_code_with_valid_callsign(login_page):
     """
     Сценарий:
-    1. В поле 'Callsign', ввести валидный позывной.
-    2. Поле 'Access Code', оставляем пустым.
-    3. Проверяем: кнопка `Establish Connection` остаётся неактивной `disabled`.
-    4. Проверяем: отправка формы не производится.
+    1. Перейти на страницу 'Login Page'.
+    2. Ввести валидный позывной 'AURORA' в поле 'Callsign'.
+    3. Оставить поле 'Access Code' пустым.
+    4. Проверить: кнопка `Establish Connection` остаётся неактивной `disabled`.
     """
 
     # 🎬 ARRANGE
@@ -99,100 +96,81 @@ def test_empty_access_code_with_valid_callsign(login_page):
 
     # ✅ ASSERT
     login_page.should_be_establish_connect_btn(is_enabled=False)
-    login_page.verify_current_url(expected_url_part=data.LOGIN_URL)
 
 
-@allure.id("CAS-12")
-@allure.title("🛸 Неверный позывной при валидном ключе.")
+@allure.id("CAS-05")
+@allure.title("🚫 Превышение максимальной длины Callsign >100")
 @allure.label("owner", "Evgeniy Chechelev")
 @allure.label("feature", "login")
 @pytest.mark.regress
 @pytest.mark.login
 @pytest.mark.validation
-def test_invalid_callsign_with_valid_code(login_page):
+def test_callsign_exceeds_max_length(login_page):
     """
     Сценарий:
-    1. В поле 'Callsign', ввести неверный позывной.
-    2. В Поле 'Access Code', ввести валидный ключ доступа.
-    3. Нажать на кнопку 'Establish Connection'
-    4. Проверяем: блок ошибки с текстом '⚠️ Invalid callsign or access code'.
-    5. Проверяем: Текст 'Telemetry' меняется на красный: '> SYSTEM FAILURE. INVALID CREDENTIALS'.
-    6. Проверяем: пользователь остаётся на странице.
+    1. Перейти на страницу 'Login Page'.
+    2. Попытаться ввести >100 в поле 'Callsign'.
+    3. Проверить: в поле 'Callsign' остается не более 100 символов.
     """
 
-    # 🎬 ARRANGE
-    login_page.enter_callsign(data.CALLSIGN_WRONG)
-    login_page.enter_access_code(data.ACCESS_CODE_AURORA)
-
-    # ⚡ ACT
-    login_page.click_establish_connect()
-
     # ✅ ASSERT
-    login_page.verify_telemetry_color_not_cassandra(red=True)
-    login_page.verify_telemetry_text(expected_text=data.ERROR_TEXT_TELEMETRY_RED)
-    login_page.should_show_auth_error(expected_text=data.AUTH_ERROR_BLOCK_TEXT)
-    login_page.verify_current_url(expected_url_part=data.LOGIN_URL)
+    login_page.verify_max_length(element=login_page.callsign_input, max_length=100)
 
 
-@allure.id("CAS-13")
-@allure.title("🔒 Валидный позывной при неверном ключе.")
+@allure.id("CAS-06")
+@allure.title("🚫 Превышение максимальной длины Access Code >30")
 @allure.label("owner", "Evgeniy Chechelev")
 @allure.label("feature", "login")
 @pytest.mark.regress
 @pytest.mark.login
 @pytest.mark.validation
-def test_valid_callsign_with_invalid_code(login_page):
+def test_access_code_exceeds_max_length(login_page):
     """
     Сценарий:
-    1. В поле 'Callsign', ввести валидный позывной.
-    2. В Поле 'Access Code', ввести невалидный ключ доступа.
-    3. Нажать на кнопку 'Establish Connection'
-    4. Проверяем: блок ошибки с текстом '⚠️ Invalid callsign or access code'.
-    5. Проверяем: текст 'Telemetry' меняется на красный: '> SYSTEM FAILURE. INVALID CREDENTIALS'.
-    6. Проверяем: пользователь остается на странице.
+    1. Перейти на страницу 'Login Page'.
+    2. Попытаться ввести >30 в поле 'Access Code'.
+    3. Проверить: в поле 'Access Code', остается не более 30 символов.
     """
 
-    # 🎬 ARRANGE
-    login_page.enter_callsign(data.CALLSIGN_AURORA)
-    login_page.enter_access_code(data.ACCESS_CODE_WRONG)
-
-    # ⚡ ACT
-    login_page.click_establish_connect()
-
     # ✅ ASSERT
-    login_page.verify_telemetry_color_not_cassandra(red=True)
-    login_page.verify_telemetry_text(expected_text=data.ERROR_TEXT_TELEMETRY_RED)
-    login_page.should_show_auth_error(expected_text=data.AUTH_ERROR_BLOCK_TEXT)
-    login_page.verify_current_url(expected_url_part=data.LOGIN_URL)
+    login_page.verify_max_length(element=login_page.access_code_input, max_length=30)
 
 
-@allure.id("CAS-14")
-@allure.title("💥 Оба поля неверны.")
+@allure.id("CAS-07")
+@allure.title("🛡️ Санитизация ввода — попытка ввести спецсимволы в поле Callsign")
 @allure.label("owner", "Evgeniy Chechelev")
 @allure.label("feature", "login")
 @pytest.mark.regress
 @pytest.mark.login
 @pytest.mark.validation
-def test_both_fields_invalid(login_page):
+def test_input_sanitization_callsign(login_page):
     """
     Сценарий:
-    1. В поле 'Callsign', ввести невалидный позывной.
-    2. В Поле 'Access Code', ввести невалидный ключ доступа.
-    3. Нажать на кнопку 'Establish Connection'
-    4. Проверяем: блок ошибки с текстом '⚠️ Invalid callsign or access code'.
-    5. Проверяем: Текст 'Telemetry' меняется на красный: '> SYSTEM FAILURE. INVALID CREDENTIALS'
-    6. Проверяем: пользователь остается на странице.
+    1. Перейти на страницу 'Login Page'.
+    2. Ввести строку с спецсимволами "' OR '1'='1'" в поле 'Callsign'.
+    3. Ввести валидный ключ доступа 'COMET_42' в поле 'Access Code'.
+    4. Нажать на кнопку 'Establish Connection'.
+    5. Проверить: фронтенд автоматически отсекает спецсимволы — в поле остаётся 'OR11'.
+    6. Проверить: блок ошибки с текстом '⚠️ Invalid callsign or access code'.
+    7. Проверить: текст 'Telemetry' меняется на красный: '> SYSTEM FAILURE. INVALID CREDENTIALS'.
+    8. Проверить: данные не сохраняются в 'sessionStorage'.
     """
 
     # 🎬 ARRANGE
-    login_page.enter_callsign(data.CALLSIGN_WRONG)
-    login_page.enter_access_code(data.ACCESS_CODE_WRONG)
+    login_page.enter_callsign(callsign=data.SQL_INJECTION_PAYLOAD)
+    login_page.enter_access_code(access_code=data.ACCESS_CODE_AURORA)
 
     # ⚡ ACT
     login_page.click_establish_connect()
 
     # ✅ ASSERT
+    login_page.verify_field_value(
+        element=login_page.callsign_input, expected_value="OR11"
+    )
     login_page.verify_telemetry_color_not_cassandra(red=True)
-    login_page.verify_telemetry_text(expected_text=data.ERROR_TEXT_TELEMETRY_RED)
-    login_page.should_show_auth_error(expected_text=data.AUTH_ERROR_BLOCK_TEXT)
-    login_page.verify_current_url(expected_url_part=data.LOGIN_URL)
+    login_page.should_show_error_container(
+        element=login_page.auth_error_message, expected_text=data.RED_ERROR_AUTH_INVALID
+    )
+    login_page.verify_telemetry_text(expected_text=data.RED_TELEMETRY_SYSTEM_FAILURE)
+
+    login_page.verify_user_saved_in_storage(is_saved=False, check_session=True)

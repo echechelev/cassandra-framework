@@ -3,12 +3,13 @@ from selene import be, browser
 from selenium.common.exceptions import TimeoutException
 
 from pages.hub import HubPage
+from tests import data
 
 
 class IndexPage(HubPage):
 
     # URL
-    PATH = "/index.html"
+    PATH = data.INDEX_URL
 
     # Логотип
     logo_cassan = browser.element('[data-wm-id="logo-cassan"]')
@@ -36,8 +37,13 @@ class IndexPage(HubPage):
             AssertionError: Если страница не загрузилась в течение таймаута.
         """
         with allure.step(f"Открываем страницу: {self.PATH}"):
+            browser.open(self.PATH)
+
+        with allure.step("Проверяем URL и отрисовку элементов"):
             try:
-                browser.open(self.PATH)
+
+                self.wait_for_url(expected_url_part=data.INDEX_URL)
+
                 self.log_in_btn.should(be.visible)
 
             except TimeoutException:

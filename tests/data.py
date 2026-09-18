@@ -13,12 +13,12 @@ with open(USERS_FILE, "r", encoding="utf-8") as f:
 # ==========================================
 # 🌐 URL-АДРЕСА (URLs)
 # ==========================================
-INDEX_URL = '/index.html'
-SIGNUP_URL = '/signup.html'
-LOGIN_URL = '/login.html'
-DASHBOARD_URL = '/dashboard.html'
-GALAXY_MAP_URL = '/galaxy-map.html'
-ACCESS_RESTORATION_URL = '/access-restoration.html'
+INDEX_URL = 'index.html'
+SIGNUP_URL = 'signup.html'
+LOGIN_URL = 'login.html'
+DASHBOARD_URL = 'dashboard.html'
+GALAXY_MAP_URL = 'galaxy-map.html'
+ACCESS_RESTORATION_URL = 'access-restoration.html'
 
 # ==========================================
 # 👨‍🚀 ДАННЫЕ ПОЛЬЗОВАТЕЛЕЙ (User Data)
@@ -33,6 +33,7 @@ USER_NOVA = {
     "callsign": "NOVA",
     "full_name": "Nova",
     "role": "ENGINEER",
+    "role_icon": "⚙️",
     "function": "Systems Engineering",
     "access_level": "3",
     "id": "512-3A",
@@ -40,21 +41,32 @@ USER_NOVA = {
     "recovery_cipher": "COMETA",
 }
 
+# Knopa — предсуществующий системный пользователь (Восстановление)
+USER_KNOPA = {
+    "callsign": "KNOPA",
+    "full_name": "Knopa",
+    "role": "PILOT",
+    "role_icon": "✈️",
+    "function": "Flight Operations",
+    "access_level": "1",
+    "id": "769-1A",
+    "access_code": "AERO_99", 
+    "recovery_cipher": "AERO", 
+}
+
 # ==========================================
 # 📡 ПОЗЫВНЫЕ (Callsigns)
 # ==========================================
+CALLSIGN_KNOPA = 'KNOPA'
 CALLSIGN_NOVA = 'NOVA'
 CALLSIGN_AURORA = USERS["users"]["AURORA"]["callsign"]
 CALLSIGN_ORION = USERS["users"]["ORION"]["callsign"]
-
-# Тестовые данные (невалидные)
-CALLSIGN_WRONG = 'IVAN'  # несуществующий пользователь
-CALLSIGN_TOO_SHORT_2_CHARS = "AB"
-CALLSIGN_MIN_VALID_3_CHARS = "ABC"
+CALLSIGN_MIN_VALID_4_CHARS = "ABCD"
 
 # ==========================================
 # 👤 ОТОБРАЖАЕМЫЕ ИМЕНА В ТЕЛЕМЕТРИИ (Telemetry Names)
 # ==========================================
+TELEMETRY_NAME_KNOPA = 'KNOPA'
 TELEMETRY_NAME_AURORA = 'AURORA'
 TELEMETRY_NAME_NOVA = 'NOVA'
 TELEMETRY_NAME_ORION = 'ORION'
@@ -62,28 +74,37 @@ TELEMETRY_NAME_ORION = 'ORION'
 # ==========================================
 # 👤 ИМЕНА ОПЕРАТОРОВ (Names)
 # ==========================================
+NAME_KNOPA = 'Knopa'
 NAME_NOVA = 'Nova'
 NAME_AURORA = 'Aurora'
 NAME_ORION = 'Orion'
-NAME_IVAN = 'Ivan'  # тестовое имя для негативных сценариев
+NAME_IVAN = 'Ivan'  
+FULL_BNAME_MIN_VALID_4_CHARS = "ABCD"
 
 # ==========================================
 # 🔐 ДАННЫЕ АУТЕНТИФИКАЦИИ (Authentication)
 # ==========================================
 
 # Access Codes
+ACCESS_CODE_KNOPA = 'AERO_99'
 ACCESS_CODE_NOVA = 'QUASAR_5'
 ACCESS_CODE_AURORA = USERS["users"]["AURORA"]["access_code"]
 ACCESS_CODE_ORION = USERS["users"]["ORION"]["access_code"]
+ACCESS_CODE_MIN_VALID_4_CHARS = "ABCD"
 
 # Recovery Ciphers
 RECOVERY_CIPHER_NOVA = 'COMETA'
+RECOVERY_CIPHER_KNOPA = 'AERO'
+RECOVERY_CIPHER_MIN_VALID_4_CHARS = "ABCD"
 
-# Невалидные данные для тестов
+# Тестовые данные (невалидные)
+ACCESS_CODE_TOO_SHORT_3_CHARS = "ABC"
 ACCESS_CODE_WRONG = 'WRONG_CODE'
+CALLSIGN_WRONG = 'IVAN'  
+CALLSIGN_TOO_SHORT_3_CHARS = "ABC"
+FULL_NAME_TOO_SHORT_3_CHARS = "ABC"
+RECOVERY_CIPHER_TOO_SHORT_3_CHARS = "ABC"
 RECOVERY_CIPHER_WRONG = 'WRONG'
-ACCESS_CODE_TOO_SHORT_3_CHARS = "abc"
-ACCESS_CODE_MIN_VALID_4_CHARS = "abcd"
 SQL_INJECTION_PAYLOAD = "' OR '1'='1'"
 
 # ==========================================
@@ -94,13 +115,18 @@ SQL_INJECTION_PAYLOAD = "' OR '1'='1'"
 ROLE_COMMANDER = 'COMMANDER'
 ROLE_SPECIALIST = 'SPECIALIST'
 ROLE_ENGINEER = 'ENGINEER'
+ROLE_PILOT = 'PILOT'
 
 # Отображаемые роли (текст в сводке на Шаге 3)
 ROLE_DISPLAY_COMMANDER = '🏅 Commander'
 ROLE_DISPLAY_SPECIALIST = '🛰️ Specialist'
 ROLE_DISPLAY_ENGINEER = '⚙️ Engineer'
+ROLE_DISPLAY_PILOT = '✈️ Pilot'
 
 # Функции операторов
+FUNCTION_COMMANDER = 'Command & Strategy'
+FUNCTION_PILOT = 'Flight Operations'
+FUNCTION_SPECIALIST = 'Comms & Diagnostics'
 FUNCTION_ENGINEER = 'Systems Engineering'
 
 # Уровни доступа (автоматически присваиваются по роли)
@@ -110,6 +136,7 @@ ACCESS_LEVEL_ENGINEER = '3'
 
 # ID оператора NOVA (захардкожен в системе)
 OPERATOR_ID_NOVA = '512-3A'
+OPERATOT_ID_KNOPA = '769-1A'
 
 # ==========================================
 # 🎖️ ОТОБРАЖАЕМЫЕ РОЛИ В ИНФО-ПАНЕЛЯХ (Info Panel Roles)
@@ -117,29 +144,55 @@ OPERATOR_ID_NOVA = '512-3A'
 INFO_PANEL_ROLE_COMMANDER = 'COMMANDER'
 INFO_PANEL_ROLE_SPECIALIST = 'SPECIALIST'
 INFO_PANEL_ROLE_ENGINEER = 'ENGINEER'
+INFO_PANEL_ROLE_PILOT = 'PILOT'
 
 # ==========================================
 # 💬 ТЕКСТЫ UI (UI Texts)
 # ==========================================
 
-# Подзаголовки шагов
-SUBTITLE_PHASE_1 = 'Phase 1: Operator Identity'
-SUBTITLE_PHASE_2 = 'Phase 2: Security Setup'
-SUBTITLE_WELCOME_OPERATOR = 'Welcome aboard, new Operator.'
+# Фазы онбординга
+PHASE_1_IDENTITY = 'Phase 1: Operator Identity'
+PHASE_2_SECURITY = 'Phase 2: Security Setup'
 
-# Телеметрия (синий цвет — информационные сообщения)
-TELEMETRY_AWAITING_OPERATOR = '> SYSTEM READY. AWAITING OPERATOR REGISTRATION'
-TELEMETRY_AWAITING_SECURITY = '> SYSTEM READY. AWAITING SECURITY REGISTRATION'
-DEFAULT_TEXT_TELEMETRY = "> SYSTEM READY. AWAITING CONNECTION"
+# Приветствия и статусы
+WELCOME_OPERATOR = 'Welcome aboard, new Operator.'
+PROTOCOL_VERIFIED = '✅ Access Protocol Verified'
 
-# Телеметрия (зелёный цвет — успешные операции)
-TELEMETRY_REGISTRATION_COMPLETE = '> REGISTRATION COMPLETE. OPERATOR ACCOUNT ACTIVATED.'
-TELEMETRY_SYSTEM_READY_AURORA = '> CASSANDRA: AURORA, SYSTEM READY FOR WORK. AWAITING COMMANDS.'
-SUCCESS_TELEMETRY_TEXT_AURORA = '> CONNECTION ESTABLISHED. WELCOME, SPECIALIST AURORA'
-SUCCESS_TELEMETRY_TEXT_NOVA = '> CONNECTION ESTABLISHED. WELCOME, ENGINEER NOVA'
-SUCCESS_TELEMETRY_TEXT_ORION = '> CONNECTION ESTABLISHED. WELCOME, COMMANDER ORION'
+# Основные экраны
+RESTORATION_PROTOCOL = 'Access Restoration Protocol'
+COLONIZATION_ACCESS = 'Access to Colonization Assessment System'
 
-# Заголовки и футеры
+# ==========================================
+#  Телеметрия: Синий блок (Ожидание / Статусы)
+# ==========================================
+            
+_BLUE_PREFIX = '> SYSTEM READY. AWAITING '
+
+BLUE_TELEMETRY_AWAITING_OPERATOR = f"{_BLUE_PREFIX}OPERATOR REGISTRATION"
+BLUE_TELEMETRY_AWAITING_SECURITY = f"{_BLUE_PREFIX}SECURITY REGISTRATION"
+BLUE_TELEMETRY_AWAITING_CONNECTION = f"{_BLUE_PREFIX}CONNECTION" 
+BLUE_TELEMETRY_AWAITING_RESTORATION = f"{_BLUE_PREFIX}RESTORATION PROTOCOL"
+
+# ==========================================
+# 🟢 Телеметрия: Зелёный блок (Успех / Завершение)
+# ==========================================
+
+_GREEN_BASE_PREFIX = '> '
+_GREEN_WELCOME_PREFIX = f"{_GREEN_BASE_PREFIX}CONNECTION ESTABLISHED. WELCOME, "
+
+GREEN_TELEMETRY_REGISTRATION_COMPLETE = f"{_GREEN_BASE_PREFIX}REGISTRATION COMPLETE. OPERATOR ACCOUNT ACTIVATED."
+GREEN_TELEMETRY_SYSTEM_READY_AURORA = f"{_GREEN_BASE_PREFIX}CASSANDRA: AURORA, SYSTEM READY FOR WORK. AWAITING COMMANDS."
+
+GREEN_TELEMETRY_WELCOME_AURORA = f"{_GREEN_WELCOME_PREFIX}SPECIALIST AURORA"
+GREEN_TELEMETRY_WELCOME_NOVA = f"{_GREEN_WELCOME_PREFIX}ENGINEER NOVA"
+GREEN_TELEMETRY_WELCOME_ORION = f"{_GREEN_WELCOME_PREFIX}COMMANDER ORION"
+GREEN_TELEMETRY_WELCOME_KNOPA = f"{_GREEN_WELCOME_PREFIX}PILOT KNOPA" 
+
+GREEN_TELEMETRY_RESTORATION_COMPLETE = f"{_GREEN_BASE_PREFIX}RESTORATION COMPLETE. NEW CREDENTIALS ISSUED." 
+
+# ==========================================
+# 🏷️ Заголовки и футеры
+# ==========================================
 LOGO_CASSAN = 'CASSAN'
 LOGO_DRA = 'DRA'
 PROJECT_TITLE = 'PLANETARY HABITABILITY ASSESSMENT PROJECT'
@@ -147,27 +200,41 @@ PROJECT_SLOGAN = 'We Find a New Home Among the Stars'
 COPYRIGHT_TEXT = 'Evknopia © 2026'
 
 # ==========================================
-# ⚠️ СООБЩЕНИЯ ОБ ОШИБКАХ (Error Messages)
+# ⚠️ ОШИБКИ ВАЛИДАЦИИ ПОЛЕЙ (Красный текст в error block)
 # ==========================================
 
-# Ошибки валидации полей (красный текст в error block)
-AUTH_ERROR_BLOCK_TEXT = "⚠️ Invalid callsign or access code"
-ERROR_CALLSIGN_AURORA_RESERVED = "⚠️ Callsign 'AURORA' is already in use. This identity is reserved."
-ERROR_CALLSIGN_ORION_RESERVED = "⚠️ Callsign 'ORION' is already in use. This identity is reserved."
-ERROR_ROLE_MISMATCH = '⚠️ Registration suspended. Pre-allocated identity requires ENGINEER role.'
-ERROR_CAPACITY_REACHED = '⚠️ Registration suspended. System capacity reached. Only pending activation: NOVA.'
-ERROR_ACCESS_CODES_MISMATCH = "⚠️ Access codes do not match. Please verify and try again."
-ERROR_ACCESS_CODE_INVALID = "⚠️ Access Code invalid. Pre-configured credentials required."
-ERROR_RECOVERY_CIPHER_INVALID = "⚠️ Recovery Cipher invalid. Pre-configured credentials required."
+RED_ERROR_AUTH_INVALID = '⚠️ Invalid callsign or access code'
 
-# Телеметрия ошибок (красный текст)
-ERROR_TEXT_TELEMETRY_RED = "> SYSTEM FAILURE. INVALID CREDENTIALS"
-TELEMETRY_ACCESS_DENIED_REDIRECT = "> CASSANDRA: ACCESS DENIED. REDIRECTING..."
-TELEMETRY_DATA_CORRUPTED_REDIRECT = "> CASSANDRA: DATA CORRUPTED. REDIRECTING..."
-TELEMETRY_ERROR_AURORA = "> SYSTEM LOCKED. CALLSIGN 'AURORA' ALREADY EXISTS"
-TELEMETRY_ERROR_ORION = "> SYSTEM LOCKED. CALLSIGN 'ORION' ALREADY EXISTS"
-TELEMETRY_ERROR_ROLE_MISMATCH = '> SYSTEM LOCKED. ROLE MISMATCH DETECTED'
-TELEMETRY_ERROR_UNKNOWN_USER = '> SYSTEM LOCKED. PLEASE ENTER CORRECT FULL NAME AND CALLSIGN'
-TELEMETRY_ERROR_CODES_MISMATCH = '> SECURITY PROTOCOL FAILED. CODES MISMATCH DETECTED'
-TELEMETRY_ERROR_INVALID_ACCESS_CODE = '> SECURITY PROTOCOL FAILED. INVALID ACCESS CODE'
-TELEMETRY_ERROR_INVALID_RECOVERY_CIPHER = '> SECURITY PROTOCOL FAILED. INVALID RECOVERY CIPHER'
+RED_ERROR_CALLSIGN_AURORA_RESERVED = "⚠️ Callsign 'AURORA' is already in use. This identity is reserved."
+RED_ERROR_CALLSIGN_KNOPA_RESERVED = "⚠️ Callsign 'KNOPA' is already in use. This identity is reserved."
+RED_ERROR_CALLSIGN_ORION_RESERVED = "⚠️ Callsign 'ORION' is already in use. This identity is reserved."
+
+RED_ERROR_ROLE_MISMATCH = '⚠️ Registration suspended. Pre-allocated identity requires ENGINEER role.'
+RED_ERROR_CAPACITY_REACHED = '⚠️ Registration suspended. System capacity reached. Only pending activation: NOVA.'
+RED_ERROR_ALREADY_RESTORED = "⚠️ Operator 'KNOPA' has already been restored. Please use your new credentials to log in." 
+
+RED_ERROR_SECURITY_FAILED = "️ Security protocol failed. Invalid credentials provided."
+RED_ERROR_ACCESS_RECOVERY = 'Restoration unavailable. Only operator KNOPA is eligible for access recovery.'
+
+
+# ==========================================
+# 🚨 ТЕЛЕМЕТРИЯ ОШИБОК (Красный текст системных сообщений)
+# ==========================================
+_RED_TELEMETRY_PREFIX = '> '
+_RED_SYSTEM_LOCKED_PREFIX = f"{_RED_TELEMETRY_PREFIX}SYSTEM LOCKED. "
+_RED_SECURITY_FAILED_PREFIX = f"{_RED_TELEMETRY_PREFIX}SECURITY PROTOCOL FAILED. "
+
+RED_TELEMETRY_ACCESS_DENIED = f"{_RED_TELEMETRY_PREFIX}CASSANDRA: ACCESS DENIED. REDIRECTING..."
+RED_TELEMETRY_DATA_CORRUPTED = f"{_RED_TELEMETRY_PREFIX}CASSANDRA: DATA CORRUPTED. REDIRECTING..."
+RED_TELEMETRY_SYSTEM_FAILURE = f"{_RED_TELEMETRY_PREFIX}SYSTEM FAILURE. INVALID CREDENTIALS"
+
+RED_TELEMETRY_CALLSIGN_AURORA_EXISTS = f"{_RED_SYSTEM_LOCKED_PREFIX}CALLSIGN 'AURORA' ALREADY EXISTS"
+RED_TELEMETRY_CALLSIGN_KNOPA_EXISTS = f"{_RED_SYSTEM_LOCKED_PREFIX}CALLSIGN 'KNOPA' ALREADY EXISTS"
+RED_TELEMETRY_CALLSIGN_ORION_EXISTS = f"{_RED_SYSTEM_LOCKED_PREFIX}CALLSIGN 'ORION' ALREADY EXISTS"
+
+RED_TELEMETRY_ROLE_MISMATCH = f"{_RED_SYSTEM_LOCKED_PREFIX}ROLE MISMATCH DETECTED"
+RED_TELEMETRY_UNKNOWN_USER = f"{_RED_SYSTEM_LOCKED_PREFIX}PLEASE ENTER CORRECT FULL NAME AND CALLSIGN"
+
+RED_TELEMETRY_RESTORATION_ABORTED = f"{_RED_SECURITY_FAILED_PREFIX}RESTORATION ABORTED"
+RED_TELEMETRY_SECURITY_INVALID = f"{_RED_SYSTEM_LOCKED_PREFIX}INVALID CREDENTIALS."
+RED_TELEMETRY_OPERATOR_RESTORED = f"{_RED_SECURITY_FAILED_PREFIX}OPERATOR ALREADY RESTORED."

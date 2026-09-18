@@ -8,7 +8,6 @@ const MOCK_USERS = {
         function: 'Command & Strategy',
         accessLevel: '1',
         id: '001-1A'
-
     },
     AURORA: {
         callsign: 'AURORA',
@@ -20,4 +19,15 @@ const MOCK_USERS = {
         accessLevel: '2',
         id: '884-2A'
     },
+    KNOPA: {
+        callsign: 'KNOPA',
+        role: 'PILOT',
+        fullName: 'Knopa',
+        roleIcon: '✈️',
+        function: 'Flight Operations',
+        accessLevel: '1',
+        recoveryCipher: 'AERO',
+        id: '769-1A',
+        accessCode: 'AERO_99'
+    }
 };

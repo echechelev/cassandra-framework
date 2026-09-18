@@ -317,17 +317,6 @@
       text-shadow: 0 0 1vmin rgba(77, 166, 255, 0.5);
     }
 
-    .launch-btn {
-      background: linear-gradient(135deg, #1e5fbf, #2ecc71);
-      font-size: 1.7vmin;
-      letter-spacing: 0.15vmin;
-    }
-
-    .launch-btn:hover {
-      box-shadow: 0 0 4vmin rgba(46, 204, 113, 0.6);
-      transform: translateY(-0.2vmin);
-    }
-
     .login-footer {
       position: absolute;
       bottom: 0;
@@ -433,7 +422,6 @@
       justify-content: space-between;
       padding: 0 4vmin;
       pointer-events: none;
-      /* Контейнер прозрачен для кликов */
       z-index: 10;
     }
 
@@ -483,7 +471,8 @@
       font-size: 3vmin;
       line-height: 1;
       filter: drop-shadow(0 0 1vmin rgba(77, 166, 255, 0.5));
-      margin-top: -0.5vmin;
+      margin-top: -1.3vmin;
+      margin-bottom: 0.7vmin;
     }
 
     .nav-label {
@@ -495,19 +484,6 @@
       text-align: center;
       line-height: 1.2;
       text-shadow: 0 0 1vmin rgba(0, 0, 0, 0.8);
-    }
-
-    /* Состояние блокировки угловой навигации (для 3-го шага) */
-    .corner-nav.locked {
-      pointer-events: none;
-      opacity: 0.3;
-      filter: grayscale(100%);
-      transition: opacity 0.3s ease, filter 0.3s ease;
-    }
-
-    /* ВАЖНО: Отключаем pointer-events у кнопок внутри заблокированного контейнера */
-    .corner-nav.locked .nav-circle-btn {
-      pointer-events: none !important;
     }
   </style>
 </head>
@@ -570,6 +546,7 @@
           <select id="role" class="input-field" data-wm-id="signup-role-select">
             <option value="" disabled selected>Select role</option>
             <option value="COMMANDER">COMMANDER - Access Level 1</option>
+            <option value="PILOT">PILOT - Access Level 1</option>
             <option value="SPECIALIST">SPECIALIST - Access Level 2</option>
             <option value="ENGINEER">ENGINEER - Access Level 3</option>
           </select>
@@ -589,7 +566,7 @@
       <!-- STEP 2 -->
       <form id="step-2" class="hidden" novalidate>
         <div class="auth-error" id="security-error" data-wm-id="signup-security-error">
-          ⚠️ Security protocol failed
+          ⚠️ Security protocol failed. Invalid credentials provided.
         </div>
 
         <div class="input-group">
@@ -669,10 +646,6 @@
             <span class="summary-value" id="sum-id" data-wm-id="sum-id">512-3A</span>
           </div>
         </div>
-
-        <button type="button" class="login-btn launch-btn" id="launch-btn" data-wm-id="signup-launch-btn">
-          INITIATE LAUNCH SEQUENCE 🚀
-        </button>
       </div>
     </div>
 
@@ -710,53 +683,6 @@
         id: '512-3A'
       };
 
-      // Restore operator data if page was refreshed on Step 2 or 3
-      const savedOperatorData = sessionStorage.getItem('operatorData');
-      if (savedOperatorData) {
-        try {
-          operatorData = JSON.parse(savedOperatorData);
-        } catch (e) {
-          console.warn('Failed to restore operator data:', e);
-        }
-      }
-
-      // === 1. RESTORE STEP ON RELOAD ===
-      const currentStep = sessionStorage.getItem('signupStep') || '1';
-
-      if (currentStep === '2') {
-        document.getElementById('step-1').classList.add('hidden');
-        document.getElementById('step-2').classList.remove('hidden');
-        const subtitle = document.getElementById('page-subtitle');
-        if (subtitle) subtitle.textContent = 'Phase 2: Security Setup';
-      }
-
-      if (currentStep === '3') {
-        document.getElementById('step-1').classList.add('hidden');
-        document.getElementById('step-2').classList.add('hidden');
-        document.getElementById('step-3').classList.remove('hidden');
-
-        const cornerNav = document.querySelector('.corner-nav');
-        if (cornerNav) cornerNav.classList.add('locked');
-
-        const mainLogo = document.querySelector('.login-card > .login-logo');
-        if (mainLogo) mainLogo.classList.add('hidden');
-
-        const subtitle = document.getElementById('page-subtitle');
-        if (subtitle) {
-          subtitle.textContent = 'Welcome aboard, new Operator.';
-          subtitle.style.color = '#2ecc71';
-        }
-
-        if (operatorData.callsign) {
-          document.getElementById('sum-callsign').textContent = operatorData.callsign;
-          document.getElementById('sum-name').textContent = operatorData.fullName;
-          document.getElementById('sum-role').textContent = operatorData.roleIcon + ' ' + operatorData.role.charAt(0).toUpperCase() + operatorData.role.slice(1).toLowerCase();
-          document.getElementById('sum-function').textContent = operatorData.function;
-          document.getElementById('sum-level').textContent = operatorData.accessLevel;
-          document.getElementById('sum-id').textContent = operatorData.id;
-        }
-      }
-
       // === 2. SATELLITE ANIMATION ===
       const satellite = document.getElementById('satellite');
       let x = Math.random() * (window.innerWidth - 60);
@@ -793,28 +719,38 @@
 
       roleSelect.addEventListener('change', (e) => {
         const selectedRole = e.target.value;
+
         if (selectedRole === 'COMMANDER') {
           functionInput.value = 'Command & Strategy';
           operatorData.accessLevel = '1';
           operatorData.roleIcon = '🏅';
-        } else if (selectedRole === 'SPECIALIST') {
+        }
+        else if (selectedRole === 'PILOT') {
+          functionInput.value = 'Flight Operations';
+          operatorData.accessLevel = '1';
+          operatorData.roleIcon = '✈️';
+        }
+        else if (selectedRole === 'SPECIALIST') {
           functionInput.value = 'Comms & Diagnostics';
           operatorData.accessLevel = '2';
           operatorData.roleIcon = '🛰️';
-        } else if (selectedRole === 'ENGINEER') {
+        }
+        else if (selectedRole === 'ENGINEER') {
           functionInput.value = 'Systems Engineering';
           operatorData.accessLevel = '3';
           operatorData.roleIcon = '⚙️';
-        } else {
+        }
+        else {
           functionInput.value = '';
           operatorData.accessLevel = '';
           operatorData.roleIcon = '';
         }
+
         checkFormState();
-      });
+      })
 
       function checkFormState() {
-        const isNameValid = fullNameInput.value.length >= 3 && fullNameInput.value.length <= 100;
+        const isNameValid = fullNameInput.value.length >= 4 && fullNameInput.value.length <= 100;
         const isRoleValid = roleSelect.value !== "";
         const isFunctionValid = functionInput.value.length > 0;
         submitBtn.disabled = !(isNameValid && isRoleValid && isFunctionValid);
@@ -834,20 +770,21 @@
       // === 5. STEP 1 SUBMIT ===
       function handleSignupStep1(event) {
         event.preventDefault();
+        if (isProcessing) return; // Защита от двойного клика
+
         isProcessing = true;
         errorBlock.classList.remove('visible');
 
         submitBtn.classList.add('processing');
         submitBtn.disabled = true;
         submitBtn.textContent = 'VERIFYING IDENTITY...';
-        telemetryText.style.color = '#4da6ff';
-        telemetryText.innerHTML = '> TRANSMITTING OPERATOR DATA...';
+        // 🗑️ УБРАНО: промежуточная телеметрия. Она остается "> SYSTEM READY. AWAITING OPERATOR REGISTRATION"
 
         setTimeout(() => {
           const currentCallsign = callsignInput.value.trim().toUpperCase();
           const currentRole = roleSelect.value;
 
-          if (['AURORA', 'ORION'].includes(currentCallsign)) {
+          if (['AURORA', 'ORION', 'KNOPA'].includes(currentCallsign)) {
             errorBlock.textContent = `⚠️ Callsign '${currentCallsign}' is already in use. This identity is reserved.`;
             errorBlock.classList.add('visible');
             telemetryText.style.color = '#e74c3c';
@@ -895,11 +832,14 @@
           operatorData.role = roleSelect.value;
           operatorData.function = functionInput.value;
 
+          // Сбрасываем кнопку перед скрытием формы для чистоты состояния
+          resetSubmitBtn();
+
           document.getElementById('step-1').classList.add('hidden');
           document.getElementById('step-2').classList.remove('hidden');
+
           const subtitle = document.getElementById('page-subtitle');
           if (subtitle) subtitle.textContent = 'Phase 2: Security Setup';
-          sessionStorage.setItem('signupStep', '2');
 
           telemetryText.style.color = '#4da6ff';
           telemetryText.innerHTML = '> SYSTEM READY. AWAITING SECURITY REGISTRATION';
@@ -947,7 +887,12 @@
       recoveryCipherInput.addEventListener('input', filterRecoveryCipher);
 
       [accessCodeInput, confirmAccessCodeInput, recoveryCipherInput].forEach(el => {
-        el.addEventListener('focus', () => securityErrorBlock.classList.remove('visible'));
+        el.addEventListener('focus', () => {
+          securityErrorBlock.classList.remove('visible');
+          // 🔄 Возвращаем телеметрию в исходное состояние Шага 2
+          telemetryText.style.color = '#4da6ff';
+          telemetryText.innerHTML = '> SYSTEM READY. AWAITING SECURITY REGISTRATION';
+        });
       });
 
       function checkSecurityFormState() {
@@ -978,7 +923,7 @@
         confirmAccessCodeInput.type = 'password';
 
         securityErrorBlock.classList.remove('visible');
-        securityErrorBlock.textContent = '⚠️ Security protocol failed';
+        securityErrorBlock.textContent = '⚠️ Security protocol failed. Invalid credentials provided.';
 
         resetSubmitBtn();
         checkFormState();
@@ -993,96 +938,97 @@
       // === 7. STEP 2 SUBMIT ===
       function handleSignupStep2(event) {
         event.preventDefault();
+        if (isProcessing) return; // Защита от двойного клика
 
         const accessCode = accessCodeInput.value;
         const confirmCode = confirmAccessCodeInput.value;
         const recoveryCipher = recoveryCipherInput.value;
 
-        if (accessCode !== confirmCode) {
-          securityErrorBlock.textContent = '⚠️ Access codes do not match. Please verify and try again.';
-          securityErrorBlock.classList.add('visible');
-          telemetryText.style.color = '#e74c3c';
-          telemetryText.innerHTML = '> SECURITY PROTOCOL FAILED. CODES MISMATCH DETECTED';
-          return;
-        }
+        // 🚀 Включаем состояние обработки (мерцание)
+        isProcessing = true;
+        completeBtn.classList.add('processing');
+        completeBtn.disabled = true;
+        completeBtn.textContent = 'ACTIVATING ACCOUNT...';
+        // 🗑️ УБРАНО: промежуточная телеметрия. Она остается "> SYSTEM READY. AWAITING SECURITY REGISTRATION"
 
-        if (accessCode !== 'QUASAR_5') {
-          securityErrorBlock.textContent = '⚠️ Access Code invalid. Pre-configured credentials required.';
-          securityErrorBlock.classList.add('visible');
-          telemetryText.style.color = '#e74c3c';
-          telemetryText.innerHTML = '> SECURITY PROTOCOL FAILED. INVALID ACCESS CODE';
-          return;
-        }
+        // Ждем 2 секунды, как на первом шаге
+        setTimeout(() => {
+          // 🛡️ ИБ-стандарт: Единая ошибка для любого невалидного ввода на Шаге 2
+          if (accessCode !== confirmCode || accessCode !== 'QUASAR_5' || recoveryCipher !== 'COMETA') {
+            securityErrorBlock.textContent = '⚠️ Security protocol failed. Invalid credentials provided.';
+            securityErrorBlock.classList.add('visible');
+            telemetryText.style.color = '#e74c3c';
+            telemetryText.innerHTML = '> SYSTEM LOCKED. INVALID CREDENTIALS.';
 
-        if (recoveryCipher !== 'COMETA') {
-          securityErrorBlock.textContent = '⚠️ Recovery Cipher invalid. Pre-configured credentials required.';
-          securityErrorBlock.classList.add('visible');
-          telemetryText.style.color = '#e74c3c';
-          telemetryText.innerHTML = '> SECURITY PROTOCOL FAILED. INVALID RECOVERY CIPHER';
-          return;
-        }
+            // Сбрасываем кнопку при ошибке, чтобы можно было попробовать снова
+            completeBtn.classList.remove('processing');
+            completeBtn.disabled = false;
+            completeBtn.textContent = 'COMPLETE REGISTRATION';
+            isProcessing = false;
+            return;
+          }
 
-        operatorData.accessCode = accessCode;
-        operatorData.recoveryCipher = recoveryCipher;
+          // --- УСПЕХ ---
+          operatorData.accessCode = accessCode;
+          operatorData.recoveryCipher = recoveryCipher;
 
-        sessionStorage.setItem('operatorData', JSON.stringify(operatorData));
-        sessionStorage.setItem('signupStep', '3');
+          // 🚀 Сохраняем пользователя в постоянную базу
+          let registeredUsers = {};
+          const registeredUsersStr = localStorage.getItem('registeredUsers');
+          if (registeredUsersStr) {
+            try {
+              registeredUsers = JSON.parse(registeredUsersStr);
+            } catch (e) {
+              registeredUsers = {};
+            }
+          }
 
-        document.getElementById('step-2').classList.add('hidden');
-        document.getElementById('step-3').classList.remove('hidden');
+          registeredUsers[operatorData.callsign] = operatorData;
+          localStorage.setItem('registeredUsers', JSON.stringify(registeredUsers));
 
-        const cornerNav = document.querySelector('.corner-nav');
-        if (cornerNav) cornerNav.classList.add('locked');
+          // Переключаем UI на Шаг 3
+          document.getElementById('step-2').classList.add('hidden');
+          document.getElementById('step-3').classList.remove('hidden');
 
-        const mainLogo = document.querySelector('.login-card > .login-logo');
-        if (mainLogo) mainLogo.classList.add('hidden');
+          const mainLogo = document.querySelector('.login-card > .login-logo');
+          if (mainLogo) mainLogo.classList.add('hidden');
 
-        const subtitle = document.getElementById('page-subtitle');
-        if (subtitle) {
-          subtitle.textContent = 'Welcome aboard, new Operator.';
-          subtitle.style.color = '#2ecc71';
-        }
+          const subtitle = document.getElementById('page-subtitle');
+          if (subtitle) {
+            subtitle.textContent = 'Welcome aboard, new Operator.';
+            subtitle.style.color = '#2ecc71';
+          }
 
-        document.getElementById('sum-callsign').textContent = operatorData.callsign;
-        document.getElementById('sum-name').textContent = operatorData.fullName;
-        document.getElementById('sum-role').textContent = operatorData.roleIcon + ' ' + operatorData.role.charAt(0).toUpperCase() + operatorData.role.slice(1).toLowerCase();
-        document.getElementById('sum-function').textContent = operatorData.function;
-        document.getElementById('sum-level').textContent = operatorData.accessLevel;
-        document.getElementById('sum-id').textContent = operatorData.id;
+          document.getElementById('sum-callsign').textContent = operatorData.callsign;
+          document.getElementById('sum-name').textContent = operatorData.fullName;
+          document.getElementById('sum-role').textContent = operatorData.roleIcon + ' ' + operatorData.role.charAt(0).toUpperCase() + operatorData.role.slice(1).toLowerCase();
+          document.getElementById('sum-function').textContent = operatorData.function;
+          document.getElementById('sum-level').textContent = operatorData.accessLevel;
+          document.getElementById('sum-id').textContent = operatorData.id;
 
-        telemetryText.style.color = '#2ecc71';
-        telemetryText.innerHTML = '> REGISTRATION COMPLETE. OPERATOR ACCOUNT ACTIVATED.';
+          telemetryText.style.color = '#2ecc71';
+          telemetryText.innerHTML = '> REGISTRATION COMPLETE. OPERATOR ACCOUNT ACTIVATED.';
+
+          // Сбрасываем состояние кнопки (для чистоты кода)
+          completeBtn.classList.remove('processing');
+          completeBtn.textContent = 'COMPLETE REGISTRATION';
+          isProcessing = false;
+        }, 2000); // ЕДИНОЕ ВРЕМЯ: 2 секунды
       }
 
-      // === 8. LAUNCH SEQUENCE ===
-      document.getElementById('launch-btn').addEventListener('click', function () {
-        let registeredUsers = {};
-        const registeredUsersStr = localStorage.getItem('registeredUsers');
-
-        if (registeredUsersStr) {
-          try {
-            registeredUsers = JSON.parse(registeredUsersStr);
-          } catch (e) {
-            registeredUsers = {};
-          }
-        }
-
-        registeredUsers[operatorData.callsign] = operatorData;
-        localStorage.setItem('registeredUsers', JSON.stringify(registeredUsers));
-
-        sessionStorage.setItem('currentUser', JSON.stringify(operatorData));
-        sessionStorage.setItem('freshLogin', 'true');
-
-        sessionStorage.removeItem('operatorData');
-        sessionStorage.removeItem('signupStep');
-
-        window.location.href = 'dashboard.html';
-      });
-
-      // === 9. EVENT BINDINGS ===
+      // === 8. EVENT BINDINGS (Привязка обработчиков к формам) ===
       document.getElementById('step-1').addEventListener('submit', handleSignupStep1);
       document.getElementById('step-2').addEventListener('submit', handleSignupStep2);
+
+      // 🧹 ОЧИСТКА СЕССИИ ПРИ УХОДЕ СО СТРАНИЦЫ ИЛИ ОБНОВЛЕНИИ
+      window.addEventListener('beforeunload', () => {
+        sessionStorage.removeItem('signupStep');
+        sessionStorage.removeItem('operatorData');
+        sessionStorage.removeItem('operatorDataDraft'); // На всякий случай
+      });
+
     });
+
   </script>
 </body>
 
