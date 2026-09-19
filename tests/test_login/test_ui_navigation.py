@@ -64,8 +64,8 @@ def test_reactive_button_state(login_page):
     """
 
     # 🎬 ARRANGE
-    login_page.enter_callsign(data.CALLSIGN_TOO_SHORT_3_CHARS)
-    login_page.enter_access_code(data.ACCESS_CODE_TOO_SHORT_3_CHARS)
+    login_page.enter_callsign(callsign=data.CALLSIGN_TOO_SHORT_3_CHARS)
+    login_page.enter_access_code(access_code=data.ACCESS_CODE_TOO_SHORT_3_CHARS)
 
     # ✅ ASSERT
     login_page.should_be_establish_connect_btn(is_enabled=False)
@@ -135,7 +135,7 @@ def test_successful_navigation_to_signup(login_page):
     login_page.click_sign_up()
 
     # ✅ ASSERT
-    login_page.wait_for_url(data.SIGNUP_URL)
+    login_page.wait_for_url(expected_url_part=data.SIGNUP_URL)
 
 
 @allure.id("CAS-05")
@@ -157,4 +157,4 @@ def test_successful_navigation_to_the_access_restoration(login_page):
     login_page.click_restore()
 
     # ✅ ASSERT
-    login_page.wait_for_url(data.ACCESS_RESTORATION_URL)
+    login_page.wait_for_url(expected_url_part=data.ACCESS_RESTORATION_URL)

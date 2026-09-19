@@ -173,4 +173,4 @@ def test_input_sanitization_callsign(login_page):
     )
     login_page.verify_telemetry_text(expected_text=data.RED_TELEMETRY_SYSTEM_FAILURE)
 
-    login_page.verify_user_saved_in_storage(is_saved=False, check_session=True)
+    login_page.verify_user_data_in_storage(check_session=True, should_exist=False)

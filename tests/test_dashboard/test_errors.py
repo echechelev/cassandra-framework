@@ -21,7 +21,7 @@ def test_access_denied_redirect_on_empty_storage(dashboard_page):
     # ✅ ASSERT
     dashboard_page.verify_telemetry_text(expected_text=data.RED_TELEMETRY_ACCESS_DENIED)
     dashboard_page.verify_telemetry_color_with_cassandra(red=True)
-    dashboard_page.wait_for_url(data.LOGIN_URL)
+    dashboard_page.wait_for_url(expected_url_part=data.LOGIN_URL)
 
 
 @allure.id("CAS-02")
@@ -50,8 +50,8 @@ def test_redirect_corrupted_session(login_page, dashboard_page):
         expected_text=data.RED_TELEMETRY_DATA_CORRUPTED
     )
     dashboard_page.verify_telemetry_color_with_cassandra(red=True)
-    dashboard_page.wait_for_url(data.LOGIN_URL)
-    dashboard_page.verify_session_storage_cleared()
+    dashboard_page.wait_for_url(expected_url_part=data.LOGIN_URL)
+    dashboard_page.verify_user_data_in_storage(check_session=True, should_exist=False)
 
 
 @allure.id("CAS-03")
@@ -79,13 +79,13 @@ def test_logout_protection_via_browser_back(dashboard_page_aurora):
 
     # ⚡ ACT
     dashboard_page_aurora.logout_btn.click()
-    dashboard_page_aurora.wait_for_url(data.LOGIN_URL)
+    dashboard_page_aurora.wait_for_url(expected_url_part=data.LOGIN_URL)
     dashboard_page_aurora.click_browser_back()
 
     # ✅ ASSERT
-    dashboard_page_aurora.wait_for_url(data.LOGIN_URL)
-    dashboard_page_aurora.verify_storage_cleared(
-        expected_callsign=data.CALLSIGN_AURORA, check_session=True
+    dashboard_page_aurora.wait_for_url(expected_url_part=data.LOGIN_URL)
+    dashboard_page_aurora.verify_user_data_in_storage(
+        expected_callsign=data.CALLSIGN_AURORA, check_session=True, should_exist=False
     )
 
 

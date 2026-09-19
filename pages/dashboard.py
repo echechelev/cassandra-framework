@@ -12,11 +12,11 @@ from selenium.common.exceptions import (
 )
 from selenium.webdriver import ActionChains
 
-from pages.hub import HubPage
+from pages.core import CorePage
 from tests import data
 
 
-class DashboardPage(HubPage):
+class DashboardPage(CorePage):
 
     # URL
     PATH = data.DASHBOARD_URL
@@ -77,18 +77,8 @@ class DashboardPage(HubPage):
     # endregion
 
     # ========================================================================
-    # region 2️⃣ 📡 UPLINK (Анимация загрузки)
+    # region 2️⃣ 🖱️ ДЕЙСТВИЯ С КНОПКАМИ
     # ========================================================================
-
-    def verify_progress_bar_appeared_once(self):
-        """Проверяет, что прогресс-бар появился и он ровно один (нет дубликатов от спама)."""
-        self.progress_container.should(be.visible)
-
-        assert (
-            len(self.progress_bars) == 1
-        ), f"Ожидался 1 прогресс-бар, найдено: {len(self.progress_bars)}"
-
-        return self
 
     @allure.step("Нажатие кнопки Uplink")
     def click_uplink(self):
@@ -107,6 +97,55 @@ class DashboardPage(HubPage):
                 raise AssertionError(
                     f"❌ Unexpected error while clicking Uplink!\n" f"   Error: {e}"
                 ) from e
+        return self
+
+    @allure.step("Нажатие кнопки Logout")
+    def click_logout(self):
+        """Нажимает кнопку выхода из системы (Disconnect/Logout)."""
+        with allure.step("Кликаем по кнопке Logout"):
+            try:
+                self.logout_btn.should(be.visible).should(be.enabled)
+                self.logout_btn.click()
+
+            except TimeoutException:
+                raise AssertionError(
+                    "❌ Logout button not found or not clickable!\n"
+                    "   Timeout: button did not appear in time"
+                )
+            except Exception as e:
+                raise AssertionError(
+                    f"❌ Unexpected error while clicking Logout!\n" f"   Error: {e}"
+                ) from e
+        return self
+
+    @allure.step("Выполняем 3 клика по кнопке 'Uplink'")
+    def spam_click_diagnostics(self, times=3):
+        """
+        Выполняет серию быстрых нативных кликов по кнопке Start Diagnostics.
+
+        Использует прямой доступ к Selenium WebDriver, чтобы избежать
+        проблем с повторным поиском элемента в Selene 2.x.
+        Ошибки клика по неактивному элементу игнорируются.
+
+        Args:
+            times (int): Количество попыток клика. По умолчанию 3.
+
+        Returns:
+            self: Экземпляр страницы для цепочки вызовов.
+        """
+
+        self.uplink_btn.should(be.visible)
+
+        native_btn = browser.driver.find_element(
+            "css selector", '[data-wm-id="uplink-btn"]'
+        )
+
+        for _ in range(times):
+            try:
+                native_btn.click()
+            except (ElementClickInterceptedException, ElementNotInteractableException):
+                pass
+
         return self
 
     @allure.step("Ожидание полной активации Uplink")
@@ -156,6 +195,22 @@ class DashboardPage(HubPage):
                     f"❌ Unexpected error while waiting for Uplink completion!\n"
                     f"   Error: {e}"
                 ) from e
+
+        return self
+
+    # endregion
+
+    # ========================================================================
+    # region 3️⃣ ✅ ПРОВЕРКИ СОСТОЯНИЙ
+    # ========================================================================
+
+    def verify_progress_bar_appeared_once(self):
+        """Проверяет, что прогресс-бар появился и он ровно один (нет дубликатов от спама)."""
+        self.progress_container.should(be.visible)
+
+        assert (
+            len(self.progress_bars) == 1
+        ), f"Ожидался 1 прогресс-бар, найдено: {len(self.progress_bars)}"
 
         return self
 
@@ -241,14 +296,13 @@ class DashboardPage(HubPage):
                 errors = []
 
                 for btn_name, btn_element in buttons:
-                    # Проверяем наличие класса panel-online
+                    
                     try:
                         btn_element.should(have.css_class("panel-online"))
                     except TimeoutException:
                         errors.append(f"   {btn_name}: class 'panel-online' not found")
                         continue
 
-                    # Проверяем pointer-events и cursor через JS
                     script = """
                         const btn = arguments[0];
                         const style = window.getComputedStyle(btn);
@@ -431,36 +485,6 @@ class DashboardPage(HubPage):
 
         return self
 
-    @allure.step("Выполняем 3 клика по кнопке 'Uplink'")
-    def spam_click_diagnostics(self, times=3):
-        """
-        Выполняет серию быстрых нативных кликов по кнопке Start Diagnostics.
-
-        Использует прямой доступ к Selenium WebDriver, чтобы избежать
-        проблем с повторным поиском элемента в Selene 2.x.
-        Ошибки клика по неактивному элементу игнорируются.
-
-        Args:
-            times (int): Количество попыток клика. По умолчанию 3.
-
-        Returns:
-            self: Экземпляр страницы для цепочки вызовов.
-        """
-
-        self.uplink_btn.should(be.visible)
-
-        native_btn = browser.driver.find_element(
-            "css selector", '[data-wm-id="uplink-btn"]'
-        )
-
-        for _ in range(times):
-            try:
-                native_btn.click()
-            except (ElementClickInterceptedException, ElementNotInteractableException):
-                pass
-
-        return self
-
     @allure.step("Проверка неактивности кнопки Logout до полной активации")
     def verify_logout_button_inactive(self, timeout: int = 30):
         """
@@ -500,12 +524,6 @@ class DashboardPage(HubPage):
 
         return self
     
-    # endregion
-
-    # ========================================================================
-    # region 3️⃣ 👤 ИНФОРМАЦИОННЫЕ ПАНЕЛИ
-    # ========================================================================
-
     @allure.step("Проверка данных в информационных панелях")
     def verify_panels_data(self, expected_role: str, expected_user: str):
         """
@@ -596,83 +614,6 @@ class DashboardPage(HubPage):
 
         return self
 
-    # endregion
-
-    # ========================================================================
-    # region 4️⃣ БЕЗОПАСНОСТЬ И СЕССИЯ
-    # ========================================================================
-
-    @allure.step("Нажатие кнопки Logout")
-    def click_logout(self):
-        """Нажимает кнопку выхода из системы (Disconnect/Logout)."""
-        with allure.step("Кликаем по кнопке Logout"):
-            try:
-                self.logout_btn.should(be.visible).should(be.enabled)
-                self.logout_btn.click()
-
-            except TimeoutException:
-                raise AssertionError(
-                    "❌ Logout button not found or not clickable!\n"
-                    "   Timeout: button did not appear in time"
-                )
-            except Exception as e:
-                raise AssertionError(
-                    f"❌ Unexpected error while clicking Logout!\n" f"   Error: {e}"
-                ) from e
-        return self
-
-    @allure.step("Проверка отказа доступа и редиректа")
-    def verify_access_denied_and_redirect(
-        self, expected_url_part: str = "login.html", timeout: float = 3.0
-    ):
-        """
-        Проверяет сценарий отказа доступа:
-        1. Телеметрия показывает '> ACCESS DENIED. REDIRECTING...'
-        2. Через ~1.5 сек происходит редирект на страницу логина.
-
-        Args:
-            expected_url_part: Часть URL, которую ожидаем после редиректа.
-            timeout: Максимальное время ожидания редиректа в секундах.
-        """
-        self.verify_telemetry_text("> ACCESS DENIED. REDIRECTING...")
-
-        with allure.step(f"Ожидаем редирект на '{expected_url_part}'"):
-            try:
-                browser.should(have.url_containing(expected_url_part), timeout=timeout)  # type: ignore
-            except TimeoutException:
-                raise AssertionError(
-                    f"❌ Redirect failed!\n"
-                    f"   Expected URL containing: '{expected_url_part}'\n"
-                    f"   Timeout: {timeout}s"
-                )
-            except Exception as e:
-                raise AssertionError(
-                    f"❌ Unexpected error while checking redirect!\n" f"   Error: {e}"
-                ) from e
-
-        return self
-
-    @allure.step("Проверка редиректа на страницу логина")
-    def verify_redirect_to_login(self):
-        """
-        Проверяет, что произошел редирект на страницу логина.
-        Использует глобальный таймаут Selene (по умолчанию 4 сек).
-        """
-        with allure.step("Ожидаем редирект на login.html"):
-            try:
-                browser.should(have.url_containing("login.html"))
-            except TimeoutException:
-                raise AssertionError(
-                    "❌ Redirect to Login Page failed!\n"
-                    "   Expected: URL containing 'login.html'"
-                )
-            except Exception as e:
-                raise AssertionError(
-                    f"❌ Unexpected error while checking redirect!\n" f"   Error: {e}"
-                ) from e
-
-        return self
-
     @allure.step("Проверка hover-эффекта кнопки Logout")
     def verify_logout_button_hover_effect(self):
         """
@@ -725,3 +666,5 @@ class DashboardPage(HubPage):
                 ) from e
 
         return self
+
+    # endregion

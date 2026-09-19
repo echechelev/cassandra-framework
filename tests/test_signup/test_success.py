@@ -69,9 +69,9 @@ def test_successful_registration_nova(signup_page):
     signup_page.click_proceed()
 
     # ⚡ ACT
-    signup_page.enter_access_code(data.ACCESS_CODE_NOVA)
-    signup_page.enter_confirm_access_code(data.ACCESS_CODE_NOVA)
-    signup_page.enter_recovery_cipher(data.RECOVERY_CIPHER_NOVA)
+    signup_page.enter_access_code(access_code=data.ACCESS_CODE_NOVA)
+    signup_page.enter_confirm_access_code(confirm_code=data.ACCESS_CODE_NOVA)
+    signup_page.enter_recovery_cipher(cipher=data.RECOVERY_CIPHER_NOVA)
     signup_page.click_complete_registration()
 
     # ✅ ASSERT
@@ -117,9 +117,9 @@ def test_verify_local_storage_after_launch(signup_page):
     signup_page.click_proceed()
 
     # ⚡ ACT
-    signup_page.enter_access_code(data.ACCESS_CODE_NOVA)
-    signup_page.enter_confirm_access_code(data.ACCESS_CODE_NOVA)
-    signup_page.enter_recovery_cipher(data.RECOVERY_CIPHER_NOVA)
+    signup_page.enter_access_code(access_code=data.ACCESS_CODE_NOVA)
+    signup_page.enter_confirm_access_code(confirm_code=data.ACCESS_CODE_NOVA)
+    signup_page.enter_recovery_cipher(cipher=data.RECOVERY_CIPHER_NOVA)
     signup_page.click_complete_registration()
 
     # ✅ ASSERT

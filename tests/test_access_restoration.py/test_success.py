@@ -28,8 +28,8 @@ def test_restoration_happy_path(restore_page):
     # 🎬 ARRANGE
     restore_page.enter_callsign(callsign=data.NAME_KNOPA)
     restore_page.enter_recovery_cipher(cipher=data.RECOVERY_CIPHER_KNOPA)
-    restore_page.enter_new_access_code(data.ACCESS_CODE_KNOPA)
-    restore_page.enter_confirm_access_code(data.ACCESS_CODE_KNOPA)
+    restore_page.enter_new_access_code(new_code=data.ACCESS_CODE_KNOPA)
+    restore_page.enter_confirm_access_code(confirm_code=data.ACCESS_CODE_KNOPA)
 
     # ⚡ ACT
     restore_page.click_restore_access()
@@ -72,10 +72,10 @@ def test_data_saved_in_localstorage(restore_page):
     """
 
     # 🎬 ARRANGE
-    restore_page.enter_callsign(data.CALLSIGN_KNOPA)
-    restore_page.enter_recovery_cipher(data.RECOVERY_CIPHER_KNOPA)
-    restore_page.enter_new_access_code(data.ACCESS_CODE_KNOPA)
-    restore_page.enter_confirm_access_code(data.ACCESS_CODE_KNOPA)
+    restore_page.enter_callsign(callsign=data.CALLSIGN_KNOPA)
+    restore_page.enter_recovery_cipher(cipher=data.RECOVERY_CIPHER_KNOPA)
+    restore_page.enter_new_access_code(new_code=data.ACCESS_CODE_KNOPA)
+    restore_page.enter_confirm_access_code(confirm_code=data.ACCESS_CODE_KNOPA)
 
     # ⚡ ACT
     restore_page.click_restore_access()

@@ -24,4 +24,4 @@ def test_redirect_to_dashboard_with_active_session(dashboard_page_aurora):
     dashboard_page_aurora.open_url(path=data.INDEX_URL)
 
     # ✅ ASSERT
-    dashboard_page_aurora.wait_for_url(data.DASHBOARD_URL)
+    dashboard_page_aurora.wait_for_url(expected_url_part=data.DASHBOARD_URL)
