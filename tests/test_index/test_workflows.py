@@ -26,19 +26,19 @@ def test_full_navigation_cycle_with_return_to_index(index_page):
 
     # ⚡ ACT
     index_page.click_log_in()
-    index_page.wait_for_url(data.LOGIN_URL)
+    index_page.wait_for_url(expected_url_part=data.LOGIN_URL)
     index_page.click_browser_back()
-    index_page.wait_for_url(data.INDEX_URL)
+    index_page.wait_for_url(expected_url_part=data.INDEX_URL)
 
     index_page.click_sign_up()
-    index_page.wait_for_url(data.SIGNUP_URL)
+    index_page.wait_for_url(expected_url_part=data.SIGNUP_URL)
     index_page.click_browser_back()
-    index_page.wait_for_url(data.INDEX_URL)
+    index_page.wait_for_url(expected_url_part=data.INDEX_URL)
 
     index_page.click_restore()
-    index_page.wait_for_url(data.ACCESS_RESTORATION_URL)
+    index_page.wait_for_url(expected_url_part=data.ACCESS_RESTORATION_URL)
     index_page.click_browser_back()
-    index_page.wait_for_url(data.INDEX_URL)
+    index_page.wait_for_url(expected_url_part=data.INDEX_URL)
 
     # ✅ ASSERT
     index_page.verify_ecg_animation_in_dom()
@@ -56,6 +56,6 @@ def test_full_navigation_cycle_with_return_to_index(index_page):
         element=index_page.footer_copyright, expected_text=data.COPYRIGHT_TEXT
     )
 
-    index_page.check_button_content("btn-login", "LOG IN")
-    index_page.check_button_content("btn-signup", "SIGN UP")
-    index_page.check_button_content("btn-restore", "RESTORE")
+    index_page.check_button_content(button_id="btn-login", expected_text="LOG IN")
+    index_page.check_button_content(button_id="btn-signup", expected_text="SIGN UP")
+    index_page.check_button_content(button_id="btn-restore", expected_text="RESTORE")

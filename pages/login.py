@@ -1,12 +1,13 @@
 import allure
 from selene import be, browser, have
+from selene.core.entity import Element
 from selenium.common.exceptions import TimeoutException
 
-from pages.hub import HubPage
+from pages.gateway import GatewayPage
 from tests import data
 
 
-class LoginPage(HubPage):
+class LoginPage(GatewayPage):
 
     # URL
     PATH = data.LOGIN_URL
@@ -22,6 +23,11 @@ class LoginPage(HubPage):
     # Тексты и ссылки
     page_subtitle = browser.element('[data-wm-id="login-page-subtitle"]')
     auth_error_message = browser.element('[data-wm-id="auth-error-message"]')
+
+    # Свойства, которые переопределяют абстрактные поля из GatewayPage,
+    @property
+    def toggle_password(self)-> Element:
+        return self.toggle_password_btn
 
     # ========================================================================
     # region 1️⃣ 🌐 НАВИГАЦИЯ
@@ -59,77 +65,7 @@ class LoginPage(HubPage):
     # endregion
 
     # ========================================================================
-    # region 2️⃣ ⌨️ ПОЛЯ ВВОДА
-    # ========================================================================
-
-    @allure.step("Ввод позывного")
-    def enter_callsign(self, callsign: str, clear_first: bool = False):
-        """Вводит позывной в поле Callsign. Если clear_first=True, сначала очищает поле.
-
-        Args:
-            callsign: Позывной.
-            clear_first: Если True, сначала очищает поле.
-        """
-        with allure.step(f"Вводим позывной: '{callsign}' (очистка: {clear_first})"):
-            try:
-                self.callsign_input.should(be.visible)
-
-                if clear_first:
-                    self.callsign_input.clear()
-
-                self.callsign_input.type(callsign)
-
-            except TimeoutException:
-                raise AssertionError(
-                    "❌ Callsign field not found or not visible!\n"
-                    f"   Callsign: {callsign}\n"
-                    "   Timeout: element did not appear in time"
-                )
-            except Exception as e:
-                raise AssertionError(
-                    f"❌ Unexpected error while entering callsign!\n"
-                    f"   Callsign: {callsign}\n"
-                    f"   Error: {e}"
-                ) from e
-        return self
-
-    @allure.step("Ввод ключа доступа")
-    def enter_access_code(self, access_code: str, clear_first: bool = False):
-        """Вводит ключ доступа в поле Access Code. Если clear_first=True, сначала очищает поле.
-
-        Args:
-            access_code: Ключ доступа.
-            clear_first: Если True, сначала очищает поле.
-        """
-        with allure.step(
-            f"Вводим ключ доступа: '{access_code}' (очистка: {clear_first})"
-        ):
-            try:
-                self.access_code_input.should(be.visible)
-
-                if clear_first:
-                    self.access_code_input.clear()
-
-                self.access_code_input.type(access_code)
-
-            except TimeoutException:
-                raise AssertionError(
-                    "❌ Access Code field not found or not visible!\n"
-                    f"   Access Code: {access_code}\n"
-                    "   Timeout: element did not appear in time"
-                )
-            except Exception as e:
-                raise AssertionError(
-                    f"❌ Unexpected error while entering access code!\n"
-                    f"   Access Code: {access_code}\n"
-                    f"   Error: {e}"
-                ) from e
-        return self
-
-    # endregion
-
-    # ========================================================================
-    # region 3️⃣ 🖱️ ДЕЙСТВИЯ С КНОПКАМИ
+    # region 2️⃣ 🖱️ ДЕЙСТВИЯ С КНОПКАМИ
     # ========================================================================
 
     @allure.step("Нажатие на кнопку Establish Connect и ожидание ответа системы")
@@ -149,21 +85,10 @@ class LoginPage(HubPage):
 
         return self
 
-    @allure.step("Клик по кнопке переключения видимости пароля (Глаз)")
-    def click_toggle_password(self):
-        """Нажимает на иконку глаза, чтобы показать/скрыть пароль."""
-        try:
-            self.toggle_password_btn.click()
-        except Exception as e:
-            raise AssertionError(
-                f"❌ Failed to click toggle password button!\n" f"   Error: {e}"
-            ) from e
-        return self
-
     # endregion
 
     # ========================================================================
-    # region 4️⃣ ✅ ПРОВЕРКИ СОСТОЯНИЙ
+    # region 3️⃣ ✅ ПРОВЕРКИ СОСТОЯНИЙ
     # ========================================================================
 
     @allure.step("Проверка типа поля Access Code")
@@ -174,16 +99,13 @@ class LoginPage(HubPage):
             expected_type: 'password' (скрыт) или 'text' (виден)
         """
         try:
-            actual_type = self.access_code_input().get_attribute("type")
-
-            if actual_type != expected_type:
-                raise AssertionError(
-                    f" Access code type mismatch!\n"
-                    f"   Expected: {expected_type}\n"
-                    f"   Actual: {actual_type}"
-                )
-        except AssertionError:
-            raise
+            self.access_code_input.should(have.attribute("type", expected_type))
+        except TimeoutException:
+            raise AssertionError(
+                f"❌ Access code type mismatch!\n"
+                f"   Expected: {expected_type}\n"
+                f"   Actual: поле не имеет ожидаемого типа"
+            ) from None
         except Exception as e:
             raise AssertionError(
                 f"❌ Unexpected error while checking access code type!\n"

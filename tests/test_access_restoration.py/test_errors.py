@@ -28,8 +28,8 @@ def test_invalid_new_access_code(restore_page):
     # 🎬 ARRANGE
     restore_page.enter_callsign(callsign=data.CALLSIGN_KNOPA)
     restore_page.enter_recovery_cipher(cipher=data.RECOVERY_CIPHER_KNOPA)
-    restore_page.enter_new_access_code(access_code=data.ACCESS_CODE_WRONG)
-    restore_page.enter_confirm_access_code(access_code=data.ACCESS_CODE_WRONG)
+    restore_page.enter_new_access_code(new_code=data.ACCESS_CODE_WRONG)
+    restore_page.enter_confirm_access_code(confirm_code=data.ACCESS_CODE_WRONG)
 
     # ⚡ ACT
     restore_page.click_restore_access(wait_for_success=False)
@@ -68,8 +68,8 @@ def test_access_codes_mismatch(restore_page):
     # 🎬 ARRANGE
     restore_page.enter_callsign(callsign=data.CALLSIGN_KNOPA)
     restore_page.enter_recovery_cipher(cipher=data.RECOVERY_CIPHER_KNOPA)
-    restore_page.enter_new_access_code(access_code=data.ACCESS_CODE_KNOPA)
-    restore_page.enter_confirm_access_code(access_code=data.ACCESS_CODE_WRONG)
+    restore_page.enter_new_access_code(new_code=data.ACCESS_CODE_KNOPA)
+    restore_page.enter_confirm_access_code(confirm_code=data.ACCESS_CODE_WRONG)
 
     # ⚡ ACT
     restore_page.click_restore_access(wait_for_success=False)
@@ -108,8 +108,8 @@ def test_invalid_recovery_cipher(restore_page):
     # 🎬 ARRANGE
     restore_page.enter_callsign(callsign=data.CALLSIGN_KNOPA)
     restore_page.enter_recovery_cipher(cipher=data.RECOVERY_CIPHER_WRONG)
-    restore_page.enter_new_access_code(access_code=data.ACCESS_CODE_KNOPA)
-    restore_page.enter_confirm_access_code(access_code=data.ACCESS_CODE_KNOPA)
+    restore_page.enter_new_access_code(new_code=data.ACCESS_CODE_KNOPA)
+    restore_page.enter_confirm_access_code(confirm_code=data.ACCESS_CODE_KNOPA)
 
     # ⚡ ACT
     restore_page.click_restore_access(wait_for_success=False)
@@ -151,8 +151,8 @@ def test_user_already_restored(restore_page):
     # 🎬 ARRANGE
     restore_page.enter_callsign(callsign=data.CALLSIGN_KNOPA)
     restore_page.enter_recovery_cipher(cipher=data.RECOVERY_CIPHER_KNOPA)
-    restore_page.enter_new_access_code(data.ACCESS_CODE_KNOPA)
-    restore_page.enter_confirm_access_code(data.ACCESS_CODE_KNOPA)
+    restore_page.enter_new_access_code(new_code=data.ACCESS_CODE_KNOPA)
+    restore_page.enter_confirm_access_code(confirm_code=data.ACCESS_CODE_KNOPA)
 
     # ⚡ ACT
     restore_page.click_restore_access()
@@ -166,8 +166,8 @@ def test_user_already_restored(restore_page):
     restore_page.click_refresh_page()
     restore_page.enter_callsign(callsign=data.CALLSIGN_KNOPA)
     restore_page.enter_recovery_cipher(cipher=data.RECOVERY_CIPHER_KNOPA)
-    restore_page.enter_new_access_code(data.ACCESS_CODE_KNOPA)
-    restore_page.enter_confirm_access_code(data.ACCESS_CODE_KNOPA)
+    restore_page.enter_new_access_code(new_code=data.ACCESS_CODE_KNOPA)
+    restore_page.enter_confirm_access_code(confirm_code=data.ACCESS_CODE_KNOPA)
     restore_page.click_restore_access(wait_for_success=False)
 
     # ✅ ASSERT
@@ -204,8 +204,8 @@ def test_access_restoration_unknown_callsign(restore_page):
     # 🎬 ARRANGE
     restore_page.enter_callsign(callsign=data.CALLSIGN_WRONG)
     restore_page.enter_recovery_cipher(cipher=data.RECOVERY_CIPHER_KNOPA)
-    restore_page.enter_new_access_code(access_code=data.ACCESS_CODE_KNOPA)
-    restore_page.enter_confirm_access_code(access_code=data.ACCESS_CODE_KNOPA)
+    restore_page.enter_new_access_code(new_code=data.ACCESS_CODE_KNOPA)
+    restore_page.enter_confirm_access_code(confirm_code=data.ACCESS_CODE_KNOPA)
 
     # ⚡ ACT
     restore_page.click_restore_access(wait_for_success=False)

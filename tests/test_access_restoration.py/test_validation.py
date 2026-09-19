@@ -25,8 +25,8 @@ def test_callsign_less_than_min_length(restore_page):
     # 🎬 ARRANGE
     restore_page.enter_callsign(callsign=data.CALLSIGN_TOO_SHORT_3_CHARS)
     restore_page.enter_recovery_cipher(cipher=data.RECOVERY_CIPHER_KNOPA)
-    restore_page.enter_new_access_code(access_code=data.ACCESS_CODE_KNOPA)
-    restore_page.enter_confirm_access_code(access_code=data.ACCESS_CODE_KNOPA)
+    restore_page.enter_new_access_code(new_code=data.ACCESS_CODE_KNOPA)
+    restore_page.enter_confirm_access_code(confirm_code=data.ACCESS_CODE_KNOPA)
 
     # ✅ ASSERT
     restore_page.should_be_restore_access_btn(is_enabled=False)
@@ -53,8 +53,8 @@ def test_recovery_cipher_less_than_min_length(restore_page):
     # 🎬 ARRANGE
     restore_page.enter_callsign(callsign=data.CALLSIGN_KNOPA)
     restore_page.enter_recovery_cipher(cipher=data.RECOVERY_CIPHER_TOO_SHORT_3_CHARS)
-    restore_page.enter_new_access_code(access_code=data.ACCESS_CODE_KNOPA)
-    restore_page.enter_confirm_access_code(access_code=data.ACCESS_CODE_KNOPA)
+    restore_page.enter_new_access_code(new_code=data.ACCESS_CODE_KNOPA)
+    restore_page.enter_confirm_access_code(confirm_code=data.ACCESS_CODE_KNOPA)
 
     # ✅ ASSERT
     restore_page.should_be_restore_access_btn(is_enabled=False)
@@ -81,8 +81,8 @@ def test_new_access_code_less_than_min_length(restore_page):
     # 🎬 ARRANGE
     restore_page.enter_callsign(callsign=data.CALLSIGN_KNOPA)
     restore_page.enter_recovery_cipher(cipher=data.RECOVERY_CIPHER_KNOPA)
-    restore_page.enter_new_access_code(access_code=data.ACCESS_CODE_TOO_SHORT_3_CHARS)
-    restore_page.enter_confirm_access_code(access_code=data.ACCESS_CODE_KNOPA)
+    restore_page.enter_new_access_code(new_code=data.ACCESS_CODE_TOO_SHORT_3_CHARS)
+    restore_page.enter_confirm_access_code(confirm_code=data.ACCESS_CODE_KNOPA)
 
     # ✅ ASSERT
     restore_page.should_be_restore_access_btn(is_enabled=False)
@@ -109,9 +109,9 @@ def test_confirm_access_code_less_than_min_length(restore_page):
     # 🎬 ARRANGE
     restore_page.enter_callsign(callsign=data.CALLSIGN_KNOPA)
     restore_page.enter_recovery_cipher(cipher=data.RECOVERY_CIPHER_KNOPA)
-    restore_page.enter_new_access_code(access_code=data.ACCESS_CODE_KNOPA)
+    restore_page.enter_new_access_code(new_code=data.ACCESS_CODE_KNOPA)
     restore_page.enter_confirm_access_code(
-        access_code=data.ACCESS_CODE_TOO_SHORT_3_CHARS
+        confirm_code=data.ACCESS_CODE_TOO_SHORT_3_CHARS
     )
 
     # ✅ ASSERT
@@ -225,8 +225,8 @@ def test_sql_injection_in_callsign(restore_page):
     # 🎬 ARRANGE
     restore_page.enter_callsign(callsign=data.SQL_INJECTION_PAYLOAD)
     restore_page.enter_recovery_cipher(cipher=data.RECOVERY_CIPHER_KNOPA)
-    restore_page.enter_new_access_code(access_code=data.ACCESS_CODE_KNOPA)
-    restore_page.enter_confirm_access_code(access_code=data.ACCESS_CODE_KNOPA)
+    restore_page.enter_new_access_code(new_code=data.ACCESS_CODE_KNOPA)
+    restore_page.enter_confirm_access_code(confirm_code=data.ACCESS_CODE_KNOPA)
 
     # ⚡ ACT
     restore_page.click_restore_access(wait_for_success=False)
@@ -242,7 +242,9 @@ def test_sql_injection_in_callsign(restore_page):
     restore_page.verify_telemetry_text(
         expected_text=data.RED_TELEMETRY_RESTORATION_ABORTED
     )
-    restore_page.verify_user_saved_in_storage(is_saved=False, check_local=True)
+    restore_page.verify_user_data_in_storage(
+        expected_callsign=data.CALLSIGN_KNOPA, check_local=True, should_exist=False
+    )
 
 
 @allure.id("CAS-10")
@@ -269,8 +271,8 @@ def test_sql_injection_in_recovery_cipher(restore_page):
     # 🎬 ARRANGE
     restore_page.enter_callsign(callsign=data.CALLSIGN_KNOPA)
     restore_page.enter_recovery_cipher(cipher=data.SQL_INJECTION_PAYLOAD)
-    restore_page.enter_new_access_code(access_code=data.ACCESS_CODE_KNOPA)
-    restore_page.enter_confirm_access_code(access_code=data.ACCESS_CODE_KNOPA)
+    restore_page.enter_new_access_code(new_code=data.ACCESS_CODE_KNOPA)
+    restore_page.enter_confirm_access_code(confirm_code=data.ACCESS_CODE_KNOPA)
 
     # ✅ ASSERT
     restore_page.verify_field_value(
@@ -280,4 +282,6 @@ def test_sql_injection_in_recovery_cipher(restore_page):
     restore_page.verify_button_state(
         element=restore_page.restore_access_btn, is_disabled=True
     )
-    restore_page.verify_user_saved_in_storage(is_saved=False, check_local=True)
+    restore_page.verify_user_data_in_storage(
+        expected_callsign=data.CALLSIGN_KNOPA, check_local=True, should_exist=False
+    )

@@ -2,11 +2,11 @@ import allure
 from selene import be, browser
 from selenium.common.exceptions import TimeoutException
 
-from pages.hub import HubPage
+from pages.core import CorePage
 from tests import data
 
 
-class IndexPage(HubPage):
+class IndexPage(CorePage):
 
     # URL
     PATH = data.INDEX_URL

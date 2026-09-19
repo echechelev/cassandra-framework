@@ -55,7 +55,7 @@ def test_access_code_shorter_than_min_length(signup_page):
     signup_page.click_proceed()
 
     # ⚡ ACT
-    signup_page.enter_access_code(code=data.ACCESS_CODE_TOO_SHORT_3_CHARS)
+    signup_page.enter_access_code(access_code=data.ACCESS_CODE_TOO_SHORT_3_CHARS)
     signup_page.enter_confirm_access_code(confirm_code=data.ACCESS_CODE_NOVA)
     signup_page.enter_recovery_cipher(cipher=data.RECOVERY_CIPHER_NOVA)
 
@@ -90,7 +90,7 @@ def test_confirm_code_shorter_than_min_length(signup_page):
     signup_page.click_proceed()
 
     # ⚡ ACT
-    signup_page.enter_access_code(code=data.ACCESS_CODE_NOVA)
+    signup_page.enter_access_code(access_code=data.ACCESS_CODE_NOVA)
     signup_page.enter_confirm_access_code(
         confirm_code=data.ACCESS_CODE_TOO_SHORT_3_CHARS
     )
@@ -127,7 +127,7 @@ def test_recovery_cipher_shorter_than_min_length(signup_page):
     signup_page.click_proceed()
 
     # ⚡ ACT
-    signup_page.enter_access_code(code=data.ACCESS_CODE_NOVA)
+    signup_page.enter_access_code(access_code=data.ACCESS_CODE_NOVA)
     signup_page.enter_confirm_access_code(confirm_code=data.ACCESS_CODE_NOVA)
     signup_page.enter_recovery_cipher(cipher=data.RECOVERY_CIPHER_TOO_SHORT_3_CHARS)
 
@@ -248,7 +248,7 @@ def test_empty_confirm_code_with_other_fields_filled(signup_page):
     signup_page.click_proceed()
 
     # ⚡ ACT
-    signup_page.enter_access_code(code=data.ACCESS_CODE_NOVA)
+    signup_page.enter_access_code(access_code=data.ACCESS_CODE_NOVA)
     signup_page.enter_recovery_cipher(cipher=data.RECOVERY_CIPHER_NOVA)
 
     # ✅ ASSERT
@@ -282,7 +282,7 @@ def test_empty_recovery_cipher_with_other_fields_filled(signup_page):
     signup_page.click_proceed()
 
     # ⚡ ACT
-    signup_page.enter_access_code(code=data.ACCESS_CODE_NOVA)
+    signup_page.enter_access_code(access_code=data.ACCESS_CODE_NOVA)
     signup_page.enter_confirm_access_code(confirm_code=data.ACCESS_CODE_NOVA)
 
     # ✅ ASSERT
@@ -406,9 +406,7 @@ def test_input_sanitization_recovery_cipher(signup_page):
     4. Ввести валидные данные в 'Access Code' и 'Confirm Access Code'.
     6. Проверить: фронтенд автоматически отсекает спецсимволы и цифры — в поле остаётся только 'OR' (2 символа).
     7. Проверить: кнопка 'COMPLETE REGISTRATION' остаётся неактивной 'disabled'  < 4 символов.
-    9. Проверить: данные не сохраняются в 'localStorage'.
-    8. Проверить: отправка формы не происходит.
-    9. Проверить: данные не сохраняются в 'localStorage'.
+    8. Проверить: данные не сохраняются в 'localStorage'.
     """
 
     # 🎬 ARRANGE
@@ -417,16 +415,16 @@ def test_input_sanitization_recovery_cipher(signup_page):
     signup_page.click_proceed()
 
     # ⚡ ACT
-    signup_page.enter_access_code(data.ACCESS_CODE_NOVA)
-    signup_page.enter_confirm_access_code(data.ACCESS_CODE_NOVA)
-    signup_page.enter_recovery_cipher(data.SQL_INJECTION_PAYLOAD)
+    signup_page.enter_access_code(access_code=data.ACCESS_CODE_NOVA)
+    signup_page.enter_confirm_access_code(confirm_code=data.ACCESS_CODE_NOVA)
+    signup_page.enter_recovery_cipher(cipher=data.SQL_INJECTION_PAYLOAD)
 
     # ✅ ASSERT
     signup_page.verify_button_state(signup_page.complete_btn, is_disabled=True)
     signup_page.verify_field_value(
         element=signup_page.recovery_cipher_input, expected_value="OR"
     )
-    signup_page.verify_user_saved_in_storage(is_saved=False, check_local=True)
+    signup_page.verify_user_data_in_storage(check_local=True, should_exist=False)
 
 
 @allure.id("CAS-15")

@@ -30,7 +30,7 @@ def test_tooltips_display_dynamic_data_aurora(dashboard_page_aurora):
     dashboard_page_aurora.wait_for_uplink_complete(callsign=data.CALLSIGN_AURORA)
 
     # ✅ ASSERT
-    dashboard_page_aurora.verify_tooltips_dynamic_data(data.USER_AURORA)
+    dashboard_page_aurora.verify_tooltips_dynamic_data(user_data=data.USER_AURORA)
 
 
 @allure.id("CAS-02")
@@ -58,7 +58,7 @@ def test_tooltips_display_dynamic_data_orion(dashboard_page_orion):
     dashboard_page_orion.wait_for_uplink_complete(callsign=data.CALLSIGN_ORION)
 
     # ✅ ASSERT
-    dashboard_page_orion.verify_tooltips_dynamic_data(data.USER_ORION)
+    dashboard_page_orion.verify_tooltips_dynamic_data(user_data=data.USER_ORION)
 
 
 @allure.id("CAS-03")
@@ -87,7 +87,7 @@ def test_tooltips_display_dynamic_data_nova(dashboard_page_nova):
     dashboard_page_nova.wait_for_uplink_complete(callsign=data.CALLSIGN_NOVA)
 
     # ✅ ASSERT
-    dashboard_page_nova.verify_tooltips_dynamic_data(data.USER_NOVA)
+    dashboard_page_nova.verify_tooltips_dynamic_data(user_data=data.USER_NOVA)
 
 
 @allure.id("CAS-04")
@@ -116,7 +116,7 @@ def test_tooltips_display_dynamic_data_knopa(dashboard_page_knopa):
     dashboard_page_knopa.wait_for_uplink_complete(callsign=data.CALLSIGN_KNOPA)
 
     # ✅ ASSERT
-    dashboard_page_knopa.verify_tooltips_dynamic_data(data.USER_KNOPA)
+    dashboard_page_knopa.verify_tooltips_dynamic_data(user_data=data.USER_KNOPA)
 
 
 @allure.id("CAS-05")
@@ -205,9 +205,9 @@ def test_dashboard_state_restore_after_browser_back(dashboard_page_aurora):
 
     # ⚡ ACT
     dashboard_page_aurora.galaxy_map_btn.click()
-    dashboard_page_aurora.wait_for_url(data.GALAXY_MAP_URL)
-    browser.driver.back()
-    dashboard_page_aurora.wait_for_url(data.DASHBOARD_URL)
+    dashboard_page_aurora.wait_for_url(expected_url_part=data.GALAXY_MAP_URL)
+    dashboard_page_aurora.click_browser_back()
+    dashboard_page_aurora.wait_for_url(expected_url_part=data.DASHBOARD_URL)
 
     # ✅ ASSERT
     dashboard_page_aurora.verify_uplink_button_disabled()

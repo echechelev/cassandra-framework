@@ -33,12 +33,11 @@ def test_successful_authorization_aurora(login_page):
 
     # ✅ ASSERT
     login_page.verify_telemetry_color_not_cassandra(green=True)
-    login_page.verify_telemetry_text(data.GREEN_TELEMETRY_WELCOME_AURORA)
-    login_page.verify_user_saved_in_storage(
-        expected_callsign=data.CALLSIGN_AURORA,
-        check_session=True,
+    login_page.verify_telemetry_text(expected_text=data.GREEN_TELEMETRY_WELCOME_AURORA)
+    login_page.verify_user_data_in_storage(
+        expected_callsign=data.CALLSIGN_AURORA, check_session=True, should_exist=True
     )
-    login_page.wait_for_url(data.DASHBOARD_URL)
+    login_page.wait_for_url(expected_url_part=data.DASHBOARD_URL)
 
 
 @allure.id("CAS-02")
@@ -70,12 +69,11 @@ def test_successful_authorization_orion(login_page):
 
     # ✅ ASSERT
     login_page.verify_telemetry_color_not_cassandra(green=True)
-    login_page.verify_telemetry_text(data.GREEN_TELEMETRY_WELCOME_ORION)
-    login_page.verify_user_saved_in_storage(
-        expected_callsign=data.CALLSIGN_ORION,
-        check_session=True,
+    login_page.verify_telemetry_text(expected_text=data.GREEN_TELEMETRY_WELCOME_ORION)
+    login_page.verify_user_data_in_storage(
+        expected_callsign=data.CALLSIGN_ORION, check_session=True, should_exist=True
     )
-    login_page.wait_for_url(data.DASHBOARD_URL)
+    login_page.wait_for_url(expected_url_part=data.DASHBOARD_URL)
 
 
 @allure.id("CAS-03")
@@ -109,12 +107,11 @@ def test_successful_authorization_nova(nova_created, login_page):
 
     # ✅ ASSERT
     login_page.verify_telemetry_color_not_cassandra(green=True)
-    login_page.verify_telemetry_text(data.GREEN_TELEMETRY_WELCOME_NOVA)
-    login_page.verify_user_saved_in_storage(
-        expected_callsign=data.CALLSIGN_NOVA,
-        check_session=True,
+    login_page.verify_telemetry_text(expected_text=data.GREEN_TELEMETRY_WELCOME_NOVA)
+    login_page.verify_user_data_in_storage(
+        expected_callsign=data.CALLSIGN_NOVA, check_session=True, should_exist=True
     )
-    login_page.wait_for_url(data.DASHBOARD_URL)
+    login_page.wait_for_url(expected_url_part=data.DASHBOARD_URL)
 
 
 @allure.id("CAS-04")
@@ -148,9 +145,8 @@ def test_successful_authorization_knopa(knopa_restored, login_page):
 
     # ✅ ASSERT
     login_page.verify_telemetry_color_not_cassandra(green=True)
-    login_page.verify_telemetry_text(data.GREEN_TELEMETRY_WELCOME_KNOPA)
-    login_page.verify_user_saved_in_storage(
-        expected_callsign=data.CALLSIGN_KNOPA,
-        check_session=True,
+    login_page.verify_telemetry_text(expected_text=data.GREEN_TELEMETRY_WELCOME_KNOPA)
+    login_page.verify_user_data_in_storage(
+        expected_callsign=data.CALLSIGN_KNOPA, check_session=True, should_exist=True
     )
-    login_page.wait_for_url(data.DASHBOARD_URL)
+    login_page.wait_for_url(expected_url_part=data.DASHBOARD_URL)

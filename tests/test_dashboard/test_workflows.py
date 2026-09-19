@@ -65,11 +65,10 @@ def test_logout_aurora_success(dashboard_page_aurora):
     dashboard_page_aurora.click_logout()
 
     # ✅ ASSERT
-    dashboard_page_aurora.verify_storage_cleared(
-        expected_callsign=data.CALLSIGN_AURORA,
-        check_session=True,
+    dashboard_page_aurora.verify_user_data_in_storage(
+        expected_callsign=data.CALLSIGN_AURORA, check_session=True, should_exist=False
     )
-    dashboard_page_aurora.wait_for_url(data.LOGIN_URL)
+    dashboard_page_aurora.wait_for_url(expected_url_part=data.LOGIN_URL)
 
 
 @allure.id("CAS-03")
@@ -98,11 +97,10 @@ def test_logout_orion_success(dashboard_page_orion):
     dashboard_page_orion.click_logout()
 
     # ✅ ASSERT
-    dashboard_page_orion.verify_storage_cleared(
-        expected_callsign=data.CALLSIGN_ORION,
-        check_session=True,
+    dashboard_page_orion.verify_user_data_in_storage(
+        expected_callsign=data.CALLSIGN_ORION, check_session=True, should_exist=False
     )
-    dashboard_page_orion.wait_for_url(data.LOGIN_URL)
+    dashboard_page_orion.wait_for_url(expected_url_part=data.LOGIN_URL)
 
 
 @allure.id("CAS-04")
@@ -133,15 +131,13 @@ def test_logout_nova_success(dashboard_page_nova):
     dashboard_page_nova.click_logout()
 
     # ✅ ASSERT
-    dashboard_page_nova.verify_storage_cleared(
-        expected_callsign=data.CALLSIGN_NOVA,
-        check_session=True,
+    dashboard_page_nova.verify_user_data_in_storage(
+        expected_callsign=data.CALLSIGN_NOVA, check_session=True, should_exist=False
     )
     dashboard_page_nova.verify_user_data_in_storage(
-        expected_callsign=data.CALLSIGN_NOVA,
-        check_local=True,
+        expected_callsign=data.CALLSIGN_NOVA, check_local=True, should_exist=True
     )
-    dashboard_page_nova.wait_for_url(data.LOGIN_URL)
+    dashboard_page_nova.wait_for_url(expected_url_part=data.LOGIN_URL)
 
 
 @allure.id("CAS-05")
@@ -172,15 +168,13 @@ def test_logout_knopa_success(dashboard_page_knopa):
     dashboard_page_knopa.click_logout()
 
     # ✅ ASSERT
-    dashboard_page_knopa.verify_storage_cleared(
-        expected_callsign=data.CALLSIGN_KNOPA,
-        check_session=True,
+    dashboard_page_knopa.verify_user_data_in_storage(
+        expected_callsign=data.CALLSIGN_KNOPA, check_session=True, should_exist=False
     )
     dashboard_page_knopa.verify_user_data_in_storage(
-        expected_callsign=data.CALLSIGN_KNOPA,
-        check_local=True,
+        expected_callsign=data.CALLSIGN_KNOPA, check_local=True, should_exist=True
     )
-    dashboard_page_knopa.wait_for_url(data.LOGIN_URL)
+    dashboard_page_knopa.wait_for_url(expected_url_part=data.LOGIN_URL)
 
 
 @allure.id("CAS-06")
@@ -213,7 +207,7 @@ def test_bfcache_restore_reinitialization(dashboard_page_aurora):
 
     # ✅ ASSERT
     dashboard_page_aurora.verify_user_data_in_storage(
-        expected_callsign=data.CALLSIGN_AURORA, check_session=True
+        expected_callsign=data.CALLSIGN_AURORA, check_session=True, should_exist=True
     )
     dashboard_page_aurora.verify_uplink_buttons_activated()
     dashboard_page_aurora.verify_telemetry_text(

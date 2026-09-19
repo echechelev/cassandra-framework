@@ -7,11 +7,11 @@ from selenium.common.exceptions import (
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import Select
 
-from pages.hub import HubPage
+from pages.gateway import GatewayPage
 from tests import data
 
 
-class SignupPage(HubPage):
+class SignupPage(GatewayPage):
 
     # URL
     PATH = data.SIGNUP_URL
@@ -22,21 +22,15 @@ class SignupPage(HubPage):
     role_select = browser.element('[data-wm-id="signup-role-select"]')
     function_input = browser.element('[data-wm-id="signup-function-input"]')
     access_code_input = browser.element('[data-wm-id="signup-access-code-input"]')
-    confirm_access_code_input = browser.element(
-        '[data-wm-id="signup-confirm-code-input"]'
-    )
-    recovery_cipher_input = browser.element(
-        '[data-wm-id="signup-recovery-cipher-input"]'
-    )
+    confirm_access_code_input = browser.element('[data-wm-id="signup-confirm-code-input"]')
+    recovery_cipher_input = browser.element('[data-wm-id="signup-recovery-cipher-input"]')
 
     # Кнопки
     proceed_btn = browser.element('[data-wm-id="signup-proceed-btn"]')
     back_btn = browser.element('[data-wm-id="signup-back-btn"]')
     complete_btn = browser.element('[data-wm-id="signup-complete-btn"]')
     toggle_access_code_btn = browser.element('[data-wm-id="signup-toggle-access-code"]')
-    toggle_confirm_code_btn = browser.element(
-        '[data-wm-id="signup-toggle-confirm-code"]'
-    )
+    toggle_confirm_code_btn = browser.element('[data-wm-id="signup-toggle-confirm-code"]')
 
     # Тексты и сообщения
     error_message = browser.element('[data-wm-id="signup-error-message"]')
@@ -49,6 +43,17 @@ class SignupPage(HubPage):
     sum_function = browser.element('[data-wm-id="sum-function"]')
     sum_level = browser.element('[data-wm-id="sum-level"]')
     sum_id = browser.element('[data-wm-id="sum-id"]')
+
+    # Локальные методы страницы (специфика SignupPage)
+    @allure.step("Переключаем видимость Access Code")
+    def click_toggle_access_code(self):
+        self.toggle_access_code_btn.click()
+        return self
+
+    @allure.step("Переключаем видимость Confirm Code")
+    def click_toggle_confirm_code(self):
+        self.toggle_confirm_code_btn.click()
+        return self
 
     # ========================================================================
     # region 1️⃣ 🌐 НАВИГАЦИЯ
@@ -92,7 +97,7 @@ class SignupPage(HubPage):
     # endregion
 
     # ========================================================================
-    # region 2️⃣ ⌨️ ПОЛЯ ВВОДА
+    # region 2️⃣ ⌨️ ЗАПОЛНЕНИЕ ПОЛЕЙ
     # ========================================================================
 
     @allure.step("Вводим текст в поле Full Name")
@@ -126,66 +131,6 @@ class SignupPage(HubPage):
                     f"   Expected input: '{name}'\n"
                     f"   Error: {e}"
                 ) from e
-        return self
-
-    @allure.step("Вводим текст в поле Access Code")
-    def enter_access_code(self, code: str):
-        """
-        Вводит текст в поле Access Code.
-        Использует .type() для корректного срабатывания JS-события input.
-
-        Args:
-            code: Строка с кодом доступа (например, '123456').
-        """
-        try:
-            self.access_code_input.type(code)
-        except TimeoutException:
-            raise AssertionError(
-                "❌ Failed to enter Access Code!\n"
-                f"   Expected input: '{code}'\n"
-                f"   Element: {self.access_code_input}\n"
-                "   Timeout: access_code_input did not appear or was not interactable"
-            )
-        return self
-
-    @allure.step("Вводим текст в поле Confirm Access Code")
-    def enter_confirm_access_code(self, confirm_code: str):
-        """
-        Вводит текст в поле Confirm Access Code.
-        Использует .type() для корректного срабатывания JS-события input.
-
-        Args:
-            confirm_code: Строка с подтверждением кода доступа (например, '123456').
-        """
-        try:
-            self.confirm_access_code_input.type(confirm_code)
-        except TimeoutException:
-            raise AssertionError(
-                "❌ Failed to enter Confirm Access Code!\n"
-                f"   Expected input: '{confirm_code}'\n"
-                f"   Element: {self.confirm_access_code_input}\n"
-                "   Timeout: confirm_access_code_input did not appear or was not interactable"
-            )
-        return self
-
-    @allure.step("Вводим текст в поле Recovery Cipher")
-    def enter_recovery_cipher(self, cipher: str):
-        """
-        Вводит текст в поле Recovery Cipher.
-        Использует .type() для корректного срабатывания JS-события input.
-
-        Args:
-            cipher: Строка с шифром восстановления (например, 'ABC-123-XYZ').
-        """
-        try:
-            self.recovery_cipher_input.type(cipher)
-        except TimeoutException:
-            raise AssertionError(
-                "❌ Failed to enter Recovery Cipher!\n"
-                f"   Expected input: '{cipher}'\n"
-                f"   Element: {self.recovery_cipher_input}\n"
-                "   Timeout: recovery_cipher_input did not appear or was not interactable"
-            )
         return self
 
     @allure.step("Выбираем роль из выпадающего списка")
@@ -273,34 +218,6 @@ class SignupPage(HubPage):
             )
         return self
 
-    @allure.step("Переключаем видимость полей паролей")
-    def click_toggle_password(
-        self,
-        access_code: bool = False,
-        confirm_code: bool = False,
-    ):
-        """
-        Переключает видимость полей Access Code и/или Confirm Access Code.
-
-        Args:
-            access_code: Если True, кликает по кнопке переключения видимости Access Code.
-            confirm_code: Если True, кликает по кнопке переключения видимости Confirm Access Code.
-        """
-        try:
-            if access_code:
-                self.toggle_access_code_btn.click()
-            if confirm_code:
-                self.toggle_confirm_code_btn.click()
-        except TimeoutException:
-            raise AssertionError(
-                "❌ Failed to toggle password visibility!\n"
-                f"   Access Code toggle: {access_code}\n"
-                f"   Confirm Code toggle: {confirm_code}\n"
-                "   Timeout: toggle button was not clickable or not visible"
-            )
-        return self
-
-
     # endregion
 
     # ========================================================================
@@ -363,39 +280,6 @@ class SignupPage(HubPage):
             )
         return self
 
-    @allure.step("Проверяем тип поля после переключения видимости")
-    def verify_field_type_after_toggle(
-        self,
-        access_code: bool = False,
-        confirm_code: bool = False,
-        expected_type: str = "text",
-    ):
-        """
-        Проверяет атрибут type у полей после переключения видимости.
-        Убеждается, что точки исчезли и введенные символы видны.
-
-        Args:
-            access_code: Если True, проверяет тип поля Access Code.
-            confirm_code: Если True, проверяет тип поля Confirm Access Code.
-            expected_type: Ожидаемый тип ('password' или 'text'). По умолчанию 'text'.
-        """
-        try:
-            if access_code:
-                self.access_code_input.should(have.attribute("type", expected_type))
-            if confirm_code:
-                self.confirm_access_code_input.should(
-                    have.attribute("type", expected_type)
-                )
-        except TimeoutException:
-            raise AssertionError(
-                "❌ Field type verification failed!\n"
-                f"   Expected type: '{expected_type}'\n"
-                f"   Access Code check: {access_code}\n"
-                f"   Confirm Code check: {confirm_code}\n"
-                "   Condition: Specified fields must have the expected type after toggle"
-            )
-        return self
-
     @allure.step("Проверяем поля сводки на Шаге 3")
     def verify_step_3_summary(
         self,
@@ -444,60 +328,37 @@ class SignupPage(HubPage):
             )
         return self
 
-    @allure.step("Удаляем оператора из localStorage")
-    def delete_operator_from_storage(self, callsign: str):
+    @allure.step("Проверяем тип поля после переключения видимости")
+    def verify_field_type_after_toggle(
+        self,
+        access_code: bool = False,
+        confirm_code: bool = False,
+        expected_type: str = "text",
+    ):
         """
-        Удаляет конкретного оператора из registeredUsers в localStorage.
+        Проверяет атрибут type у полей после переключения видимости.
+        Убеждается, что точки исчезли и введенные символы видны.
 
         Args:
-            callsign: Позывной оператора для удаления (например, 'NOVA').
+            access_code: Если True, проверяет тип поля Access Code.
+            confirm_code: Если True, проверяет тип поля Confirm Access Code.
+            expected_type: Ожидаемый тип ('password' или 'text'). По умолчанию 'text'.
         """
-        script = f"""
-            const users = JSON.parse(localStorage.getItem('registeredUsers') || '{{}}');
-            delete users['{callsign}'];
-            localStorage.setItem('registeredUsers', JSON.stringify(users));
-        """
-        browser.driver.execute_script(script)
-        return self
-
-    @allure.step("Очищаем всех операторов из localStorage")
-    def clear_all_operators_from_storage(self):
-        """
-        Полностью удаляет registeredUsers из localStorage.
-        """
-        browser.driver.execute_script("localStorage.removeItem('registeredUsers')")
-        return self
-
-    @allure.step("Проверка блокировки угловой навигации на Шаге 3")
-    def check_corner_nav_locked(self):
-        """Проверяет, что угловая навигация заблокирована на Шаге 3."""
-        corner_nav = browser.element(".corner-nav")
-
-        # Проверка наличия класса locked
-        corner_nav.should(have.css_class("locked"))
-
-        # Проверка CSS-свойств
-        corner_nav.should(have.css_property("pointer-events", "none"))
-        corner_nav.should(have.css_property("opacity", "0.3"))
-
-        return self
-
-    @allure.step("Проверка, что кнопка {button_id} некликабельна на Шаге 3")
-    def check_button_not_clickable(self, button_id: str):
-        """Проверяет CSS-свойство pointer-events через нативный Selenium."""
-        from selenium.webdriver.common.by import By
-
-        raw_btn = browser.driver.find_element(
-            By.CSS_SELECTOR, f'[data-wm-id="{button_id}"]'
-        )
-
-        pointer_events = raw_btn.value_of_css_property("pointer-events")
-        
-        assert pointer_events == "none", (
-            f"❌ Button '{button_id}' должна быть заблокирована (pointer-events: none), "
-            f"но получено: '{pointer_events}'"
-        )
-
+        try:
+            if access_code:
+                self.access_code_input.should(have.attribute("type", expected_type))
+            if confirm_code:
+                self.confirm_access_code_input.should(
+                    have.attribute("type", expected_type)
+                )
+        except TimeoutException:
+            raise AssertionError(
+                "❌ Field type verification failed!\n"
+                f"   Expected type: '{expected_type}'\n"
+                f"   Access Code check: {access_code}\n"
+                f"   Confirm Code check: {confirm_code}\n"
+                "   Condition: Specified fields must have the expected type after toggle"
+            )
         return self
 
     # endregion

@@ -142,7 +142,7 @@ def test_reactive_complete_button_state(signup_page):
     signup_page.click_proceed()
 
     # ⚡ ACT
-    signup_page.enter_access_code(code=data.ACCESS_CODE_TOO_SHORT_3_CHARS)
+    signup_page.enter_access_code(access_code=data.ACCESS_CODE_TOO_SHORT_3_CHARS)
     signup_page.enter_confirm_access_code(
         confirm_code=data.ACCESS_CODE_TOO_SHORT_3_CHARS
     )
@@ -155,7 +155,7 @@ def test_reactive_complete_button_state(signup_page):
     )
 
     # ⚡ ACT
-    signup_page.enter_access_code(code=data.ACCESS_CODE_MIN_VALID_4_CHARS)
+    signup_page.enter_access_code(access_code=data.ACCESS_CODE_MIN_VALID_4_CHARS)
     signup_page.enter_confirm_access_code(
         confirm_code=data.ACCESS_CODE_MIN_VALID_4_CHARS
     )
@@ -224,18 +224,18 @@ def test_toggle_password_visibility(signup_page):
     signup_page.click_proceed()
 
     # ⚡ ACT
-    signup_page.enter_access_code(code=data.ACCESS_CODE_NOVA)
+    signup_page.enter_access_code(access_code=data.ACCESS_CODE_NOVA)
     signup_page.enter_confirm_access_code(confirm_code=data.ACCESS_CODE_NOVA)
-    signup_page.click_toggle_password(access_code=True)
-    signup_page.click_toggle_password(confirm_code=True)
+    signup_page.click_toggle_access_code()
+    signup_page.click_toggle_confirm_code()
 
     # ✅ ASSERT
     signup_page.verify_field_type_after_toggle(access_code=True, expected_type="text")
     signup_page.verify_field_type_after_toggle(confirm_code=True, expected_type="text")
 
     # ⚡ ACT
-    signup_page.click_toggle_password(access_code=True)
-    signup_page.click_toggle_password(confirm_code=True)
+    signup_page.click_toggle_access_code()
+    signup_page.click_toggle_confirm_code()
 
     # ✅ ASSERT
     signup_page.verify_field_type_after_toggle(
@@ -265,7 +265,7 @@ def test_successful_navigation_to_the_log_in(signup_page):
     signup_page.click_log_in()
 
     # ✅ ASSERT
-    signup_page.wait_for_url(data.LOGIN_URL)
+    signup_page.wait_for_url(expected_url_part=data.LOGIN_URL)
 
 
 @allure.id("CAS-08")
@@ -287,4 +287,4 @@ def test_successful_navigation_to_the_access_restoration(signup_page):
     signup_page.click_restore()
 
     # ✅ ASSERT
-    signup_page.wait_for_url(data.ACCESS_RESTORATION_URL)
+    signup_page.wait_for_url(expected_url_part=data.ACCESS_RESTORATION_URL)

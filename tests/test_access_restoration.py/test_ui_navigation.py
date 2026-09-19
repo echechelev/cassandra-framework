@@ -70,24 +70,24 @@ def test_reactive_button_state(restore_page):
     """
 
     # 🎬 ARRANGE
-    restore_page.enter_callsign(data.CALLSIGN_TOO_SHORT_3_CHARS)
-    restore_page.enter_recovery_cipher(data.RECOVERY_CIPHER_TOO_SHORT_3_CHARS)
-    restore_page.enter_new_access_code(data.ACCESS_CODE_TOO_SHORT_3_CHARS)
-    restore_page.enter_confirm_access_code(data.ACCESS_CODE_TOO_SHORT_3_CHARS)
+    restore_page.enter_callsign(callsign=data.CALLSIGN_TOO_SHORT_3_CHARS)
+    restore_page.enter_recovery_cipher(cipher=data.RECOVERY_CIPHER_TOO_SHORT_3_CHARS)
+    restore_page.enter_new_access_code(new_code=data.ACCESS_CODE_TOO_SHORT_3_CHARS)
+    restore_page.enter_confirm_access_code(confirm_code=data.ACCESS_CODE_TOO_SHORT_3_CHARS)
 
     # ✅ ASSERT
     restore_page.should_be_restore_access_btn(is_enabled=False)
 
     # ⚡ ACT
-    restore_page.enter_callsign(data.CALLSIGN_MIN_VALID_4_CHARS, clear_first=True)
+    restore_page.enter_callsign(callsign=data.CALLSIGN_MIN_VALID_4_CHARS, clear_first=True)
     restore_page.enter_recovery_cipher(
-        data.RECOVERY_CIPHER_MIN_VALID_4_CHARS, clear_first=True
+        cipher=data.RECOVERY_CIPHER_MIN_VALID_4_CHARS, clear_first=True
     )
     restore_page.enter_new_access_code(
-        data.ACCESS_CODE_MIN_VALID_4_CHARS, clear_first=True
+        new_code=data.ACCESS_CODE_MIN_VALID_4_CHARS, clear_first=True
     )
     restore_page.enter_confirm_access_code(
-        data.ACCESS_CODE_MIN_VALID_4_CHARS, clear_first=True
+        confirm_code=data.ACCESS_CODE_MIN_VALID_4_CHARS, clear_first=True
     )
 
     # ✅ ASSERT
@@ -114,12 +114,12 @@ def test_toggle_access_code_visibility(restore_page):
     """
 
     # 🎬 ARRANGE
-    restore_page.enter_new_access_code(access_code=data.ACCESS_CODE_KNOPA)
-    restore_page.enter_confirm_access_code(access_code=data.ACCESS_CODE_KNOPA)
+    restore_page.enter_new_access_code(new_code=data.ACCESS_CODE_KNOPA)
+    restore_page.enter_confirm_access_code(confirm_code=data.ACCESS_CODE_KNOPA)
 
     # ⚡ ACT
-    restore_page.click_toggle_new_and_confirm_access_code(new_access_code=True)
-    restore_page.click_toggle_new_and_confirm_access_code(confirm_access_code=True)
+    restore_page.click_toggle_new_access_code()
+    restore_page.click_toggle_confirm_code()
 
     # ✅ ASSERT
     restore_page.verify_field_type_after_toggle_restoration(
@@ -130,8 +130,8 @@ def test_toggle_access_code_visibility(restore_page):
     )
 
     # ⚡ ACT
-    restore_page.click_toggle_new_and_confirm_access_code(new_access_code=True)
-    restore_page.click_toggle_new_and_confirm_access_code(confirm_access_code=True)
+    restore_page.click_toggle_new_access_code()
+    restore_page.click_toggle_confirm_code()
 
     # ✅ ASSERT
     restore_page.verify_field_type_after_toggle_restoration(
@@ -161,7 +161,7 @@ def test_navigation_to_login(restore_page):
     restore_page.click_log_in()
 
     # ✅ ASSERT
-    restore_page.wait_for_url(data.LOGIN_URL)
+    restore_page.wait_for_url(expected_url_part=data.LOGIN_URL)
 
 
 @allure.id("CAS-05")
@@ -183,4 +183,4 @@ def test_navigation_to_signup(restore_page):
     restore_page.click_sign_up()
 
     # ✅ ASSERT
-    restore_page.wait_for_url(data.SIGNUP_URL)
+    restore_page.wait_for_url(expected_url_part=data.SIGNUP_URL)

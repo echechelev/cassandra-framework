@@ -23,7 +23,7 @@ def test_successful_navigation_to_login_page(index_page):
     index_page.click_log_in()
 
     # ✅ ASSERT
-    index_page.wait_for_url(data.LOGIN_URL)
+    index_page.wait_for_url(expected_url_part=data.LOGIN_URL)
 
 
 @allure.id("CAS-02")
@@ -45,7 +45,7 @@ def test_successful_navigation_to_signup_page(index_page):
     index_page.click_sign_up()
 
     # ✅ ASSERT
-    index_page.wait_for_url(data.SIGNUP_URL)
+    index_page.wait_for_url(expected_url_part=data.SIGNUP_URL)
 
 
 @allure.id("CAS-03")
@@ -67,7 +67,7 @@ def test_successful_navigation_to_access_restoration_page(index_page):
     index_page.click_restore()
 
     # ✅ ASSERT
-    index_page.wait_for_url(data.ACCESS_RESTORATION_URL)
+    index_page.wait_for_url(expected_url_part=data.ACCESS_RESTORATION_URL)
 
 
 @allure.id("CAS-04")
