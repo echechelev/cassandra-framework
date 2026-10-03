@@ -2,15 +2,15 @@ import allure
 from selene import be, browser, have
 from selenium.common.exceptions import TimeoutException
 
-from pages.gateway import GatewayPage
+from pages.core import CorePage
 from tests import data
 
 
-class AccessRestorationPage(GatewayPage):
+class AccessRestorationPage(CorePage):
 
     # URL
     PATH = data.ACCESS_RESTORATION_URL
-
+    
     # Поля ввода
     callsign_input = browser.element('[data-wm-id="restoration-callsign-input"]')
     recovery_cipher_input = browser.element('[data-wm-id="restoration-recovery-cipher-input"]')
@@ -21,31 +21,17 @@ class AccessRestorationPage(GatewayPage):
     toggle_new_access_code_btn = browser.element('[data-wm-id="restoration-toggle-new-access-code"]')
     toggle_confirm_access_code_btn = browser.element('[data-wm-id="restoration-toggle-confirm-access-code"]')
     restore_access_btn = browser.element('[data-wm-id="restoration-restore-btn"]')
-    nav_login_btn = browser.element('[data-wm-id="btn-login"]')
-    nav_signup_btn = browser.element('[data-wm-id="btn-signup"]')
-
-    # Текст, сообщения, блоки
+    
+    # Информационные панели
     page_subtitle = browser.element('[data-wm-id="restoration-page-subtitle"]')
     error_message = browser.element('[data-wm-id="restoration-error-message"]')
     success_message = browser.element('[data-wm-id="restoration-success-message"]')
-    success_logo = browser.element('[data-wm-id="restoration-success-logo"]')
     summary_block = browser.element('[data-wm-id="restoration-summary"]')
     sum_callsign = browser.element('[data-wm-id="sum-callsign"]')
     sum_role = browser.element('[data-wm-id="sum-role"]')
     sum_function = browser.element('[data-wm-id="sum-function"]')
     sum_id = browser.element('[data-wm-id="sum-id"]')
     sum_new_code = browser.element('[data-wm-id="sum-new-code"]')
-
-    # Локальные методы страницы (специфика RestorePage)
-    @allure.step("Переключаем видимость New Access Code")
-    def click_toggle_new_access_code(self):
-        self.toggle_new_access_code_btn.click()
-        return self
-    
-    @allure.step("Переключаем видимость Confirm Code")
-    def click_toggle_confirm_code(self):
-        self.toggle_confirm_access_code_btn.click()
-        return self
 
     # ========================================================================
     # region 1️⃣ 🌐 НАВИГАЦИЯ
@@ -90,66 +76,83 @@ class AccessRestorationPage(GatewayPage):
     # region 2️⃣ ⌨️ ЗАПОЛНЕНИЕ ПОЛЕЙ
     # ========================================================================
 
-    @allure.step("Ввод нового пароля доступа")
-    def enter_new_access_code(self, new_code: str, clear_first: bool = False):
-        """Вводит новый пароль в поле New Access Code. Если clear_first=True, сначала очищает поле.
+    @allure.step("Ввод позывного")
+    def enter_callsign(self, callsign: str, clear: bool = False):
+        """Вводит позывной. По умолчанию просто дописывает, если clear=True — очищает поле."""
+        if clear:
+            with allure.step(f"Очистка и ввод в поле 'Callsign': '{callsign}'"):
+                self.callsign_input.set_value(callsign)
+        else:
+            with allure.step(f"Дозапись в поле 'Callsign': '{callsign}'"):
+                self.callsign_input.type(callsign)
+        return self
 
-        Args:
-            access_code: Новый пароль доступа (например, 'AERO_99').
-            clear_first: Если True, сначала очищает поле.
-        """
-        with allure.step(
-            f"Вводим новый пароль доступа: '{new_code}' (очистка: {clear_first})"
-        ):
-            try:
-                self.new_access_code_input.should(be.visible)
+    @allure.step("Ввод шифра восстановления")
+    def enter_recovery_cipher(self, cipher: str, clear: bool = False):
+        """Вводит шифр восстановления доступа. По умолчанию дописывает, если clear=True — очищает."""
+        if clear:
+            with allure.step(f"Очистка и ввод в поле 'Recovery Cipher': '{cipher}'"):
+                self.recovery_cipher_input.set_value(cipher)
+        else:
+            with allure.step(f"Дозапись в поле 'Recovery Cipher': '{cipher}'"):
+                self.recovery_cipher_input.type(cipher)
+        return self
 
-                if clear_first:
-                    self.new_access_code_input.clear()
-
+    @allure.step("Ввод нового кода доступа")
+    def enter_new_access_code(self, new_code: str, clear: bool = False):
+        """Вводит новый код доступа. По умолчанию дописывает, если clear=True — очищает."""
+        if clear:
+            with allure.step(f"Очистка и ввод в поле 'New access code': '{new_code}'"):
+                self.new_access_code_input.set_value(new_code)
+        else:
+            with allure.step(f"Дозапись в поле 'New access code': '{new_code}'"):
                 self.new_access_code_input.type(new_code)
+        return self
 
-            except TimeoutException:
-                raise AssertionError(
-                    "❌ New Access Code field not found or not visible!\n"
-                    f"   Access Code: {new_code}\n"
-                    "   Timeout: element did not appear in time"
-                )
-            except Exception as e:
-                raise AssertionError(
-                    f"❌ Unexpected error while entering new access code!\n"
-                    f"   Access Code: {new_code}\n"
-                    f"   Error: {e}"
-                ) from e
+    @allure.step("Подтверждение нового кода доступа")
+    def enter_confirm_access_code(self, code: str, clear: bool = False):
+        """Подтверждает новый код доступа. По умолчанию дописывает, если clear=True — очищает."""
+        if clear:
+            with allure.step(f"Очистка и ввод в поле 'Confirm access code': '{code}'"):
+                self.confirm_access_code_input.set_value(code)
+        else:
+            with allure.step(f"Дозапись в поле 'Confirm access code': '{code}'"):
+                self.confirm_access_code_input.type(code)
         return self
 
     # endregion
 
     # ========================================================================
-    # region 3️⃣ 🖱️ ДЕЙСТВИЯ С КНОПКАМИ
+    # region 3️⃣ 🖱️ Методы для кнопок 
     # ========================================================================
 
     @allure.step("Нажатие на кнопку восстановления доступа")
     def click_restore_access(self, wait_for_success: bool = True):
         """
-        1. Ждёт появления кнопки RESTORE ACCESS
-        2. Кликает на неё
-        3. Ждёт смены статуса телеметрии (уход из SYSTEM READY)
-        4. (Опционально) Ждёт появления блока сводки (summary_block) на экране успеха
-    
+        1. Кликает на кнопку RESTORE ACCESS
+        2. Ждёт смены статуса телеметрии (уход из SYSTEM READY)
+        3. (Опционально) Ждёт появления блока сводки (summary_block) на экране успеха
+        
         Args:
             wait_for_success: Если True (по умолчанию), ждёт появления экрана успеха.
-                            Если False, просто кликает и возвращает управление 
-                            (идеально для негативных тестов, где ждём ошибку).
+                            Если False, просто кликает (для негативных тестов).
         """
-        with allure.step("Ждём появления кнопки RESTORE ACCESS"):
-            self.restore_access_btn.should(be.visible)
-            self.restore_access_btn.should(be.enabled)
+        with allure.step("Кликаем по кнопке Restore Access"):
+            try:
+                self.restore_access_btn.should(be.visible).should(be.enabled)
+                self.restore_access_btn.click()
+            except TimeoutException:
+                raise AssertionError(
+                    "❌ Restore Access button not found or not clickable!\n"
+                    "   Timeout: button did not appear in time"
+                )
+            except Exception as e:
+                raise AssertionError(
+                    f"❌ Unexpected error while clicking Restore Access!\n"
+                    f"   Error: {e}"
+                ) from e
 
-        with allure.step("Кликаем на кнопку RESTORE ACCESS"):
-            self.restore_access_btn.click()
-
-        with allure.step("Ожидание смены статуса телеметрии (уход из SYSTEM READY)"):
+        with allure.step("Ожидание смены статуса телеметрии"):
             try:
                 self.system_telemetry.should(have.no.text("SYSTEM READY"))
             except Exception as e:
@@ -163,6 +166,44 @@ class AccessRestorationPage(GatewayPage):
             with allure.step("Ждём появления блока сводки (экран успеха)"):
                 self.summary_block.should(be.visible)
 
+        return self
+
+    @allure.step("Нажатие на кнопку Toggle New Access Code")
+    def click_toggle_new_access_code(self):
+        """Переключает видимость поля нового кода доступа."""
+        with allure.step("Кликаем по кнопке Toggle New Access Code"):
+            try:
+                self.toggle_new_access_code_btn.should(be.visible).should(be.enabled)
+                self.toggle_new_access_code_btn.click()
+            except TimeoutException:
+                raise AssertionError(
+                    "❌ Toggle New Access Code button not found or not clickable!\n"
+                    "   Timeout: button did not appear in time"
+                )
+            except Exception as e:
+                raise AssertionError(
+                    f" Unexpected error while clicking Toggle New Access Code!\n"
+                    f"   Error: {e}"
+                ) from e
+        return self
+    
+    @allure.step("Нажатие на кнопку Toggle Confirm Access Code")
+    def click_toggle_confirm_access_code(self):
+        """Переключает видимость поля подтверждения кода доступа."""
+        with allure.step("Кликаем по кнопке Toggle Confirm Access Code"):
+            try:
+                self.toggle_confirm_access_code_btn.should(be.visible).should(be.enabled)
+                self.toggle_confirm_access_code_btn.click()
+            except TimeoutException:
+                raise AssertionError(
+                    "❌ Toggle Confirm Access Code button not found or not clickable!\n"
+                    "   Timeout: button did not appear in time"
+                )
+            except Exception as e:
+                raise AssertionError(
+                    f" Unexpected error while clicking Toggle Confirm Access Code!\n"
+                    f"   Error: {e}"
+                ) from e
         return self
 
     # endregion
@@ -219,61 +260,8 @@ class AccessRestorationPage(GatewayPage):
     def should_be_restore_access_btn(self, is_enabled: bool = False):
         """
         Проверяет состояние кнопки Restore Access.
-
-        Args:
-            is_enabled: Если True — проверяет, что кнопка активна.
-                    Если False (по умолчанию) — проверяет, что кнопка неактивна.
         """
-        state = "enabled" if is_enabled else "disabled"
-        with allure.step(f"Ожидаемое состояние кнопки: {state}"):
-            try:
-                if is_enabled:
-                    self.restore_access_btn.should(be.enabled)
-                else:
-                    self.restore_access_btn.should(be.disabled)
-            except TimeoutException:
-                raise AssertionError(
-                    f"❌ Restore Access button is not {state}!\n"
-                    f"   Timeout: button did not become {state} in time"
-                )
-            except Exception as e:
-                raise AssertionError(
-                    f"❌ Unexpected error while checking button state!\n"
-                    f"   Expected state: {state}\n"
-                    f"   Error: {e}"
-                ) from e
-        return self
-
-    @allure.step("Проверяем тип поля после переключения видимости на странице Access Restoration")
-    def verify_field_type_after_toggle_restoration(
-        self,
-        new_access_code: bool = False,
-        confirm_access_code: bool = False,
-        expected_type: str = "text",
-    ):
-        """
-        Проверяет атрибут type у полей New Access Code и/или Confirm Access Code
-        после переключения видимости на странице Access Restoration.
-
-        Args:
-            new_access_code: Если True, проверяет тип поля New Access Code.
-            confirm_access_code: Если True, проверяет тип поля Confirm Access Code.
-            expected_type: Ожидаемый тип ('password' или 'text'). По умолчанию 'text'.
-        """
-        try:
-            if new_access_code:
-                self.new_access_code_input.should(have.attribute("type", expected_type))
-            if confirm_access_code:
-                self.confirm_access_code_input.should(have.attribute("type", expected_type))
-        except TimeoutException:
-            raise AssertionError(
-                "❌ Field type verification failed on Access Restoration page!\n"
-                f"   Expected type: '{expected_type}'\n"
-                f"   New Access Code check: {new_access_code}\n"
-                f"   Confirm Access Code check: {confirm_access_code}\n"
-                "   Condition: Specified fields must have the expected type after toggle"
-            )
+        self.verify_button_state(self.restore_access_btn, is_enabled=is_enabled)
         return self
 
     # endregion
-    # ========================================================================

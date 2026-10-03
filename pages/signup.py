@@ -7,11 +7,11 @@ from selenium.common.exceptions import (
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import Select
 
-from pages.gateway import GatewayPage
+from pages.core import CorePage
 from tests import data
 
 
-class SignupPage(GatewayPage):
+class SignupPage(CorePage):
 
     # URL
     PATH = data.SIGNUP_URL
@@ -27,12 +27,12 @@ class SignupPage(GatewayPage):
 
     # Кнопки
     proceed_btn = browser.element('[data-wm-id="signup-proceed-btn"]')
-    back_btn = browser.element('[data-wm-id="signup-back-btn"]')
+    back_to_operator_data_btn = browser.element('[data-wm-id="signup-back-btn"]')
     complete_btn = browser.element('[data-wm-id="signup-complete-btn"]')
     toggle_access_code_btn = browser.element('[data-wm-id="signup-toggle-access-code"]')
     toggle_confirm_code_btn = browser.element('[data-wm-id="signup-toggle-confirm-code"]')
 
-    # Тексты и сообщения
+    # Информационные панели
     error_message = browser.element('[data-wm-id="signup-error-message"]')
     error_security_message = browser.element('[data-wm-id="signup-security-error"]')
     page_subtitle = browser.element('[data-wm-id="signup-page-subtitle"]')
@@ -43,17 +43,6 @@ class SignupPage(GatewayPage):
     sum_function = browser.element('[data-wm-id="sum-function"]')
     sum_level = browser.element('[data-wm-id="sum-level"]')
     sum_id = browser.element('[data-wm-id="sum-id"]')
-
-    # Локальные методы страницы (специфика SignupPage)
-    @allure.step("Переключаем видимость Access Code")
-    def click_toggle_access_code(self):
-        self.toggle_access_code_btn.click()
-        return self
-
-    @allure.step("Переключаем видимость Confirm Code")
-    def click_toggle_confirm_code(self):
-        self.toggle_confirm_code_btn.click()
-        return self
 
     # ========================================================================
     # region 1️⃣ 🌐 НАВИГАЦИЯ
@@ -100,37 +89,48 @@ class SignupPage(GatewayPage):
     # region 2️⃣ ⌨️ ЗАПОЛНЕНИЕ ПОЛЕЙ
     # ========================================================================
 
-    @allure.step("Вводим текст в поле Full Name")
-    def enter_full_name(self, name: str, clear_first: bool = False):
-        """
-        Вводит текст в поле Full Name. Если clear_first=True, сначала очищает поле.
-        Использует .type() для корректного срабатывания JS-события input.
-
-        Args:
-            name: Строка с именем оператора (например, 'Nova').
-            clear_first: Если True, сначала очищает поле.
-        """
-        with allure.step(f"Вводим Full Name: '{name}' (очистка: {clear_first})"):
-            try:
-                self.full_name_input.should(be.visible)
-
-                if clear_first:
-                    self.full_name_input.clear()
-
+    @allure.step("Ввод имени оператора")
+    def enter_full_name(self, name: str, clear: bool = False):
+        """Вводит имя оператора. По умолчанию дописывает, если clear=True — очищает."""
+        if clear:
+            with allure.step(f"Очистка и ввод в поле 'Full Name': '{name}'"):
+                self.full_name_input.set_value(name)
+        else:
+            with allure.step(f"Дозапись в поле 'Full Name': '{name}'"):
                 self.full_name_input.type(name)
+        return self
 
-            except TimeoutException:
-                raise AssertionError(
-                    "❌ Full Name field not found or not visible!\n"
-                    f"   Expected input: '{name}'\n"
-                    "   Timeout: element did not appear in time"
-                )
-            except Exception as e:
-                raise AssertionError(
-                    f" Unexpected error while entering Full Name!\n"
-                    f"   Expected input: '{name}'\n"
-                    f"   Error: {e}"
-                ) from e
+    @allure.step("Ввод шифра восстановления")
+    def enter_recovery_cipher(self, cipher: str, clear: bool = False):
+        """Вводит шифр восстановления доступа. По умолчанию дописывает, если clear=True — очищает."""
+        if clear:
+            with allure.step(f"Очистка и ввод в поле 'Recovery Cipher': '{cipher}'"):
+                self.recovery_cipher_input.set_value(cipher)
+        else:
+            with allure.step(f"Дозапись в поле 'Recovery Cipher': '{cipher}'"):
+                self.recovery_cipher_input.type(cipher)
+        return self
+
+    @allure.step("Ввод кода доступа")
+    def enter_access_code(self, code: str, clear: bool = False):
+        """Вводит код доступа. По умолчанию дописывает, если clear=True — очищает."""
+        if clear:
+            with allure.step(f"Очистка и ввод в поле 'Access code': '{code}'"):
+                self.access_code_input.set_value(code)
+        else:
+            with allure.step(f"Дозапись в поле 'Access code': '{code}'"):
+                self.access_code_input.type(code)
+        return self
+
+    @allure.step("Подтверждение кода доступа")
+    def enter_confirm_access_code(self, code: str, clear: bool = False):
+        """Подтверждает код доступа. По умолчанию дописывает, если clear=True — очищает."""
+        if clear:
+            with allure.step(f"Очистка и ввод в поле 'Confirm access code': '{code}'"):
+                self.confirm_access_code_input.set_value(code)
+        else:
+            with allure.step(f"Дозапись в поле 'Confirm access code': '{code}'"):
+                self.confirm_access_code_input.type(code)
         return self
 
     @allure.step("Выбираем роль из выпадающего списка")
@@ -143,7 +143,7 @@ class SignupPage(GatewayPage):
             role_value: Значение атрибута value (например, 'ENGINEER').
         """
         try:
-            # Находим элемент напрямую через драйвер (IDE это любит)
+
             webelement = browser.driver.find_element(
                 By.CSS_SELECTOR, '[data-wm-id="signup-role-select"]'
             )
@@ -164,23 +164,8 @@ class SignupPage(GatewayPage):
     # endregion
 
     # ========================================================================
-    # region 3️⃣ 🖱️ ДЕЙСТВИЯ С КНОПКАМИ
+    # region 3️⃣ 🖱️ Методы для кнопок 
     # ========================================================================
-
-    @allure.step("Нажимаем на кнопку Proceed")
-    def click_proceed(self):
-        """
-        Нажимает на кнопку PROCEED для перехода к следующему шагу.
-        """
-        try:
-            self.proceed_btn.click()
-        except TimeoutException:
-            raise AssertionError(
-                "❌ Failed to click Proceed button!\n"
-                f"   Element: {self.proceed_btn}\n"
-                "   Timeout: proceed_btn was not clickable or not visible"
-            )
-        return self
 
     @allure.step("Нажатие на кнопку Complete Registration и ожидание ответа системы")
     def click_complete_registration(self):
@@ -203,19 +188,80 @@ class SignupPage(GatewayPage):
 
         return self
 
-    @allure.step("Нажимаем на кнопку Back")
-    def click_back(self):
-        """
-        Нажимает на кнопку ← BACK TO OPERATOR DATA для возврата к Шагу 1.
-        """
-        try:
-            self.back_btn.click()
-        except TimeoutException:
-            raise AssertionError(
-                "❌ Failed to click Back button!\n"
-                f"   Element: {self.back_btn}\n"
-                "   Timeout: back_btn was not clickable or not visible"
-            )
+    @allure.step("Нажатие на кнопку Proceed")
+    def click_proceed(self):
+        """Нажатие на кнопку Proceed для перехода к следующему шагу."""
+        with allure.step("Кликаем по кнопке Proceed"):
+            try:
+                self.proceed_btn.should(be.visible).should(be.enabled)
+                self.proceed_btn.click()
+            except TimeoutException:
+                raise AssertionError(
+                    "❌ Proceed button not found or not clickable!\n"
+                    "   Timeout: button did not appear in time"
+                )
+            except Exception as e:
+                raise AssertionError(
+                    f" Unexpected error while clicking Proceed!\n"
+                    f"   Error: {e}"
+                ) from e
+        return self
+
+    @allure.step("Нажатие на кнопку Back to operator data")
+    def click_back_operator_data(self):
+        """Нажатие на кнопку Back to operator data для возврата на Шаг 1."""
+        with allure.step("Кликаем по кнопке Back to operator data"):
+            try:
+                self.back_to_operator_data_btn.should(be.visible).should(be.enabled)
+                self.back_to_operator_data_btn.click()
+            except TimeoutException:
+                raise AssertionError(
+                    "❌ Back to operator data button not found or not clickable!\n"
+                    "   Timeout: button did not appear in time"
+                )
+            except Exception as e:
+                raise AssertionError(
+                    f"❌ Unexpected error while clicking Back to operator data!\n"
+                    f"   Error: {e}"
+                ) from e
+        return self
+
+    @allure.step("Переключаем видимость Access Code")
+    def click_toggle_access_code(self):
+        """Переключает видимость поля кода доступа."""
+        with allure.step("Кликаем по кнопке Toggle Access Code"):
+            try:
+                self.toggle_access_code_btn.should(be.visible).should(be.enabled)
+                self.toggle_access_code_btn.click()
+            except TimeoutException:
+                raise AssertionError(
+                    "❌ Toggle Access Code button not found or not clickable!\n"
+                    "   Timeout: button did not appear in time"
+                )
+            except Exception as e:
+                raise AssertionError(
+                    f"❌ Unexpected error while clicking Toggle Access Code!\n"
+                    f"   Error: {e}"
+                ) from e
+        return self
+
+    @allure.step("Переключаем видимость Confirm Code")
+    def click_toggle_confirm_code(self):
+        """Переключает видимость поля подтверждения кода."""
+        with allure.step("Кликаем по кнопке Toggle Confirm Code"):
+            try:
+                self.toggle_confirm_code_btn.should(be.visible).should(be.enabled)
+                self.toggle_confirm_code_btn.click()
+            except TimeoutException:
+                raise AssertionError(
+                    "❌ Toggle Confirm Code button not found or not clickable!\n"
+                    "   Timeout: button did not appear in time"
+                )
+            except Exception as e:
+                raise AssertionError(
+                    f" Unexpected error while clicking Toggle Confirm Code!\n"
+                    f"   Error: {e}"
+                ) from e
         return self
 
     # endregion

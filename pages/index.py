@@ -10,18 +10,17 @@ class IndexPage(CorePage):
 
     # URL
     PATH = data.INDEX_URL
-
-    # Логотип
+    
+    # Логотип и футер
     logo_cassan = browser.element('[data-wm-id="logo-cassan"]')
     logo_dra = browser.element('[data-wm-id="logo-dra"]')
+    footer_copyright = browser.element('[data-wm-id="footer-copyright"]')
 
     # Заголовок и слоган
     project_title = browser.element('[data-wm-id="project-title"]')
     project_slogan = browser.element('[data-wm-id="project-slogan"]')
 
-    # Футер
-    footer_copyright = browser.element('[data-wm-id="footer-copyright"]')
-
+    
     # ========================================================================
     # region 1️⃣ 🌐 НАВИГАЦИЯ
     # ========================================================================
@@ -64,7 +63,7 @@ class IndexPage(CorePage):
     # endregion
 
     # ========================================================================
-    # region 2️⃣ 🖱️ ДЕЙСТВИЯ С КНОПКАМИ
+    # region 2️⃣ 🖱️ Методы для кнопок 
     # ========================================================================
 
     @allure.step("🖱️ Наведение на кнопку Log in")

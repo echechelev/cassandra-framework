@@ -3,122 +3,205 @@ import json
 import allure
 from selene import be, browser, have, query
 from selene.core.entity import Element
-from selenium.common.exceptions import TimeoutException
+from selenium.common.exceptions import TimeoutException, WebDriverException
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
+
+# 0️⃣ 1️⃣ 2️⃣ 3️⃣ 4️⃣ 5️⃣ 6️⃣ 7️⃣ 8️⃣ 9️⃣
 
 
 class CorePage:
     """Общие методы и локаторы."""
 
-    # Кнопки Planet Bar
-    galaxy_map_btn = browser.element('[data-wm-id="nav-galaxy-map"]')
-    flight_calc_btn = browser.element('[data-wm-id="flight-calc-btn"]')
-    cis_table_btn = browser.element('[data-wm-id="cis-table-btn"]')
-    mission_control_btn = browser.element('[data-wm-id="mission-control-btn"]')
-    nav_settings_btn = browser.element('[data-wm-id="nav-settings"]')
+    # Кнопки навигации
+    log_in_btn = browser.element('[data-wm-id="nav-login-btn"]')
+    sign_up_btn = browser.element('[data-wm-id="nav-signup-btn"]')
+    restore_btn = browser.element('[data-wm-id="nav-restore-btn"]')
+    dashboard_btn = browser.element('[data-wm-id="nav-dashboard-btn"]')
+    cis_index_table_btn = browser.element('[data-wm-id="nav-cis-index-table-btn"]')
+    galaxy_map_btn = browser.element('[data-wm-id="nav-galaxy-map-btn"]')
 
-    # Кнопки навигации и перехода
-    log_in_btn = browser.element('[data-wm-id="btn-login"]')
-    sign_up_btn = browser.element('[data-wm-id="btn-signup"]')
-    restore_btn = browser.element('[data-wm-id="btn-restore"]')
-
-    # Служебные элементы (для тестов анимации и состояний)
+    # Служебные элементы 
     system_telemetry = browser.element('[data-wm-id="system-telemetry"]')
-    telemetry_message = browser.element("[id='typing-target'], [data-wm-id='telemetry-message']")
-    progress_fill = browser.element("#progress-fill")
-    progress_text = browser.element("#progress-text")
-    progress_container = browser.element("#uplink-progress-container")
-
-    # Добавляем коллекция для метода check_progress_bar_appeared_once
-    progress_bars = browser.all("#progress-fill")
-
-    # Временный локатор кнопка "Назад", на страницах заглушках для планет бара
-    back_btn = browser.element(".back-btn")
 
     # ========================================================================
-    # region 1️⃣ 🌐 НАВИГАЦИЯ
+    # region 1️⃣ 🧭 Навигация
     # ========================================================================
 
-    @allure.step("Переходим по указанному URL")
-    def open_url(self, path: str):
-        """Открывает страницу по относительному или полному пути."""
-
-        if path.startswith(("http", "file")):
-            browser.driver.get(path)
-        else:
-
-            current_url = browser.driver.current_url
-            base_url = current_url.rsplit("/", 1)[0]
-            browser.driver.get(f"{base_url}/{path.lstrip('/')}")
-
+    @allure.step("Открытие страницы")
+    def open_url(self, url: str):
+        """Открывает переданный URL в браузере."""
+        with allure.step(f"URL: {url}"):
+            try:
+                browser.open(url)
+            except Exception as e:
+                raise AssertionError(
+                    f"❌ Не удалось открыть страницу!\n"
+                    f"   Ожидаемый URL: {url}\n"
+                    f"   Ошибка браузера: {e}"
+                ) from e
         return self
 
-    @allure.step("Переход в Galaxy Map")
-    def navigate_to_galaxy_map(self):
+    @allure.step("Ожидание перехода на URL")
+    def wait_for_url(
+        self, 
+        expected_url_part: str, 
+        element_to_wait: Element | None = None, 
+        timeout: float = 10.0
+    ):
         """
-        Кликает по кнопке 'Galaxy Map', проверяет URL и возвращается на Dashboard.
+        Ждет появления элемента (если передан) и перехода на URL, содержащий ожидаемую часть.
+        
+        Args:
+            expected_url_part: Ожидаемая часть URL.
+            element_to_wait: Selene-элемент для ожидания появления (по умолчанию None).
+            timeout: Таймаут ожидания в секундах (по умолчанию 10.0).
         """
-        self.galaxy_map_btn.should(be.clickable)
-        self.galaxy_map_btn.click()
-        self.wait_for_url("galaxy-map.html")
+        try:
+            if element_to_wait is not None:
+                with allure.step("Ожидаем появление элемента"):
+                    element_to_wait.should(be.visible)
 
-        # Временно: клик по заглушке "Back to Dashboard" для возврата
-        self.back_btn.click()
-        self.wait_for_url("dashboard.html")
+            with allure.step(f"Ожидаем URL, содержащий: '{expected_url_part}'"):
+                WebDriverWait(browser.driver, timeout).until(EC.url_contains(expected_url_part))
 
+        except TimeoutException:
+            if element_to_wait is not None:
+                raise AssertionError(
+                    f"❌ Element did not appear within {timeout} seconds!\n"
+                    f"   Expected URL part: {expected_url_part}\n"
+                    f"   Condition: Element must be visible before URL check"
+                )
+            else:
+                raise AssertionError(
+                    f"❌ URL did not contain '{expected_url_part}' within {timeout} seconds!\n"
+                    f"   Current URL: {browser.driver.current_url}\n"
+                    f"   Expected part: {expected_url_part}\n"
+                    f"   Condition: Browser URL must contain the expected part"
+                )
+   
         return self
 
-    @allure.step("Переход в CIS Table")
-    def navigate_to_cis_table(self):
-        """
-        Кликает по кнопке 'CIS Table', проверяет URL и возвращается на Dashboard.
-        """
-        self.cis_table_btn.should(be.clickable)
-        self.cis_table_btn.click()
-        self.wait_for_url("cis-table.html")
-
-        # Временно: клик по заглушке "Back to Dashboard" для возврата
-        self.back_btn.click()
-        self.wait_for_url("dashboard.html")
-
-        return self
-
-    @allure.step("Переход в Mission Control")
-    def navigate_to_mission_control(self):
-        """
-        Кликает по кнопке 'Mission Control', проверяет URL и возвращается на Dashboard.
-        """
-        self.mission_control_btn.should(be.clickable)
-        self.mission_control_btn.click()
-        self.wait_for_url("mission-control.html")
-
-        # Временно: клик по заглушке "Back to Dashboard" для возврата
-        self.back_btn.click()
-        self.wait_for_url("dashboard.html")
-
-        return self
-
-    @allure.step("Переход в Settings")
-    def navigate_to_settings(self):
-        """
-        Кликает по кнопке 'Settings', проверяет URL и возвращается на Dashboard.
-        """
-        self.nav_settings_btn.should(be.clickable)
-        self.nav_settings_btn.click()
-        self.wait_for_url("settings.html")
-
-        # Временно: клик по заглушке "Back to Dashboard" для возврата
-        self.back_btn.click()
-        self.wait_for_url("dashboard.html")
-
-        return self
-
-    # endregion
-
+    #endregion
+    
     # ========================================================================
-    # region 2️⃣ 🖱️ ДЕЙСТВИЯ С КНОПКАМИ
+    # region 2️⃣ 🖱️ Методы для кнопок 
     # ========================================================================
+
+    @allure.step("Нажатие кнопки Log In")
+    def click_log_in(self):
+        """Нажимает кнопку входа в систему."""
+        with allure.step("Кликаем по кнопке Log In"):
+            try:
+                self.log_in_btn.should(be.visible).should(be.enabled)
+                self.log_in_btn.click()
+            except TimeoutException:
+                raise AssertionError(
+                    "❌ Log In button not found or not clickable!\n"
+                    "   Timeout: button did not appear in time"
+                )
+            except Exception as e:
+                raise AssertionError(
+                    f"❌ Unexpected error while clicking Log In!\n"
+                    f"   Error: {e}"
+                ) from e
+        return self
+    
+    @allure.step("Нажатие кнопки Sign Up")
+    def click_sign_up(self):
+        """Нажимает кнопку регистрации нового пользователя."""
+        with allure.step("Кликаем по кнопке Sign Up"):
+            try:
+                self.sign_up_btn.should(be.visible).should(be.enabled)
+                self.sign_up_btn.click()
+            except TimeoutException:
+                raise AssertionError(
+                    "❌ Sign Up button not found or not clickable!\n"
+                    "   Timeout: button did not appear in time"
+                )
+            except Exception as e:
+                raise AssertionError(
+                    f"❌ Unexpected error while clicking Sign Up!\n"
+                    f"   Error: {e}"
+                ) from e
+        return self
+
+    @allure.step("Нажатие кнопки Restore")
+    def click_restore(self):
+        """Нажимает кнопку восстановления доступа."""
+        with allure.step("Кликаем по кнопке Restore"):
+            try:
+                self.restore_btn.should(be.visible).should(be.enabled)
+                self.restore_btn.click()
+            except TimeoutException:
+                raise AssertionError(
+                    "❌ Restore button not found or not clickable!\n"
+                    "   Timeout: button did not appear in time"
+                )
+            except Exception as e:
+                raise AssertionError(
+                    f"❌ Unexpected error while clicking Restore!\n"
+                    f"   Error: {e}"
+                ) from e
+        return self
+
+
+    @allure.step("Нажатие кнопки Dashboard")
+    def click_dashboard(self):
+        """Нажимает кнопку перехода на Dashboard."""
+        with allure.step("Кликаем по кнопке Dashboard"):
+            try:
+                self.dashboard_btn.should(be.visible).should(be.enabled)
+                self.dashboard_btn.click()
+            except TimeoutException:
+                raise AssertionError(
+                    "❌ Dashboard button not found or not clickable!\n"
+                    "   Timeout: button did not appear in time"
+                )
+            except Exception as e:
+                raise AssertionError(
+                    f"❌ Unexpected error while clicking Dashboard!\n"
+                    f"   Error: {e}"
+                ) from e
+        return self
+
+    @allure.step("Нажатие кнопки CIS Index Table")
+    def click_cis_index_table(self):
+        """Нажимает кнопку перехода к CIS Index Table."""
+        with allure.step("Кликаем по кнопке CIS Index Table"):
+            try:
+                self.cis_index_table_btn.should(be.visible).should(be.enabled)
+                self.cis_index_table_btn.click()
+            except TimeoutException:
+                raise AssertionError(
+                    "❌ CIS Index button not found or not clickable!\n"
+                    "   Timeout: button did not appear in time"
+                )
+            except Exception as e:
+                raise AssertionError(
+                    f"❌ Unexpected error while clicking CIS Index!\n"
+                    f"   Error: {e}"
+                ) from e
+        return self
+
+    @allure.step("Нажатие кнопки Galaxy Map")
+    def click_galaxy_map(self):
+        """Нажимает кнопку карта галактики."""
+        with allure.step("Кликаем по кнопке Galaxy Map"):
+            try:
+                self.galaxy_map_btn.should(be.visible).should(be.enabled)
+                self.galaxy_map_btn.click()
+            except TimeoutException:
+                raise AssertionError(
+                    "❌ Galaxy Map button not found or not clickable!\n"
+                    "   Timeout: button did not appear in time"
+                )
+            except Exception as e:
+                raise AssertionError(
+                    f"❌ Unexpected error while clicking Restore!\n"
+                    f"   Error: {e}"
+                ) from e
+        return self
 
     @allure.step("Обновляем страницу браузера")
     def click_refresh_page(self):
@@ -134,97 +217,20 @@ class CorePage:
     @allure.step("Нажатие кнопки 'Назад' в браузере")
     def click_browser_back(self):
         """Нажимает кнопку 'Назад' в браузере для возврата на предыдущую страницу."""
-        with allure.step("Кликаем по кнопке 'Назад' в браузере"):
-            try:
-                browser.driver.back()
-
-            except Exception as e:
-                raise AssertionError(
-                    f"❌ Unexpected error while clicking browser Back button!\n"
-                    f"   Error: {e}"
-                ) from e
+        try:
+            browser.driver.back()
+        except Exception as e:
+            raise AssertionError(
+                f"❌ Unexpected error while clicking browser Back button!\n"
+                f"   Error: {e}"
+            ) from e
         return self
 
-    @allure.step("Нажатие кнопки Galaxy Map")
-    def click_galaxy_map(self):
-        """Нажимает кнопку перехода на страницу Galaxy Map."""
-        with allure.step("Кликаем по кнопке Galaxy Map"):
-            try:
-                self.galaxy_map_btn.should(be.visible).should(be.enabled)
-                self.galaxy_map_btn.click()
-
-            except TimeoutException:
-                raise AssertionError(
-                    "❌ Galaxy Map button not found or not clickable!\n"
-                    "   Timeout: button did not appear in time"
-                )
-            except Exception as e:
-                raise AssertionError(
-                    f" Unexpected error while clicking Galaxy Map!\n" f"   Error: {e}"
-                ) from e
-        return self
-
-    @allure.step("Нажатие кнопки Log in")
-    def click_log_in(self):
-        """Нажимает кнопку инициализации системы Log in."""
-        with allure.step("Кликаем по кнопке Log in"):
-            try:
-                self.log_in_btn.should(be.visible).should(be.enabled)
-                self.log_in_btn.click()
-
-            except TimeoutException:
-                raise AssertionError(
-                    "❌ Log in button not found or not clickable!\n"
-                    "   Timeout: button did not appear in time"
-                )
-            except Exception as e:
-                raise AssertionError(
-                    f"❌ Unexpected error while clicking Log in!\n" f"   Error: {e}"
-                ) from e
-        return self
-
-    @allure.step("Нажатие кнопки Sign up")
-    def click_sign_up(self):
-        """Нажимает кнопку инициализации системы Sign up."""
-        with allure.step("Кликаем по кнопке Sign up"):
-            try:
-                self.sign_up_btn.should(be.visible).should(be.enabled)
-                self.sign_up_btn.click()
-
-            except TimeoutException:
-                raise AssertionError(
-                    "❌ Sign up button not found or not clickable!\n"
-                    "   Timeout: button did not appear in time"
-                )
-            except Exception as e:
-                raise AssertionError(
-                    f"❌ Unexpected error while clicking Sign up!\n" f"   Error: {e}"
-                ) from e
-        return self
-
-    @allure.step("Нажатие кнопки Rstore")
-    def click_restore(self):
-        """Нажимает кнопку инициализации системы Restore."""
-        with allure.step("Кликаем по кнопке Restore"):
-            try:
-                self.restore_btn.should(be.visible).should(be.enabled)
-                self.restore_btn.click()
-
-            except TimeoutException:
-                raise AssertionError(
-                    "❌ Restore button not found or not clickable!\n"
-                    "   Timeout: button did not appear in time"
-                )
-            except Exception as e:
-                raise AssertionError(
-                    f"❌ Unexpected error while clicking Restore!\n" f"   Error: {e}"
-                ) from e
-        return self
+    #endregion
 
     # ========================================================================
     # region 3️⃣ 💬 ТЕЛЕМЕТРИЯ И ТЕКСТЫ
     # ========================================================================
-
     @allure.step("Проверка текста телеметрии")
     def verify_telemetry_text(self, expected_text: str):
         """
@@ -235,13 +241,13 @@ class CorePage:
                 self.system_telemetry.should(have.exact_text(expected_text))
             except TimeoutException:
                 raise AssertionError(
-                    f"❌ Текст телеметрии не совпадает или элемент не найден!\n"
+                    f"❌ Telemetry text does not match or element not found!\n"
                     f"   Expected: '{expected_text}'\n"
                     f"   Timeout: element did not appear in time"
                 )
             except Exception as e:
                 raise AssertionError(
-                    f"❌ Ошибка при проверке телеметрии!\n"
+                    f"❌ Error while verifying telemetry!\n"
                     f"   Expected: '{expected_text}'\n"
                     f"   Error: {e}"
                 ) from e
@@ -254,7 +260,20 @@ class CorePage:
         (Используется для любых элементов на странице).
         """
         with allure.step(f"Проверяем текст элемента: '{expected_text}'"):
-            element.should(have.text(expected_text.strip()))
+            try:
+                element.should(have.text(expected_text.strip()))
+            except TimeoutException:
+                raise AssertionError(
+                    f"❌ Element not found or text does not contain expected substring!\n"
+                    f"   Expected: '{expected_text}'\n"
+                    f"   Timeout: element did not appear in time"
+                )
+            except Exception as e:
+                raise AssertionError(
+                    f"❌ Error while verifying element text!\n"
+                    f"   Expected: '{expected_text}'\n"
+                    f"   Error: {e}"
+                ) from e
         return self
 
     @allure.step("Проверка цвета телеметрии (NOT Cassandra)")
@@ -375,7 +394,6 @@ class CorePage:
     # ========================================================================
     # region 4️⃣ 💾 LOCALSTORAGE\SESSIONSTORAGE
     # ========================================================================
-
     @allure.step("Полная очистка хранилищ браузера")
     def clear_all_storages(self):
         """
@@ -387,10 +405,10 @@ class CorePage:
                 browser.driver.execute_script(
                     "localStorage.clear(); sessionStorage.clear();"
                 )
-
             except Exception as e:
                 raise AssertionError(
-                    "❌ Failed to clear browser storages!\n" f"   Error: {e}"
+                    f"❌ Failed to clear browser storages!\n"
+                    f"   Error: {e}"
                 ) from e
         return self
 
@@ -470,13 +488,13 @@ class CorePage:
 
                     if should_exist:
                         assert has_any_user, (
-                            "❌ localStorage полностью пуст, хотя ожидалось наличие данных.\n"
+                            "❌ localStorage is completely empty, although data was expected.\n"
                             f"registeredUsers: {list(registered_users.keys())}\n"
                             f"restoredUsers: {list(restored_users.keys())}"
                         )
                     else:
                         assert not has_any_user, (
-                            "❌ localStorage не пуст, хотя ожидалась полная очистка.\n"
+                            "❌ localStorage is not empty, although full cleanup was expected.\n"
                             f"registeredUsers: {list(registered_users.keys())}\n"
                             f"restoredUsers: {list(restored_users.keys())}"
                         )
@@ -488,10 +506,12 @@ class CorePage:
                     )
 
                     if should_exist:
-                        assert current_user_str is not None, "❌ sessionStorage пуст, хотя ожидался currentUser"
+                        assert current_user_str is not None, (
+                            "❌ sessionStorage is empty, although currentUser was expected"
+                        )
                     else:
                         assert current_user_str is None, (
-                            f"❌ sessionStorage не пуст: {current_user_str}"
+                            f"❌ sessionStorage is not empty: {current_user_str}"
                         )
 
             return self
@@ -516,13 +536,13 @@ class CorePage:
 
                 if should_exist:
                     assert is_in_registered or is_in_restored, (
-                        f"❌ Позывной '{callsign_upper}' отсутствует в localStorage.\n"
+                        f"❌ Callsign '{callsign_upper}' is missing in localStorage.\n"
                         f"registeredUsers: {list(registered_users.keys())}\n"
                         f"restoredUsers: {list(restored_users.keys())}"
                     )
                 else:
                     assert not (is_in_registered or is_in_restored), (
-                        f" Позывной '{callsign_upper}' всё ещё найден в localStorage после очистки.\n"
+                        f"❌ Callsign '{callsign_upper}' still found in localStorage after cleanup.\n"
                         f"registeredUsers: {list(registered_users.keys())}\n"
                         f"restoredUsers: {list(restored_users.keys())}"
                     )
@@ -534,17 +554,19 @@ class CorePage:
                 )
 
                 if should_exist:
-                    assert current_user_str is not None, "❌ Ключ 'currentUser' отсутствует в sessionStorage"
+                    assert current_user_str is not None, (
+                        "❌ Key 'currentUser' is missing in sessionStorage"
+                    )
                     try:
                         current_user = json.loads(current_user_str)
                     except json.JSONDecodeError:
                         raise AssertionError(
-                            f" Данные в 'currentUser' не являются валидным JSON: {current_user_str}"
+                            f"❌ Data in 'currentUser' is not valid JSON: {current_user_str}"
                         )
 
                     actual_callsign = current_user.get("callsign", "").upper()
                     assert actual_callsign == callsign_upper, (
-                        f"❌ Ожидался callsign '{callsign_upper}', получено '{actual_callsign}'"
+                        f"❌ Expected callsign '{callsign_upper}', got '{actual_callsign}'"
                     )
                 else:
                     if current_user_str is not None:
@@ -552,7 +574,7 @@ class CorePage:
                             current_user = json.loads(current_user_str)
                             actual_callsign = current_user.get("callsign", "").upper()
                             assert actual_callsign != callsign_upper, (
-                                f"❌ Пользователь '{callsign_upper}' всё ещё активен в sessionStorage"
+                                f"❌ User '{callsign_upper}' is still active in sessionStorage"
                             )
                         except json.JSONDecodeError:
                             pass
@@ -565,46 +587,21 @@ class CorePage:
     # region 5️⃣ 🛠️ СЛУЖЕБНЫЕ МЕТОДЫ
     # ========================================================================
 
-    @allure.step("Ожидание перехода на URL")
-    def wait_for_url(
-        self, 
-        expected_url_part: str, 
-        element_to_wait: Element | None = None, 
-        timeout: float = 10.0
-    ):
+    def fast_forward_uplink(self):
         """
-        Ждет появления элемента (если передан) и перехода на URL, содержащий ожидаемую часть.
+        Мгновенно пропускает анимацию аплинка через sessionStorage.
+        Идеально для вставки в фикстуру перед тестами других страниц.
+        """
+        browser.driver.execute_script("sessionStorage.setItem('uplinkCompleted', 'true');")
         
-        Args:
-            expected_url_part: Ожидаемая часть URL.
-            element_to_wait: Selene-элемент для ожидания появления (по умолчанию None).
-            timeout: Таймаут ожидания в секундах (по умолчанию 10.0).
-        """
-        try:
-            if element_to_wait is not None:
-                with allure.step("Ожидаем появление элемента"):
-                    element_to_wait.should(be.visible)
-
-            with allure.step(f"Ожидаем URL, содержащий: '{expected_url_part}'"):
-                WebDriverWait(browser.driver, timeout).until(EC.url_contains(expected_url_part))
-
-        except TimeoutException:
-            if element_to_wait is not None:
-                raise AssertionError(
-                    f"❌ Element did not appear within {timeout} seconds!\n"
-                    f"   Expected URL part: {expected_url_part}\n"
-                    f"   Condition: Element must be visible before URL check"
-                )
-            else:
-                raise AssertionError(
-                    f" URL did not contain '{expected_url_part}' within {timeout} seconds!\n"
-                    f"   Current URL: {browser.driver.current_url}\n"
-                    f"   Expected part: {expected_url_part}\n"
-                    f"   Condition: Browser URL must contain the expected part"
-                )
-
         return self
 
+
+    # endregion
+
+    # ========================================================================
+    # region 6️⃣ ✅ ПРОВЕРКИ СОСТОЯНИЙ
+    # ========================================================================
     @allure.step("Проверка содержимого кнопок навигации")
     def check_button_content(self, button_id: str, expected_text: str):
         """Проверяет наличие и текстовое содержимое кнопки навигации."""
@@ -613,13 +610,18 @@ class CorePage:
                 btn = browser.element(f'[data-wm-id="{button_id}"]')
                 btn.should(be.visible).should(be.enabled)
 
-                btn.element(".btn-label").should(have.exact_text(expected_text))
+                actual_text = btn.get(query.text)
 
+                assert expected_text in actual_text, (
+                    f"❌ Text of button {button_id} does not match!\n"
+                    f"   Expected substring: '{expected_text}'\n"
+                    f"   Actual text: '{actual_text}'"
+                )
             except TimeoutError:
                 raise AssertionError(
-                    f"❌ Button {button_id} not found or text mismatch!\n"
+                    f"❌ Button {button_id} not found or not visible!\n"
                     f"   Expected text: {expected_text}\n"
-                    f"   Timeout: button did not appear in time"
+                    f"   Timeout: element did not appear in time"
                 )
             except AssertionError:
                 raise
@@ -636,15 +638,151 @@ class CorePage:
         with allure.step(f"Проверяем href кнопки {button_id}"):
             btn = browser.element(f'[data-wm-id="{button_id}"]')
             btn.should(be.visible)
-        
-            # В Selene 2.x используем query.attribute() для получения значения атрибута
+
             actual_href = btn.get(query.attribute('href'))
-        
+
             assert actual_href.endswith(expected_href), (
-                f"❌ Неправильный href у кнопки!\n"
-                f"   Ожидалось, что заканчивается на: {expected_href}\n"
-                f"   Фактическое значение: {actual_href}"
+                f"❌ Invalid href for button {button_id}!\n"
+                f"   Expected to end with: {expected_href}\n"
+                f"   Actual value: {actual_href}"
             )
         return self
-    
-    # endregion
+
+    @allure.step("Проверяем значение поля")
+    def verify_field_value(self, element, expected_value: str):
+        """Проверяет, что поле ввода содержит ожидаемое значение."""
+        try:
+            element.should(have.value(expected_value))
+        except TimeoutException:
+            actual_value = element().get_attribute("value")
+            raise AssertionError(
+                f"❌ Field value mismatch!\n"
+                f"   Expected: '{expected_value}'\n"
+                f"   Actual: '{actual_value}'"
+            )
+        return self
+
+    @allure.step("Проверка ограничения максимальной длины поля")
+    def verify_max_length(self, element, max_length: int, char: str = "A"):
+        """Универсальный метод проверки maxlength."""
+        with allure.step(f"Проверка лимита: {max_length} символов"):
+            try:
+                element.clear()
+                element.type(char * max_length)
+
+                current_value = element().get_attribute("value") or ""
+
+                if len(current_value) != max_length:
+                    raise AssertionError(
+                        f"❌ Length mismatch before extra char!\n"
+                        f"   Expected: {max_length}\n"
+                        f"   Actual: {len(current_value)}"
+                    )
+
+                try:
+                    element.type(char)
+                except WebDriverException:
+                    pass
+
+                final_value = element().get_attribute("value") or ""
+                if len(final_value) != max_length:
+                    raise AssertionError(
+                        f"❌ Max length limit failed! Extra character was added.\n"
+                        f"   Expected: {max_length}\n"
+                        f"   Actual: {len(final_value)}"
+                    )
+
+            except AssertionError:
+                raise
+            except Exception as e:
+                raise AssertionError(
+                    f"❌ Unexpected error while verifying max length!\n"
+                    f"   Max length: {max_length}\n"
+                    f"   Error: {e}"
+                ) from e
+
+        return self
+
+    @allure.step("Проверяем состояние поля: пустое и (только для чтения / редактируемое)")
+    def verify_empty_field_state(self, element, is_readonly: bool = True):
+        """Проверяет, что поле ввода пустое и имеет (или не имеет) атрибут readonly."""
+        try:
+            element.should(have.value(""))
+        except TimeoutException:
+            actual_value = element().get_attribute("value")
+            raise AssertionError(
+                f"❌ Field is not empty!\n"
+                f"   Expected value: ''\n"
+                f"   Actual value: '{actual_value}'"
+            )
+
+        state_desc = "readonly" if is_readonly else "editable"
+
+        try:
+            if is_readonly:
+                element.should(have.attribute("readonly"))
+            else:
+                element.should(have.no.attribute("readonly"))
+        except TimeoutException:
+            actual_readonly_val = element().get_attribute("readonly")
+            raise AssertionError(
+                f"❌ Field is not {state_desc}!\n"
+                f"   Expected: attribute 'readonly' to be {'present' if is_readonly else 'absent'}\n"
+                f"   Actual readonly attribute value: '{actual_readonly_val}'"
+            )
+        return self
+
+    @allure.step("Проверка появления контейнера ошибки")
+    def should_show_error_container(self, element: Element, expected_text: str):
+        """Проверяет, что контейнер ошибки отображается и содержит верный текст."""
+        with allure.step(f"Ожидаемый текст ошибки: '{expected_text}'"):
+            try:
+                element.should(be.visible).should(have.text(expected_text))
+            except TimeoutException:
+                raise AssertionError(
+                    f"❌ Error container not visible or text mismatch!\n"
+                    f"   Expected text: '{expected_text}'\n"
+                    f"   Timeout: element did not appear in time"
+                )
+            except Exception as e:
+                raise AssertionError(
+                    f"❌ Unexpected error while checking error container!\n"
+                    f"   Expected text: '{expected_text}'\n"
+                    f"   Error: {e}"
+                ) from e
+        return self
+
+    @allure.step("Проверяем состояние кнопки")
+    def verify_button_state(self, element, is_enabled: bool = True):
+        """Проверяет состояние кнопки (активна или неактивна)."""
+        try:
+            if is_enabled:
+                element.should(be.enabled)
+            else:
+                element.should(be.disabled)
+        except TimeoutException:
+            expected_state = "ENABLED" if is_enabled else "DISABLED"
+            is_actually_disabled = element.get_attribute("disabled")
+            actual_state = "DISABLED" if is_actually_disabled else "ENABLED"
+            
+            raise AssertionError(
+                f"❌ Button state mismatch!\n"
+                f"   Expected state: {expected_state}\n"
+                f"   Actual state: {actual_state}"
+            )
+        return self
+
+    @allure.step("Проверка атрибута элемента")
+    def verify_attribute(self, element, attr_name: str, expected_value: str):
+        """
+        Универсальная проверка любого атрибута элемента.
+        """
+        try:
+            element.should(have.attribute(attr_name).value(expected_value))  # type: ignore
+        except TimeoutException:
+            raise AssertionError(
+                f" Attribute verification failed!\n"
+                f"   Expected attribute '{attr_name}' to be '{expected_value}'\n"
+                f"   Element: {element}"
+            )
+        return self  
