@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="icon" type="image/png" href="favicon.png">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cassandra — Star System</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', 'Roboto', sans-serif;
+        }
+
+        body {
+            color: #e8ecff;
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* ФОН */
+        .stars {
+            position: fixed;
+            inset: 0;
+            z-index: -3;
+            background: radial-gradient(1px 1px at 10% 10%, rgba(255, 255, 255, .9), transparent 50%),
+                radial-gradient(1.5px 1.5px at 20% 30%, rgba(255, 255, 255, .7), transparent 50%),
+                radial-gradient(1px 1px at 30% 70%, rgba(255, 255, 255, .8), transparent 50%),
+                radial-gradient(2px 2px at 40% 20%, rgba(255, 255, 255, .6), transparent 50%),
+                radial-gradient(1px 1px at 50% 50%, rgba(255, 255, 255, .9), transparent 50%),
+                linear-gradient(180deg, #050816 0%, #0a0e27 50%, #131b3a 100%);
+            background-size: 15vmin 15vmin, 20vmin 20vmin, 18vmin 18vmin, 25vmin 25vmin, 16vmin 16vmin, 100% 100%;
+        }
+
+        .milkyway {
+            position: fixed;
+            inset: 0;
+            z-index: -2;
+            overflow: hidden;
+            pointer-events: none;
+        }
+
+        .milkyway .band {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 280vmax;
+            height: 25vmin;
+            transform: translate(-50%, -50%) rotate(-28deg);
+            background: linear-gradient(180deg, transparent, rgba(120, 160, 255, .08) 15%, rgba(190, 215, 255, .18) 35%, rgba(255, 255, 255, .25) 50%, rgba(190, 215, 255, .18) 65%, rgba(120, 160, 255, .08) 85%, transparent);
+            filter: blur(1.5vmin);
+        }
+
+        .page-header {
+            position: fixed;
+            top: 4vmin;
+            left: 50%;
+            transform: translateX(-50%);
+            text-align: center;
+            z-index: 10;
+        }
+
+        .page-title {
+            font-size: 4.5vmin;
+            font-weight: 800;
+            letter-spacing: 0.6vmin;
+            text-transform: uppercase;
+        }
+
+        .page-title .white-part { color: #ffffff; }
+        .page-title .blue-part { color: #4da6ff; text-shadow: 0 0 2vmin rgba(77, 166, 255, 0.8); }
+
+        .back-btn {
+            position: fixed;
+            bottom: 4vh;
+            left: 2vw;
+            width: 10vmin;
+            height: 10vmin;
+            border-radius: 50%;
+            border: 0.2vmin solid rgba(77, 166, 255, 0.8);
+            background: rgba(10, 15, 40, 0.7);
+            backdrop-filter: blur(1vmin);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 0.35vmin;
+            z-index: 20;
+            box-shadow: 0 0 1.5vmin rgba(77, 166, 255, 0.5), inset 0 0 1vmin rgba(77, 166, 255, 0.3);
+            transition: all 0.3s ease;
+            text-decoration: none;
+            color: inherit;
+            cursor: pointer;
+        }
+
+        .back-btn:hover {
+            border-color: #4da6ff;
+            box-shadow: 0 0 3vmin rgba(77, 166, 255, 0.8);
+            transform: scale(1.1);
+        }
+
+        .back-icon {
+            font-size: 3vmin;
+            filter: drop-shadow(0 0 0.8vmin rgba(77, 166, 255, 0.5));
+        }
+
+        .back-label {
+            font-size: 1.1vmin;
+            font-weight: 600;
+            color: #e8ecff;
+            text-transform: uppercase;
+        }
+
+        .cis-btn {
+            position: fixed;
+            bottom: 4vh;
+            right: 2vw;
+            width: 10vmin;
+            height: 10vmin;
+            border-radius: 50%;
+            border: 0.2vmin solid rgba(77, 166, 255, 0.8);
+            background: rgba(10, 15, 40, 0.7);
+            backdrop-filter: blur(1vmin);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 0.35vmin;
+            z-index: 20;
+            box-shadow: 0 0 1.5vmin rgba(77, 166, 255, 0.5), inset 0 0 1vmin rgba(77, 166, 255, 0.3);
+            transition: all 0.3s ease;
+            text-decoration: none;
+            color: inherit;
+            cursor: pointer;
+        }
+
+        .cis-btn:hover {
+            border-color: #4da6ff;
+            box-shadow: 0 0 3vmin rgba(77, 166, 255, 0.8);
+            transform: scale(1.1);
+        }
+
+        .cis-icon {
+            font-size: 3vmin;
+            filter: drop-shadow(0 0 0.8vmin rgba(77, 166, 255, 0.5));
+        }
+
+        .cis-label {
+            font-size: 0.95vmin;
+            font-weight: 600;
+            color: #e8ecff;
+            text-transform: uppercase;
+            text-align: center;
+            line-height: 1.1;
+        }
+
+        .error-404 {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            z-index: 10;
+        }
+
+        .error-code {
+            font-size: 12vmin;
+            font-weight: 900;
+            color: #4da6ff;
+            text-shadow: 0 0 3vmin rgba(77, 166, 255, 0.8);
+            margin-bottom: 2vmin;
+        }
+
+        .error-message {
+            font-size: 2.5vmin;
+            font-weight: 600;
+            color: #e8ecff;
+            text-transform: uppercase;
+            letter-spacing: 0.3vmin;
+            margin-bottom: 1vmin;
+        }
+
+        .error-subtext {
+            font-size: 1.4vmin;
+            color: #4a5480;
+            text-transform: uppercase;
+            letter-spacing: 0.1vmin;
+        }
+
+        .page-footer {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            text-align: center;
+            color: #4a5480;
+            font-size: 1.2vmin;
+            padding-bottom: 2vmin;
+            z-index: 10;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="stars"></div>
+    <div class="milkyway">
+        <div class="band"></div>
+    </div>
+
+    <header class="page-header">
+        <h1 class="page-title" data-wm-id="system-title">
+            <span class="white-part" id="system-name-white">LOADING</span> <span class="blue-part" id="system-name-blue">SYSTEM</span>
+        </h1>
+    </header>
+
+    <div class="error-404" data-wm-id="error-404-message">
+        <div class="error-code">404</div>
+        <div class="error-message">PAGE UNDER CONSTRUCTION</div>
+        <div class="error-subtext">This feature will be available soon</div>
+    </div>
+
+    <a href="galaxy-map.html" class="back-btn" data-wm-id="nav-galaxy-map-btn">
+        <span class="back-icon">🌌</span>
+        <span class="back-label">GALAXY MAP</span>
+    </a>
+
+    <a href="cis-index-table.html" class="cis-btn" data-wm-id="nav-cis-index-table-btn">
+        <span class="cis-icon">🧬</span>
+        <span class="cis-label">CIS INDEX<br>TABLE</span>
+    </a>
+
+    <footer class="page-footer">
+        <div class="copyright">Evknopia © 2026</div>
+    </footer>
+
+    <script>
+    
+        (function initAuth() {
+            const userDataStr = sessionStorage.getItem('currentUser');
+            if (!userDataStr) {
+                window.location.href = 'login.html';
+                return;
+            }
+
+            let user = {};
+            try {
+                user = JSON.parse(userDataStr);
+            } catch (e) {
+                window.location.href = 'login.html';
+                return;
+            }
+
+            const urlParams = new URLSearchParams(window.location.search);
+            const starId = urlParams.get('star');
+            
+            const starName = starId ? starId.replace(/-/g, ' ').toUpperCase() : 'UNKNOWN';
+            const whitePart = document.getElementById('system-name-white');
+            const bluePart = document.getElementById('system-name-blue');
+            
+            if (whitePart) whitePart.textContent = starName + ' ';
+            if (bluePart) bluePart.textContent = 'SYSTEM';
+        })();
+    </script>
+</body>
+</html>
