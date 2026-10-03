@@ -35,7 +35,7 @@ def test_initial_page_state(login_page):
         element=login_page.access_code_input, is_readonly=False
     )
     login_page.verify_button_state(
-        element=login_page.establish_connect_btn, is_disabled=True
+        element=login_page.establish_connect_btn, is_enabled=False
     )
     login_page.verify_telemetry_text(
         expected_text=data.BLUE_TELEMETRY_AWAITING_CONNECTION
@@ -64,19 +64,15 @@ def test_reactive_button_state(login_page):
     """
 
     # 🎬 ARRANGE
-    login_page.enter_callsign(callsign=data.CALLSIGN_TOO_SHORT_3_CHARS)
-    login_page.enter_access_code(access_code=data.ACCESS_CODE_TOO_SHORT_3_CHARS)
+    login_page.enter_callsign(data.CALLSIGN_TOO_SHORT_3_CHARS)
+    login_page.enter_access_code(data.ACCESS_CODE_TOO_SHORT_3_CHARS)
 
     # ✅ ASSERT
     login_page.should_be_establish_connect_btn(is_enabled=False)
 
     # ⚡ ACT
-    login_page.enter_callsign(
-        callsign=data.CALLSIGN_MIN_VALID_4_CHARS, clear_first=True
-    )
-    login_page.enter_access_code(
-        access_code=data.ACCESS_CODE_MIN_VALID_4_CHARS, clear_first=True
-    )
+    login_page.enter_callsign(data.CALLSIGN_MIN_VALID_4_CHARS, clear=True)
+    login_page.enter_access_code(data.ACCESS_CODE_MIN_VALID_4_CHARS, clear=True)
 
     # ✅ ASSERT
     login_page.should_be_establish_connect_btn(is_enabled=True)
@@ -101,19 +97,19 @@ def test_toggle_access_code_visibility(login_page):
     """
 
     # 🎬 ARRANGE
-    login_page.enter_callsign(callsign=data.CALLSIGN_AURORA)
+    login_page.enter_callsign(data.CALLSIGN_AURORA)
 
     # ⚡ ACT
     login_page.click_toggle_password()
 
     # ✅ ASSERT
-    login_page.verify_access_code_type(expected_type="text")
+    login_page.verify_attribute(login_page.access_code_input, "type", "text")
 
     # ⚡ ACT
     login_page.click_toggle_password()
 
     # ✅ ASSERT
-    login_page.verify_access_code_type(expected_type="password")
+    login_page.verify_attribute(login_page.access_code_input, "type", "password")
 
 
 @allure.id("CAS-04")

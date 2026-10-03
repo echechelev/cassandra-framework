@@ -1,13 +1,12 @@
 import allure
 from selene import be, browser, have
-from selene.core.entity import Element
 from selenium.common.exceptions import TimeoutException
 
-from pages.gateway import GatewayPage
+from pages.core import CorePage
 from tests import data
 
 
-class LoginPage(GatewayPage):
+class LoginPage(CorePage):
 
     # URL
     PATH = data.LOGIN_URL
@@ -20,14 +19,9 @@ class LoginPage(GatewayPage):
     establish_connect_btn = browser.element('[data-wm-id="establish-connect-btn"]')
     toggle_password_btn = browser.element('[data-wm-id="toggle-password-btn"]')
 
-    # Тексты и ссылки
+    # Информационные панели
     page_subtitle = browser.element('[data-wm-id="login-page-subtitle"]')
     auth_error_message = browser.element('[data-wm-id="auth-error-message"]')
-
-    # Свойства, которые переопределяют абстрактные поля из GatewayPage,
-    @property
-    def toggle_password(self)-> Element:
-        return self.toggle_password_btn
 
     # ========================================================================
     # region 1️⃣ 🌐 НАВИГАЦИЯ
@@ -65,7 +59,35 @@ class LoginPage(GatewayPage):
     # endregion
 
     # ========================================================================
-    # region 2️⃣ 🖱️ ДЕЙСТВИЯ С КНОПКАМИ
+    # region 2️⃣ ⌨️ ЗАПОЛНЕНИЕ ПОЛЕЙ
+    # ========================================================================
+
+    @allure.step("Ввод позывного")
+    def enter_callsign(self, callsign: str, clear: bool = False):
+        """Вводит позывной. По умолчанию просто дописывает, если clear=True — очищает поле."""
+        if clear:
+            with allure.step(f"Очистка и ввод в поле 'Callsign': '{callsign}'"):
+                self.callsign_input.set_value(callsign)
+        else:
+            with allure.step(f"Дозапись в поле 'Callsign': '{callsign}'"):
+                self.callsign_input.type(callsign)
+        return self
+
+    @allure.step("Ввод кода доступа")
+    def enter_access_code(self, new_code: str, clear: bool = False):
+        """Вводит код доступа. По умолчанию дописывает, если clear=True — очищает."""
+        if clear:
+            with allure.step(f"Очистка и ввод в поле 'Access code': '{new_code}'"):
+                self.access_code_input.set_value(new_code)
+        else:
+            with allure.step(f"Дозапись в поле 'Access code': '{new_code}'"):
+                self.access_code_input.type(new_code)
+        return self
+
+    # endregion
+
+    # ========================================================================
+    # region 3️⃣ 🖱️ Методы для кнопок 
     # ========================================================================
 
     @allure.step("Нажатие на кнопку Establish Connect и ожидание ответа системы")
@@ -85,35 +107,30 @@ class LoginPage(GatewayPage):
 
         return self
 
+    @allure.step("Нажатие на кнопку Toggle password")
+    def click_toggle_password(self):
+        """Переключает видимость пароля."""
+        with allure.step("Кликаем по кнопке Toggle password"):
+            try:
+                self.toggle_password_btn.should(be.visible).should(be.enabled)
+                self.toggle_password_btn.click()
+            except TimeoutException:
+                raise AssertionError(
+                    "❌ Toggle password button not found or not clickable!\n"
+                    "   Timeout: button did not appear in time"
+                )
+            except Exception as e:
+                raise AssertionError(
+                    f"❌ Unexpected error while clicking Toggle password!\n"
+                    f"   Error: {e}"
+                ) from e
+        return self
+
     # endregion
 
     # ========================================================================
-    # region 3️⃣ ✅ ПРОВЕРКИ СОСТОЯНИЙ
+    # region 4️⃣ ✅ ПРОВЕРКИ СОСТОЯНИЙ
     # ========================================================================
-
-    @allure.step("Проверка типа поля Access Code")
-    def verify_access_code_type(self, expected_type: str):
-        """Проверяет атрибут type поля ввода.
-
-        Args:
-            expected_type: 'password' (скрыт) или 'text' (виден)
-        """
-        try:
-            self.access_code_input.should(have.attribute("type", expected_type))
-        except TimeoutException:
-            raise AssertionError(
-                f"❌ Access code type mismatch!\n"
-                f"   Expected: {expected_type}\n"
-                f"   Actual: поле не имеет ожидаемого типа"
-            ) from None
-        except Exception as e:
-            raise AssertionError(
-                f"❌ Unexpected error while checking access code type!\n"
-                f"   Expected: {expected_type}\n"
-                f"   Error: {e}"
-            ) from e
-        return self
-
     @allure.step("Проверка состояния кнопки Establish Connect")
     def should_be_establish_connect_btn(self, is_enabled: bool = False):
         """

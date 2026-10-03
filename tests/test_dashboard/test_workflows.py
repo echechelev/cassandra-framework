@@ -28,7 +28,7 @@ def test_full_uplink_activation_sequence(dashboard_page_aurora):
     dashboard_page_aurora.click_uplink()
 
     # ⚡ ACT
-    dashboard_page_aurora.wait_for_uplink_complete(callsign=data.CALLSIGN_AURORA)
+    dashboard_page_aurora.wait_for_uplink_complete(data.CALLSIGN_AURORA)
 
     # ✅ ASSERT
     dashboard_page_aurora.verify_uplink_button_disabled()
@@ -59,7 +59,7 @@ def test_logout_aurora_success(dashboard_page_aurora):
 
     # 🎬 ARRANGE
     dashboard_page_aurora.click_uplink()
-    dashboard_page_aurora.wait_for_uplink_complete(callsign=data.CALLSIGN_AURORA)
+    dashboard_page_aurora.wait_for_uplink_complete(data.CALLSIGN_AURORA)
 
     # ⚡ ACT
     dashboard_page_aurora.click_logout()
@@ -68,7 +68,7 @@ def test_logout_aurora_success(dashboard_page_aurora):
     dashboard_page_aurora.verify_user_data_in_storage(
         expected_callsign=data.CALLSIGN_AURORA, check_session=True, should_exist=False
     )
-    dashboard_page_aurora.wait_for_url(expected_url_part=data.LOGIN_URL)
+    dashboard_page_aurora.wait_for_url(data.LOGIN_URL)
 
 
 @allure.id("CAS-03")
@@ -91,7 +91,7 @@ def test_logout_orion_success(dashboard_page_orion):
 
     # 🎬 ARRANGE
     dashboard_page_orion.click_uplink()
-    dashboard_page_orion.wait_for_uplink_complete(callsign=data.CALLSIGN_ORION)
+    dashboard_page_orion.wait_for_uplink_complete(data.CALLSIGN_ORION)
 
     # ⚡ ACT
     dashboard_page_orion.click_logout()
@@ -100,7 +100,7 @@ def test_logout_orion_success(dashboard_page_orion):
     dashboard_page_orion.verify_user_data_in_storage(
         expected_callsign=data.CALLSIGN_ORION, check_session=True, should_exist=False
     )
-    dashboard_page_orion.wait_for_url(expected_url_part=data.LOGIN_URL)
+    dashboard_page_orion.wait_for_url(data.LOGIN_URL)
 
 
 @allure.id("CAS-04")
@@ -125,7 +125,7 @@ def test_logout_nova_success(dashboard_page_nova):
 
     # 🎬 ARRANGE
     dashboard_page_nova.click_uplink()
-    dashboard_page_nova.wait_for_uplink_complete(callsign=data.CALLSIGN_NOVA)
+    dashboard_page_nova.wait_for_uplink_complete(data.CALLSIGN_NOVA)
 
     # ⚡ ACT
     dashboard_page_nova.click_logout()
@@ -137,7 +137,7 @@ def test_logout_nova_success(dashboard_page_nova):
     dashboard_page_nova.verify_user_data_in_storage(
         expected_callsign=data.CALLSIGN_NOVA, check_local=True, should_exist=True
     )
-    dashboard_page_nova.wait_for_url(expected_url_part=data.LOGIN_URL)
+    dashboard_page_nova.wait_for_url(data.LOGIN_URL)
 
 
 @allure.id("CAS-05")
@@ -162,7 +162,7 @@ def test_logout_knopa_success(dashboard_page_knopa):
 
     # 🎬 ARRANGE
     dashboard_page_knopa.click_uplink()
-    dashboard_page_knopa.wait_for_uplink_complete(callsign=data.CALLSIGN_KNOPA)
+    dashboard_page_knopa.wait_for_uplink_complete(data.CALLSIGN_KNOPA)
 
     # ⚡ ACT
     dashboard_page_knopa.click_logout()
@@ -174,7 +174,7 @@ def test_logout_knopa_success(dashboard_page_knopa):
     dashboard_page_knopa.verify_user_data_in_storage(
         expected_callsign=data.CALLSIGN_KNOPA, check_local=True, should_exist=True
     )
-    dashboard_page_knopa.wait_for_url(expected_url_part=data.LOGIN_URL)
+    dashboard_page_knopa.wait_for_url(data.LOGIN_URL)
 
 
 @allure.id("CAS-06")
@@ -199,7 +199,7 @@ def test_bfcache_restore_reinitialization(dashboard_page_aurora):
 
     # 🎬 ARRANGE
     dashboard_page_aurora.click_uplink()
-    dashboard_page_aurora.wait_for_uplink_complete(callsign=data.CALLSIGN_AURORA)
+    dashboard_page_aurora.wait_for_uplink_complete(data.CALLSIGN_AURORA)
 
     # ⚡ ACT
     dashboard_page_aurora.click_galaxy_map()

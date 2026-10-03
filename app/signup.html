@@ -410,9 +410,6 @@
       box-sizing: border-box;
     }
 
-    /* ============================================
-       УГЛОВЫЕ КНОПКИ НАВИГАЦИИ (Единый стиль)
-       ============================================ */
     .corner-nav {
       position: fixed;
       bottom: 3vmin;
@@ -427,7 +424,6 @@
 
     .nav-circle-btn {
       pointer-events: auto;
-      /* Сами кнопки кликабельны */
       appearance: none;
       -webkit-appearance: none;
       -moz-appearance: none;
@@ -464,7 +460,6 @@
 
     .nav-circle-btn:active {
       transform: scale(0.95);
-      /* Эффект лёгкого проваливания */
     }
 
     .nav-icon {
@@ -527,7 +522,6 @@
         ⚠️ Registration data invalid
       </div>
 
-      <!-- STEP 1 -->
       <form id="step-1" novalidate>
         <div class="input-group">
           <label class="input-label" for="full-name">Full Name</label>
@@ -563,7 +557,6 @@
         </button>
       </form>
 
-      <!-- STEP 2 -->
       <form id="step-2" class="hidden" novalidate>
         <div class="auth-error" id="security-error" data-wm-id="signup-security-error">
           ⚠️ Security protocol failed. Invalid credentials provided.
@@ -614,7 +607,6 @@
         </button>
       </form>
 
-      <!-- STEP 3 -->
       <div id="step-3" class="hidden">
         <div class="login-logo" data-wm-id="signup-activation-logo">
           <span class="white-part">ACTIVATION</span><span class="blue-part"> COMPLETE</span>
@@ -654,13 +646,12 @@
       <div class="copyright">Evknopia © 2026</div>
     </footer>
 
-    <!-- УГЛОВЫЕ КНОПКИ НАВИГАЦИИ -->
     <div class="corner-nav">
-      <a href="login.html" class="nav-circle-btn" data-wm-id="btn-login">
+      <a href="login.html" class="nav-circle-btn" data-wm-id="nav-login-btn">
         <span class="nav-icon">🔭</span>
         <span class="nav-label">Log In</span>
       </a>
-      <a href="access-restoration.html" class="nav-circle-btn" data-wm-id="btn-restore">
+      <a href="access-restoration.html" class="nav-circle-btn" data-wm-id="nav-restore-btn">
         <span class="nav-icon">🔑</span>
         <span class="nav-label">Restore</span>
       </a>
@@ -683,7 +674,6 @@
         id: '512-3A'
       };
 
-      // === 2. SATELLITE ANIMATION ===
       const satellite = document.getElementById('satellite');
       let x = Math.random() * (window.innerWidth - 60);
       let y = Math.random() * (window.innerHeight - 40);
@@ -700,7 +690,6 @@
       }
       requestAnimationFrame(animateSatellite);
 
-      // === 3. STEP 1 VARIABLES ===
       const fullNameInput = document.getElementById('full-name');
       const callsignInput = document.getElementById('callsign');
       const roleSelect = document.getElementById('role');
@@ -709,9 +698,7 @@
       const telemetryText = document.querySelector('.telemetry');
       const errorBlock = document.getElementById('signup-error');
 
-      // === 4. STEP 1 HANDLERS ===
       fullNameInput.addEventListener('input', (e) => {
-        // FIXED: Now allows spaces for "First Last" names
         e.target.value = e.target.value.replace(/[^a-zA-Z\s]/g, '');
         callsignInput.value = e.target.value.toUpperCase();
         checkFormState();
@@ -767,10 +754,9 @@
         });
       });
 
-      // === 5. STEP 1 SUBMIT ===
       function handleSignupStep1(event) {
         event.preventDefault();
-        if (isProcessing) return; // Защита от двойного клика
+        if (isProcessing) return;
 
         isProcessing = true;
         errorBlock.classList.remove('visible');
@@ -778,7 +764,6 @@
         submitBtn.classList.add('processing');
         submitBtn.disabled = true;
         submitBtn.textContent = 'VERIFYING IDENTITY...';
-        // 🗑️ УБРАНО: промежуточная телеметрия. Она остается "> SYSTEM READY. AWAITING OPERATOR REGISTRATION"
 
         setTimeout(() => {
           const currentCallsign = callsignInput.value.trim().toUpperCase();
@@ -826,13 +811,11 @@
             return;
           }
 
-          // Success: Save and go to Step 2
           operatorData.fullName = fullNameInput.value;
           operatorData.callsign = callsignInput.value;
           operatorData.role = roleSelect.value;
           operatorData.function = functionInput.value;
 
-          // Сбрасываем кнопку перед скрытием формы для чистоты состояния
           resetSubmitBtn();
 
           document.getElementById('step-1').classList.add('hidden');
@@ -854,7 +837,6 @@
         isProcessing = false;
       }
 
-      // === 6. STEP 2 VARIABLES ===
       const accessCodeInput = document.getElementById('access-code');
       const confirmAccessCodeInput = document.getElementById('confirm-access-code');
       const recoveryCipherInput = document.getElementById('recovery-cipher');
@@ -889,7 +871,6 @@
       [accessCodeInput, confirmAccessCodeInput, recoveryCipherInput].forEach(el => {
         el.addEventListener('focus', () => {
           securityErrorBlock.classList.remove('visible');
-          // 🔄 Возвращаем телеметрию в исходное состояние Шага 2
           telemetryText.style.color = '#4da6ff';
           telemetryText.innerHTML = '> SYSTEM READY. AWAITING SECURITY REGISTRATION';
         });
@@ -908,7 +889,6 @@
       }
 
       function goBackToStep1() {
-        // FIXED: Do NOT remove operatorData, just clear Step 2 inputs
         document.getElementById('step-2').classList.add('hidden');
         document.getElementById('step-1').classList.remove('hidden');
 
@@ -935,32 +915,27 @@
 
       document.getElementById('back-btn').addEventListener('click', goBackToStep1);
 
-      // === 7. STEP 2 SUBMIT ===
       function handleSignupStep2(event) {
         event.preventDefault();
-        if (isProcessing) return; // Защита от двойного клика
+        if (isProcessing) return;
 
         const accessCode = accessCodeInput.value;
         const confirmCode = confirmAccessCodeInput.value;
         const recoveryCipher = recoveryCipherInput.value;
 
-        // 🚀 Включаем состояние обработки (мерцание)
         isProcessing = true;
         completeBtn.classList.add('processing');
         completeBtn.disabled = true;
         completeBtn.textContent = 'ACTIVATING ACCOUNT...';
-        // 🗑️ УБРАНО: промежуточная телеметрия. Она остается "> SYSTEM READY. AWAITING SECURITY REGISTRATION"
 
-        // Ждем 2 секунды, как на первом шаге
         setTimeout(() => {
-          // 🛡️ ИБ-стандарт: Единая ошибка для любого невалидного ввода на Шаге 2
+
           if (accessCode !== confirmCode || accessCode !== 'QUASAR_5' || recoveryCipher !== 'COMETA') {
             securityErrorBlock.textContent = '⚠️ Security protocol failed. Invalid credentials provided.';
             securityErrorBlock.classList.add('visible');
             telemetryText.style.color = '#e74c3c';
             telemetryText.innerHTML = '> SYSTEM LOCKED. INVALID CREDENTIALS.';
 
-            // Сбрасываем кнопку при ошибке, чтобы можно было попробовать снова
             completeBtn.classList.remove('processing');
             completeBtn.disabled = false;
             completeBtn.textContent = 'COMPLETE REGISTRATION';
@@ -968,11 +943,9 @@
             return;
           }
 
-          // --- УСПЕХ ---
           operatorData.accessCode = accessCode;
           operatorData.recoveryCipher = recoveryCipher;
 
-          // 🚀 Сохраняем пользователя в постоянную базу
           let registeredUsers = {};
           const registeredUsersStr = localStorage.getItem('registeredUsers');
           if (registeredUsersStr) {
@@ -986,7 +959,6 @@
           registeredUsers[operatorData.callsign] = operatorData;
           localStorage.setItem('registeredUsers', JSON.stringify(registeredUsers));
 
-          // Переключаем UI на Шаг 3
           document.getElementById('step-2').classList.add('hidden');
           document.getElementById('step-3').classList.remove('hidden');
 
@@ -1009,22 +981,19 @@
           telemetryText.style.color = '#2ecc71';
           telemetryText.innerHTML = '> REGISTRATION COMPLETE. OPERATOR ACCOUNT ACTIVATED.';
 
-          // Сбрасываем состояние кнопки (для чистоты кода)
           completeBtn.classList.remove('processing');
           completeBtn.textContent = 'COMPLETE REGISTRATION';
           isProcessing = false;
-        }, 2000); // ЕДИНОЕ ВРЕМЯ: 2 секунды
+        }, 2000);
       }
 
-      // === 8. EVENT BINDINGS (Привязка обработчиков к формам) ===
       document.getElementById('step-1').addEventListener('submit', handleSignupStep1);
       document.getElementById('step-2').addEventListener('submit', handleSignupStep2);
 
-      // 🧹 ОЧИСТКА СЕССИИ ПРИ УХОДЕ СО СТРАНИЦЫ ИЛИ ОБНОВЛЕНИИ
       window.addEventListener('beforeunload', () => {
         sessionStorage.removeItem('signupStep');
         sessionStorage.removeItem('operatorData');
-        sessionStorage.removeItem('operatorDataDraft'); // На всякий случай
+        sessionStorage.removeItem('operatorDataDraft');
       });
 
     });

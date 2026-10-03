@@ -21,6 +21,19 @@ class DashboardPage(CorePage):
     # URL
     PATH = data.DASHBOARD_URL
 
+    galaxy_map_btn = browser.element('[data-wm-id="galaxy-map-btn"]')
+    flight_calc_btn = browser.element('[data-wm-id="flight-calc-btn"]')
+    cis_index_table_btn = browser.element('[data-wm-id="cis-index-table-btn"]')
+    mission_control_btn = browser.element('[data-wm-id="mission-control-btn"]')
+    settings_btn = browser.element('[data-wm-id="settings-btn"]')
+
+    # Временный локатор кнопка "Назад", на страницах заглушках для планет бара
+    back_btn = browser.element(".back-btn")
+
+    # Нижние кнопки
+    uplink_btn = browser.element('[data-wm-id="uplink-btn"]')
+    logout_btn = browser.element('[data-wm-id="logout-btn"]')
+
     # Информационные панели
     role_tooltip = browser.element('[data-wm-id="info-panel-role"] .info-tooltip')
     role_panel = browser.element('[data-wm-id="info-panel-role"]')
@@ -32,9 +45,15 @@ class DashboardPage(CorePage):
     user_label = browser.element('[data-wm-id="user-label"]')
     user_status = browser.element('[data-wm-id="status-dot"]')
 
-    # Нижние кнопки
-    uplink_btn = browser.element('[data-wm-id="uplink-btn"]')
-    logout_btn = browser.element('[data-wm-id="logout-btn"]')
+    # Служебные элементы (для тестов анимации и состояний)
+    system_telemetry = browser.element('[data-wm-id="system-telemetry"]')
+    telemetry_message = browser.element("[id='typing-target'], [data-wm-id='telemetry-message']")
+    progress_fill = browser.element("#progress-fill")
+    progress_text = browser.element("#progress-text")
+    progress_container = browser.element("#uplink-progress-container")
+
+    # Добавляем коллекция для метода check_progress_bar_appeared_once
+    progress_bars = browser.all("#progress-fill")
 
     # ========================================================================
     # region 1️⃣ 🌐 НАВИГАЦИЯ
@@ -45,7 +64,7 @@ class DashboardPage(CorePage):
         """Открывает страницу регистрации и проверяет её загрузку.
 
         Returns:
-            self: Экземпляр SignupPage для chaining-а методов.
+            self: Экземпляр Dashboard page для chaining-а методов.
 
         Raises:
             AssertionError: Если страница не загрузилась в течение таймаута.
@@ -74,11 +93,166 @@ class DashboardPage(CorePage):
                 ) from e
         return self
 
+    @allure.step("Переход в Galaxy Map")
+    def navigate_to_galaxy_map(self):
+            """
+            Кликает по кнопке 'Galaxy Map', проверяет URL и возвращается на Dashboard.
+            """
+            self.galaxy_map_btn.should(be.clickable)
+            self.galaxy_map_btn.click()
+            self.wait_for_url("galaxy-map.html")
+    
+            # Временно: клик по кнопке "Назад в браузере"
+            self.click_browser_back()
+            self.wait_for_url("dashboard.html")
+    
+            return self
+
+    @allure.step("Переход в CIS Table")
+    def navigate_to_cis_index_table(self):
+            """
+            Кликает по кнопке 'CIS Table', проверяет URL и возвращается на Dashboard.
+            """
+            self.cis_index_table_btn.should(be.clickable)
+            self.cis_index_table_btn.click()
+            self.wait_for_url("cis-index-table.html")
+    
+            # Временно: клик по заглушке "Back to Dashboard" для возврата
+            self.back_btn.click()
+            self.wait_for_url("dashboard.html")
+    
+            return self
+
+    @allure.step("Переход в Mission Control")
+    def navigate_to_mission_control(self):
+            """
+            Кликает по кнопке 'Mission Control', проверяет URL и возвращается на Dashboard.
+            """
+            self.mission_control_btn.should(be.clickable)
+            self.mission_control_btn.click()
+            self.wait_for_url("mission-control.html")
+    
+            # Временно: клик по заглушке "Back to Dashboard" для возврата
+            self.back_btn.click()
+            self.wait_for_url("dashboard.html")
+    
+            return self
+
+    @allure.step("Переход в Settings")
+    def navigate_to_settings(self):
+            """
+            Кликает по кнопке 'Settings', проверяет URL и возвращается на Dashboard.
+            """
+            self.settings_btn.should(be.clickable)
+            self.settings_btn.click()
+            self.wait_for_url("settings.html")
+    
+            # Временно: клик по заглушке "Back to Dashboard" для возврата
+            self.back_btn.click()
+            self.wait_for_url("dashboard.html")
+    
+            return self
+
     # endregion
 
     # ========================================================================
-    # region 2️⃣ 🖱️ ДЕЙСТВИЯ С КНОПКАМИ
+    # region 2️⃣ 🖱️ Методы для кнопок 
     # ========================================================================
+ 
+    @allure.step("Нажатие кнопки Galaxy Map")
+    def click_galaxy_map(self):
+        """Нажимает кнопку перехода на карту галактики."""
+        with allure.step("Кликаем по кнопке Galaxy Map"):
+            try:
+                self.galaxy_map_btn.should(be.visible).should(be.enabled)
+                self.galaxy_map_btn.click()
+            except TimeoutException:
+                raise AssertionError(
+                    "❌ Galaxy Map button not found or not clickable!\n"
+                    "   Timeout: button did not appear in time"
+                )
+            except Exception as e:
+                raise AssertionError(
+                    f"❌ Unexpected error while clicking Galaxy Map!\n"
+                    f"   Error: {e}"
+                ) from e
+        return self
+
+    @allure.step("Нажатие кнопки Flight Calc")
+    def click_flight_calc(self):
+        """Нажимает кнопку перехода к калькулятору полёта."""
+        with allure.step("Кликаем по кнопке Flight Calc"):
+            try:
+                self.flight_calc_btn.should(be.visible).should(be.enabled)
+                self.flight_calc_btn.click()
+            except TimeoutException:
+                raise AssertionError(
+                    "❌ Flight Calc button not found or not clickable!\n"
+                    "   Timeout: button did not appear in time"
+                )
+            except Exception as e:
+                raise AssertionError(
+                    f"❌ Unexpected error while clicking Flight Calc!\n"
+                    f"   Error: {e}"
+                ) from e
+        return self
+
+    @allure.step("Нажатие кнопки CIS Index Table")
+    def click_cis_index_table(self):
+        """Нажимает кнопку перехода к таблице CIS Index."""
+        with allure.step("Кликаем по кнопке CIS Index Table"):
+            try:
+                self.cis_index_table_btn.should(be.visible).should(be.enabled)
+                self.cis_index_table_btn.click()
+            except TimeoutException:
+                raise AssertionError(
+                    "❌ CIS Index Table button not found or not clickable!\n"
+                    "   Timeout: button did not appear in time"
+                )
+            except Exception as e:
+                raise AssertionError(
+                    f"❌ Unexpected error while clicking CIS Index Table!\n"
+                    f"   Error: {e}"
+                ) from e
+        return self
+
+    @allure.step("Нажатие кнопки Mission Control")
+    def click_mission_control(self):
+        """Нажимает кнопку перехода к Mission Control."""
+        with allure.step("Кликаем по кнопке Mission Control"):
+            try:
+                self.mission_control_btn.should(be.visible).should(be.enabled)
+                self.mission_control_btn.click()
+            except TimeoutException:
+                raise AssertionError(
+                    "❌ Mission Control button not found or not clickable!\n"
+                    "   Timeout: button did not appear in time"
+                )
+            except Exception as e:
+                raise AssertionError(
+                    f"❌ Unexpected error while clicking Mission Control!\n"
+                    f"   Error: {e}"
+                ) from e
+        return self
+
+    @allure.step("Нажатие кнопки Settings")
+    def click_settings(self):
+        """Нажимает кнопку перехода к настройкам Cassandra."""
+        with allure.step("Кликаем по кнопке Settings"):
+            try:
+                self.settings_btn.should(be.visible).should(be.enabled)
+                self.settings_btn.click()
+            except TimeoutException:
+                raise AssertionError(
+                    "❌ Settings button not found or not clickable!\n"
+                    "   Timeout: button did not appear in time"
+                )
+            except Exception as e:
+                raise AssertionError(
+                    f"❌ Unexpected error while clicking Settings!\n"
+                    f"   Error: {e}"
+                ) from e
+        return self
 
     @allure.step("Нажатие кнопки Uplink")
     def click_uplink(self):
@@ -101,7 +275,7 @@ class DashboardPage(CorePage):
 
     @allure.step("Нажатие кнопки Logout")
     def click_logout(self):
-        """Нажимает кнопку выхода из системы (Disconnect/Logout)."""
+        """Нажимает кнопку выхода из системы Logout."""
         with allure.step("Кликаем по кнопке Logout"):
             try:
                 self.logout_btn.should(be.visible).should(be.enabled)
@@ -114,7 +288,7 @@ class DashboardPage(CorePage):
                 )
             except Exception as e:
                 raise AssertionError(
-                    f"❌ Unexpected error while clicking Logout!\n" f"   Error: {e}"
+                    f"❌ Unexpected error while clicking Uplink!\n" f"   Error: {e}"
                 ) from e
         return self
 
@@ -148,6 +322,11 @@ class DashboardPage(CorePage):
 
         return self
 
+    # endregion
+
+    # ========================================================================
+    # region 3️⃣ ✅ ПРОВЕРКИ СОСТОЯНИЙ
+    # ========================================================================
     @allure.step("Ожидание полной активации Uplink")
     def wait_for_uplink_complete(self, callsign: str, timeout: int = 40):
         """
@@ -197,12 +376,6 @@ class DashboardPage(CorePage):
                 ) from e
 
         return self
-
-    # endregion
-
-    # ========================================================================
-    # region 3️⃣ ✅ ПРОВЕРКИ СОСТОЯНИЙ
-    # ========================================================================
 
     def verify_progress_bar_appeared_once(self):
         """Проверяет, что прогресс-бар появился и он ровно один (нет дубликатов от спама)."""
@@ -288,9 +461,9 @@ class DashboardPage(CorePage):
                     ("Disconnect", self.logout_btn),
                     ("Galaxy Map", self.galaxy_map_btn),
                     ("Flight Calc", self.flight_calc_btn),
-                    ("CIS Table", self.cis_table_btn),
+                    ("CIS Index Table", self.cis_index_table_btn),
                     ("Mission Control", self.mission_control_btn),
-                    ("Cassandra Settings", self.nav_settings_btn),
+                    ("Cassandra Settings", self.settings_btn),
                 ]
 
                 errors = []
@@ -353,11 +526,11 @@ class DashboardPage(CorePage):
             timeout_per_button: Максимальное время ожидания появления каждой кнопки
         """
         planet_bar_buttons = [
-            ("Galaxy Map", self.galaxy_map_btn, "nav-galaxy-map"),
+            ("Galaxy Map", self.galaxy_map_btn, "galaxy-map-btn"),
             ("Flight Calc", self.flight_calc_btn, "flight-calc-btn"),
-            ("CIS Table", self.cis_table_btn, "cis-table-btn"),
+            ("CIS Index Table", self.cis_index_table_btn, "cis-index-table-btn"),
             ("Mission Control", self.mission_control_btn, "mission-control-btn"),
-            ("Nav Settings", self.nav_settings_btn, "nav-settings"),
+            ("Nav Settings", self.settings_btn, "settings-btn"),
         ]
 
         for btn_name, btn_element, btn_id in planet_bar_buttons:
@@ -387,11 +560,11 @@ class DashboardPage(CorePage):
         with allure.step("Проверяем pointer-events: none для всех кнопок Planet Bar"):
             script = """
                 const selectors = [
-                    '[data-wm-id="nav-galaxy-map"]',
+                    '[data-wm-id="galaxy-map-btn"]',
                     '[data-wm-id="flight-calc-btn"]',
-                    '[data-wm-id="cis-table-btn"]',
+                    '[data-wm-id="cis-index-table-btn"]',
                     '[data-wm-id="mission-control-btn"]',
-                    '[data-wm-id="nav-settings"]'
+                    '[data-wm-id="settings-btn"]'
                 ];
                 return selectors.map(sel => {
                     const btn = document.querySelector(sel);
@@ -523,7 +696,7 @@ class DashboardPage(CorePage):
                 )
 
         return self
-    
+
     @allure.step("Проверка данных в информационных панелях")
     def verify_panels_data(self, expected_role: str, expected_user: str):
         """
@@ -666,5 +839,3 @@ class DashboardPage(CorePage):
                 ) from e
 
         return self
-
-    # endregion

@@ -25,8 +25,8 @@ def test_successful_authorization_aurora(login_page):
     """
 
     # 🎬 ARRANGE
-    login_page.enter_callsign(callsign=data.CALLSIGN_AURORA)
-    login_page.enter_access_code(access_code=data.ACCESS_CODE_AURORA)
+    login_page.enter_callsign(data.CALLSIGN_AURORA)
+    login_page.enter_access_code(data.ACCESS_CODE_AURORA)
 
     # ⚡ ACT
     login_page.click_establish_connect()
@@ -61,8 +61,8 @@ def test_successful_authorization_orion(login_page):
     """
 
     # 🎬 ARRANGE
-    login_page.enter_callsign(callsign=data.CALLSIGN_ORION)
-    login_page.enter_access_code(access_code=data.ACCESS_CODE_ORION)
+    login_page.enter_callsign(data.CALLSIGN_ORION)
+    login_page.enter_access_code(data.ACCESS_CODE_ORION)
 
     # ⚡ ACT
     login_page.click_establish_connect()
@@ -101,8 +101,8 @@ def test_successful_authorization_nova(nova_created, login_page):
     # 🎬 ARRANGE
 
     # ⚡ ACT
-    login_page.enter_callsign(callsign=data.CALLSIGN_NOVA)
-    login_page.enter_access_code(access_code=data.ACCESS_CODE_NOVA)
+    login_page.enter_callsign(data.CALLSIGN_NOVA)
+    login_page.enter_access_code(data.ACCESS_CODE_NOVA)
     login_page.click_establish_connect()
 
     # ✅ ASSERT
@@ -137,8 +137,8 @@ def test_successful_authorization_knopa(knopa_restored, login_page):
     """
 
     # 🎬 ARRANGE
-    login_page.enter_callsign(callsign=data.CALLSIGN_KNOPA)
-    login_page.enter_access_code(access_code=data.ACCESS_CODE_KNOPA)
+    login_page.enter_callsign(data.CALLSIGN_KNOPA)
+    login_page.enter_access_code(data.ACCESS_CODE_KNOPA)
 
     # ⚡ ACT
     login_page.click_establish_connect()

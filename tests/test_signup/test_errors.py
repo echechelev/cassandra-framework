@@ -24,8 +24,8 @@ def test_reserved_callsign_aurora_blocked(signup_page):
     """
 
     # 🎬 ARRANGE
-    signup_page.enter_full_name(name=data.NAME_AURORA)
-    signup_page.select_role(role_value=data.ROLE_SPECIALIST)
+    signup_page.enter_full_name(data.NAME_AURORA)
+    signup_page.select_role(data.ROLE_SPECIALIST)
 
     # ⚡ ACT
     signup_page.click_proceed()
@@ -61,8 +61,8 @@ def test_reserved_callsign_orion_blocked(signup_page):
     """
 
     # 🎬 ARRANGE
-    signup_page.enter_full_name(name=data.NAME_ORION)
-    signup_page.select_role(role_value=data.ROLE_COMMANDER)
+    signup_page.enter_full_name(data.NAME_ORION)
+    signup_page.select_role(data.ROLE_COMMANDER)
 
     # ⚡ ACT
     signup_page.click_proceed()
@@ -98,8 +98,8 @@ def test_wrong_role_for_nova(signup_page):
     """
 
     # 🎬 ARRANGE
-    signup_page.enter_full_name(name=data.NAME_NOVA)
-    signup_page.select_role(role_value=data.ROLE_COMMANDER)
+    signup_page.enter_full_name(data.NAME_NOVA)
+    signup_page.select_role(data.ROLE_COMMANDER)
 
     # ⚡ ACT
     signup_page.click_proceed()
@@ -133,8 +133,8 @@ def test_reserved_callsign_knopa(signup_page):
     """
 
     # 🎬 ARRANGE
-    signup_page.enter_full_name(name=data.NAME_KNOPA)
-    signup_page.select_role(role_value=data.ROLE_COMMANDER)
+    signup_page.enter_full_name(data.NAME_KNOPA)
+    signup_page.select_role(data.ROLE_COMMANDER)
 
     # ⚡ ACT
     signup_page.click_proceed()
@@ -170,8 +170,8 @@ def test_unknown_callsign(signup_page):
     """
 
     # 🎬 ARRANGE
-    signup_page.enter_full_name(name=data.NAME_IVAN)
-    signup_page.select_role(role_value=data.ROLE_ENGINEER)
+    signup_page.enter_full_name(data.NAME_IVAN)
+    signup_page.select_role(data.ROLE_ENGINEER)
 
     # ⚡ ACT
     signup_page.click_proceed()
@@ -207,14 +207,14 @@ def test_access_codes_mismatch(signup_page):
     """
 
     # 🎬 ARRANGE
-    signup_page.enter_full_name(name=data.NAME_NOVA)
-    signup_page.select_role(role_value=data.ROLE_ENGINEER)
+    signup_page.enter_full_name(data.NAME_NOVA)
+    signup_page.select_role(data.ROLE_ENGINEER)
     signup_page.click_proceed()
 
     # ⚡ ACT
-    signup_page.enter_access_code(access_code=data.ACCESS_CODE_NOVA)
-    signup_page.enter_confirm_access_code(confirm_code=data.ACCESS_CODE_WRONG)
-    signup_page.enter_recovery_cipher(cipher=data.RECOVERY_CIPHER_NOVA)
+    signup_page.enter_access_code(data.ACCESS_CODE_NOVA)
+    signup_page.enter_confirm_access_code(data.ACCESS_CODE_WRONG)
+    signup_page.enter_recovery_cipher(data.RECOVERY_CIPHER_NOVA)
     signup_page.click_complete_registration()
 
     # ✅ ASSERT
@@ -248,14 +248,14 @@ def test_invalid_access_code_value(signup_page):
     """
 
     # 🎬 ARRANGE
-    signup_page.enter_full_name(name=data.NAME_NOVA)
-    signup_page.select_role(role_value=data.ROLE_ENGINEER)
+    signup_page.enter_full_name(data.NAME_NOVA)
+    signup_page.select_role(data.ROLE_ENGINEER)
     signup_page.click_proceed()
 
     # ⚡ ACT
-    signup_page.enter_access_code(access_code=data.ACCESS_CODE_WRONG)
-    signup_page.enter_confirm_access_code(confirm_code=data.ACCESS_CODE_WRONG)
-    signup_page.enter_recovery_cipher(cipher=data.RECOVERY_CIPHER_NOVA)
+    signup_page.enter_access_code(data.ACCESS_CODE_WRONG)
+    signup_page.enter_confirm_access_code(data.ACCESS_CODE_WRONG)
+    signup_page.enter_recovery_cipher(data.RECOVERY_CIPHER_NOVA)
     signup_page.click_complete_registration()
 
     # ✅ ASSERT
@@ -289,14 +289,14 @@ def test_invalid_recovery_cipher(signup_page):
     """
 
     # 🎬 ARRANGE
-    signup_page.enter_full_name(name=data.NAME_NOVA)
-    signup_page.select_role(role_value=data.ROLE_ENGINEER)
+    signup_page.enter_full_name(data.NAME_NOVA)
+    signup_page.select_role(data.ROLE_ENGINEER)
     signup_page.click_proceed()
 
     # ⚡ ACT
-    signup_page.enter_access_code(access_code=data.ACCESS_CODE_NOVA)
-    signup_page.enter_confirm_access_code(confirm_code=data.ACCESS_CODE_NOVA)
-    signup_page.enter_recovery_cipher(cipher=data.RECOVERY_CIPHER_WRONG)
+    signup_page.enter_access_code(data.ACCESS_CODE_NOVA)
+    signup_page.enter_confirm_access_code(data.ACCESS_CODE_NOVA)
+    signup_page.enter_recovery_cipher(data.RECOVERY_CIPHER_WRONG)
     signup_page.click_complete_registration()
 
     # ✅ ASSERT

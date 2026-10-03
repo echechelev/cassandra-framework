@@ -33,7 +33,7 @@ def test_initial_page_state(signup_page):
     signup_page.verify_empty_field_state(
         element=signup_page.function_input, is_readonly=True
     )
-    signup_page.verify_button_state(element=signup_page.proceed_btn, is_disabled=True)
+    signup_page.verify_button_state(element=signup_page.proceed_btn, is_enabled=False)
     signup_page.verify_telemetry_text(
         expected_text=data.BLUE_TELEMETRY_AWAITING_OPERATOR
     )
@@ -57,8 +57,8 @@ def test_initial_step_2_state(signup_page):
     """
 
     # 🎬 ARRANGE
-    signup_page.enter_full_name(name=data.NAME_NOVA)
-    signup_page.select_role(role_value=data.ROLE_ENGINEER)
+    signup_page.enter_full_name(data.NAME_NOVA)
+    signup_page.select_role(data.ROLE_ENGINEER)
     signup_page.click_proceed()
 
     # ✅ ASSERT
@@ -73,7 +73,7 @@ def test_initial_step_2_state(signup_page):
     )
     signup_page.verify_button_state(
         element=signup_page.proceed_btn,
-        is_disabled=True,
+        is_enabled=False,
     )
 
 
@@ -97,24 +97,22 @@ def test_reactive_button_state(signup_page):
     """
 
     # 🎬 ARRANGE
-    signup_page.enter_full_name(name=data.FULL_NAME_TOO_SHORT_3_CHARS)
-    signup_page.select_role(role_value=data.ROLE_ENGINEER)
+    signup_page.enter_full_name(data.FULL_NAME_TOO_SHORT_3_CHARS)
+    signup_page.select_role(data.ROLE_ENGINEER)
 
     # ✅ ASSERT
     signup_page.verify_button_state(
         element=signup_page.proceed_btn,
-        is_disabled=True,
+        is_enabled=False,
     )
 
     # ⚡ ACT
-    signup_page.enter_full_name(
-        name=data.FULL_BNAME_MIN_VALID_4_CHARS, clear_first=True
-    )
+    signup_page.enter_full_name(name=data.FULL_BNAME_MIN_VALID_4_CHARS, clear=True)
 
     # ✅ ASSERT
     signup_page.verify_button_state(
         element=signup_page.proceed_btn,
-        is_disabled=False,
+        is_enabled=True,
     )
 
 
@@ -137,34 +135,30 @@ def test_reactive_complete_button_state(signup_page):
     """
 
     # 🎬 ARRANGE
-    signup_page.enter_full_name(name=data.NAME_NOVA)
-    signup_page.select_role(role_value=data.ROLE_ENGINEER)
+    signup_page.enter_full_name(data.NAME_NOVA)
+    signup_page.select_role(data.ROLE_ENGINEER)
     signup_page.click_proceed()
 
     # ⚡ ACT
-    signup_page.enter_access_code(access_code=data.ACCESS_CODE_TOO_SHORT_3_CHARS)
-    signup_page.enter_confirm_access_code(
-        confirm_code=data.ACCESS_CODE_TOO_SHORT_3_CHARS
-    )
-    signup_page.enter_recovery_cipher(cipher=data.RECOVERY_CIPHER_TOO_SHORT_3_CHARS)
+    signup_page.enter_access_code(data.ACCESS_CODE_TOO_SHORT_3_CHARS)
+    signup_page.enter_confirm_access_code(data.ACCESS_CODE_TOO_SHORT_3_CHARS)
+    signup_page.enter_recovery_cipher(data.RECOVERY_CIPHER_TOO_SHORT_3_CHARS)
 
     # ✅ ASSERT
     signup_page.verify_button_state(
         element=signup_page.complete_btn,
-        is_disabled=True,
+        is_enabled=False,
     )
 
     # ⚡ ACT
-    signup_page.enter_access_code(access_code=data.ACCESS_CODE_MIN_VALID_4_CHARS)
-    signup_page.enter_confirm_access_code(
-        confirm_code=data.ACCESS_CODE_MIN_VALID_4_CHARS
-    )
-    signup_page.enter_recovery_cipher(cipher=data.RECOVERY_CIPHER_MIN_VALID_4_CHARS)
+    signup_page.enter_access_code(data.ACCESS_CODE_MIN_VALID_4_CHARS)
+    signup_page.enter_confirm_access_code(data.ACCESS_CODE_MIN_VALID_4_CHARS)
+    signup_page.enter_recovery_cipher(data.RECOVERY_CIPHER_MIN_VALID_4_CHARS)
 
     # ✅ ASSERT
     signup_page.verify_button_state(
         element=signup_page.complete_btn,
-        is_disabled=False,
+        is_enabled=True,
     )
 
 
@@ -186,12 +180,12 @@ def test_back_button_to_step_1(signup_page):
     """
 
     # 🎬 ARRANGE
-    signup_page.enter_full_name(name=data.NAME_NOVA)
-    signup_page.select_role(role_value=data.ROLE_ENGINEER)
+    signup_page.enter_full_name(data.NAME_NOVA)
+    signup_page.select_role(data.ROLE_ENGINEER)
     signup_page.click_proceed()
 
     # ⚡ ACT
-    signup_page.click_back()
+    signup_page.click_back_operator_data()
 
     # ✅ ASSERT
     signup_page.verify_text(
@@ -219,13 +213,13 @@ def test_toggle_password_visibility(signup_page):
     """
 
     # 🎬 ARRANGE
-    signup_page.enter_full_name(name=data.NAME_NOVA)
-    signup_page.select_role(role_value=data.ROLE_ENGINEER)
+    signup_page.enter_full_name(data.NAME_NOVA)
+    signup_page.select_role(data.ROLE_ENGINEER)
     signup_page.click_proceed()
 
     # ⚡ ACT
-    signup_page.enter_access_code(access_code=data.ACCESS_CODE_NOVA)
-    signup_page.enter_confirm_access_code(confirm_code=data.ACCESS_CODE_NOVA)
+    signup_page.enter_access_code(data.ACCESS_CODE_NOVA)
+    signup_page.enter_confirm_access_code(data.ACCESS_CODE_NOVA)
     signup_page.click_toggle_access_code()
     signup_page.click_toggle_confirm_code()
 

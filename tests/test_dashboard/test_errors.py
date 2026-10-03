@@ -19,9 +19,9 @@ def test_access_denied_redirect_on_empty_storage(dashboard_page):
     3. Проверить: через 1.5 сек происходит автоматический редирект на 'login.html'.
     """
     # ✅ ASSERT
-    dashboard_page.verify_telemetry_text(expected_text=data.RED_TELEMETRY_ACCESS_DENIED)
+    dashboard_page.verify_telemetry_text(data.RED_TELEMETRY_ACCESS_DENIED)
     dashboard_page.verify_telemetry_color_with_cassandra(red=True)
-    dashboard_page.wait_for_url(expected_url_part=data.LOGIN_URL)
+    dashboard_page.wait_for_url(data.LOGIN_URL)
 
 
 @allure.id("CAS-02")
@@ -50,7 +50,7 @@ def test_redirect_corrupted_session(login_page, dashboard_page):
         expected_text=data.RED_TELEMETRY_DATA_CORRUPTED
     )
     dashboard_page.verify_telemetry_color_with_cassandra(red=True)
-    dashboard_page.wait_for_url(expected_url_part=data.LOGIN_URL)
+    dashboard_page.wait_for_url(data.LOGIN_URL)
     dashboard_page.verify_user_data_in_storage(check_session=True, should_exist=False)
 
 
@@ -75,15 +75,15 @@ def test_logout_protection_via_browser_back(dashboard_page_aurora):
 
     # 🎬 ARRANGE
     dashboard_page_aurora.click_uplink()
-    dashboard_page_aurora.wait_for_uplink_complete(callsign=data.CALLSIGN_AURORA)
+    dashboard_page_aurora.wait_for_uplink_complete(data.CALLSIGN_AURORA)
 
     # ⚡ ACT
     dashboard_page_aurora.logout_btn.click()
-    dashboard_page_aurora.wait_for_url(expected_url_part=data.LOGIN_URL)
+    dashboard_page_aurora.wait_for_url(data.LOGIN_URL)
     dashboard_page_aurora.click_browser_back()
 
     # ✅ ASSERT
-    dashboard_page_aurora.wait_for_url(expected_url_part=data.LOGIN_URL)
+    dashboard_page_aurora.wait_for_url(data.LOGIN_URL)
     dashboard_page_aurora.verify_user_data_in_storage(
         expected_callsign=data.CALLSIGN_AURORA, check_session=True, should_exist=False
     )

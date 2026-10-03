@@ -21,7 +21,6 @@
       overflow-x: hidden;
     }
 
-    /* ============ КОСМИЧЕСКИЙ ФОН ============ */
     .stars {
       position: fixed;
       inset: 0;
@@ -68,7 +67,6 @@
       filter: blur(1.5vmin);
     }
 
-    /* КАРТОЧКА */
     .login-card {
       width: 90%;
       max-width: 45vmin;
@@ -83,7 +81,6 @@
       z-index: 2;
     }
 
-    /* ЛОГОТИП */
     .login-logo {
       font-size: 3.5vmin;
       font-weight: 800;
@@ -107,7 +104,6 @@
       letter-spacing: 0.1vmin;
     }
 
-    /* ПОЛЯ */
     .input-group {
       margin-bottom: 2vmin;
       text-align: left;
@@ -148,7 +144,6 @@
       box-shadow: 0 0 1.5vmin rgba(231, 76, 60, 0.2);
     }
 
-    /* КОНТЕЙНЕР ДЛЯ ПОЛЯ ПАРОЛЯ С ИКОНКОЙ */
     .password-wrapper {
       position: relative;
       display: flex;
@@ -159,7 +154,6 @@
       padding-right: 4.5vmin;
     }
 
-    /* КНОПКА ПЕРЕКЛЮЧЕНИЯ ВИДИМОСТИ ПАРОЛЯ */
     .password-toggle {
       position: absolute;
       right: 1.2vmin;
@@ -186,7 +180,6 @@
       transition: opacity 0.2s ease;
     }
 
-    /* ОШИБКИ */
     .auth-error {
       display: none;
       background: rgba(231, 76, 60, 0.1);
@@ -204,7 +197,6 @@
       animation: fadeInUp 0.3s ease;
     }
 
-    /* КНОПКА ВХОДА */
     .login-btn {
       width: 100%;
       padding: 1.5vmin;
@@ -265,7 +257,6 @@
       }
     }
 
-    /* ФУТЕР */
     .login-footer {
       position: absolute;
       bottom: 0;
@@ -303,7 +294,6 @@
       }
     }
 
-    /* СПУТНИК */
     #satellite {
       position: fixed;
       top: 0;
@@ -349,7 +339,6 @@
       }
     }
 
-    /* ОБЁРТКА ДЛЯ ЦЕНТРИРОВАНИЯ КАРТОЧКИ И ФУТЕРА */
     .login-wrapper {
       display: flex;
       flex-direction: column;
@@ -361,9 +350,6 @@
       box-sizing: border-box;
     }
 
-    /* ============================================
-       УГЛОВЫЕ КНОПКИ НАВИГАЦИИ (Как на Индексе)
-       ============================================ */
     .corner-nav {
       position: fixed;
       bottom: 3vmin;
@@ -378,7 +364,6 @@
 
     .nav-circle-btn {
       pointer-events: auto;
-      /* Сами кнопки кликабельны */
       appearance: none;
       -webkit-appearance: none;
       -moz-appearance: none;
@@ -415,7 +400,6 @@
 
     .nav-circle-btn:active {
       transform: scale(0.95);
-      /* Эффект лёгкого проваливания */
     }
 
     .nav-icon {
@@ -446,7 +430,6 @@
     <div class="band"></div>
   </div>
 
-  <!-- ЛЕТАЮЩИЙ СПУТНИК С РАДИОВОЛНАМИ (размеры переведены в vmin) -->
   <div id="satellite">
     <svg width="8vmin" height="5.3vmin" viewBox="0 0 100 60">
       <circle cx="50" cy="30" r="15" class="radio-wave" />
@@ -521,13 +504,12 @@
       <div class="copyright">Evknopia © 2026</div>
     </footer>
 
-    <!-- УГЛОВЫЕ КНОПКИ НАВИГАЦИИ -->
     <div class="corner-nav">
-      <a href="signup.html" class="nav-circle-btn" data-wm-id="btn-signup">
+      <a href="signup.html" class="nav-circle-btn" data-wm-id="nav-signup-btn">
         <span class="nav-icon">📡</span>
         <span class="nav-label">Sign Up</span>
       </a>
-      <a href="access-restoration.html" class="nav-circle-btn" data-wm-id="btn-restore">
+      <a href="access-restoration.html" class="nav-circle-btn" data-wm-id="nav-restore-btn">
         <span class="nav-icon">🔑</span>
         <span class="nav-label">Restore</span>
       </a>
@@ -535,11 +517,10 @@
 
   </div>
 
-  <!-- Подключаем базу данных пользователей -->
   <script src="data.js"></script>
 
   <script>
-    // === 0. ПРОВЕРКА СЕССИИ ПРИ ЗАГРУЗКЕ ===
+   
     document.addEventListener('DOMContentLoaded', () => {
       const currentUser = sessionStorage.getItem('currentUser');
       if (currentUser) {
@@ -547,7 +528,6 @@
       }
     });
 
-    // === 1. ЛОГИКА ЛЕТАЮЩЕГО СПУТНИКА ===
     const satellite = document.getElementById('satellite');
     let x = Math.random() * (window.innerWidth - 60);
     let y = Math.random() * (window.innerHeight - 40);
@@ -570,26 +550,22 @@
     }
     requestAnimationFrame(animateSatellite);
 
-    // === 2. ЛОГИКА АВТОРИЗАЦИИ ===
     const callsignInput = document.getElementById('callsign');
     const accessCodeInput = document.getElementById('access-code');
     const submitBtn = document.getElementById('submit-btn');
     const authErrorBlock = document.getElementById('auth-error');
     const telemetryText = document.querySelector('.telemetry');
 
-    // Очистка Callsign от всего, кроме латиницы и цифр, + авто-верхний регистр
     callsignInput.addEventListener('input', (e) => {
       e.target.value = e.target.value.replace(/[^a-zA-Z0-9]/g, '').toUpperCase();
       checkFormState();
     });
 
-    // Очистка Access Code от спецсимволов (разрешаем буквы, цифры и _)
     accessCodeInput.addEventListener('input', (e) => {
       e.target.value = e.target.value.replace(/[^a-zA-Z0-9_]/g, '');
       checkFormState();
     });
 
-    // === 3. ПЕРЕКЛЮЧЕНИЕ ВИДИМОСТИ ПАРОЛЯ ===
     const togglePasswordBtn = document.getElementById('toggle-password');
     const eyeOpen = document.querySelector('.eye-open');
     const eyeClosed = document.querySelector('.eye-closed');
@@ -607,14 +583,12 @@
       }
     });
 
-    // === 4. ПРОВЕРКА СОСТОЯНИЯ ФОРМЫ ===
     function checkFormState() {
       const isCallsignValid = callsignInput.value.trim().length >= 4;
       const isAccessCodeValid = accessCodeInput.value.trim().length >= 4;
       submitBtn.disabled = !(isCallsignValid && isAccessCodeValid);
     }
 
-    // === 5. ОБРАБОТЧИК ВХОДА ===
     function handleLogin(event) {
       event.preventDefault();
 
@@ -631,9 +605,8 @@
 
       setTimeout(() => {
         let user = null;
-        let userSource = 'none'; // Отслеживаем, откуда мы взяли пользователя
+        let userSource = 'none'; 
 
-        // 1. ПЕРВЫЙ ПРИОРИТЕТ: Зарегистрированные пользователи (они прошли полную регистрацию, им доверяем)
         const registeredUsersStr = localStorage.getItem('registeredUsers');
         if (registeredUsersStr) {
           try {
@@ -645,7 +618,6 @@
           } catch (e) { console.warn('Ошибка парсинга registeredUsers:', e); }
         }
 
-        // 2. ВТОРОЙ ПРИОРИТЕТ: Восстановленные пользователи
         if (!user) {
           const restoredUsersStr = localStorage.getItem('restoredUsers');
           if (restoredUsersStr) {
@@ -659,16 +631,11 @@
           }
         }
 
-        // 3. ТРЕТИЙ ПРИОРИТЕТ: Статическая база (MOCK_USERS, например, KNOPA)
         if (!user && typeof MOCK_USERS !== 'undefined') {
           user = MOCK_USERS[callsign] || null;
           userSource = 'mock';
         }
 
-        // 4. ПРОВЕРКА БЕЗОПАСНОСТИ: Только для пользователей из MOCK_USERS
-        // Если пользователь найден ТОЛЬКО в MOCK_USERS и у него есть recoveryCipher,
-        // он ОБЯЗАН быть в restoredUsers. Но мы уже проверили restoredUsers выше!
-        // Значит, если мы здесь и source === 'mock', он НЕ восстановлен. Блокируем.
         if (userSource === 'mock' && user && user.recoveryCipher) {
           authErrorBlock.textContent = '⚠️ Invalid callsign or access code';
           authErrorBlock.classList.add('visible');
@@ -678,10 +645,9 @@
           submitBtn.classList.remove('processing');
           submitBtn.disabled = false;
           submitBtn.textContent = 'Establish Connection';
-          return; // Прерываем выполнение
+          return; 
         }
 
-        // 5. Универсальная проверка пароля (для registered, restored и разрешенных mock)
         if (!user || user.accessCode !== accessCode) {
           authErrorBlock.textContent = '⚠️ Invalid callsign or access code';
           authErrorBlock.classList.add('visible');
@@ -694,7 +660,6 @@
           return;
         }
 
-        // 6. Успешный вход
         sessionStorage.setItem('currentUser', JSON.stringify(user));
         sessionStorage.setItem('freshLogin', 'true');
 
@@ -709,7 +674,6 @@
       }, 2000);
     }
 
-    // === 6. СБРОС ОШИБОК ===
     function clearErrors() {
       authErrorBlock.classList.remove('visible');
       document.querySelectorAll('.input-field').forEach(el => el.classList.remove('error'));
@@ -719,7 +683,6 @@
       submitBtn.textContent = 'Establish Connection';
     }
 
-    // Очищаем ошибки только когда пользователь реально начинает исправлять ввод
     callsignInput.addEventListener('focus', clearErrors);
     accessCodeInput.addEventListener('focus', clearErrors);
   </script>

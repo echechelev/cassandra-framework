@@ -7,9 +7,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Cassandra — Planetary Habitability Assessment Project</title>
   <style>
-    /* ============================================
-       ПЕРЕМЕННЫЕ
-       ============================================ */
+   
     :root {
       --planet-size: 10vmin;
       --planet-border: 0.2vmin;
@@ -18,9 +16,6 @@
       --planet-label-size: 1.3vmin;
     }
 
-    /* ============================================
-       БАЗОВЫЕ СТИЛИ
-       ============================================ */
     * {
       margin: 0;
       padding: 0;
@@ -36,9 +31,6 @@
       background-color: #050816;
     }
 
-    /* ============================================
-       ФОН (ЗВЁЗДЫ И ТУМАННОСТЬ)
-       ============================================ */
     .stars {
       position: fixed;
       inset: 0;
@@ -85,9 +77,6 @@
       filter: blur(1.5vmin);
     }
 
-    /* ============================================
-       КОНТЕЙНЕР И КОМПОНОВКА
-       ============================================ */
     .landing-container {
       display: flex;
       flex-direction: column;
@@ -98,9 +87,6 @@
       gap: 4vh;
     }
 
-    /* ============================================
-       ЛОГОТИП CASSANDRA
-       ============================================ */
     .logo-wrapper {
       position: relative;
       display: inline-block;
@@ -128,9 +114,6 @@
       position: relative;
     }
 
-    /* ============================================
-       ЛИНИИ ЭКГ (СЕРДЦЕБИЕНИЕ)
-       ============================================ */
     .heartbeat-line {
       position: absolute;
       top: 50%;
@@ -187,9 +170,6 @@
       filter: drop-shadow(0 0 0.6vmin rgba(255, 255, 255, 0.9)) drop-shadow(0 0 1.2vmin rgba(255, 255, 255, 0.5));
     }
 
-    /* ============================================
-       ТЕКСТОВЫЕ ЭЛЕМЕНТЫ (ЗАГОЛОВОК, СЛОГАН)
-       ============================================ */
     .project-title {
       font-size: 2.2vmin;
       font-weight: 400;
@@ -224,9 +204,6 @@
       letter-spacing: 0.1vmin;
     }
 
-    /* ============================================
-       КНОПКИ (LOG IN / SIGN UP)
-       ============================================ */
     .buttons-container {
       display: flex;
       gap: 4vmin;
@@ -293,9 +270,6 @@
       margin-top: 0.4vmin;
     }
 
-    /* ============================================
-       ФУТЕР (COPYRIGHT)
-       ============================================ */
     .landing-footer {
       position: absolute;
       bottom: 0;
@@ -314,23 +288,19 @@
 
 <body>
 
-  <!-- ФОН -->
   <div class="stars"></div>
   <div class="milkyway">
     <div class="band"></div>
   </div>
 
-  <!-- ОСНОВНОЙ КОНТЕЙНЕР -->
   <div class="landing-container">
 
-    <!-- ЛОГОТИП С ЛИНИЯМИ ЭКГ -->
     <div class="logo-wrapper">
       <div class="landing-logo">
         <span class="white-part" data-wm-id="logo-cassan">CASSAN</span><span class="blue-part"
           data-wm-id="logo-dra">DRA</span>
       </div>
 
-      <!-- Синяя линия над CASSAN -->
       <div class="heartbeat-line heartbeat-blue">
         <svg viewBox="0 0 600 100" preserveAspectRatio="none">
           <defs>
@@ -350,7 +320,6 @@
         </svg>
       </div>
 
-      <!-- Белая линия над DRA -->
       <div class="heartbeat-line heartbeat-white">
         <svg viewBox="0 0 300 100" preserveAspectRatio="none">
           <defs>
@@ -371,37 +340,32 @@
       </div>
     </div>
 
-    <!-- ЗАГОЛОВОК ПРОЕКТА -->
     <div class="project-title" data-wm-id="project-title">Planetary Habitability Assessment Project</div>
 
-    <!-- РАЗДЕЛИТЕЛЬНАЯ ЛИНИЯ -->
     <div class="title-divider"></div>
 
     <!-- СЛОГАН -->
     <div class="project-slogan" data-wm-id="project-slogan">«We Find a New Home Among the Stars»</div>
 
-    <!-- КНОПКИ ВХОДА, РЕГИСТРАЦИИ И ВОССТАНОВЛЕНИЯ -->
     <div class="buttons-container">
-      <a href="login.html" class="btn" data-wm-id="btn-login">
+      <a href="login.html" class="btn" data-wm-id="nav-login-btn">
         <span class="btn-icon">🔭</span>
         <span class="btn-label">Log In</span>
       </a>
-      <a href="signup.html" class="btn" data-wm-id="btn-signup">
+      <a href="signup.html" class="btn" data-wm-id="nav-signup-btn">
         <span class="btn-icon">📡</span>
         <span class="btn-label">Sign Up</span>
       </a>
-      <a href="access-restoration.html" class="btn" data-wm-id="btn-restore">
+      <a href="access-restoration.html" class="btn" data-wm-id="nav-restore-btn">
         <span class="btn-icon">🔑</span>
         <span class="btn-label">Restore</span>
       </a>
     </div>
 
-    <!-- ФУТЕР -->
     <footer class="landing-footer">
       <div class="copyright" data-wm-id="footer-copyright">Evknopia © 2026</div>
     </footer>
 
-    <!-- Проверка сессии при загрузке -->
     <script>
       document.addEventListener('DOMContentLoaded', () => {
         const currentUser = sessionStorage.getItem('currentUser');

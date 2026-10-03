@@ -86,9 +86,9 @@ def test_navigation_buttons_content(index_page):
     """
 
     # ✅ ASSERT
-    index_page.check_button_content(button_id="btn-login", expected_text="LOG IN")
-    index_page.check_button_content(button_id="btn-signup", expected_text="SIGN UP")
-    index_page.check_button_content(button_id="btn-restore", expected_text="RESTORE")
+    index_page.check_button_content(button_id="nav-login-btn", expected_text="LOG IN")
+    index_page.check_button_content(button_id="nav-signup-btn", expected_text="SIGN UP")
+    index_page.check_button_content(button_id="nav-restore-btn", expected_text="RESTORE")
 
 
 @allure.id("CAS-05")
@@ -108,6 +108,6 @@ def test_navigation_buttons_href_attributes(index_page):
     """
 
     # ✅ ASSERT
-    index_page.check_button_href(button_id="btn-login", expected_href=data.LOGIN_URL)
-    index_page.check_button_href(button_id="btn-signup", expected_href=data.SIGNUP_URL)
-    index_page.check_button_href(button_id="btn-restore", expected_href=data.ACCESS_RESTORATION_URL)
+    index_page.check_button_href(button_id="nav-login-btn", expected_href=data.LOGIN_URL)
+    index_page.check_button_href(button_id="nav-signup-btn", expected_href=data.SIGNUP_URL)
+    index_page.check_button_href(button_id="nav-restore-btn", expected_href=data.ACCESS_RESTORATION_URL)

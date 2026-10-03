@@ -138,7 +138,7 @@ def test_logout_button_inactive_before_activation(dashboard_page_aurora):
 
     # ✅ ASSERT
     dashboard_page_aurora.verify_logout_button_inactive()
-    dashboard_page_aurora.wait_for_url(expected_url_part=data.DASHBOARD_URL)
+    dashboard_page_aurora.wait_for_url(data.DASHBOARD_URL)
 
 
 @allure.id("CAS-06")
@@ -165,7 +165,7 @@ def test_planet_bar_buttons_inactive_before_activation(dashboard_page_aurora):
 
     # ✅ ASSERT
     dashboard_page_aurora.verify_planet_bar_buttons_inactive()
-    dashboard_page_aurora.wait_for_url(expected_url_part=data.DASHBOARD_URL)
+    dashboard_page_aurora.wait_for_url(data.DASHBOARD_URL)
 
 
 @allure.id("CAS-07")
@@ -216,7 +216,7 @@ def test_uplink_button_visual_fade_out_after_100_load(dashboard_page_aurora):
     dashboard_page_aurora.click_uplink()
 
     # ⚡ ACT
-    dashboard_page_aurora.wait_for_uplink_complete(callsign=data.CALLSIGN_AURORA)
+    dashboard_page_aurora.wait_for_uplink_complete(data.CALLSIGN_AURORA)
 
     # ✅ ASSERT
     dashboard_page_aurora.verify_uplink_button_disabled()

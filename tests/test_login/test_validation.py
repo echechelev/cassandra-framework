@@ -21,8 +21,8 @@ def test_callsign_less_than_min_length(login_page):
     """
 
     # 🎬 ARRANGE
-    login_page.enter_callsign(callsign=data.CALLSIGN_TOO_SHORT_3_CHARS)
-    login_page.enter_access_code(access_code=data.ACCESS_CODE_AURORA)
+    login_page.enter_callsign(data.CALLSIGN_TOO_SHORT_3_CHARS)
+    login_page.enter_access_code(data.ACCESS_CODE_AURORA)
 
     # ✅ ASSERT
     login_page.should_be_establish_connect_btn(is_enabled=False)
@@ -45,8 +45,8 @@ def test_access_code_less_than_min_length(login_page):
     """
 
     # 🎬 ARRANGE
-    login_page.enter_callsign(callsign=data.CALLSIGN_AURORA)
-    login_page.enter_access_code(access_code=data.ACCESS_CODE_TOO_SHORT_3_CHARS)
+    login_page.enter_callsign(data.CALLSIGN_AURORA)
+    login_page.enter_access_code(data.ACCESS_CODE_TOO_SHORT_3_CHARS)
 
     # ✅ ASSERT
     login_page.should_be_establish_connect_btn(is_enabled=False)
@@ -69,7 +69,7 @@ def test_empty_callsign_with_valid_code(login_page):
     """
 
     # 🎬 ARRANGE
-    login_page.enter_access_code(access_code=data.ACCESS_CODE_AURORA)
+    login_page.enter_access_code(data.ACCESS_CODE_AURORA)
 
     # ✅ ASSERT
     login_page.should_be_establish_connect_btn(is_enabled=False)
@@ -92,7 +92,7 @@ def test_empty_access_code_with_valid_callsign(login_page):
     """
 
     # 🎬 ARRANGE
-    login_page.enter_callsign(callsign=data.CALLSIGN_AURORA)
+    login_page.enter_callsign(data.CALLSIGN_AURORA)
 
     # ✅ ASSERT
     login_page.should_be_establish_connect_btn(is_enabled=False)
@@ -157,8 +157,8 @@ def test_input_sanitization_callsign(login_page):
     """
 
     # 🎬 ARRANGE
-    login_page.enter_callsign(callsign=data.SQL_INJECTION_PAYLOAD)
-    login_page.enter_access_code(access_code=data.ACCESS_CODE_AURORA)
+    login_page.enter_callsign(data.SQL_INJECTION_PAYLOAD)
+    login_page.enter_access_code(data.ACCESS_CODE_AURORA)
 
     # ⚡ ACT
     login_page.click_establish_connect()
