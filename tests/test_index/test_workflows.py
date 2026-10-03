@@ -56,6 +56,6 @@ def test_full_navigation_cycle_with_return_to_index(index_page):
         element=index_page.footer_copyright, expected_text=data.COPYRIGHT_TEXT
     )
 
-    index_page.check_button_content(button_id="btn-login", expected_text="LOG IN")
-    index_page.check_button_content(button_id="btn-signup", expected_text="SIGN UP")
-    index_page.check_button_content(button_id="btn-restore", expected_text="RESTORE")
+    index_page.check_button_content(button_id="nav-login-btn", expected_text="LOG IN")
+    index_page.check_button_content(button_id="nav-signup-btn", expected_text="SIGN UP")
+    index_page.check_button_content(button_id="nav-restore-btn", expected_text="RESTORE")

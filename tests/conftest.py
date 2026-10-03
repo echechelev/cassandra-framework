@@ -1,12 +1,13 @@
 import os
 
 import pytest
-from selene import browser
+from selene import be, browser
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 
 from pages.access_restoration import AccessRestorationPage
 from pages.dashboard import DashboardPage
+from pages.galaxy_map import GalaxyMapPage
 from pages.index import IndexPage
 from pages.login import LoginPage
 from pages.signup import SignupPage
@@ -110,6 +111,22 @@ def dashboard_page():
 
     page.clear_all_storages()
 
+@pytest.fixture(scope="function")
+def galaxe_map_page(dashboard_page_aurora):
+    """🔓 Открывает страницу без ожидания аплинка и очищает Storage после теста."""
+
+    dashboard_page_aurora.fast_forward_uplink()
+    dashboard_page_aurora.click_refresh_page()
+
+    dashboard_page_aurora.galaxy_map_btn.should(be.visible)
+    
+    dashboard_page_aurora.click_galaxy_map()
+    dashboard_page_aurora.wait_for_url(expected_url_part=data.GALAXY_MAP_URL)
+
+    page = GalaxyMapPage()
+    yield page
+
+    page.clear_all_storages()
 
 # ========================================================================
 # region 3️⃣ 👤 АВТОРИЗАЦИЯ
@@ -185,7 +202,7 @@ def knopa_restored():
     page = AccessRestorationPage()
     page.open()
 
-    page.enter_callsign(data.NAME_KNOPA)
+    page.enter_callsign(data.CALLSIGN_KNOPA)
     page.enter_recovery_cipher(data.RECOVERY_CIPHER_KNOPA)
     page.enter_new_access_code(data.ACCESS_CODE_KNOPA)
     page.enter_confirm_access_code(data.ACCESS_CODE_KNOPA)

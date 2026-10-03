@@ -24,8 +24,8 @@ def test_invalid_password_aurora(login_page):
     """
 
     # 🎬 ARRANGE
-    login_page.enter_callsign(callsign=data.CALLSIGN_AURORA)
-    login_page.enter_access_code(access_code=data.ACCESS_CODE_WRONG)
+    login_page.enter_callsign(data.CALLSIGN_AURORA)
+    login_page.enter_access_code(data.ACCESS_CODE_WRONG)
 
     # ⚡ ACT
     login_page.click_establish_connect()
@@ -61,8 +61,8 @@ def test_cross_user_password_substitution_orion(login_page):
     """
 
     # 🎬 ARRANGE
-    login_page.enter_callsign(callsign=data.CALLSIGN_ORION)
-    login_page.enter_access_code(access_code=data.ACCESS_CODE_AURORA)
+    login_page.enter_callsign(data.CALLSIGN_ORION)
+    login_page.enter_access_code(data.ACCESS_CODE_AURORA)
 
     # ⚡ ACT
     login_page.click_establish_connect()
@@ -98,8 +98,8 @@ def test_invalid_password_nova(nova_created, login_page):
     """
 
     # 🎬 ARRANGE
-    login_page.enter_callsign(callsign=data.CALLSIGN_AURORA)
-    login_page.enter_access_code(access_code=data.ACCESS_CODE_WRONG)
+    login_page.enter_callsign(data.CALLSIGN_AURORA)
+    login_page.enter_access_code(data.ACCESS_CODE_WRONG)
 
     # ⚡ ACT
     login_page.click_establish_connect()
@@ -133,8 +133,8 @@ def test_login_knopa_before_restoration(login_page):
     """
 
     # 🎬 ARRANGE
-    login_page.enter_callsign(callsign=data.CALLSIGN_KNOPA)
-    login_page.enter_access_code(access_code=data.ACCESS_CODE_KNOPA)
+    login_page.enter_callsign(data.CALLSIGN_KNOPA)
+    login_page.enter_access_code(data.ACCESS_CODE_KNOPA)
 
     # ⚡ ACT
     login_page.click_establish_connect()
@@ -168,8 +168,8 @@ def test_invalid_callsign_with_valid_code(login_page):
     """
 
     # 🎬 ARRANGE
-    login_page.enter_callsign(callsign=data.CALLSIGN_WRONG)
-    login_page.enter_access_code(access_code=data.ACCESS_CODE_AURORA)
+    login_page.enter_callsign(data.CALLSIGN_WRONG)
+    login_page.enter_access_code(data.ACCESS_CODE_AURORA)
 
     # ⚡ ACT
     login_page.click_establish_connect()
@@ -203,8 +203,8 @@ def test_both_fields_invalid(login_page):
     """
 
     # 🎬 ARRANGE
-    login_page.enter_callsign(callsign=data.CALLSIGN_WRONG)
-    login_page.enter_access_code(access_code=data.ACCESS_CODE_WRONG)
+    login_page.enter_callsign(data.CALLSIGN_WRONG)
+    login_page.enter_access_code(data.ACCESS_CODE_WRONG)
 
     # ⚡ ACT
     login_page.click_establish_connect()

@@ -18,7 +18,16 @@ SIGNUP_URL = 'signup.html'
 LOGIN_URL = 'login.html'
 DASHBOARD_URL = 'dashboard.html'
 GALAXY_MAP_URL = 'galaxy-map.html'
+CIS_INDEX_TABLE_URL = 'cis-index-table.html'
 ACCESS_RESTORATION_URL = 'access-restoration.html'
+GALAXY_MAP_URL = 'galaxy-map.html'
+BLACK_HOLE_URL = 'black-hole.html'
+STAR_SUN_URL = 'star-system.html?star=sun'
+STAR_ALPHA_CENTAURI_URL = 'star-system.html?star=alpha-centauri'
+STAR_EPSILON_ERIDANI_URL = 'star-system.html?star=epsilon-eridani'
+STAR_TAU_CETI_URL = 'star-system.html?star=tau-ceti'
+STAR_TEEGARDEN_URL = 'star-system.html?star=teegarden'
+STAR_TRAPPIST_1_URL = 'star-system.html?star=trappist-1'
 
 # ==========================================
 # 👨‍🚀 ДАННЫЕ ПОЛЬЗОВАТЕЛЕЙ (User Data)
@@ -136,7 +145,7 @@ ACCESS_LEVEL_ENGINEER = '3'
 
 # ID оператора NOVA (захардкожен в системе)
 OPERATOR_ID_NOVA = '512-3A'
-OPERATOT_ID_KNOPA = '769-1A'
+OPERATOR_ID_KNOPA = '769-1A'
 
 # ==========================================
 # 🎖️ ОТОБРАЖАЕМЫЕ РОЛИ В ИНФО-ПАНЕЛЯХ (Info Panel Roles)
@@ -182,6 +191,7 @@ _GREEN_WELCOME_PREFIX = f"{_GREEN_BASE_PREFIX}CONNECTION ESTABLISHED. WELCOME, "
 
 GREEN_TELEMETRY_REGISTRATION_COMPLETE = f"{_GREEN_BASE_PREFIX}REGISTRATION COMPLETE. OPERATOR ACCOUNT ACTIVATED."
 GREEN_TELEMETRY_SYSTEM_READY_AURORA = f"{_GREEN_BASE_PREFIX}CASSANDRA: AURORA, SYSTEM READY FOR WORK. AWAITING COMMANDS."
+GREEN_TELEMETRY_SELECT_STAR_SYSTEM_AURORA = f"{_GREEN_BASE_PREFIX}CASSANDRA: AURORA, SELECT A STAR SYSTEM FOR INVESTIGATION."
 
 GREEN_TELEMETRY_WELCOME_AURORA = f"{_GREEN_WELCOME_PREFIX}SPECIALIST AURORA"
 GREEN_TELEMETRY_WELCOME_NOVA = f"{_GREEN_WELCOME_PREFIX}ENGINEER NOVA"
@@ -195,6 +205,7 @@ GREEN_TELEMETRY_RESTORATION_COMPLETE = f"{_GREEN_BASE_PREFIX}RESTORATION COMPLET
 # ==========================================
 LOGO_CASSAN = 'CASSAN'
 LOGO_DRA = 'DRA'
+GALAXY_TITLE = 'GALAXY MILKY WAY'
 PROJECT_TITLE = 'PLANETARY HABITABILITY ASSESSMENT PROJECT'
 PROJECT_SLOGAN = 'We Find a New Home Among the Stars'
 COPYRIGHT_TEXT = 'Evknopia © 2026'

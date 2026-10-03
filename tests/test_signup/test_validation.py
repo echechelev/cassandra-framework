@@ -21,13 +21,13 @@ def test_callsign_shorter_than_min_length(signup_page):
     """
 
     # 🎬 ARRANGE
-    signup_page.enter_full_name(name=data.CALLSIGN_TOO_SHORT_3_CHARS)
-    signup_page.select_role(role_value=data.ROLE_ENGINEER)
+    signup_page.enter_full_name(data.CALLSIGN_TOO_SHORT_3_CHARS)
+    signup_page.select_role(data.ROLE_ENGINEER)
 
     # ✅ ASSERT
     signup_page.verify_button_state(
         element=signup_page.proceed_btn,
-        is_disabled=True,
+        is_enabled=False,
     )
 
 
@@ -50,19 +50,19 @@ def test_access_code_shorter_than_min_length(signup_page):
     """
 
     # 🎬 ARRANGE
-    signup_page.enter_full_name(name=data.NAME_NOVA)
-    signup_page.select_role(role_value=data.ROLE_ENGINEER)
+    signup_page.enter_full_name(data.NAME_NOVA)
+    signup_page.select_role(data.ROLE_ENGINEER)
     signup_page.click_proceed()
 
     # ⚡ ACT
-    signup_page.enter_access_code(access_code=data.ACCESS_CODE_TOO_SHORT_3_CHARS)
-    signup_page.enter_confirm_access_code(confirm_code=data.ACCESS_CODE_NOVA)
-    signup_page.enter_recovery_cipher(cipher=data.RECOVERY_CIPHER_NOVA)
+    signup_page.enter_access_code(data.ACCESS_CODE_TOO_SHORT_3_CHARS)
+    signup_page.enter_confirm_access_code(data.ACCESS_CODE_NOVA)
+    signup_page.enter_recovery_cipher(data.RECOVERY_CIPHER_NOVA)
 
     # ✅ ASSERT
     signup_page.verify_button_state(
         element=signup_page.complete_btn,
-        is_disabled=True,
+        is_enabled=False,
     )
 
 
@@ -85,21 +85,19 @@ def test_confirm_code_shorter_than_min_length(signup_page):
     """
 
     # 🎬 ARRANGE
-    signup_page.enter_full_name(name=data.NAME_NOVA)
-    signup_page.select_role(role_value=data.ROLE_ENGINEER)
+    signup_page.enter_full_name(data.NAME_NOVA)
+    signup_page.select_role(data.ROLE_ENGINEER)
     signup_page.click_proceed()
 
     # ⚡ ACT
-    signup_page.enter_access_code(access_code=data.ACCESS_CODE_NOVA)
-    signup_page.enter_confirm_access_code(
-        confirm_code=data.ACCESS_CODE_TOO_SHORT_3_CHARS
-    )
-    signup_page.enter_recovery_cipher(cipher=data.RECOVERY_CIPHER_NOVA)
+    signup_page.enter_access_code(data.ACCESS_CODE_NOVA)
+    signup_page.enter_confirm_access_code(data.ACCESS_CODE_TOO_SHORT_3_CHARS)
+    signup_page.enter_recovery_cipher(data.RECOVERY_CIPHER_NOVA)
 
     # ✅ ASSERT
     signup_page.verify_button_state(
         element=signup_page.complete_btn,
-        is_disabled=True,
+        is_enabled=False,
     )
 
 
@@ -122,19 +120,19 @@ def test_recovery_cipher_shorter_than_min_length(signup_page):
     """
 
     # 🎬 ARRANGE
-    signup_page.enter_full_name(name=data.NAME_NOVA)
-    signup_page.select_role(role_value=data.ROLE_ENGINEER)
+    signup_page.enter_full_name(data.NAME_NOVA)
+    signup_page.select_role(data.ROLE_ENGINEER)
     signup_page.click_proceed()
 
     # ⚡ ACT
-    signup_page.enter_access_code(access_code=data.ACCESS_CODE_NOVA)
-    signup_page.enter_confirm_access_code(confirm_code=data.ACCESS_CODE_NOVA)
-    signup_page.enter_recovery_cipher(cipher=data.RECOVERY_CIPHER_TOO_SHORT_3_CHARS)
+    signup_page.enter_access_code(data.ACCESS_CODE_NOVA)
+    signup_page.enter_confirm_access_code(data.ACCESS_CODE_NOVA)
+    signup_page.enter_recovery_cipher(data.RECOVERY_CIPHER_TOO_SHORT_3_CHARS)
 
     # ✅ ASSERT
     signup_page.verify_button_state(
         element=signup_page.complete_btn,
-        is_disabled=True,
+        is_enabled=False,
     )
 
 
@@ -155,12 +153,12 @@ def test_empty_callsign_with_role_selected(signup_page):
     """
 
     # 🎬 ARRANGE
-    signup_page.select_role(role_value=data.ROLE_ENGINEER)
+    signup_page.select_role(data.ROLE_ENGINEER)
 
     # ✅ ASSERT
     signup_page.verify_button_state(
         element=signup_page.complete_btn,
-        is_disabled=True,
+        is_enabled=False,
     )
 
 
@@ -186,7 +184,7 @@ def test_empty_role_with_callsign_filled(signup_page):
     # ✅ ASSERT
     signup_page.verify_button_state(
         element=signup_page.complete_btn,
-        is_disabled=True,
+        is_enabled=False,
     )
 
 
@@ -209,18 +207,18 @@ def test_empty_access_code_with_other_fields_filled(signup_page):
     """
 
     # 🎬 ARRANGE
-    signup_page.enter_full_name(name=data.NAME_NOVA)
-    signup_page.select_role(role_value=data.ROLE_ENGINEER)
+    signup_page.enter_full_name(data.NAME_NOVA)
+    signup_page.select_role(data.ROLE_ENGINEER)
     signup_page.click_proceed()
 
     # ⚡ ACT
-    signup_page.enter_confirm_access_code(confirm_code=data.ACCESS_CODE_NOVA)
-    signup_page.enter_recovery_cipher(cipher=data.RECOVERY_CIPHER_NOVA)
+    signup_page.enter_confirm_access_code(data.ACCESS_CODE_NOVA)
+    signup_page.enter_recovery_cipher(data.RECOVERY_CIPHER_NOVA)
 
     # ✅ ASSERT
     signup_page.verify_button_state(
         element=signup_page.complete_btn,
-        is_disabled=True,
+        is_enabled=False,
     )
 
 
@@ -243,18 +241,18 @@ def test_empty_confirm_code_with_other_fields_filled(signup_page):
     """
 
     # 🎬 ARRANGE
-    signup_page.enter_full_name(name=data.NAME_NOVA)
-    signup_page.select_role(role_value=data.ROLE_ENGINEER)
+    signup_page.enter_full_name(data.NAME_NOVA)
+    signup_page.select_role(data.ROLE_ENGINEER)
     signup_page.click_proceed()
 
     # ⚡ ACT
-    signup_page.enter_access_code(access_code=data.ACCESS_CODE_NOVA)
-    signup_page.enter_recovery_cipher(cipher=data.RECOVERY_CIPHER_NOVA)
+    signup_page.enter_access_code(data.ACCESS_CODE_NOVA)
+    signup_page.enter_recovery_cipher(data.RECOVERY_CIPHER_NOVA)
 
     # ✅ ASSERT
     signup_page.verify_button_state(
         element=signup_page.complete_btn,
-        is_disabled=True,
+        is_enabled=False,
     )
 
 
@@ -277,18 +275,18 @@ def test_empty_recovery_cipher_with_other_fields_filled(signup_page):
     """
 
     # 🎬 ARRANGE
-    signup_page.enter_full_name(name=data.NAME_NOVA)
-    signup_page.select_role(role_value=data.ROLE_ENGINEER)
+    signup_page.enter_full_name(data.NAME_NOVA)
+    signup_page.select_role(data.ROLE_ENGINEER)
     signup_page.click_proceed()
 
     # ⚡ ACT
-    signup_page.enter_access_code(access_code=data.ACCESS_CODE_NOVA)
-    signup_page.enter_confirm_access_code(confirm_code=data.ACCESS_CODE_NOVA)
+    signup_page.enter_access_code(data.ACCESS_CODE_NOVA)
+    signup_page.enter_confirm_access_code(data.ACCESS_CODE_NOVA)
 
     # ✅ ASSERT
     signup_page.verify_button_state(
         element=signup_page.complete_btn,
-        is_disabled=True,
+        is_enabled=False,
     )
 
 
@@ -328,8 +326,8 @@ def test_access_code_max_length(signup_page):
     """
 
     # 🎬 ARRANGE
-    signup_page.enter_full_name(name=data.NAME_NOVA)
-    signup_page.select_role(role_value=data.ROLE_ENGINEER)
+    signup_page.enter_full_name(data.NAME_NOVA)
+    signup_page.select_role(data.ROLE_ENGINEER)
     signup_page.click_proceed()
 
     # ✅ ASSERT
@@ -353,8 +351,8 @@ def test_confirm_code_max_length(signup_page):
     """
 
     # 🎬 ARRANGE
-    signup_page.enter_full_name(name=data.NAME_NOVA)
-    signup_page.select_role(role_value=data.ROLE_ENGINEER)
+    signup_page.enter_full_name(data.NAME_NOVA)
+    signup_page.select_role(data.ROLE_ENGINEER)
     signup_page.click_proceed()
 
     # ✅ ASSERT
@@ -380,8 +378,8 @@ def test_recovery_cipher_max_length(signup_page):
     """
 
     # 🎬 ARRANGE
-    signup_page.enter_full_name(name=data.NAME_NOVA)
-    signup_page.select_role(role_value=data.ROLE_ENGINEER)
+    signup_page.enter_full_name(data.NAME_NOVA)
+    signup_page.select_role(data.ROLE_ENGINEER)
     signup_page.click_proceed()
 
     # ✅ ASSERT
@@ -391,7 +389,9 @@ def test_recovery_cipher_max_length(signup_page):
 
 
 @allure.id("CAS-14")
-@allure.title("🛡️ Санитизация ввода — попытка ввести спецсимволы в поле Recovery Cipher")
+@allure.title(
+    "🛡️ Санитизация ввода — попытка ввести спецсимволы в поле Recovery Cipher"
+)
 @allure.label("owner", "Evgeniy Chechelev")
 @allure.label("feature", "signup")
 @pytest.mark.regress
@@ -410,17 +410,17 @@ def test_input_sanitization_recovery_cipher(signup_page):
     """
 
     # 🎬 ARRANGE
-    signup_page.enter_full_name(name=data.NAME_NOVA)
-    signup_page.select_role(role_value=data.ROLE_ENGINEER)
+    signup_page.enter_full_name(data.NAME_NOVA)
+    signup_page.select_role(data.ROLE_ENGINEER)
     signup_page.click_proceed()
 
     # ⚡ ACT
-    signup_page.enter_access_code(access_code=data.ACCESS_CODE_NOVA)
-    signup_page.enter_confirm_access_code(confirm_code=data.ACCESS_CODE_NOVA)
-    signup_page.enter_recovery_cipher(cipher=data.SQL_INJECTION_PAYLOAD)
+    signup_page.enter_access_code(data.ACCESS_CODE_NOVA)
+    signup_page.enter_confirm_access_code(data.ACCESS_CODE_NOVA)
+    signup_page.enter_recovery_cipher(data.SQL_INJECTION_PAYLOAD)
 
     # ✅ ASSERT
-    signup_page.verify_button_state(signup_page.complete_btn, is_disabled=True)
+    signup_page.verify_button_state(signup_page.complete_btn, is_enabled=False)
     signup_page.verify_field_value(
         element=signup_page.recovery_cipher_input, expected_value="OR"
     )
@@ -443,10 +443,10 @@ def test_callsign_auto_generation(signup_page):
     """
 
     # ⚡ ACT
-    signup_page.enter_full_name(name=data.NAME_NOVA)
+    signup_page.enter_full_name(data.NAME_NOVA)
 
     # ✅ ASSERT
-    signup_page.verify_input_value(
+    signup_page.verify_field_value(
         element=signup_page.callsign_input,
         expected_value=data.CALLSIGN_NOVA,
     )
@@ -468,10 +468,10 @@ def test_function_auto_fill_on_role_select(signup_page):
     """
 
     # ⚡ ACT
-    signup_page.select_role(role_value=data.ROLE_ENGINEER)
+    signup_page.select_role(data.ROLE_ENGINEER)
 
     # ✅ ASSERT
-    signup_page.verify_input_value(
+    signup_page.verify_field_value(
         element=signup_page.function_input,
         expected_value=data.FUNCTION_ENGINEER,
     )
