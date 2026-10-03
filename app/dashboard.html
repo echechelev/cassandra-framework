@@ -10,13 +10,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Cassandra — Researcher Dashboard</title>
   <style>
-    /* === РАЗМЕРЫ КРУГЛЫХ КНОПОК ПО УГЛАМ === */
     :root {
       --corner-btn-size: 10vmin;
       --corner-btn-border: 0.2vmin;
       --corner-btn-gap: 0.35vmin;
       --corner-icon-size: 3vmin;
-      --corner-label-size: 1.3vmin;
+      --corner-label-size: 1.1vmin;
       --corner-btn-offset-v: 4vh;
       --corner-btn-offset-h: 2vw;
     }
@@ -36,7 +35,6 @@
       background-color: #050816;
     }
 
-    /* ФОН */
     .stars {
       position: fixed;
       inset: 0;
@@ -83,7 +81,6 @@
       filter: blur(1.5vmin);
     }
 
-    /* ЛОГОТИП */
     .dashboard-logo {
       font-size: 9vmin;
       font-weight: 800;
@@ -101,7 +98,6 @@
       text-shadow: 0 0 3.8vmin rgba(77, 166, 255, 0.6);
     }
 
-    /* ФУТЕР И ТЕЛЕМЕТРИЯ */
     .login-footer {
       position: absolute;
       bottom: 0;
@@ -120,7 +116,6 @@
       color: #5a6488;
     }
 
-    /* Базовые стили телеметрии*/
     .telemetry {
       color: #4da6ff;
       font-family: 'Courier New', monospace;
@@ -132,7 +127,6 @@
       min-height: 2vmin;
     }
 
-    /* Раскраска имени Кассандры в телеметрии */
     .telemetry-cassan {
       color: #ffffff !important;
     }
@@ -154,7 +148,6 @@
       }
     }
 
-    /* КОНТЕЙНЕР */
     .dashboard-container {
       display: flex;
       flex-direction: column;
@@ -167,7 +160,6 @@
       gap: 5vh;
     }
 
-    /* ОБЩИЙ СТИЛЬ ДЛЯ КРУГЛЫХ КНОПОК В УГЛАХ */
     .corner-circle-btn {
       position: fixed;
       width: var(--corner-btn-size);
@@ -200,7 +192,6 @@
         0 0 3vmin rgba(77, 166, 255, 0.8);
     }
 
-    /* Позиционирование по углам с точным центрированием */
     .corner-circle-btn.bottom-left {
       bottom: var(--corner-btn-offset-v);
       left: var(--corner-btn-offset-h);
@@ -225,7 +216,6 @@
       transform: translate(0, 0);
     }
 
-    /* Иконка и текст внутри круглой кнопки */
     .corner-icon {
       font-size: var(--corner-icon-size);
       line-height: 1;
@@ -243,7 +233,6 @@
       letter-spacing: 0.05vmin;
     }
 
-    /* === HOVER-ЭФФЕКТ ДЛЯ КНОПКИ LOGOUT (ТОЛЬКО В АКТИВНОМ СОСТОЯНИИ) === */
     .bottom-left.panel-online:hover {
       transform: scale(1.15);
       border-color: rgba(77, 166, 255, 1);
@@ -254,12 +243,10 @@
       cursor: pointer;
     }
 
-    /* При нажатии — лёгкое "проваливание" */
     .bottom-left.panel-online:active {
       transform: scale(1.1);
     }
 
-    /* === ЛОКАЛЬНЫЕ ПЕРЕМЕННЫЕ ДЛЯ ПЛАНЕТ КНОПОК ПО ЦЕНТРУ === */
     .planet-bar {
       --planet-size: 10vmin;
       --planet-border: 0.2vmin;
@@ -273,7 +260,7 @@
     }
 
     .planet-btn {
-      /* СБРОС стандартных стилей браузера для тега <button> */
+
       appearance: none;
       -webkit-appearance: none;
       -moz-appearance: none;
@@ -332,19 +319,33 @@
       margin-top: 0.2vmin;
     }
 
-    /* Выравнивание иконки в кнопке профиля (Пользователя) */
     .top-right .corner-icon {
       margin-top: -1.3vmin;
       margin-bottom: 0.4vmin;
     }
 
     .top-right .corner-label {
-      margin-top: 0.4vmin;
-      color: #2ecc71;
-      text-shadow: 0 0 0.8vmin rgba(46, 204, 113, 0.5);
+      color: #2ecc71 !important;
+      text-shadow: 0 0 0.8vmin rgba(46, 204, 113, 0.5) !important;
     }
 
-    /* Выравнивание иконки в кнопке роли (Спутник) */
+    .top-left .corner-label,
+    .bottom-left .corner-label,
+    .bottom-right .corner-label,
+    .planet-btn .planet-label {
+      color: #ffffff !important;
+      text-shadow: none !important;
+    }
+
+    .panel-offline .top-left .corner-label,
+    .panel-online .top-left .corner-label,
+    .panel-offline .bottom-left .corner-label,
+    .panel-online .bottom-left .corner-label,
+    .panel-offline .bottom-right .corner-label,
+    .panel-online .bottom-right .corner-label {
+      color: #ffffff !important;
+    }
+
     .top-left .corner-icon {
       margin-top: -1.3vmin;
       margin-bottom: 0.4vmin;
@@ -354,7 +355,6 @@
       margin-top: 0.4vmin;
     }
 
-    /* Выравнивание иконки в кнопке диагностики */
     .bottom-right .corner-icon {
       margin-top: -1.3vmin;
       margin-bottom: 0.4vmin;
@@ -364,7 +364,6 @@
       margin-top: 0.4vmin;
     }
 
-    /* Выравнивание иконки в кнопке Logout */
     .bottom-left .corner-icon {
       margin-top: -1.3vmin;
       margin-bottom: 0.4vmin;
@@ -374,7 +373,6 @@
       margin-top: 0.4vmin;
     }
 
-    /* Превращаем верхние элементы в информационные панели */
     .top-left,
     .top-right {
       cursor: default;
@@ -386,7 +384,6 @@
       transition: all 0.3s ease;
     }
 
-    /* При наведении они просто слегка подсвечиваются, но не "нажимаются" */
     .top-left:hover,
     .top-right:hover {
       border-color: rgba(77, 166, 255, 0.8);
@@ -394,7 +391,6 @@
       transform: none !important;
     }
 
-    /* === БАЗОВЫЕ СТИЛИ ДЛЯ ВСЕХ ТУЛТИПОВ === */
     .info-tooltip {
       position: absolute;
       top: 50%;
@@ -420,27 +416,23 @@
       line-height: 1.6;
     }
 
-    /* === ЛЕВЫЙ ТУЛТИП (появляется СПРАВА от кнопки) === */
     .top-left .info-tooltip {
       left: 115%;
       transform: translateY(-50%);
     }
 
-    /* === ПРАВЫЙ ТУЛТИП (появляется СЛЕВА от кнопки) === */
     .top-right .info-tooltip {
       right: 115%;
       left: auto;
       transform: translateY(-50%);
     }
 
-    /* === АНИМАЦИЯ ПОЯВЛЕНИЯ === */
     .top-left:hover .info-tooltip,
     .top-right:hover .info-tooltip {
       opacity: 1;
       visibility: visible;
     }
 
-    /* Легкий сдвиг при появлении для эффекта "выдвижения" */
     .top-left:hover .info-tooltip {
       transform: translateY(-50%) translateX(0.5vmin);
     }
@@ -449,7 +441,6 @@
       transform: translateY(-50%) translateX(-0.5vmin);
     }
 
-    /* Заголовок внутри тултипа */
     .info-tooltip .tooltip-title {
       color: #4da6ff;
       font-weight: bold;
@@ -459,7 +450,6 @@
       letter-spacing: 0.1vmin;
     }
 
-    /* Выравниваем ширину информационных окошок */
     .top-right .info-tooltip,
     .top-left .info-tooltip {
       width: 8vw;
@@ -467,14 +457,10 @@
       max-width: 10vw;
     }
 
-    /* Выравниваем текст в правом окошке по правому краю */
     .top-right .info-tooltip {
       text-align: right;
     }
 
-    /* === СТИЛИ ДЛЯ АНИМАЦИИ UPLINK === */
-
-    /* Класс для скрытых элементов */
     .uplink-hidden {
       opacity: 0;
       visibility: hidden;
@@ -483,7 +469,6 @@
       pointer-events: none;
     }
 
-    /* Класс для видимых элементов */
     .uplink-visible {
       opacity: 1;
       visibility: visible;
@@ -491,7 +476,6 @@
       pointer-events: auto;
     }
 
-    /* Контейнер прогресс-бара */
     #uplink-progress-container {
       display: none;
       flex-direction: column;
@@ -526,7 +510,6 @@
       letter-spacing: 0.1vmin;
     }
 
-    /* Пульсирующий неон для кнопки UPLINK */
     @keyframes uplink-pulse {
       0% {
         box-shadow: 0 0 0 0 rgba(77, 166, 255, 0.8), 0 0 1.5vmin rgba(77, 166, 255, 0.6);
@@ -545,7 +528,6 @@
       animation: uplink-pulse 2s infinite ease-in-out;
     }
 
-    /* === ТУСКЛОЕ СОСТОЯНИЕ (до Uplink) — едва заметное свечение === */
     .panel-offline {
       background: rgba(10, 15, 40, 0.7) !important;
       pointer-events: none !important;
@@ -557,50 +539,19 @@
       transition: all 0.8s ease-in-out;
     }
 
-    /* Приглушаем иконки и текст внутри тусклых панелей */
-    .panel-offline .corner-icon,
-    .panel-offline .corner-label,
-    .panel-offline .status-dot {
-      filter: none !important;
-      text-shadow: 0 0 0.3vmin rgba(77, 166, 255, 0.2) !important;
-    }
-
-    /* Делаем всё внутри цветным и ярким сразу, без серого фильтра */
-    .panel-offline .corner-icon,
-    .panel-offline .corner-label,
-    .panel-offline .status-dot {
-      filter: none !important;
-      text-shadow: 0 0 0.8vmin rgba(77, 166, 255, 0.5) !important;
-    }
-
-    /* СПЕЦИАЛЬНО: Зеленый цвет имени и точке СПРАВА даже в оффлайн режиме */
-    .panel-offline .top-right .corner-label {
-      color: #2ecc71 !important;
-      text-shadow: 0 0 0.8vmin rgba(46, 204, 113, 0.5) !important;
-    }
-
-    .panel-offline .top-right .status-dot {
-      background: #2ecc71 !important;
-      box-shadow: 0 0 0.5vmin rgba(46, 204, 113, 0.6) !important;
-    }
-
-    /* Прячем тултип полностью в оффлайн режиме (на всякий случай) */
     .panel-offline .info-tooltip {
       display: none !important;
     }
 
-    /* Включенное состояние (после 100% загрузки) - ЕДИНЫЙ СТИЛЬ ДЛЯ ВСЕХ КНОПОК */
     .panel-online {
       border-color: rgba(77, 166, 255, 0.8) !important;
 
-      /* УНИФИЦИРОВАННОЕ СВЕЧЕНИЕ: внешнее + внутреннее кольцо */
       box-shadow:
         0 0 1.5vmin rgba(77, 166, 255, 0.5),
         inset 0 0 1vmin rgba(77, 166, 255, 0.3) !important;
 
       background: rgba(10, 15, 40, 0.7) !important;
 
-      /* Включаем взаимодействие с мышью */
       pointer-events: auto !important;
       cursor: pointer !important;
 
@@ -609,30 +560,21 @@
       transition: all 0.8s ease-in-out;
     }
 
-    /* Возвращаем нормальные цвета при включении (для совместимости) */
     .panel-online .corner-icon,
     .panel-online .corner-label,
     .panel-online .status-dot {
       filter: none !important;
     }
 
-    /* Специально возвращаем зеленый цвет имени и точке */
-    .panel-online .top-right .corner-label {
-      color: #2ecc71 !important;
-      text-shadow: 0 0 0.8vmin rgba(46, 204, 113, 0.5) !important;
-    }
-
-    .panel-online .top-right .status-dot {
-      background: #2ecc71 !important;
-      box-shadow: 0 0 0.5vmin rgba(46, 204, 113, 0.6) !important;
-    }
-
-    /* Неактивная кнопка UPLINK (после завершения) */
     .uplink-inactive {
       opacity: 0.5 !important;
       box-shadow: 0 0 0.5vmin rgba(77, 166, 255, 0.2), inset 0 0 0.5vmin rgba(77, 166, 255, 0.1) !important;
       border-color: rgba(77, 166, 255, 0.3) !important;
       pointer-events: none !important;
+    }
+
+    .panel-online .info-tooltip {
+      display: block !important;
     }
   </style>
 </head>
@@ -649,7 +591,6 @@
       <span class="white-part">CASSAN</span><span class="blue-part">DRA</span>
     </div>
 
-    <!-- ВЕРХНЯЯ ЛЕВАЯ КНОПКА (Информационный круг) -->
     <div class="corner-circle-btn top-left panel-offline" data-wm-id="info-panel-role">
       <span class="corner-icon" data-wm-id="role-icon">🛰️</span>
       <span class="corner-label" data-wm-id="role-label">STANDBY</span>
@@ -661,11 +602,9 @@
       </div>
     </div>
 
-    <!-- ВЕРХНЯЯ ПРАВАЯ КНОПКА (Информационный круг) -->
     <div class="corner-circle-btn top-right panel-offline" data-wm-id="info-panel-user">
       <span class="corner-icon" data-wm-id="user-icon">👨‍🚀</span>
       <span class="corner-label" data-wm-id="user-label">UNKNOWN</span>
-      <span class="status-dot" data-wm-id="status-dot"></span>
       <div class="info-tooltip">
         <div class="tooltip-title">CREW MEMBER</div>
         <div>Registered Callsign: AURORA</div>
@@ -674,52 +613,43 @@
       </div>
     </div>
 
-    <!-- ЛЕВАЯ НИЖНЯЯ КНОПКА (Разрыв связи / Выход) -->
     <button class="corner-circle-btn bottom-left uplink-hidden" data-wm-id="logout-btn" onclick="handleLogout()">
       <span class="corner-icon">🌑</span>
       <span class="corner-label">Logout</span>
     </button>
 
-    <!-- ПРАВАЯ НИЖНЯЯ КНОПКА (Uplink) -->
-    <button class="corner-circle-btn bottom-right uplink-active" data-wm-id="uplink-btn"
-      onclick="startUplink()">
+    <button class="corner-circle-btn bottom-right uplink-active" data-wm-id="uplink-btn" onclick="startUplink()">
       <span class="corner-icon">📡</span>
       <div class="corner-label">Uplink</div>
     </button>
 
-    <!-- ПЛАНЕТЫ КНОПКИ -->
     <div class="planet-bar">
 
-      <!-- Кнопка 1: Galaxy Map -->
-      <button class="planet-btn uplink-hidden" data-wm-id="nav-galaxy-map"
+      <button class="planet-btn uplink-hidden" data-wm-id="galaxy-map-btn"
         onclick="window.location.href='galaxy-map.html'">
         <span class="planet-icon">🌌</span>
         <span class="planet-label">Galaxy<br>Map</span>
       </button>
 
-      <!-- Кнопка 2: Flight Calc -->
       <button class="planet-btn uplink-hidden" data-wm-id="flight-calc-btn"
         onclick="window.location.href='flight-calc.html'">
         <span class="planet-icon">💫</span>
         <span class="planet-label">FLIGHT<br>CALC</span>
       </button>
 
-      <!-- Кнопка 3: Mission Calc -->
-      <button class="planet-btn uplink-hidden" data-wm-id="cis-table-btn"
-        onclick="window.location.href='cis-table.html'">
+      <button class="planet-btn uplink-hidden" data-wm-id="cis-index-table-btn"
+        onclick="window.location.href='cis-index-table.html'">
         <span class="planet-icon">🧬</span>
         <span class="planet-label">CIS INDEX<br>TABLE</span>
       </button>
 
-      <!-- Кнопка 4: Mission Control -->
       <button class="planet-btn uplink-hidden" data-wm-id="mission-control-btn"
         onclick="window.location.href='mission-control.html'">
         <span class="planet-icon">🚀</span>
         <span class="planet-label">MISSION<br>CONTROL</span>
       </button>
 
-      <!-- Кнопка 5: Cassandra Settings -->
-      <button class="planet-btn uplink-hidden" data-wm-id="nav-settings" onclick="window.location.href='settings.html'">
+      <button class="planet-btn uplink-hidden" data-wm-id="settings-btn" onclick="window.location.href='settings.html'">
         <span class="planet-icon">⚙️</span>
         <span class="planet-label">Cassandra<br>Settings</span>
       </button>
@@ -728,7 +658,6 @@
 
     <footer class="login-footer">
 
-      <!-- ПРОГРЕСС-БАР UPLINK -->
       <div id="uplink-progress-container">
         <div class="progress-track">
           <div class="progress-fill" id="progress-fill" data-wm-id="uplink-progress-fill"></div>
@@ -741,7 +670,7 @@
     </footer>
 
     <script>
-      // === 1. ИНИЦИАЛИЗАЦИЯ ДАШБОРДА ===
+
       function initDashboard() {
 
         let userDataStr = sessionStorage.getItem('currentUser');
@@ -750,7 +679,6 @@
         const freshLogin = sessionStorage.getItem('freshLogin');
         const uplinkCompleted = sessionStorage.getItem('uplinkCompleted');
 
-        // Сценарий А: Пользователь не авторизован
         if (!userDataStr) {
           const telemetry = document.getElementById('dashboard-telemetry');
           if (telemetry) {
@@ -760,7 +688,6 @@
           return;
         }
 
-        // Парсим данные пользователя
         let user = {};
         try {
           user = JSON.parse(userDataStr);
@@ -776,7 +703,6 @@
           return;
         }
 
-        // === ДИНАМИЧЕСКИЕ ПЕРЕМЕННЫЕ (Работают для NOVA, AURORA, ORION и любых других) ===
         const callsign = user.callsign ? user.callsign.toUpperCase() : 'UNKNOWN';
         const fullName = user.fullName || 'Unknown Operator';
         const role = user.role || 'OPERATOR';
@@ -785,7 +711,6 @@
         const func = user.function || 'General Duties';
         const userId = user.id || 'UNKNOWN';
 
-        // === СБРОС СОСТОЯНИЯ ПО УМОЛЧАНИЮ (ВСЁ СКРЫТО) ===
         const topPanels = document.querySelectorAll('.top-left, .top-right');
         topPanels.forEach(panel => {
           panel.classList.remove('panel-online', 'uplink-visible');
@@ -809,7 +734,6 @@
         const progressContainer = document.getElementById('uplink-progress-container');
         if (progressContainer) progressContainer.style.display = 'none';
 
-        // === ДИНАМИЧЕСКОЕ ЗАПОЛНЕНИЕ ПАНЕЛЕЙ (Верхние углы) ===
         const roleIconEl = document.querySelector('.top-left .corner-icon');
         const roleLabelEl = document.querySelector('.top-left .corner-label');
         const roleTooltipEl = document.querySelector('.top-left .info-tooltip');
@@ -825,40 +749,41 @@
 
         if (userLabelEl) userLabelEl.textContent = fullName.toUpperCase();
         if (userTooltipEl) {
-          userTooltipEl.innerHTML = `<div class="tooltip-title">CREW MEMBER</div><div>Registered Callsign: ${callsign}</div><div>ID: ${userId}</div><div>Status: Online</div>`;
+          userTooltipEl.innerHTML = `
+            <div class="tooltip-title">CREW MEMBER</div>
+            <div>Registered Callsign: ${callsign}</div>
+            <div>ID: ${userId}</div>
+            <div>Status: Online</div>
+          `;
         }
 
-        // === СЦЕНАРИЙ 1: ПЕРВЫЙ ВХОД ПОСЛЕ ЛОГИНА ===
         if (freshLogin === 'true') {
           sessionStorage.removeItem('freshLogin');
           const telemetry = document.getElementById('dashboard-telemetry');
           if (telemetry) {
             telemetry.innerHTML = `> <span class="telemetry-cassan">CASSAN</span><span class="telemetry-dra">DRA</span>: <span id="typing-target" data-wm-id="telemetry-message" style="color: #4da6ff;"></span>`;
             const target = document.getElementById('typing-target');
-            // Динамическое приветствие для ЛЮБОГО пользователя
+           
             typeWriter(`${callsign}, SERVER CONNECTION REQUIRED. INITIALIZE UPLINK PROCEDURE.`, target, 3000);
           }
           return;
         }
 
-        // === СЦЕНАРИЙ 2: АПЛИНК УЖЕ БЫЛ ПРОЙДЕН РАНЕЕ ===
         if (uplinkCompleted === 'true') {
           showReadyDashboard(callsign);
           return;
         }
 
-        // === СЦЕНАРИЙ 3: ОБНОВЛЕНИЕ СТРАНИЦЫ ДО НАЖАТИЯ АПЛИНКА ===
         const telemetry = document.getElementById('dashboard-telemetry');
         if (telemetry) {
           telemetry.innerHTML = `> <span class="telemetry-cassan">CASSAN</span><span class="telemetry-dra">DRA</span>: <span data-wm-id="telemetry-message" style="color: #4da6ff;">${callsign}, SERVER CONNECTION REQUIRED. INITIALIZE UPLINK PROCEDURE.</span>`;
         }
       }
 
-      // === 2. ФУНКЦИЯ МГНОВЕННОГО ОТОБРАЖЕНИЯ (ДЛЯ СЦЕНАРИЯ 2) ===
       function showReadyDashboard(dynamicCallsign) {
         const telemetry = document.getElementById('dashboard-telemetry');
         if (telemetry) {
-          // Динамический текст готовности для ЛЮБОГО пользователя
+        
           telemetry.innerHTML = `> <span class="telemetry-cassan">CASSAN</span><span class="telemetry-dra">DRA</span>: <span data-wm-id="telemetry-message" style="color: #2ecc71;">${dynamicCallsign}, SYSTEM READY FOR WORK. AWAITING COMMANDS.</span>`;
         }
 
@@ -878,7 +803,6 @@
         if (progressContainer) progressContainer.style.display = 'none';
       }
 
-      // === 3. ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ АНИМАЦИИ ===
       function typeWriter(text, element, duration) {
         const chars = text.split('');
         const interval = duration / chars.length;
@@ -904,7 +828,6 @@
         }
       }
 
-      // === 4. АНИМАЦИЯ UPLINK ===
       async function startUplink() {
         const telemetry = document.getElementById('dashboard-telemetry');
         const progressContainer = document.getElementById('uplink-progress-container');
@@ -946,8 +869,8 @@
 
         progressFill.style.width = '36%';
         progressText.textContent = '36%';
-        document.querySelector('[data-wm-id="nav-galaxy-map"]').classList.remove('uplink-hidden');
-        document.querySelector('[data-wm-id="nav-galaxy-map"]').classList.add('uplink-visible', 'panel-offline');
+        document.querySelector('[data-wm-id="galaxy-map-btn"]').classList.remove('uplink-hidden');
+        document.querySelector('[data-wm-id="galaxy-map-btn"]').classList.add('uplink-visible', 'panel-offline');
         await sleep(2000);
 
         progressFill.style.width = '50%';
@@ -958,8 +881,8 @@
 
         progressFill.style.width = '65%';
         progressText.textContent = '65%';
-        document.querySelector('[data-wm-id="cis-table-btn"]').classList.remove('uplink-hidden');
-        document.querySelector('[data-wm-id="cis-table-btn"]').classList.add('uplink-visible', 'panel-offline');
+        document.querySelector('[data-wm-id="cis-index-table-btn"]').classList.remove('uplink-hidden');
+        document.querySelector('[data-wm-id="cis-index-table-btn"]').classList.add('uplink-visible', 'panel-offline');
         await sleep(2000);
 
         progressFill.style.width = '80%';
@@ -970,8 +893,8 @@
 
         progressFill.style.width = '95%';
         progressText.textContent = '95%';
-        document.querySelector('[data-wm-id="nav-settings"]').classList.remove('uplink-hidden');
-        document.querySelector('[data-wm-id="nav-settings"]').classList.add('uplink-visible', 'panel-offline');
+        document.querySelector('[data-wm-id="settings-btn"]').classList.remove('uplink-hidden');
+        document.querySelector('[data-wm-id="settings-btn"]').classList.add('uplink-visible', 'panel-offline');
         await sleep(2000);
 
         progressFill.style.width = '99%';
@@ -988,7 +911,6 @@
         target.style.textShadow = '0 0 0.8vmin rgba(46, 204, 113, 0.4)';
         target.textContent = '';
 
-        // Берем позывной динамически из localStorage
         let userName = "OPERATOR";
         try {
           const ud = sessionStorage.getItem('currentUser');
@@ -1019,19 +941,15 @@
         sessionStorage.setItem('uplinkCompleted', 'true');
       }
 
-      // === 5. ВЫХОД ИЗ СИСТЕМЫ ===
       function handleLogout() {
-        // Очищаем только текущую сессию и флаги состояния
+       
         sessionStorage.removeItem('currentUser');
         sessionStorage.removeItem('uplinkCompleted');
         sessionStorage.removeItem('freshLogin');
 
-        // registeredUsers НЕ трогаем! Пользователь остается в "базе" и может залогиниться снова.
-
         window.location.href = 'login.html';
       }
 
-      // === 6. ЗАПУСК ===
       initDashboard();
 
       window.addEventListener('pageshow', function (event) {

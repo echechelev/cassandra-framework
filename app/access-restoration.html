@@ -354,7 +354,6 @@
             }
         }
 
-        /* СПУТНИК */
         #satellite {
             position: fixed;
             top: 0;
@@ -376,16 +375,12 @@
             transition: stroke 0.8s ease;
         }
 
-        /* Красное тело спутника по умолчанию */
         .sat-part {
             fill: #e74c3c !important;
             stroke: #e74c3c !important;
             transition: fill 0.8s ease, stroke 0.8s ease;
         }
 
-        /* ============================================
-           СОСТОЯНИЕ: СВЯЗЬ ВОССТАНОВЛЕНА (БЕЛОЕ ТЕЛО + СИНИЕ ВОЛНЫ)
-           ============================================ */
         body.signal-restored #satellite {
             filter: drop-shadow(0 0 0.8vmin rgba(77, 166, 255, 0.5));
         }
@@ -436,9 +431,6 @@
             box-sizing: border-box;
         }
 
-        /* ============================================
-           УГЛОВЫЕ КНОПКИ НАВИГАЦИИ
-           ============================================ */
         .corner-nav {
             position: fixed;
             bottom: 3vmin;
@@ -540,7 +532,6 @@
             <line x1="75" y1="15" x2="75" y2="45" stroke="#4da6ff" stroke-width="1" opacity="0.5" />
             <line x1="85" y1="15" x2="85" y2="45" stroke="#4da6ff" stroke-width="1" opacity="0.5" />
 
-            <!-- БЕЗ инлайн-цветов! Цвета управляются через CSS класс .sat-part -->
             <rect class="sat-part" x="35" y="20" width="30" height="20" rx="4" stroke-width="2" />
             <line class="sat-part" x1="50" y1="20" x2="50" y2="5" stroke-width="2" />
             <circle class="sat-part" cx="50" cy="5" r="3" />
@@ -565,24 +556,20 @@
                 ⚠️ Restoration data invalid
             </div>
 
-            <!-- ЕДИНАЯ ФОРМА ВОССТАНОВЛЕНИЯ -->
             <form id="restoration-form" novalidate>
 
-                <!-- 1. Callsign -->
                 <div class="input-group">
                     <label class="input-label" for="callsign">Callsign</label>
                     <input type="text" id="callsign" class="input-field" placeholder="Enter callsign" minlength="4"
                         maxlength="100" data-wm-id="restoration-callsign-input" autocomplete="off">
                 </div>
 
-                <!-- 2. Recovery Cipher -->
                 <div class="input-group">
                     <label class="input-label" for="recovery-cipher">Recovery Cipher</label>
                     <input type="text" id="recovery-cipher" class="input-field" placeholder="Enter recovery cipher"
                         minlength="4" maxlength="100" data-wm-id="restoration-recovery-cipher-input" autocomplete="off">
                 </div>
 
-                <!-- 3. New Access Code -->
                 <div class="input-group">
                     <label class="input-label" for="new-access-code">New Access Code</label>
                     <div class="password-wrapper">
@@ -599,7 +586,6 @@
                     </div>
                 </div>
 
-                <!-- 4. Confirm Access Code -->
                 <div class="input-group">
                     <label class="input-label" for="confirm-access-code">Confirm Access Code</label>
                     <div class="password-wrapper">
@@ -616,13 +602,11 @@
                     </div>
                 </div>
 
-                <!-- Кнопка восстановления -->
                 <button type="submit" class="login-btn" id="restore-btn" data-wm-id="restoration-restore-btn" disabled>
                     RESTORE ACCESS
                 </button>
             </form>
 
-            <!-- ЭКРАН УСПЕХА (Скрыт по умолчанию) -->
             <div id="success-screen" class="hidden">
 
                 <div style="color: #2ecc71; font-size: 1.6vmin; font-weight: 700; margin-bottom: 1.5vmin; letter-spacing: 0.15vmin;"
@@ -666,13 +650,12 @@
             <div class="copyright">Evknopia © 2026</div>
         </footer>
 
-        <!-- УГЛОВЫЕ КНОПКИ НАВИГАЦИИ -->
         <div class="corner-nav">
-            <a href="login.html" class="nav-circle-btn" data-wm-id="btn-login">
+            <a href="login.html" class="nav-circle-btn" data-wm-id="nav-login-btn">
                 <span class="nav-icon">🔭</span>
                 <span class="nav-label">Log In</span>
             </a>
-            <a href="signup.html" class="nav-circle-btn" data-wm-id="btn-signup">
+            <a href="signup.html" class="nav-circle-btn" data-wm-id="nav-signup-btn">
                 <span class="nav-icon">📡</span>
                 <span class="nav-label">Sign Up</span>
             </a>
@@ -685,7 +668,6 @@
         document.addEventListener('DOMContentLoaded', function () {
             let isProcessing = false;
 
-            // === 1. SATELLITE ANIMATION ===
             const satellite = document.getElementById('satellite');
             let x = Math.random() * (window.innerWidth - 60);
             let y = Math.random() * (window.innerHeight - 40);
@@ -702,7 +684,6 @@
             }
             requestAnimationFrame(animateSatellite);
 
-            // === 2. VARIABLES ===
             const callsignInput = document.getElementById('callsign');
             const recoveryCipherInput = document.getElementById('recovery-cipher');
             const newAccessCodeInput = document.getElementById('new-access-code');
@@ -714,7 +695,6 @@
             const restorationForm = document.getElementById('restoration-form');
             const successScreen = document.getElementById('success-screen');
 
-            // === 3. PASSWORD TOGGLE ===
             function togglePassword(inputId) {
                 const input = document.getElementById(inputId);
                 input.type = input.type === 'password' ? 'text' : 'password';
@@ -725,7 +705,6 @@
                 });
             });
 
-            // === 4. INPUT VALIDATION ===
             callsignInput.addEventListener('input', (e) => {
                 e.target.value = e.target.value.replace(/[^a-zA-Z0-9]/g, '').toUpperCase();
                 checkFormState();
@@ -761,53 +740,43 @@
                 restoreBtn.disabled = !(isCallsignValid && isRecoveryValid && isNewAccessValid && isConfirmValid);
             }
 
-            // === 6. FORM SUBMIT HANDLER ===
             function handleRestoration(event) {
                 event.preventDefault();
-                if (isProcessing) return; // Защита от двойного клика
+                if (isProcessing) return; 
 
                 isProcessing = true;
                 errorBlock.classList.remove('visible');
 
-                // 🚀 ДОБАВЛЕНО: Состояние обработки (мерцание)
                 restoreBtn.classList.add('processing');
                 restoreBtn.disabled = true;
                 restoreBtn.textContent = 'VERIFYING PROTOCOLS...';
-                // Телеметрия НЕ меняется, остаётся "> SYSTEM READY..." до финального результата
 
-                // ⏱️ ИЗМЕНЕНО: Тайминг с 1500 на 2000 мс для синхронизации со всеми страницами
                 setTimeout(() => {
                     const callsign = callsignInput.value.trim();
                     const cipher = recoveryCipherInput.value.trim();
                     const newCode = newAccessCodeInput.value;
                     const confirmCode = confirmAccessCodeInput.value;
 
-                    // 1. ПРОВЕРКА ИБ: Позывной должен быть строго KNOPA
                     if (callsign !== 'KNOPA') {
                         showError('⚠️ Restoration unavailable. Only operator KNOPA is eligible for access recovery.');
                         return;
                     }
 
-                    // 2. Проверка совпадения новых паролей (единая ошибка ИБ)
                     if (newCode !== confirmCode) {
                         showError('⚠️ Security protocol failed. Invalid credentials provided.');
                         return;
                     }
 
-                    // 3. Проверка жестко заданного нового пароля (единая ошибка ИБ)
                     if (newCode !== 'AERO_99') {
                         showError('⚠️ Security protocol failed. Invalid credentials provided.');
                         return;
                     }
 
-                    // 4. Проверка шифра восстановления (единая ошибка ИБ)
-                    // (Мы уже знаем, что callsign === 'KNOPA', поэтому MOCK_USERS[callsign] безопасен)
                     if (cipher !== MOCK_USERS[callsign].recoveryCipher) {
                         showError('⚠️ Security protocol failed. Invalid credentials provided.');
                         return;
                     }
 
-                    // 5. Проверка: пользователь уже восстановлен? (явная ошибка)
                     const existingRestoredStr = localStorage.getItem('restoredUsers');
                     if (existingRestoredStr) {
                         try {
@@ -822,8 +791,6 @@
                         } catch (e) { }
                     }
 
-                    // === УСПЕХ ===
-                    // 6. Сохраняем данные в localStorage
                     let restoredUsers = {};
                     const restoredUsersStr = localStorage.getItem('restoredUsers');
                     if (restoredUsersStr) {
@@ -832,25 +799,21 @@
 
                     restoredUsers[callsign] = {
                         ...MOCK_USERS[callsign],
-                        accessCode: newCode // Перезаписываем только новый пароль
+                        accessCode: newCode 
                     };
                     localStorage.setItem('restoredUsers', JSON.stringify(restoredUsers));
 
-
-                    // 7. Заполняем данные на втором экране
-                    const userData = MOCK_USERS[callsign]; // Для удобства
+                    const userData = MOCK_USERS[callsign]; 
                     document.getElementById('sum-callsign').textContent = userData.callsign;
                     document.getElementById('sum-role').textContent = userData.roleIcon + ' ' + userData.role.charAt(0).toUpperCase() + userData.role.slice(1).toLowerCase();
                     document.getElementById('sum-function').textContent = userData.function;
                     document.getElementById('sum-id').textContent = userData.id;
                     document.getElementById('sum-new-code').textContent = newCode;
 
-                    // 8. Переключаем экраны
                     restorationForm.classList.add('hidden');
                     successScreen.classList.remove('hidden');
                     document.body.classList.add('signal-restored');
 
-                    // Скрываем логотип и подзаголовок
                     const mainLogo = document.querySelector('.login-card > .login-logo');
                     if (mainLogo) mainLogo.classList.add('hidden');
 
@@ -861,12 +824,11 @@
                     telemetryText.style.color = '#2ecc71';
                     telemetryText.innerHTML = '> RESTORATION COMPLETE. NEW CREDENTIALS ISSUED.';
 
-                    // 🔄 ДОБАВЛЕНО: Сброс состояния кнопки для чистоты кода
                     restoreBtn.classList.remove('processing');
                     restoreBtn.textContent = 'RESTORE ACCESS';
                     isProcessing = false;
 
-                }, 2000); // ⏱️ ИЗМЕНЕНО: закрывающий таймер тоже на 2000 мс
+                }, 2000); 
             }
 
             function showError(message, telemetryMessage = '> SECURITY PROTOCOL FAILED. RESTORATION ABORTED') {
@@ -875,23 +837,20 @@
                 telemetryText.style.color = '#e74c3c';
                 telemetryText.innerHTML = telemetryMessage;
 
-                // 🔄 ДОБАВЛЕНО: Сброс состояния кнопки при ошибке
                 restoreBtn.classList.remove('processing');
                 restoreBtn.disabled = false;
                 restoreBtn.textContent = 'RESTORE ACCESS';
                 isProcessing = false;
             }
 
-            // === 8. ПРОВЕРКА СОСТОЯНИЯ ПРИ ЗАГРУЗКЕ (F5 защита) ===
             if (sessionStorage.getItem('restorationSuccess') === 'true') {
                 try {
                     const restoredUsersStr = localStorage.getItem('restoredUsers');
-                    const restoredCallsign = sessionStorage.getItem('restoredCallsign'); // ✅ Читаем сохраненный позывной
+                    const restoredCallsign = sessionStorage.getItem('restoredCallsign'); 
 
                     if (restoredUsersStr && restoredCallsign) {
                         const restoredCheck = JSON.parse(restoredUsersStr);
 
-                        // ✅ Ищем пользователя по сохраненному позывному, а не по пустому полю ввода
                         const user = restoredCheck[restoredCallsign] || MOCK_USERS[restoredCallsign];
 
                         if (user) {
@@ -901,7 +860,6 @@
                             document.getElementById('sum-id').textContent = user.id;
                             document.getElementById('sum-new-code').textContent = user.accessCode;
 
-                            // Переключаем экраны ТОЛЬКО если пользователь найден
                             restorationForm.classList.add('hidden');
                             successScreen.classList.remove('hidden');
                             document.body.classList.add('signal-restored');
@@ -921,11 +879,9 @@
                 }
             }
 
-            // === 9. EVENT BINDINGS ===
             restorationForm.addEventListener('submit', handleRestoration);
         });
 
-        // 🧹 ОЧИСТКА СЕССИИ ПРИ УХОДЕ СО СТРАНИЦЫ ИЛИ ОБНОВЛЕНИИ
         window.addEventListener('beforeunload', () => {
             sessionStorage.removeItem('restorationSuccess');
             sessionStorage.removeItem('restoredCallsign');
