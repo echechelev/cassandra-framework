@@ -13,21 +13,29 @@ with open(USERS_FILE, "r", encoding="utf-8") as f:
 # ==========================================
 # 🌐 URL-АДРЕСА (URLs)
 # ==========================================
-INDEX_URL = 'index.html'
-SIGNUP_URL = 'signup.html'
-LOGIN_URL = 'login.html'
-DASHBOARD_URL = 'dashboard.html'
-GALAXY_MAP_URL = 'galaxy-map.html'
-CIS_INDEX_TABLE_URL = 'cis-index-table.html'
-ACCESS_RESTORATION_URL = 'access-restoration.html'
-GALAXY_MAP_URL = 'galaxy-map.html'
-BLACK_HOLE_URL = 'black-hole.html'
-STAR_SUN_URL = 'star-system.html?star=sun'
-STAR_ALPHA_CENTAURI_URL = 'star-system.html?star=alpha-centauri'
-STAR_EPSILON_ERIDANI_URL = 'star-system.html?star=epsilon-eridani'
-STAR_TAU_CETI_URL = 'star-system.html?star=tau-ceti'
-STAR_TEEGARDEN_URL = 'star-system.html?star=teegarden'
-STAR_TRAPPIST_1_URL = 'star-system.html?star=trappist-1'
+
+# Аутентификация и вход
+INDEX_URL = "index.html"
+SIGNUP_URL = "signup.html"
+LOGIN_URL = "login.html"
+ACCESS_RESTORATION_URL = "access-restoration.html"
+
+# Основные страницы навигации
+DASHBOARD_URL = "dashboard.html"
+GALAXY_MAP_URL = "galaxy-map.html"
+CIS_INDEX_TABLE_URL = "cis-index-table.html"
+
+# Звёздные системы и Чёрная дыра
+STAR_SYSTEM_URL = {
+    "no-star": "star-system.html",
+    "black-hole": "black-hole.html", 
+    "sun": "star-system.html?star=sun",
+    "alpha-centauri": "star-system.html?star=alpha-centauri",
+    "epsilon-eridani": "star-system.html?star=epsilon-eridani",
+    "tau-ceti": "star-system.html?star=tau-ceti",
+    "teegarden": "star-system.html?star=teegarden",
+    "trappist-1": "star-system.html?star=trappist-1",
+}
 
 # ==========================================
 # 👨‍🚀 ДАННЫЕ ПОЛЬЗОВАТЕЛЕЙ (User Data)
@@ -156,6 +164,124 @@ INFO_PANEL_ROLE_ENGINEER = 'ENGINEER'
 INFO_PANEL_ROLE_PILOT = 'PILOT'
 
 # ==========================================
+# 🌌 ПЛАНЕТЫ СОЛНЕЧНОЙ СИСТЕМЫ (Solar System Planets)
+# ==========================================
+
+# 🌑 Меркурий
+MERCURY_ID = 'planet-mercury-btn'
+MERCURY_NAME = 'MERCURY'
+
+# 🌟 Венера
+VENUS_ID = 'planet-venus-btn'
+VENUS_NAME = 'VENUS'
+
+# 🌍 Земля
+EARTH_ID = 'planet-earth-btn'
+EARTH_NAME = 'EARTH'
+EARTH_CSS_CLASS = 'planet-icon.planet-earth'
+EARTH_COLOR = '#4da6ff'
+
+# 🔴 Марс
+MARS_ID = 'planet-mars-btn'
+MARS_NAME = 'MARS'
+
+# 🧊 Уран
+URANUS_ID = 'planet-uranus-btn'
+URANUS_NAME = 'URANUS'
+
+# 🌊 Нептун
+NEPTUNE_ID = 'planet-neptune-btn'
+NEPTUNE_NAME = 'NEPTUNE'
+
+# ==========================================
+# 🌠 ПЛАНЕТЫ АЛЬФЫ ЦЕНТАВРА (Alpha Centauri Planets)
+# ==========================================
+
+# 🪐 Проксима B
+PROXIMA_B_ID = 'planet-proxima-b-btn'
+PROXIMA_B_NAME = 'PROXIMA B'
+
+# 🔵 Проксима C
+PROXIMA_C_ID = 'planet-proxima-c-btn'
+PROXIMA_C_NAME = 'PROXIMA C'
+
+# 🌑 Проксима D
+PROXIMA_D_ID = 'planet-proxima-d-btn'
+PROXIMA_D_NAME = 'PROXIMA D'
+
+# ==========================================
+# 🟠 ПЛАНЕТЫ ЭПСИЛОН ЭРИДАНА (Epsilon Eridani Planets)
+# ==========================================
+
+# 🪐 Эпсилон Эридана C
+EPSILON_ERIDANI_C_ID = 'planet-epsilon-eridani-c-btn'
+EPSILON_ERIDANI_C_NAME = 'EPSILON ERIDANI C'
+
+# ==========================================
+# 🌟 ПЛАНЕТЫ ТАУ КИТА (Tau Ceti Planets)
+# ==========================================
+
+#  Тау Кита e
+TAU_CETI_E_ID = 'planet-tau-ceti-e-btn'
+TAU_CETI_E_NAME = 'TAU CETI E'
+
+# 🌊 Тау Кита f
+TAU_CETI_F_ID = 'planet-tau-ceti-f-btn'
+TAU_CETI_F_NAME = 'TAU CETI F'
+
+# 🧊 Тау Кита g
+TAU_CETI_G_ID = 'planet-tau-ceti-g-btn'
+TAU_CETI_G_NAME = 'TAU CETI G'
+
+# ❄️ Тау Кита h
+TAU_CETI_H_ID = 'planet-tau-ceti-h-btn'
+TAU_CETI_H_NAME = 'TAU CETI H'
+
+# ==========================================
+# 🔴 ПЛАНЕТЫ ТИГАРДЕН (Teegarden Planets)
+# ==========================================
+
+# 🌑 Тигарден b
+TEEGARDEN_B_ID = 'planet-teegarden-b-btn'
+TEEGARDEN_B_NAME = 'TEEGARDEN B'
+
+#  Тигарден c
+TEEGARDEN_C_ID = 'planet-teegarden-c-btn'
+TEEGARDEN_C_NAME = 'TEEGARDEN C'
+
+# ==========================================
+#  ПЛАНЕТЫ TRAPPIST-1 (TRAPPIST-1 Planets)
+# ==========================================
+
+# 🔴 TRAPPIST-1 b
+TRAPPIST_1B_ID = 'planet-trappist-1b-btn'
+TRAPPIST_1B_NAME = 'TRAPPIST-1B'
+
+# 🟠 TRAPPIST-1 c
+TRAPPIST_1C_ID = 'planet-trappist-1c-btn'
+TRAPPIST_1C_NAME = 'TRAPPIST-1C'
+
+#  TRAPPIST-1 d
+TRAPPIST_1D_ID = 'planet-trappist-1d-btn'
+TRAPPIST_1D_NAME = 'TRAPPIST-1D'
+
+# 🌍 TRAPPIST-1 e
+TRAPPIST_1E_ID = 'planet-trappist-1e-btn'
+TRAPPIST_1E_NAME = 'TRAPPIST-1E'
+
+# 🔵 TRAPPIST-1 f
+TRAPPIST_1F_ID = 'planet-trappist-1f-btn'
+TRAPPIST_1F_NAME = 'TRAPPIST-1F'
+
+# 🧊 TRAPPIST-1 g
+TRAPPIST_1G_ID = 'planet-trappist-1g-btn'
+TRAPPIST_1G_NAME = 'TRAPPIST-1G'
+
+# ⚪ TRAPPIST-1 h
+TRAPPIST_1H_ID = 'planet-trappist-1h-btn'
+TRAPPIST_1H_NAME = 'TRAPPIST-1H'
+
+# ==========================================
 # 💬 ТЕКСТЫ UI (UI Texts)
 # ==========================================
 
@@ -192,6 +318,7 @@ _GREEN_WELCOME_PREFIX = f"{_GREEN_BASE_PREFIX}CONNECTION ESTABLISHED. WELCOME, "
 GREEN_TELEMETRY_REGISTRATION_COMPLETE = f"{_GREEN_BASE_PREFIX}REGISTRATION COMPLETE. OPERATOR ACCOUNT ACTIVATED."
 GREEN_TELEMETRY_SYSTEM_READY_AURORA = f"{_GREEN_BASE_PREFIX}CASSANDRA: AURORA, SYSTEM READY FOR WORK. AWAITING COMMANDS."
 GREEN_TELEMETRY_SELECT_STAR_SYSTEM_AURORA = f"{_GREEN_BASE_PREFIX}CASSANDRA: AURORA, SELECT A STAR SYSTEM FOR INVESTIGATION."
+GREEN_TELEMETRY_SELECT_STAR_SYSTEM_SOL_AURORA = f"{_GREEN_BASE_PREFIX}CASSANDRA: AURORA, SCANNING SOL (SUN) SYSTEM... 6 PLANETS DETECTED. AWAITING SELECTION."
 
 GREEN_TELEMETRY_WELCOME_AURORA = f"{_GREEN_WELCOME_PREFIX}SPECIALIST AURORA"
 GREEN_TELEMETRY_WELCOME_NOVA = f"{_GREEN_WELCOME_PREFIX}ENGINEER NOVA"
@@ -206,6 +333,8 @@ GREEN_TELEMETRY_RESTORATION_COMPLETE = f"{_GREEN_BASE_PREFIX}RESTORATION COMPLET
 LOGO_CASSAN = 'CASSAN'
 LOGO_DRA = 'DRA'
 GALAXY_TITLE = 'GALAXY MILKY WAY'
+STAR_SYSTEM_SUN = 'STAR SYSTEM SOL'
+STAR_SYSTEM_TRAPPIST_TITLE = 'STAR SYSTEM TRAPPIST-1'
 PROJECT_TITLE = 'PLANETARY HABITABILITY ASSESSMENT PROJECT'
 PROJECT_SLOGAN = 'We Find a New Home Among the Stars'
 COPYRIGHT_TEXT = 'Evknopia © 2026'
@@ -249,3 +378,6 @@ RED_TELEMETRY_UNKNOWN_USER = f"{_RED_SYSTEM_LOCKED_PREFIX}PLEASE ENTER CORRECT F
 RED_TELEMETRY_RESTORATION_ABORTED = f"{_RED_SECURITY_FAILED_PREFIX}RESTORATION ABORTED"
 RED_TELEMETRY_SECURITY_INVALID = f"{_RED_SYSTEM_LOCKED_PREFIX}INVALID CREDENTIALS."
 RED_TELEMETRY_OPERATOR_RESTORED = f"{_RED_SECURITY_FAILED_PREFIX}OPERATOR ALREADY RESTORED."
+
+
+
