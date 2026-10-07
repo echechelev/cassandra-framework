@@ -1,4 +1,5 @@
 import json
+import re
 
 import allure
 from selene import be, browser, have, query
@@ -51,7 +52,7 @@ class CorePage:
     ):
         """
         Ждет появления элемента (если передан) и перехода на URL, содержащий ожидаемую часть.
-        
+    
         Args:
             expected_url_part: Ожидаемая часть URL.
             element_to_wait: Selene-элемент для ожидания появления (по умолчанию None).
@@ -80,6 +81,49 @@ class CorePage:
                     f"   Condition: Browser URL must contain the expected part"
                 )
    
+        return self
+
+    @allure.step("Ожидание точного совпадения URL (строгая проверка)")
+    def wait_for_url_strict(
+        self, 
+        expected_url: str, 
+        element_to_wait: Element | None = None, 
+        timeout: float = 10.0
+    ):
+    
+        try:
+            if element_to_wait is not None:
+                with allure.step("Ожидаем появление элемента"):
+                    element_to_wait.should(be.visible)
+
+            with allure.step(f"Ожидаем URL, заканчивающийся на: '{expected_url}'"):
+                WebDriverWait(browser.driver, timeout).until(
+                    lambda driver: driver.current_url.endswith(expected_url)
+                )
+
+        except TimeoutException:
+            current_url = browser.driver.current_url
+            raise AssertionError(
+                f"❌ URL mismatch within {timeout} seconds!\n"
+                f"   Expected URL ending with: {expected_url}\n"
+                f"   Current URL: {current_url}"
+            )
+   
+        return self
+    
+    @allure.step("🚫 Открытие страницы без авторизации")
+    def open_unauthenticated(self, url: str):
+        """
+        Открывает страницу с очищенным sessionStorage (для негативных тестов).
+        Симулирует переход на страницу без авторизации.
+        """
+        with allure.step(f"Открываем страницу: {url}"):
+            browser.open(url)
+
+        with allure.step("Очищаем sessionStorage и обновляем страницу"):
+            browser.driver.execute_script("sessionStorage.clear();")
+            browser.driver.refresh()
+
         return self
 
     #endregion
@@ -144,7 +188,6 @@ class CorePage:
                     f"   Error: {e}"
                 ) from e
         return self
-
 
     @allure.step("Нажатие кнопки Dashboard")
     def click_dashboard(self):
@@ -785,4 +828,75 @@ class CorePage:
                 f"   Expected attribute '{attr_name}' to be '{expected_value}'\n"
                 f"   Element: {element}"
             )
-        return self  
+        return self
+    
+    @allure.step("✨ Проверка CSS-эффектов при ховере")
+    def verify_hover_effects(self, element, name, expected_scale=1.15, tolerance=0.01):
+        """
+        Наводит курсор на элемент и проверяет CSS-эффекты (transform и border-color).
+    
+        :param element: Элемент (кнопка)
+        :param name: Название элемента для логов (например, "Sun")
+        :param expected_scale: Ожидаемое значение scale (по умолчанию 1.15)
+        :param tolerance: Допуск для scale (по умолчанию 0.01)
+        """
+        with allure.step(f"Наводим курсор на '{name}' и получаем computed CSS-свойства"):
+            try:
+                
+                element.should(be.visible).should(be.enabled)
+                element.hover()
+
+                styles = browser.driver.execute_script(
+                    """
+                    const el = arguments[0];
+                    const computed = window.getComputedStyle(el);
+                    return {
+                        transform: computed.transform,
+                        borderColor: computed.borderColor
+                    };
+                    """,
+                    element(), 
+                )
+
+                transform = styles["transform"]
+                border_color = styles["borderColor"]
+
+                with allure.step(f"🔍 transform = {transform}"):
+                    pass
+                with allure.step(f" border-color = {border_color}"):
+                    pass
+
+                matrix_match = re.search(r"matrix\(([\d.]+)", transform)
+                assert matrix_match, f"❌ Не удалось извлечь значение из transform: {transform}"
+
+                scale_value = float(matrix_match.group(1))
+            
+                assert abs(scale_value - expected_scale) <= tolerance, (
+                    f"❌ Ошибка transform для '{name}'!\n"
+                    f"Ожидалось: scale({expected_scale}) ± {tolerance}\n"
+                    f"Получено:  scale({scale_value})"
+                )
+
+                # 4. Проверка border-color (синий цвет Кассандры)
+                assert (
+                    "77" in border_color and "166" in border_color and "255" in border_color
+                ), (
+                    f" Ошибка border-color для '{name}'!\n"
+                    f"Ожидалось: rgba(77, 166, 255, 1)\n"
+                    f"Получено:  {border_color}"
+                )
+
+            except TimeoutException:
+                raise AssertionError(
+                    f"❌ Кнопка '{name}' не найдена!\n"
+                    f"   Timeout: элемент не появился в DOM или не стал видимым"
+                )
+            except AssertionError:
+                raise
+            except Exception as e:
+                raise AssertionError(
+                    f"❌ Неожиданная ошибка при проверке ховера '{name}'!\n"
+                    f"   Error: {e}"
+                ) from e
+            
+        return self

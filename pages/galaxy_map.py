@@ -63,19 +63,11 @@ class GalaxyMapPage(CorePage):
                 ) from e
         return self
 
-    def open_unauthenticated(self):
-        """
-        Открывает страницу с очищенным sessionStorage (для негативных тестов).
-        Симулирует переход на страницу без авторизации.
-        """
-
-        browser.open(data.GALAXY_MAP_URL)
-
-        browser.driver.execute_script("sessionStorage.clear();")
-
-        browser.driver.refresh()
-
-        return self
+    @allure.step("🌟 Клик по кнопке звезды: {star_key}")
+    def click_star_button(self, star_key: str):
+        browser.element(f"[data-wm-id='star-{star_key}-btn']").should(be.visible).click()
+        
+        self.wait_for_url(expected_url_part=f"star-system.html?star={star_key}")
 
     # endregion
 
@@ -104,98 +96,6 @@ class GalaxyMapPage(CorePage):
     def click_star(self, element):
         """Универсальный клик по любой звезде."""
         element.should(be.visible).click()
-        return self
-
-    @allure.step("✨ Проверка CSS-эффектов при ховере на кнопку Sun")
-    def verify_sun_btn_hover_effects(self):
-        """Проверяет CSS-свойства кнопки после ховера.
-
-        Ожидаемые эффекты:
-            - transform: scale(1.15) [с допуском ±0.01]
-            - border-color: rgba(77, 166, 255, 1)
-        """
-        with allure.step("Получаем computed CSS-свойства кнопки"):
-            try:
-                self.sun_btn.should(be.visible)
-
-                styles = browser.driver.execute_script(
-                    """
-                    const el = arguments[0];
-                    const computed = window.getComputedStyle(el);
-                    return {
-                        transform: computed.transform,
-                        borderColor: computed.borderColor
-                    };
-                    """,
-                    self.sun_btn(),
-                )
-
-                transform = styles["transform"]
-                border_color = styles["borderColor"]
-
-                with allure.step(f"🔍 transform = {transform}"):
-                    pass
-                with allure.step(f"🔍 border-color = {border_color}"):
-                    pass
-
-                import re
-
-                matrix_match = re.search(r"matrix\(([\d.]+)", transform)
-                assert (
-                    matrix_match
-                ), f"❌ Не удалось извлечь значение из transform: {transform}"
-
-                scale_value = float(matrix_match.group(1))
-                expected_scale = 1.15
-                tolerance = 0.01  # Допуск 1%
-
-                assert abs(scale_value - expected_scale) <= tolerance, (
-                    f"❌ Ошибка transform!\n"
-                    f"Ожидалось: scale({expected_scale}) ± {tolerance}\n"
-                    f"Получено:  scale({scale_value})"
-                )
-
-                assert (
-                    "77" in border_color
-                    and "166" in border_color
-                    and "255" in border_color
-                ), (
-                    f"❌ Ошибка border-color!\n"
-                    f"Ожидалось: rgba(77, 166, 255, 1)\n"
-                    f"Получено:  {border_color}"
-                )
-
-            except TimeoutException:
-                raise AssertionError(
-                    "❌ Sun button not found!\n"
-                    "   Timeout: button did not appear in time"
-                )
-            except AssertionError:
-                raise
-            except Exception as e:
-                raise AssertionError(
-                    f"❌ Unexpected error while checking hover effects!\n"
-                    f"   Error: {e}"
-                ) from e
-        return self
-
-    @allure.step("🖱️ Наведение на кнопку звезду Sun")
-    def hover_sun(self):
-        """Наводит курсор на кнопку инициализации системы Sun."""
-        with allure.step("Наводим курсор на кнопку Sun"):
-            try:
-                self.sun_btn.should(be.visible).should(be.enabled)
-                self.sun_btn.hover()
-
-            except TimeoutException:
-                raise AssertionError(
-                    "❌ Sun button not found or not hoverable!\n"
-                    "   Timeout: button did not appear in time"
-                )
-            except Exception as e:
-                raise AssertionError(
-                    f"❌ Unexpected error while hovering Sun!\n" f"   Error: {e}"
-                ) from e
         return self
 
     # endregion
