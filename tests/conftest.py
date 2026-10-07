@@ -11,6 +11,7 @@ from pages.galaxy_map import GalaxyMapPage
 from pages.index import IndexPage
 from pages.login import LoginPage
 from pages.signup import SignupPage
+from pages.star_system import StarSystemPage
 from tests import data
 
 # ========================================================================
@@ -112,7 +113,7 @@ def dashboard_page():
     page.clear_all_storages()
 
 @pytest.fixture(scope="function")
-def galaxe_map_page(dashboard_page_aurora):
+def galaxy_map_page(dashboard_page_aurora):
     """🔓 Открывает страницу без ожидания аплинка и очищает Storage после теста."""
 
     dashboard_page_aurora.fast_forward_uplink()
@@ -127,6 +128,19 @@ def galaxe_map_page(dashboard_page_aurora):
     yield page
 
     page.clear_all_storages()
+
+@pytest.fixture
+def star_system(galaxy_map_page):
+    """
+    Фабрика страниц. 
+    Принимает ключ звезды, кликает по ней на карте и возвращает готовый StarSystemPage.
+    """
+    def _factory(star_key: str) -> StarSystemPage:
+        galaxy_map_page.click_star_button(star_key)
+        
+        return StarSystemPage()
+        
+    return _factory
 
 # ========================================================================
 # region 3️⃣ 👤 АВТОРИЗАЦИЯ
