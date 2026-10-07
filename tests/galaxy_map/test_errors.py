@@ -21,10 +21,10 @@ def test_access_denied_redirect_on_empty_storage():
     """
 
     # ⚡ ACT
-    galaxe_map_page = GalaxyMapPage()
-    galaxe_map_page.open_unauthenticated()
+    galaxy_map_page = GalaxyMapPage()
+    galaxy_map_page.open_unauthenticated(data.GALAXY_MAP_URL)
 
     # ✅ ASSERT
-    galaxe_map_page.verify_telemetry_text(data.RED_TELEMETRY_ACCESS_DENIED)
-    galaxe_map_page.verify_telemetry_color_with_cassandra(red=True)
-    galaxe_map_page.wait_for_url(data.LOGIN_URL)
+    galaxy_map_page.verify_telemetry_text(data.RED_TELEMETRY_ACCESS_DENIED)
+    galaxy_map_page.verify_telemetry_color_with_cassandra(red=True)
+    galaxy_map_page.wait_for_url(data.LOGIN_URL)

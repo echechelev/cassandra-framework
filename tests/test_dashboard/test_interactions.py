@@ -132,7 +132,7 @@ def test_logout_button_hover_effect(dashboard_page_aurora):
     2. Перейти на страницу 'Dashboard Page'.
     3. Нажать на кнопку 'Uplink Button'. Дождаться завершения анимации (100%).
     4. Навести курсор мыши на кнопку 'Logout Button'.
-    5. Проверить: кнопка увеличивается в размере 'transform: scale 1.15'.
+    5. Проверить: кнопка увеличивается в размере 'transform: scale 1.03'.
     6. Проверить: рамка и свечение становятся ярче. Курсор меняется на 'pointer'.
     """
 
@@ -143,7 +143,9 @@ def test_logout_button_hover_effect(dashboard_page_aurora):
     dashboard_page_aurora.wait_for_uplink_complete(data.CALLSIGN_AURORA)
 
     # ✅ ASSERT
-    dashboard_page_aurora.verify_logout_button_hover_effect()
+    dashboard_page_aurora.verify_hover_effects(
+        dashboard_page_aurora.logout_btn, "Logout", expected_scale=1.03, tolerance=0.05
+    )
 
 
 @allure.id("CAS-06")

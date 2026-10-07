@@ -282,3 +282,22 @@ def test_successful_navigation_to_the_access_restoration(signup_page):
 
     # ✅ ASSERT
     signup_page.wait_for_url(expected_url_part=data.ACCESS_RESTORATION_URL)
+
+
+@allure.id("CAS-09")
+@allure.title("🔭 Валидация hover-эффекта кнопки Log in")
+@allure.label("owner", "Evgeniy Chechelev")
+@allure.label("feature", "signup")
+@pytest.mark.regress
+@pytest.mark.signup
+@pytest.mark.ui_navigation
+def test_log_in_button_hover_effect_validation(signup_page):
+    """
+    Сценарий:
+    1. Перейти на страницу 'Signup page'.
+    2. С помощью ActionChains навести курсор на data-wm-id='log in-btn'.
+    3. Проверить: CSS-свойство transform содержит scale(1.15)
+    """
+
+    # ✅ ASSERT
+    signup_page.verify_hover_effects(signup_page.log_in_btn, 'Log in', expected_scale=1.15)
