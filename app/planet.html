@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <link rel="icon" type="image/png" href="favicon.png">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cassandra — Planet Info</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', 'Roboto', sans-serif;
+        }
+
+        body {
+            color: #e8ecff;
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+            background-color: #050816;
+        }
+
+        .stars {
+            position: fixed;
+            inset: 0;
+            z-index: -2;
+            background:
+                radial-gradient(1px 1px at 10% 10%, rgba(255, 255, 255, .9), transparent 50%),
+                radial-gradient(1.5px 1.5px at 20% 30%, rgba(255, 255, 255, .7), transparent 50%),
+                radial-gradient(1px 1px at 30% 70%, rgba(255, 255, 255, .8), transparent 50%),
+                radial-gradient(2px 2px at 40% 20%, rgba(255, 255, 255, .6), transparent 50%),
+                radial-gradient(1px 1px at 50% 50%, rgba(255, 255, 255, .9), transparent 50%),
+                linear-gradient(180deg, #050816 0%, #0a0e27 50%, #131b3a 100%);
+            background-size: 15vmin 15vmin, 20vmin 20vmin, 18vmin 18vmin, 25vmin 25vmin, 16vmin 16vmin, 100% 100%;
+        }
+
+        .page-header {
+            position: fixed;
+            top: 4vmin;
+            left: 50%;
+            transform: translateX(-50%);
+            text-align: center;
+            z-index: 10;
+        }
+
+        .page-title {
+            font-size: 4.5vmin;
+            font-weight: 800;
+            letter-spacing: 0.6vmin;
+            text-transform: uppercase;
+        }
+
+        .page-title .white-part { color: #ffffff; }
+        .page-title .blue-part { color: #4da6ff; text-shadow: 0 0 2vmin rgba(77, 166, 255, 0.8); }
+
+        /* Большая планета в центре */
+        .planet-large-view {
+            position: fixed;
+            top: 45%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 25vmin;
+            height: 25vmin;
+            border-radius: 50%;
+            z-index: 10;
+        }
+
+        /* Заглушка описания */
+        .description-placeholder {
+            position: fixed;
+            bottom: 20vh;
+            left: 50%;
+            transform: translateX(-50%);
+            text-align: center;
+            z-index: 10;
+        }
+
+        .description-code {
+            font-size: 6vmin;
+            font-weight: 900;
+            color: #4da6ff;
+            text-shadow: 0 0 3vmin rgba(77, 166, 255, 0.8);
+            margin-bottom: 1vmin;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        .description-message {
+            font-size: 1.8vmin;
+            font-weight: 600;
+            color: #e8ecff;
+            text-transform: uppercase;
+            letter-spacing: 0.2vmin;
+            margin-bottom: 0.5vmin;
+        }
+
+        .description-subtext {
+            font-size: 1.2vmin;
+            color: #4a5480;
+            text-transform: uppercase;
+            letter-spacing: 0.1vmin;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.7; }
+            50% { opacity: 1; }
+        }
+
+        /* Кнопка назад */
+        .back-btn {
+            position: fixed;
+            bottom: 4vh;
+            left: 2vw;
+            width: 10vmin;
+            height: 10vmin;
+            border-radius: 50%;
+            border: 0.2vmin solid rgba(77, 166, 255, 0.8);
+            background: rgba(10, 15, 40, 0.7);
+            backdrop-filter: blur(1vmin);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 0.35vmin;
+            z-index: 20;
+            box-shadow: 0 0 1.5vmin rgba(77, 166, 255, 0.5), inset 0 0 1vmin rgba(77, 166, 255, 0.3);
+            transition: all 0.3s ease;
+            text-decoration: none;
+            color: inherit;
+            cursor: pointer;
+        }
+
+        .back-btn:hover {
+            border-color: #4da6ff;
+            box-shadow: 0 0 3vmin rgba(77, 166, 255, 0.8);
+            transform: scale(1.1);
+        }
+
+        .back-icon { font-size: 3vmin; filter: drop-shadow(0 0 0.8vmin rgba(77, 166, 255, 0.5)); }
+        .back-label { font-size: 1.1vmin; font-weight: 600; color: #e8ecff; text-transform: uppercase; text-align: center; }
+
+        .page-footer {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            text-align: center;
+            color: #4a5480;
+            font-size: 1.2vmin;
+            padding-bottom: 2vmin;
+            z-index: 10;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="stars"></div>
+
+    <header class="page-header">
+        <h1 class="page-title" id="page-title">
+            <span class="white-part">PLANET</span> <span class="blue-part">INFO</span>
+        </h1>
+    </header>
+
+    <!-- Большая планета -->
+    <div class="planet-large-view" id="planet-view"></div>
+
+    <!-- Заглушка описания -->
+    <div class="description-placeholder">
+        <div class="description-code">WIP</div>
+        <div class="description-message">PLANET DATA UNDER CONSTRUCTION</div>
+        <div class="description-subtext">Detailed planetary information coming soon</div>
+    </div>
+
+    <!-- Кнопка назад -->
+    <a href="#" class="back-btn" id="back-btn">
+        <span class="back-icon">⬅️</span>
+        <span class="back-label">SYSTEM</span>
+    </a>
+
+    <footer class="page-footer">
+        <div class="copyright">Evknopia © 2026</div>
+    </footer>
+
+    <script src="data.js"></script>
+    <script>
+        (function initAuth() {
+            const userDataStr = sessionStorage.getItem('currentUser');
+            if (!userDataStr) {
+                window.location.href = 'login.html';
+                return;
+            }
+            try { JSON.parse(userDataStr); } catch (e) { window.location.href = 'login.html'; }
+        })();
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const starKey = urlParams.get('star');
+            const planetKey = urlParams.get('planet');
+
+            const titleEl = document.getElementById('page-title');
+            const planetView = document.getElementById('planet-view');
+            const backBtn = document.getElementById('back-btn');
+
+            // Кнопка назад ведёт на star-system.html
+            if (starKey) {
+                backBtn.href = `star-system.html?star=${starKey}`;
+            } else {
+                backBtn.href = 'star-system.html';
+            }
+
+            // Ищем данные планеты
+            let planetData = null;
+            if (starKey && planetKey && window.starDatabase[starKey]) {
+                planetData = window.starDatabase[starKey].planetData.find(p => p.id === planetKey);
+            }
+
+            if (planetData) {
+                // Меняем заголовок
+                titleEl.innerHTML = `<span class="white-part">PLANET</span> <span class="blue-part">${planetData.name.toUpperCase()}</span>`;
+
+                // Рисуем большую планету (используем те же классы что и в нижней панели)
+                planetView.className = `planet-icon planet-${planetData.id} planet-large-view`;
+                planetView.style.setProperty('--p-color', planetData.color);
+            }
+        });
+    </script>
+</body>
+
+</html>
