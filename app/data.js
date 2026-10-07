@@ -50,7 +50,7 @@ window.sagittariusA = {
 
 window.starDatabase = {
   "sun": {
-    designation: "Sol (The Sun)",
+    designation: "Sol",
     classification: "G2V Yellow Dwarf",
     mass: "1.989 × 10³⁰ kg",
     distance: "0 ly (Our home star)",
@@ -74,7 +74,7 @@ window.starDatabase = {
   },
 
   "alpha-centauri": {
-    designation: "Alpha Centauri (Rigil Kentaurus)",
+    designation: "Alpha Centauri",
     classification: "G2V / K1V Binary Star System",
     mass: "2.2 M (Combined A & B)",
     distance: "4.37 ly",
@@ -105,8 +105,8 @@ window.starDatabase = {
     sphereClass: "sphere-epsilon",
     description: "A young orange dwarf star with a confirmed debris disk and two known planetary companions.",
     planetData: [
-      { id: "epsilon-b", name: "Epsilon Eridani b", emoji: "🪐", type: "Gas Giant", color: "#cc8844", size: "l", distance: "3.39 AU", description: "Confirmed Jupiter-like exoplanet in an eccentric orbit." },
-      { id: "epsilon-c", name: "Epsilon Eridani c", emoji: "", type: "Super-Earth", color: "#aa6633", size: "m", distance: "40 AU", description: "Candidate super-Earth in the outer system, near the debris belt." }
+      { id: "epsilon-eridani-b", name: "Epsilon Eridani b", emoji: "🪐", type: "Gas Giant", color: "#cc8844", size: "l", distance: "3.39 AU", description: "Confirmed Jupiter-like exoplanet in an eccentric orbit." },
+      { id: "epsilon-eridani-c", name: "Epsilon Eridani c", emoji: "", type: "Super-Earth", color: "#aa6633", size: "m", distance: "40 AU", description: "Candidate super-Earth in the outer system, near the debris belt." }
     ]
   },
 
@@ -123,15 +123,15 @@ window.starDatabase = {
     sphereClass: "sphere-tau",
     description: "One of the closest Sun-like stars. A prime target in the search for extraterrestrial life.",
     planetData: [
-      { id: "tau-e", name: "Tau Ceti e", emoji: "", type: "Super-Earth", color: "#d4a055", size: "m", distance: "0.552 AU", description: "Potentially habitable super-Earth near the inner edge of the Goldilocks zone." },
-      { id: "tau-f", name: "Tau Ceti f", emoji: "", type: "Super-Earth", color: "#b88c44", size: "m", distance: "1.35 AU", description: "Super-Earth candidate within the conservative habitable zone." },
-      { id: "tau-g", name: "Tau Ceti g", emoji: "", type: "Super-Earth", color: "#a07a33", size: "m", distance: "0.538 AU", description: "Innermost candidate planet, likely too hot for liquid water." },
-      { id: "tau-h", name: "Tau Ceti h", emoji: "", type: "Super-Earth", color: "#886622", size: "m", distance: "1.78 AU", description: "Outer candidate planet at the edge of the habitable zone." }
+      { id: "tau-ceti-e", name: "Tau Ceti e", emoji: "", type: "Super-Earth", color: "#d4a055", size: "m", distance: "0.552 AU", description: "Potentially habitable super-Earth near the inner edge of the Goldilocks zone." },
+      { id: "tau-ceti-f", name: "Tau Ceti f", emoji: "", type: "Super-Earth", color: "#b88c44", size: "m", distance: "1.35 AU", description: "Super-Earth candidate within the conservative habitable zone." },
+      { id: "tau-ceti-g", name: "Tau Ceti g", emoji: "", type: "Super-Earth", color: "#a07a33", size: "m", distance: "0.538 AU", description: "Innermost candidate planet, likely too hot for liquid water." },
+      { id: "tau-ceti-h", name: "Tau Ceti h", emoji: "", type: "Super-Earth", color: "#886622", size: "m", distance: "1.78 AU", description: "Outer candidate planet at the edge of the habitable zone." }
     ]
   },
 
   "teegarden": {
-    designation: "Teegarden's Star",
+    designation: "Teegarden's",
     classification: "M7V Red Dwarf",
     mass: "0.089 M☉",
     distance: "12.5 ly",
@@ -161,13 +161,13 @@ window.starDatabase = {
     sphereClass: "sphere-trappist",
     description: "The most famous compact planetary system. Seven Earth-sized worlds packed closely together.",
     planetData: [
-      { id: "trappist-b", name: "TRAPPIST-1b", emoji: "", type: "Terrestrial", color: "#dd5555", size: "s", distance: "0.011 AU", description: "Innermost planet. Likely tidally locked with scorching dayside." },
-      { id: "trappist-c", name: "TRAPPIST-1c", emoji: "", type: "Terrestrial", color: "#cc4444", size: "s", distance: "0.016 AU", description: "Rocky world receiving twice the radiation Earth gets from the Sun." },
-      { id: "trappist-d", name: "TRAPPIST-1d", emoji: "", type: "Terrestrial", color: "#bb3333", size: "s", distance: "0.022 AU", description: "Lightest planet in the system. Possibly has a thin atmosphere." },
-      { id: "trappist-e", name: "TRAPPIST-1e", emoji: "", type: "Terrestrial", color: "#aa2222", size: "s", distance: "0.029 AU", description: "Most likely to be habitable. Receives similar energy flux to Earth." },
-      { id: "trappist-f", name: "TRAPPIST-1f", emoji: "", type: "Terrestrial", color: "#992222", size: "s", distance: "0.038 AU", description: "Cold terrestrial world. May harbor subsurface oceans under ice." },
-      { id: "trappist-g", name: "TRAPPIST-1g", emoji: "", type: "Terrestrial", color: "#881111", size: "s", distance: "0.046 AU", description: "Largest planet in the system. Potentially icy with a thick atmosphere." },
-      { id: "trappist-h", name: "TRAPPIST-1h", emoji: "", type: "Terrestrial", color: "#770000", size: "xs", distance: "0.062 AU", description: "Outermost planet. Frozen world beyond the traditional habitable zone." }
+      { id: "trappist-1b", name: "TRAPPIST-1b", emoji: "", type: "Terrestrial", color: "#dd5555", size: "s", distance: "0.011 AU", description: "Innermost planet. Likely tidally locked with scorching dayside." },
+      { id: "trappist-1c", name: "TRAPPIST-1c", emoji: "", type: "Terrestrial", color: "#cc4444", size: "s", distance: "0.016 AU", description: "Rocky world receiving twice the radiation Earth gets from the Sun." },
+      { id: "trappist-1d", name: "TRAPPIST-1d", emoji: "", type: "Terrestrial", color: "#bb3333", size: "s", distance: "0.022 AU", description: "Lightest planet in the system. Possibly has a thin atmosphere." },
+      { id: "trappist-1e", name: "TRAPPIST-1e", emoji: "", type: "Terrestrial", color: "#aa2222", size: "s", distance: "0.029 AU", description: "Most likely to be habitable. Receives similar energy flux to Earth." },
+      { id: "trappist-1f", name: "TRAPPIST-1f", emoji: "", type: "Terrestrial", color: "#992222", size: "s", distance: "0.038 AU", description: "Cold terrestrial world. May harbor subsurface oceans under ice." },
+      { id: "trappist-1g", name: "TRAPPIST-1g", emoji: "", type: "Terrestrial", color: "#881111", size: "s", distance: "0.046 AU", description: "Largest planet in the system. Potentially icy with a thick atmosphere." },
+      { id: "trappist-1h", name: "TRAPPIST-1h", emoji: "", type: "Terrestrial", color: "#770000", size: "xs", distance: "0.062 AU", description: "Outermost planet. Frozen world beyond the traditional habitable zone." }
     ]
   }
 };

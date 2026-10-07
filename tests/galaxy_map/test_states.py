@@ -11,7 +11,7 @@ from tests import data
 @pytest.mark.regress
 @pytest.mark.galaxy_map
 @pytest.mark.states
-def test_galaxy_title_validation(galaxe_map_page):
+def test_galaxy_title_validation(galaxy_map_page):
     """
     Сценарий:
     1. Перейти на страницу 'Galaxy map Page'.
@@ -19,8 +19,8 @@ def test_galaxy_title_validation(galaxe_map_page):
     """
 
     # ✅ ASSERT
-    galaxe_map_page.verify_text(
-        element=galaxe_map_page.galaxy_title, expected_text=data.GALAXY_TITLE
+    galaxy_map_page.verify_text(
+        element=galaxy_map_page.galaxy_title, expected_text=data.GALAXY_TITLE
     )
 
 
@@ -31,7 +31,7 @@ def test_galaxy_title_validation(galaxe_map_page):
 @pytest.mark.regress
 @pytest.mark.galaxy_map
 @pytest.mark.states
-def test_telemetry_string_validation(galaxe_map_page):
+def test_telemetry_string_validation(galaxy_map_page):
     """
     Сценарий:
     1. Перейти на страницу 'Galaxy map Page'.
@@ -39,7 +39,7 @@ def test_telemetry_string_validation(galaxe_map_page):
     """
 
     # ✅ ASSERT
-    galaxe_map_page.verify_telemetry_text(
+    galaxy_map_page.verify_telemetry_text(
         expected_text=data.GREEN_TELEMETRY_SELECT_STAR_SYSTEM_AURORA
     )
 

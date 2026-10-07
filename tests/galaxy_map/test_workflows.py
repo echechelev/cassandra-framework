@@ -11,7 +11,7 @@ from tests import data
 @pytest.mark.regress
 @pytest.mark.galaxy_map
 @pytest.mark.workflows
-def test_full_system_exploration_cycle_with_return(galaxe_map_page):
+def test_full_system_exploration_cycle_with_return(galaxy_map_page):
     """
     Сценарий:
     1. Перейти на страницу 'Galaxy map Page'.
@@ -25,19 +25,19 @@ def test_full_system_exploration_cycle_with_return(galaxe_map_page):
     """
 
     # ⚡ ACT
-    galaxe_map_page.click_star(galaxe_map_page.sun_btn)
+    galaxy_map_page.click_star(galaxy_map_page.sun_btn)
 
     # ✅ ASSERT
-    galaxe_map_page.wait_for_url(data.STAR_SUN_URL)
+    galaxy_map_page.wait_for_url(data.STAR_SYSTEM_URL['sun'])
 
     # ⚡ ACT
-    galaxe_map_page.click_galaxy_map()
+    galaxy_map_page.click_galaxy_map()
 
     # ✅ ASSERT
-    galaxe_map_page.wait_for_url(data.GALAXY_MAP_URL)
-    galaxe_map_page.verify_text(
-        element=galaxe_map_page.galaxy_title, expected_text=data.GALAXY_TITLE
+    galaxy_map_page.wait_for_url(data.GALAXY_MAP_URL)
+    galaxy_map_page.verify_text(
+        element=galaxy_map_page.galaxy_title, expected_text=data.GALAXY_TITLE
     )
-    galaxe_map_page.verify_telemetry_text(
+    galaxy_map_page.verify_telemetry_text(
         expected_text=data.GREEN_TELEMETRY_SELECT_STAR_SYSTEM_AURORA
     )

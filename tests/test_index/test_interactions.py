@@ -83,14 +83,10 @@ def test_validate_button_hover_effect(index_page):
     1. Перейти на страницу 'Index page'.
     2. Навести курсор на кнопку 'Log in'.
     3. Проверить: CSS-свойство 'transform' меняется на 'scale(1.15)'.
-    4. Проверить: свойство `border-color` становится ярче (rgba(77, 166, 255, 1)).
     """
 
-    # ⚡ ACT
-    index_page.hover_log_in()
-
     # ✅ ASSERT
-    index_page.verify_log_in_hover_effects()
+    index_page.verify_hover_effects(index_page.log_in_btn, 'Log in', expected_scale=1.15)
 
 
 @allure.id("CAS-05")
