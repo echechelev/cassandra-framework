@@ -11,6 +11,7 @@ from pages.galaxy_map import GalaxyMapPage
 from pages.index import IndexPage
 from pages.login import LoginPage
 from pages.signup import SignupPage
+from pages.star_info import StarInfoPage
 from pages.star_system import StarSystemPage
 from tests import data
 
@@ -22,7 +23,7 @@ CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
 APP_DIR = os.path.abspath(os.path.join(CURRENT_DIR, "..", "app"))
 SAFE_DIR = APP_DIR.replace("\\", "/")
 BASE_URL = os.getenv("CASSANDRA_URL", f"file:///{SAFE_DIR}/")
-SHOW_BROWSER = os.getenv("SHOW_BROWSER", "false").lower() == "true"
+SHOW_BROWSER = os.getenv("SHOW_BROWSER", "False").lower() == "true"
 
 
 @pytest.fixture(scope="function", autouse=True)
@@ -140,6 +141,27 @@ def star_system(galaxy_map_page):
         
         return StarSystemPage()
         
+    return _factory
+
+@pytest.fixture
+def star_info_page(dashboard_page_aurora):
+    """
+    Фабрика страниц Star Info.
+    1. Логинится под Авророй.
+    2. Пропускает аплинк и обновляет страницу.
+    3. Открывает Star Info по переданному URL из data.
+    
+    Args:
+        url_path: Путь к странице (например, data.STAR_INFO_URL['sun']).
+        expect_redirect: Если True, метод open не будет ждать отрисовки 
+                         tech-panel (используется для тестов редиректа).
+    """
+    dashboard_page_aurora.fast_forward_uplink()
+    dashboard_page_aurora.click_refresh_page()
+
+    def _factory(url_path: str, expect_redirect: bool = False) -> StarInfoPage:
+        return StarInfoPage().open(url_path, expect_redirect=expect_redirect)
+
     return _factory
 
 # ========================================================================

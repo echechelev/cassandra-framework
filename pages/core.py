@@ -21,6 +21,7 @@ class CorePage:
     dashboard_btn = browser.element('[data-wm-id="nav-dashboard-btn"]')
     cis_index_table_btn = browser.element('[data-wm-id="nav-cis-index-table-btn"]')
     galaxy_map_btn = browser.element('[data-wm-id="nav-galaxy-map-btn"]')
+    star_system_btn = browser.element('[data-wm-id="nav-star-system-btn"]')
 
     # Служебные элементы 
     system_telemetry = browser.element('[data-wm-id="system-telemetry"]')
@@ -237,6 +238,25 @@ class CorePage:
             except TimeoutException:
                 raise AssertionError(
                     "❌ Galaxy Map button not found or not clickable!\n"
+                    "   Timeout: button did not appear in time"
+                )
+            except Exception as e:
+                raise AssertionError(
+                    f"❌ Unexpected error while clicking Restore!\n"
+                    f"   Error: {e}"
+                ) from e
+        return self
+
+    @allure.step("Нажатие кнопки Star-System")
+    def click_star_system(self):
+        """Нажимает кнопку звездная система."""
+        with allure.step("Кликаем по кнопке Star System"):
+            try:
+                self.star_system_btn.should(be.visible).should(be.enabled)
+                self.star_system_btn.click()
+            except TimeoutException:
+                raise AssertionError(
+                    "❌ Star System button not found or not clickable!\n"
                     "   Timeout: button did not appear in time"
                 )
             except Exception as e:
