@@ -63,7 +63,7 @@ def test_successful_navigation_to_black_hole(galaxy_map_page):
     galaxy_map_page.click_black_hole()
 
     # ✅ ASSERT
-    galaxy_map_page.wait_for_url_strict('star-info.html?star=black-hole')
+    galaxy_map_page.wait_for_url_strict('star-info.html?star=sagittarius-a')
 
 
 @allure.id("CAS-01-CAS-07")
