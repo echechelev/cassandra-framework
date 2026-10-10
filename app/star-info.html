@@ -3,10 +3,23 @@
 
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
     <link rel="icon" type="image/png" href="favicon.png">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cassandra — Star Info</title>
     <style>
+        :root {
+            --corner-btn-size: 10vmin;
+            --corner-btn-border: 0.2vmin;
+            --corner-btn-gap: 0.35vmin;
+            --corner-icon-size: 3vmin;
+            --corner-label-size: 1.1vmin;
+            --corner-btn-offset-v: 4vh;
+            --corner-btn-offset-h: 2vw;
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -25,20 +38,27 @@
         .stars {
             position: fixed;
             inset: 0;
-            z-index: -3;
-            background: radial-gradient(1px 1px at 10% 10%, rgba(255, 255, 255, .9), transparent 50%),
+            z-index: -2;
+            background:
+                radial-gradient(1px 1px at 10% 10%, rgba(255, 255, 255, .9), transparent 50%),
                 radial-gradient(1.5px 1.5px at 20% 30%, rgba(255, 255, 255, .7), transparent 50%),
                 radial-gradient(1px 1px at 30% 70%, rgba(255, 255, 255, .8), transparent 50%),
                 radial-gradient(2px 2px at 40% 20%, rgba(255, 255, 255, .6), transparent 50%),
                 radial-gradient(1px 1px at 50% 50%, rgba(255, 255, 255, .9), transparent 50%),
+                radial-gradient(1.5px 1.5px at 60% 80%, rgba(255, 255, 255, .7), transparent 50%),
+                radial-gradient(1px 1px at 70% 40%, rgba(255, 255, 255, .8), transparent 50%),
+                radial-gradient(2px 2px at 80% 90%, rgba(255, 255, 255, .5), transparent 50%),
+                radial-gradient(1px 1px at 90% 15%, rgba(255, 255, 255, .9), transparent 50%),
                 linear-gradient(180deg, #050816 0%, #0a0e27 50%, #131b3a 100%);
-            background-size: 15vmin 15vmin, 20vmin 20vmin, 18vmin 18vmin, 25vmin 25vmin, 16vmin 16vmin, 100% 100%;
+            background-size: 15vmin 15vmin, 20vmin 20vmin, 18vmin 18vmin, 25vmin 25vmin,
+                16vmin 16vmin, 22vmin 22vmin, 19vmin 19vmin, 28vmin 28vmin,
+                17vmin 17vmin, 100% 100%;
         }
 
         .milkyway {
             position: fixed;
             inset: 0;
-            z-index: -2;
+            z-index: -1;
             overflow: hidden;
             pointer-events: none;
         }
@@ -50,57 +70,56 @@
             width: 280vmax;
             height: 25vmin;
             transform: translate(-50%, -50%) rotate(-28deg);
-            background: linear-gradient(180deg, transparent, rgba(120, 160, 255, .08) 15%, rgba(190, 215, 255, .18) 35%, rgba(255, 255, 255, .25) 50%, rgba(190, 215, 255, .18) 65%, rgba(120, 160, 255, .08) 85%, transparent);
+            background: linear-gradient(180deg,
+                    transparent,
+                    rgba(120, 160, 255, .08) 15%,
+                    rgba(190, 215, 255, .18) 35%,
+                    rgba(255, 255, 255, .25) 50%,
+                    rgba(190, 215, 255, .18) 65%,
+                    rgba(120, 160, 255, .08) 85%,
+                    transparent);
             filter: blur(1.5vmin);
         }
 
-        .page-header {
+        .black-hole-wrapper {
             position: fixed;
-            top: 4vmin;
-            left: 50%;
-            transform: translateX(-50%);
-            text-align: center;
-            z-index: 10;
-        }
-
-        .page-title {
-            font-size: 4.5vmin;
-            font-weight: 800;
-            letter-spacing: 0.6vmin;
-            text-transform: uppercase;
-        }
-
-        .page-title .white-part { color: #ffffff; }
-        .page-title .blue-part { color: #4da6ff; text-shadow: 0 0 2vmin rgba(77, 166, 255, 0.8); }
-
-        /* Контейнер для объекта в центре */
-        .center-object-wrapper {
-            position: fixed;
-            top: 45%; /* Чуть выше, чтобы освободить место для текста внизу */
+            top: 47%;
             left: 50%;
             transform: translate(-50%, -50%);
-            width: 50vmin;
-            height: 50vmin;
+            width: 0;
+            height: 0;
             z-index: 25;
+            perspective: 100vmin;
+        }
+
+        .black-hole-link {
+            text-decoration: none;
+            display: block;
+            pointer-events: none;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .black-hole-container {
+            position: relative;
+            width: 38vmin;
+            height: 38vmin;
             display: flex;
             align-items: center;
             justify-content: center;
+            transform-style: preserve-3d;
         }
 
-        .center-object-container {
-            position: relative;
-            width: 35vmin;
-            height: 35vmin;
-        }
-
-        .center-object {
+        .black-hole {
             position: relative;
             width: 100%;
             height: 100%;
             border-radius: 50%;
+            transform-style: preserve-3d;
         }
 
-        /* Стили для Черной Дыры */
         .event-horizon {
             position: absolute;
             top: 50%;
@@ -108,9 +127,64 @@
             transform: translate(-50%, -50%);
             width: 45%;
             height: 45%;
-            background: #000000;
+            background: radial-gradient(circle at 35% 35%, rgba(26, 26, 46, 0.7) 0%, rgba(10, 10, 21, 0.8) 40%, rgba(5, 8, 22, 0.85) 100%);
+            backdrop-filter: blur(0.8vmin);
+            -webkit-backdrop-filter: blur(0.8vmin);
+            box-shadow:
+                inset 0 0 4vmin rgba(0, 0, 0, 0.9),
+                0 0 2vmin rgba(77, 166, 255, 0.15),
+                0 0 4vmin rgba(138, 43, 226, 0.1);
             border-radius: 50%;
-            box-shadow: 0 0 0 0.3vmin #000000, 0 0 1.5vmin rgba(0, 0, 0, 1);
+            cursor: pointer;
+            pointer-events: auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            z-index: 10;
+        }
+
+        .black-hole-glow-ring {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 42vmin;
+            height: 42vmin;
+            border-radius: 50%;
+            border: 0.2vmin solid rgba(77, 166, 255, 0.6);
+            box-shadow:
+                0 0 0.5vmin rgba(77, 166, 255, 0.3),
+                inset 0 0 0.5vmin rgba(77, 166, 255, 0.2),
+                0 0 1.5vmin rgba(77, 166, 255, 0.4);
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .event-horizon::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.04) 0%, transparent 60%);
+            animation: rotate-disk 60s linear infinite;
+            pointer-events: none;
+        }
+
+        .photon-ring-inner {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 52%;
+            height: 52%;
+            border-radius: 50%;
+            background: transparent;
+            box-shadow: 0 0 1vmin rgba(255, 140, 60, 0.4), inset 0 0 1vmin rgba(255, 100, 40, 0.3);
+            filter: blur(0.5vmin);
+            z-index: 9;
         }
 
         .photon-ring-main {
@@ -118,208 +192,1178 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            width: 70%;
-            height: 70%;
+            width: 58%;
+            height: 58%;
             border-radius: 50%;
             background: transparent;
-            box-shadow: 0 0 2vmin rgba(255, 120, 50, 0.6), 0 0 4vmin rgba(255, 100, 40, 0.4);
+            box-shadow: 0 0 2vmin rgba(255, 120, 50, 0.6), 0 0 4vmin rgba(255, 100, 40, 0.4), 0 0 6vmin rgba(255, 80, 30, 0.2);
             filter: blur(1vmin);
+            animation: photon-pulse 4s ease-in-out infinite;
+            z-index: 8;
+        }
+
+        .gravity-glow-outer {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 90%;
+            height: 90%;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(255, 140, 60, 0.1) 0%, rgba(255, 100, 50, 0.05) 40%, transparent 70%);
+            filter: blur(1.5vmin);
+            animation: gravity-pulse 5s ease-in-out infinite;
         }
 
         .accretion-disk {
             position: absolute;
             top: 50%;
             left: 50%;
-            transform: translate(-50%, -50%);
-            width: 100%;
-            height: 35%;
-            background: radial-gradient(ellipse at center, rgba(255, 200, 100, 0.4) 0%, rgba(255, 150, 70, 0.6) 30%, rgba(255, 100, 50, 0.5) 50%, rgba(255, 150, 70, 0.6) 70%, rgba(255, 200, 100, 0.4) 100%);
+            transform: translate(-50%, -50%) rotateX(75deg);
+            width: 110%;
+            height: 110%;
+            background: radial-gradient(circle, transparent 35%, rgba(255, 150, 70, 0.6) 40%, rgba(255, 100, 50, 0.4) 50%, rgba(255, 150, 70, 0.2) 60%, transparent 70%);
             border-radius: 50%;
-            filter: blur(0.8vmin);
+            filter: blur(0.5vmin);
+            transform-style: preserve-3d;
         }
 
-        /* Стили для Звезды */
-        .star-sphere {
+        .lensing-arc-top {
             position: absolute;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            width: 45%;
-            height: 45%;
-            border-radius: 50%;
+            width: 50%;
+            height: 25%;
+            background: linear-gradient(180deg, transparent 0%, rgba(255, 150, 70, 0.4) 50%, transparent 100%);
+            border-radius: 50% 50% 0 0;
+            filter: blur(0.6vmin);
+            animation: lensing-pulse 6s ease-out infinite;
+            z-index: 5;
         }
 
-        .star-sphere.sun { background: radial-gradient(circle at 30% 30%, #fff5b0, #ffcc00, #ff8800); box-shadow: 0 0 4vmin rgba(255, 200, 0, 0.8), 0 0 8vmin rgba(255, 150, 0, 0.4); }
-        .star-sphere.alpha { background: radial-gradient(circle at 30% 30%, #ffffff, #ffe066, #ffaa00); box-shadow: 0 0 4vmin rgba(255, 255, 220, 0.9), 0 0 8vmin rgba(255, 200, 100, 0.5); }
-        .star-sphere.epsilon { background: radial-gradient(circle at 30% 30%, #ffcc66, #ff8800, #cc5500); box-shadow: 0 0 4vmin rgba(255, 136, 0, 0.7); }
-        .star-sphere.tau { background: radial-gradient(circle at 30% 30%, #fff0b3, #ffdb4d, #e6b800); box-shadow: 0 0 4vmin rgba(255, 219, 77, 0.7); }
-        .star-sphere.teegarden { background: radial-gradient(circle at 30% 30%, #ff6666, #cc0000, #660000); box-shadow: 0 0 4vmin rgba(204, 0, 0, 0.8), 0 0 8vmin rgba(150, 0, 0, 0.4); }
-        .star-sphere.trappist { background: radial-gradient(circle at 30% 30%, #ff4444, #aa0000, #550000); box-shadow: 0 0 4vmin rgba(200, 0, 0, 0.8), 0 0 8vmin rgba(100, 0, 0, 0.5); }
-
-        /* Заглушка "В разработке" */
-        .construction-status {
-            position: fixed;
-            bottom: 18vh;
+        .lensing-arc-bottom {
+            position: absolute;
+            top: 50%;
             left: 50%;
-            transform: translateX(-50%);
+            transform: translate(-50%, -50%);
+            width: 50%;
+            height: 25%;
+            background: linear-gradient(0deg, transparent 0%, rgba(255, 150, 70, 0.4) 50%, transparent 100%);
+            border-radius: 0 0 50% 50%;
+            filter: blur(0.6vmin);
+            animation: lensing-pulse 6s ease-out infinite 3s;
+            z-index: 5;
+        }
+
+        @keyframes photon-pulse {
+
+            0%,
+            100% {
+                opacity: 0.7;
+            }
+
+            50% {
+                opacity: 1;
+            }
+        }
+
+        @keyframes gravity-pulse {
+
+            0%,
+            100% {
+                opacity: 0.4;
+                transform: translate(-50%, -50%) scale(1);
+            }
+
+            50% {
+                opacity: 0.7;
+                transform: translate(-50%, -50%) scale(1.05);
+            }
+        }
+
+        @keyframes rotate-disk {
+            from {
+                transform: translate(-50%, -50%) rotate(0deg);
+            }
+
+            to {
+                transform: translate(-50%, -50%) rotate(360deg);
+            }
+        }
+
+        @keyframes lensing-pulse {
+            0% {
+                opacity: 0.3;
+            }
+
+            50% {
+                opacity: 0.6;
+            }
+
+            100% {
+                opacity: 0.3;
+            }
+        }
+
+        .login-footer {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
             text-align: center;
-            z-index: 10;
-        }
-
-        .construction-code {
-            font-size: 8vmin;
-            font-weight: 900;
-            color: #4da6ff;
-            text-shadow: 0 0 3vmin rgba(77, 166, 255, 0.8);
-            margin-bottom: 1vmin;
-            animation: pulse 2s ease-in-out infinite;
-        }
-
-        .construction-message {
-            font-size: 2vmin;
-            font-weight: 600;
-            color: #e8ecff;
-            text-transform: uppercase;
-            letter-spacing: 0.2vmin;
-            margin-bottom: 0.5vmin;
-        }
-
-        .construction-subtext {
-            font-size: 1.2vmin;
             color: #4a5480;
+            font-size: 1.2vmin;
+            letter-spacing: 0.1vmin;
+            padding-bottom: 2vmin;
+        }
+
+        .copyright {
+            margin-top: 4vmin;
+            font-size: 1.4vmin;
+            letter-spacing: 0.15vmin;
+            color: #5a6488;
+        }
+
+        .telemetry {
+            color: #4da6ff;
+            font-family: 'Courier New', monospace;
+            margin-bottom: 0.8vmin;
+            font-size: 1.3vmin;
             text-transform: uppercase;
             letter-spacing: 0.1vmin;
+            text-shadow: 0 0 0.8vmin rgba(77, 166, 255, 0.4);
+            min-height: 2vmin;
         }
 
-        @keyframes pulse {
-            0%, 100% { opacity: 0.7; }
-            50% { opacity: 1; }
+        .telemetry-cassan {
+            color: #ffffff !important;
         }
 
-        /* Кнопка назад */
-        .back-btn {
+        .telemetry-dra {
+            color: #4da6ff !important;
+            text-shadow: 0 0 0.6vmin rgba(77, 166, 255, 0.6) !important;
+        }
+
+        .telemetry::after {
+            content: "█";
+            animation: blink 1s step-end infinite;
+            margin-left: 0.4vmin;
+        }
+
+        @keyframes blink {
+            50% {
+                opacity: 0;
+            }
+        }
+
+        .dashboard-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            width: 100%;
+            padding-top: 58vh;
+            box-sizing: border-box;
+            gap: 5vh;
+        }
+
+        .corner-circle-btn {
             position: fixed;
-            bottom: 4vh;
-            left: 2vw;
-            width: 10vmin;
-            height: 10vmin;
+            width: var(--corner-btn-size);
+            height: var(--corner-btn-size);
             border-radius: 50%;
-            border: 0.2vmin solid rgba(77, 166, 255, 0.8);
+            border: var(--corner-btn-border) solid rgba(77, 166, 255, 0.6);
             background: rgba(10, 15, 40, 0.7);
             backdrop-filter: blur(1vmin);
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            gap: 0.35vmin;
-            z-index: 20;
-            box-shadow: 0 0 1.5vmin rgba(77, 166, 255, 0.5), inset 0 0 1vmin rgba(77, 166, 255, 0.3);
+            gap: var(--corner-btn-gap);
+            z-index: 10;
+            box-shadow: 0 0 0.5vmin rgba(77, 166, 255, 0.3), inset 0 0 0.5vmin rgba(77, 166, 255, 0.2), 0 0 1.5vmin rgba(77, 166, 255, 0.4);
             transition: all 0.3s ease;
-            text-decoration: none;
-            color: inherit;
             cursor: pointer;
+            padding: 0;
+            text-align: center;
         }
 
-        .back-btn:hover {
-            border-color: #4da6ff;
-            box-shadow: 0 0 3vmin rgba(77, 166, 255, 0.8);
+        .corner-circle-btn:hover {
+            border-color: rgba(77, 166, 255, 1);
+            box-shadow: 0 0 1vmin rgba(77, 166, 255, 0.6), inset 0 0 1vmin rgba(77, 166, 255, 0.4), 0 0 3vmin rgba(77, 166, 255, 0.8);
+        }
+
+        .corner-circle-btn.bottom-left {
+            bottom: var(--corner-btn-offset-v);
+            left: var(--corner-btn-offset-h);
+        }
+
+        .corner-circle-btn.bottom-right {
+            bottom: var(--corner-btn-offset-v);
+            right: var(--corner-btn-offset-h);
+        }
+
+        .corner-circle-btn.top-left {
+            top: var(--corner-btn-offset-v);
+            left: var(--corner-btn-offset-h);
+        }
+
+        .corner-circle-btn.top-right {
+            top: var(--corner-btn-offset-v);
+            right: var(--corner-btn-offset-h);
+        }
+
+        .corner-icon {
+            font-size: var(--corner-icon-size);
+            line-height: 1;
+            filter: drop-shadow(0 0 0.8vmin rgba(77, 166, 255, 0.5));
+        }
+
+        .corner-label {
+            font-size: var(--corner-label-size);
+            font-weight: 600;
+            text-align: center;
+            line-height: 1.2;
+            color: #e8ecff;
+            text-transform: uppercase;
+            letter-spacing: 0.05vmin;
+        }
+
+        .bottom-left:hover,
+        .bottom-right:hover {
+            transform: scale(1.15);
+            border-color: rgba(77, 166, 255, 1);
+            box-shadow: 0 0 1vmin rgba(77, 166, 255, 0.6), inset 0 0 1vmin rgba(77, 166, 255, 0.4), 0 0 3vmin rgba(77, 166, 255, 0.8);
+            cursor: pointer;
+            transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        .bottom-left:active,
+        .bottom-right:active {
             transform: scale(1.1);
         }
 
-        .back-icon { font-size: 3vmin; filter: drop-shadow(0 0 0.8vmin rgba(77, 166, 255, 0.5)); }
-        .back-label { font-size: 1.1vmin; font-weight: 600; color: #e8ecff; text-transform: uppercase; text-align: center; }
+        .top-right .corner-icon {
+            margin-top: -1.3vmin;
+            margin-bottom: 0.4vmin;
+        }
 
-        .page-footer {
-            position: fixed;
-            bottom: 0;
-            width: 100%;
-            text-align: center;
-            color: #4a5480;
+        .top-right .corner-label {
+            color: #2ecc71 !important;
+            text-shadow: 0 0 0.8vmin rgba(46, 204, 113, 0.5) !important;
+        }
+
+        .top-left .corner-label,
+        .bottom-left .corner-label,
+        .bottom-right .corner-label {
+            color: #ffffff !important;
+            text-shadow: none !important;
+        }
+
+        .top-left .corner-icon {
+            margin-top: -1.3vmin;
+            margin-bottom: 0.4vmin;
+        }
+
+        .top-left .corner-label {
+            margin-top: 0.4vmin;
+        }
+
+        .bottom-right .corner-icon {
+            margin-top: -1.3vmin;
+            margin-bottom: 0.4vmin;
+        }
+
+        .bottom-right .corner-label {
+            margin-top: 0.4vmin;
+        }
+
+        .bottom-left .corner-icon {
+            margin-top: -1.3vmin;
+            margin-bottom: 0.4vmin;
+        }
+
+        .bottom-left .corner-label {
+            margin-top: 0.4vmin;
+        }
+
+        .top-left,
+        .top-right {
+            cursor: default;
+            border: var(--corner-btn-border) solid rgba(77, 166, 255, 0.6);
+            box-shadow: 0 0 0.5vmin rgba(77, 166, 255, 0.3), inset 0 0 0.5vmin rgba(77, 166, 255, 0.2), 0 0 1.5vmin rgba(77, 166, 255, 0.4);
+            transition: all 0.3s ease;
+        }
+
+        .top-left:hover,
+        .top-right:hover {
+            border-color: rgba(77, 166, 255, 0.8);
+            box-shadow: 0 0 1.5vmin rgba(77, 166, 255, 0.4), inset 0 0 1.5vmin rgba(77, 166, 255, 0.2);
+            transform: none !important;
+        }
+
+        .info-tooltip {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(10, 15, 30, 0.95);
+            border: 0.1vmin solid #4da6ff;
+            border-radius: 0.5vmin;
+            padding: 1.2vmin 1.8vmin;
             font-size: 1.2vmin;
-            padding-bottom: 2vmin;
+            color: #e8ecff;
+            min-width: 14vw;
+            max-width: 18vw;
+            white-space: normal;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            pointer-events: none;
+            z-index: 100;
+            box-shadow: 0 0 1.5vmin rgba(77, 166, 255, 0.5);
+            text-align: left;
+            line-height: 1.6;
+        }
+
+        .top-left .info-tooltip {
+            left: 115%;
+            transform: translateY(-50%);
+        }
+
+        .top-right .info-tooltip {
+            right: 115%;
+            left: auto;
+            transform: translateY(-50%);
+        }
+
+        .top-left:hover .info-tooltip,
+        .top-right:hover .info-tooltip {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .top-left:hover .info-tooltip {
+            transform: translateY(-50%) translateX(0.5vmin);
+        }
+
+        .top-right:hover .info-tooltip {
+            transform: translateY(-50%) translateX(-0.5vmin);
+        }
+
+        .info-tooltip .tooltip-title {
+            color: #4da6ff;
+            font-weight: bold;
+            margin-bottom: 0.5vmin;
+            border-bottom: 0.1vmin solid rgba(77, 166, 255, 0.3);
+            padding-bottom: 0.3vmin;
+            letter-spacing: 0.1vmin;
+        }
+
+        .top-right .info-tooltip,
+        .top-left .info-tooltip {
+            width: 8vw;
+            min-width: 6vw;
+            max-width: 10vw;
+        }
+
+        .top-right .info-tooltip {
+            text-align: right;
+        }
+
+        .panel-online {
+            border-color: rgba(77, 166, 255, 0.8) !important;
+            box-shadow: 0 0 1.5vmin rgba(77, 166, 255, 0.5), inset 0 0 1vmin rgba(77, 166, 255, 0.3) !important;
+            background: rgba(10, 15, 40, 0.7) !important;
+            pointer-events: auto !important;
+            cursor: pointer !important;
+            filter: none !important;
+            opacity: 1 !important;
+            transition: all 0.8s ease-in-out;
+        }
+
+        .panel-online .corner-icon,
+        .panel-online .corner-label,
+        .panel-online .status-dot {
+            filter: none !important;
+        }
+
+        .cassandra-logo {
+            cursor: default !important;
+            pointer-events: none !important;
+            transform: none !important;
+            opacity: 0.55 !important;
+            filter: brightness(0.7) !important;
+        }
+
+        .cassandra-logo:hover,
+        .cassandra-logo:active {
+            transform: none !important;
+            opacity: 0.7 !important;
+            filter: brightness(0.7) !important;
+            border-color: rgba(77, 166, 255, 0.3) !important;
+            box-shadow: 0 0 0.3vmin rgba(77, 166, 255, 0.15), inset 0 0 0.3vmin rgba(77, 166, 255, 0.1) !important;
+        }
+
+        .cassandra-label {
+            font-size: 1.3vmin !important;
+            letter-spacing: 0.05vmin;
+            display: flex;
+            gap: 0.1vmin;
+        }
+
+        .cassandra-label .cassan {
+            color: #ffffff !important;
+            text-shadow: 0 0 0.5vmin rgba(255, 255, 255, 0.5);
+        }
+
+        .cassandra-label .dra {
+            color: #4da6ff !important;
+            text-shadow: 0 0 0.8vmin rgba(77, 166, 255, 0.8);
+        }
+
+        .info-panel {
+            position: fixed;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 26vw;
+            max-width: 360px;
+            min-height: 55vh;
+            background: rgba(5, 10, 30, 0.85);
+            backdrop-filter: blur(2vmin);
+            border: 0.1vmin solid rgba(77, 166, 255, 0.3);
+            border-radius: 0.8vmin;
+            padding: 2.5vmin;
+            z-index: 20;
+            box-shadow: 0 0 2vmin rgba(77, 166, 255, 0.2), inset 0 0 1vmin rgba(77, 166, 255, 0.05);
+            display: flex;
+            flex-direction: column;
+            animation: panelAppear 0.8s ease-out;
+        }
+
+        @keyframes panelAppear {
+            from {
+                opacity: 0;
+                transform: translateY(-50%) translateX(-2vmin);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(-50%) translateX(0);
+            }
+        }
+
+        .info-panel-left {
+            left: 3vw;
+        }
+
+        .info-panel-left::before,
+        .info-panel-left::after {
+            content: '';
+            position: absolute;
+            width: 1.5vmin;
+            height: 1.5vmin;
+            border: 0.15vmin solid rgba(77, 166, 255, 0.8);
+        }
+
+        .info-panel-left::before {
+            top: -0.1vmin;
+            left: -0.1vmin;
+            border-right: none;
+            border-bottom: none;
+        }
+
+        .info-panel-left::after {
+            bottom: -0.1vmin;
+            right: -0.1vmin;
+            border-left: none;
+            border-top: none;
+        }
+
+        .info-panel-right {
+            right: 3vw;
+        }
+
+        .info-panel-right::before,
+        .info-panel-right::after {
+            content: '';
+            position: absolute;
+            width: 1.5vmin;
+            height: 1.5vmin;
+            border: 0.15vmin solid rgba(77, 166, 255, 0.8);
+        }
+
+        .info-panel-right::before {
+            top: -0.1vmin;
+            right: -0.1vmin;
+            border-left: none;
+            border-bottom: none;
+        }
+
+        .info-panel-right::after {
+            bottom: -0.1vmin;
+            left: -0.1vmin;
+            border-right: none;
+            border-top: none;
+        }
+
+        .panel-header {
+            display: flex;
+            align-items: center;
+            gap: 1vmin;
+            margin-bottom: 2vmin;
+            padding-bottom: 1vmin;
+            border-bottom: 0.1vmin solid rgba(77, 166, 255, 0.4);
+            position: relative;
+        }
+
+        .panel-header::after {
+            content: '';
+            position: absolute;
+            bottom: -0.1vmin;
+            left: 0;
+            width: 30%;
+            height: 0.1vmin;
+            background: linear-gradient(90deg, rgba(77, 166, 255, 0.8), transparent);
+        }
+
+        .panel-icon {
+            font-size: 2.2vmin;
+            filter: drop-shadow(0 0 0.8vmin rgba(77, 166, 255, 0.6));
+            animation: iconPulse 3s ease-in-out infinite;
+        }
+
+        @keyframes iconPulse {
+
+            0%,
+            100% {
+                filter: drop-shadow(0 0 0.8vmin rgba(77, 166, 255, 0.6));
+            }
+
+            50% {
+                filter: drop-shadow(0 0 1.2vmin rgba(77, 166, 255, 0.9));
+            }
+        }
+
+        .panel-title {
+            font-size: 1.4vmin;
+            font-weight: 700;
+            color: #4da6ff;
+            text-transform: uppercase;
+            letter-spacing: 0.2vmin;
+            text-shadow: 0 0 1vmin rgba(77, 166, 255, 0.5);
+        }
+
+        .panel-content {
+            display: flex;
+            flex-direction: column;
+            gap: 1.2vmin;
+            flex: 1;
+        }
+
+        .info-panel-left .panel-content {
+            flex: 1;
+        }
+
+        .info-panel-left .data-row {
+            flex: 1;
+            display: flex;
+            align-items: center;
+        }
+
+        .data-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 1.0vmin;
+            padding: 0.3vmin 0;
+            border-bottom: 0.05vmin solid rgba(77, 166, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .data-row:hover {
+            background: rgba(77, 166, 255, 0.05);
+            padding-left: 0.5vmin;
+        }
+
+        .data-label {
+            color: #6a8cc7;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.1vmin;
+            font-size: 1vmin;
+        }
+
+        .data-value {
+            color: #e8ecff;
+            font-weight: 500;
+            text-align: right;
+            font-family: 'Courier New', monospace;
+            font-size: 1.2vmin;
+            text-shadow: 0 0 0.5vmin rgba(232, 236, 255, 0.3);
+        }
+
+        .data-row-full {
+            display: flex;
+            flex-direction: column;
+            gap: 0.8vmin;
+            margin-top: 1.5vmin;
+            padding-top: 1vmin;
+            border-top: 0.1vmin solid rgba(77, 166, 255, 0.2);
+            flex: 1;
+        }
+
+        .data-description {
+            color: #c5d0e8;
+            font-size: 1vmin;
+            line-height: 1.7;
+            text-align: left;
+            margin: 0;
+            font-style: italic;
+        }
+
+        .info-panel-right .panel-title {
+            font-size: 1.6vmin;
+        }
+
+        .info-panel-right .panel-icon {
+            font-size: 2.5vmin;
+        }
+
+        .info-panel-right .data-description {
+            font-size: 1.4vmin;
+            line-height: 1.9;
+            color: #d0d8f0;
+            letter-spacing: 0.03vmin;
+        }
+
+        .info-panel-right .warning-box {
+            margin-top: auto;
+            padding: 1.2vmin;
+            min-height: 6vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+
+        .info-panel-right .warning-icon {
+            font-size: 2vmin;
+            flex-shrink: 0;
+            margin-right: 0.8vmin;
+        }
+
+        .info-panel-right .warning-text {
+            font-size: 1.05vmin;
+            line-height: 1.6;
+            font-weight: 600;
+            text-align: left;
+        }
+
+        .warning-box {
+            display: flex;
+            align-items: center;
+            gap: 1vmin;
+            margin-top: 2vmin;
+            padding: 1.2vmin;
+            background: linear-gradient(135deg, rgba(231, 76, 60, 0.15), rgba(231, 76, 60, 0.05));
+            border: 0.1vmin solid rgba(231, 76, 60, 0.5);
+            border-radius: 0.5vmin;
+            animation: warningPulse 2s ease-in-out infinite;
+        }
+
+        @keyframes warningPulse {
+
+            0%,
+            100% {
+                box-shadow: 0 0 0.5vmin rgba(231, 76, 60, 0.3);
+            }
+
+            50% {
+                box-shadow: 0 0 1.5vmin rgba(231, 76, 60, 0.6);
+            }
+        }
+
+        .warning-icon {
+            font-size: 1.8vmin;
+            color: #e74c3c;
+            animation: warningIconPulse 1.5s ease-in-out infinite;
+        }
+
+        @keyframes warningIconPulse {
+
+            0%,
+            100% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.1);
+            }
+        }
+
+        .warning-text {
+            color: #e74c3c;
+            font-size: 0.9vmin;
+            line-height: 1.5;
+            font-weight: 600;
+            text-shadow: 0 0 0.5vmin rgba(231, 76, 60, 0.3);
+        }
+
+        .title-white {
+            color: #ffffff !important;
+            text-shadow: 0 0 0.5vmin rgba(255, 255, 255, 0.5);
+        }
+
+        .title-blue {
+            color: #4da6ff !important;
+            text-shadow: 0 0 0.8vmin rgba(77, 166, 255, 0.8);
+        }
+
+        .star-container {
+            position: fixed;
+            top: 47%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 0;
+            height: 0;
+            z-index: 25;
+            perspective: 100vmin;
+            cursor: pointer;
+            display: none;
+        }
+
+        .star-sphere {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 17vmin;
+            height: 17vmin;
+            border-radius: 50%;
             z-index: 10;
+            transition: all 0.5s ease;
+            cursor: pointer;
+        }
+
+        .star-glow-ring {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 30vmin;
+            height: 30vmin;
+            border-radius: 50%;
+            border: 0.2vmin solid rgba(77, 166, 255, 0.6);
+            box-shadow: 0 0 0.5vmin rgba(77, 166, 255, 0.3), inset 0 0 0.5vmin rgba(77, 166, 255, 0.2), 0 0 1.5vmin rgba(77, 166, 255, 0.4);
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .star-sphere.sun {
+            background: radial-gradient(circle at 30% 30%, #fff5b0, #ffcc00, #ff8800);
+            box-shadow: 0 0 4vmin rgba(255, 200, 0, 0.8), 0 0 8vmin rgba(255, 150, 0, 0.4);
+        }
+
+        .star-sphere.alpha {
+            background: radial-gradient(circle at 30% 30%, #ffffff, #ffe066, #ffaa00);
+            box-shadow: 0 0 4vmin rgba(255, 255, 220, 0.9), 0 0 8vmin rgba(255, 200, 100, 0.5);
+        }
+
+        .star-sphere.epsilon {
+            background: radial-gradient(circle at 30% 30%, #ffcc66, #ff8800, #cc5500);
+            box-shadow: 0 0 4vmin rgba(255, 136, 0, 0.7);
+        }
+
+        .star-sphere.tau {
+            background: radial-gradient(circle at 30% 30%, #fff0b3, #ffdb4d, #e6b800);
+            box-shadow: 0 0 4vmin rgba(255, 219, 77, 0.7);
+        }
+
+        .star-sphere.teegarden {
+            background: radial-gradient(circle at 30% 30%, #ff6666, #cc0000, #660000);
+            box-shadow: 0 0 4vmin rgba(204, 0, 0, 0.8), 0 0 8vmin rgba(150, 0, 0, 0.4);
+        }
+
+        .star-sphere.trappist {
+            background: radial-gradient(circle at 30% 30%, #ff6666, #cc0000, #660000);
+            box-shadow: 0 0 4vmin rgba(204, 0, 0, 0.8), 0 0 8vmin rgba(150, 0, 0, 0.4);
         }
     </style>
 </head>
 
 <body>
+
     <div class="stars"></div>
     <div class="milkyway">
         <div class="band"></div>
     </div>
 
-    <header class="page-header">
-        <h1 class="page-title" id="page-title">
-            <span class="white-part">STAR</span> <span class="blue-part">INFO</span>
-        </h1>
-    </header>
-
-    <div class="center-object-wrapper">
-        <div class="center-object-container">
-            <div class="center-object" id="center-object">
-                <!-- Сюда JS вставит либо дыру, либо звезду -->
+    <div class="info-panel info-panel-left" data-wm-id="tech-panel">
+        <div class="panel-header">
+            <span class="panel-icon" id="panel-icon" data-wm-id="tech-panel-icon">📡</span>
+            <span class="panel-title">
+                <span class="title-white" id="object-type-label" data-wm-id="tech-panel-type">STAR </span>
+                <span class="title-blue" id="object-name-label" data-wm-id="tech-panel-name">SOL</span>
+            </span>
+        </div>
+        <div class="panel-content">
+            <div class="data-row">
+                <span class="data-label">Classification:</span>
+                <span class="data-value" id="tech-classification" data-wm-id="tech-classification">—</span>
+            </div>
+            <div class="data-row">
+                <span class="data-label">Location:</span>
+                <span class="data-value" id="tech-location" data-wm-id="tech-value-location">—</span>
+            </div>
+            <div class="data-row">
+                <span class="data-label">Age:</span>
+                <span class="data-value" id="tech-age" data-wm-id="tech-value-age">—</span>
+            </div>
+            <div class="data-row">
+                <span class="data-label">Radius:</span>
+                <span class="data-value" id="tech-radius" data-wm-id="tech-value-radius">—</span>
+            </div>
+            <div class="data-row">
+                <span class="data-label">Mass:</span>
+                <span class="data-value" id="tech-mass" data-wm-id="tech-value-mass">—</span>
+            </div>
+            <div class="data-row">
+                <span class="data-label">Temperature:</span>
+                <span class="data-value" id="tech-temperature" data-wm-id="tech-value-temperature">—</span>
+            </div>
+            <div class="data-row">
+                <span class="data-label">Luminosity:</span>
+                <span class="data-value" id="tech-luminosity" data-wm-id="tech-value-luminosity">—</span>
+            </div>
+            <div class="data-row">
+                <span class="data-label">Spectral Type:</span>
+                <span class="data-value" id="tech-spectral-type" data-wm-id="tech-value-spectral-type">—</span>
+            </div>
+            <div class="data-row">
+                <span class="data-label">Distance from Earth:</span>
+                <span class="data-value" id="tech-distance" data-wm-id="tech-value-distance">—</span>
             </div>
         </div>
     </div>
 
-    <!-- Заглушка "В разработке" -->
-    <div class="construction-status">
-        <div class="construction-code">WIP</div>
-        <div class="construction-message">MODULE UNDER CONSTRUCTION</div>
-        <div class="construction-subtext">Detailed stellar data is being compiled</div>
+    <div class="info-panel info-panel-right" data-wm-id="info-panel">
+        <div class="panel-header">
+            <span class="panel-icon" data-wm-id="info-panel-icon">🔭</span>
+            <span class="panel-title">
+                <span class="title-white">OBSERVATION </span><span class="title-blue">LOG</span>
+            </span>
+        </div>
+
+        <div class="panel-content">
+            <div class="data-row-full">
+                <span class="data-label">Description:</span>
+                <p class="data-description" id="info-description" data-wm-id="info-description">—</p>
+            </div>
+            <div class="warning-box" id="info-warning" data-wm-id="info-warning-box" style="display: none;">
+                <span class="warning-icon">⚠️</span>
+                <span class="warning-text" id="warning-text" data-wm-id="info-warning-text"></span>
+            </div>
+        </div>
     </div>
 
-    <!-- Кнопка возврата на Карту Галактик -->
-    <a href="galaxy-map.html" class="back-btn">
-        <span class="back-icon">🌌</span>
-        <span class="back-label">GALAXY<br>MAP</span>
-    </a>
+    <div class="black-hole-wrapper" id="black-hole-container" data-wm-id="visual-black-hole" style="display: none;">
+        <div class="black-hole-link" onclick="window.location.href='star-info.html?star=sagittarius-a'">
+            <div class="black-hole-container">
+                <div class="black-hole">
+                    <div class="event-horizon"></div>
+                    <div class="black-hole-glow-ring"></div>
+                    <div class="photon-ring-inner"></div>
+                    <div class="photon-ring-main"></div>
+                    <div class="gravity-glow-outer"></div>
+                    <div class="accretion-disk"></div>
+                    <div class="lensing-arc-top"></div>
+                    <div class="lensing-arc-bottom"></div>
+                </div>
+            </div>
+        </div>
+    </div>
 
-    <footer class="page-footer">
-        <div class="copyright">Evknopia © 2026</div>
-    </footer>
+    <div class="star-container" id="star-container" data-wm-id="visual-star" style="display: none;">
+        <div class="star-glow-ring"></div>
+        <div class="star-sphere" id="main-star-sphere" data-wm-id="visual-star-sphere"></div>
+    </div>
 
-    <script src="data.js"></script>
-    <script>
-        (function initAuth() {
-            const userDataStr = sessionStorage.getItem('currentUser');
-            if (!userDataStr) {
+    <div class="dashboard-container">
+
+        <div class="corner-circle-btn top-left panel-offline" data-wm-id="info-panel-role">
+            <span class="corner-icon" data-wm-id="role-icon">🛰️</span>
+            <span class="corner-label" data-wm-id="role-label">STANDBY</span>
+            <div class="info-tooltip">
+                <div class="tooltip-title">SYSTEM ROLE</div>
+                <div>Function: Comms & Diagnostics</div>
+                <div>Access: Level 2</div>
+                <div>Status: Active</div>
+            </div>
+        </div>
+
+        <div class="corner-circle-btn top-right panel-offline" data-wm-id="info-panel-user">
+            <span class="corner-icon" data-wm-id="user-icon">👨‍🚀</span>
+            <span class="corner-label" data-wm-id="user-label">UNKNOWN</span>
+            <div class="info-tooltip">
+                <div class="tooltip-title">CREW MEMBER</div>
+                <div>Registered Callsign: AURORA</div>
+                <div>ID: 884-2A</div>
+                <div>Status: Online</div>
+            </div>
+        </div>
+
+        <button class="corner-circle-btn bottom-left" id="btn-galaxy-map" data-wm-id="nav-galaxy-map-btn"
+            onclick="window.location.href='galaxy-map.html'" style="display: none;">
+            <span class="corner-icon">🌌</span>
+            <span class="corner-label">Galaxy<br>Map</span>
+        </button>
+
+        <button class="corner-circle-btn bottom-left" id="btn-star-system" data-wm-id="nav-star-system-btn"
+            onclick="handleBackToSystem()" style="display: none;">
+            <span class="corner-icon">☄️</span>
+            <span class="corner-label">Star<br>System</span>
+        </button>
+
+        <div class="corner-circle-btn bottom-right cassandra-logo" data-wm-id="nav-cassandra-logo">
+            <span class="corner-label cassandra-label">
+                <span class="cassan">CASSAN</span><span class="dra">DRA</span>
+            </span>
+        </div>
+
+        <footer class="login-footer">
+            <div class="telemetry" id="dashboard-telemetry" data-wm-id="system-telemetry"></div>
+            <div class="copyright" data-wm-id="footer-copyright">Evknopia © 2026</div>
+        </footer>
+
+        <script src="data.js"></script>
+        <script>
+            function initDashboard() {
+                const userDataStr = sessionStorage.getItem('currentUser');
+
+                if (!userDataStr) {
+                    const telemetry = document.getElementById('dashboard-telemetry');
+                    if (telemetry) {
+                        telemetry.innerHTML = `> <span class="telemetry-cassan">CASSAN</span><span class="telemetry-dra">DRA</span>: <span data-wm-id="telemetry-message" style="color: #e74c3c;">ACCESS DENIED. REDIRECTING...</span>`;
+                    }
+                    setTimeout(() => { window.location.href = 'login.html'; }, 1500);
+                    return false;
+                }
+
+                let user = {};
+                try {
+                    user = JSON.parse(userDataStr);
+                } catch (e) {
+                    sessionStorage.removeItem('currentUser');
+                    window.location.href = 'login.html';
+                    return false;
+                }
+
+                const callsign = user.callsign ? user.callsign.toUpperCase() : 'UNKNOWN';
+                const fullName = user.fullName || 'Unknown Operator';
+                const role = user.role || 'OPERATOR';
+                const roleIcon = user.roleIcon || '🛰️';
+                const accessLevel = user.accessLevel || '?';
+                const func = user.function || 'General Duties';
+                const userId = user.id || 'UNKNOWN';
+
+                const roleIconEl = document.querySelector('.top-left .corner-icon');
+                const roleLabelEl = document.querySelector('.top-left .corner-label');
+                const roleTooltipEl = document.querySelector('.top-left .info-tooltip');
+
+                if (roleIconEl) roleIconEl.textContent = roleIcon;
+                if (roleLabelEl) roleLabelEl.textContent = role;
+                if (roleTooltipEl) {
+                    roleTooltipEl.innerHTML = `
+                <div class="tooltip-title">SYSTEM ROLE</div>
+                <div>Function: ${func}</div>
+                <div>Access: Level ${accessLevel}</div>
+                <div>Status: Active</div>
+            `;
+                }
+
+                const userLabelEl = document.querySelector('.top-right .corner-label');
+                const userTooltipEl = document.querySelector('.top-right .info-tooltip');
+
+                if (userLabelEl) userLabelEl.textContent = fullName.toUpperCase();
+                if (userTooltipEl) {
+                    userTooltipEl.innerHTML = `
+                <div class="tooltip-title">CREW MEMBER</div>
+                <div>Registered Callsign: ${callsign}</div>
+                <div>ID: ${userId}</div>
+                <div>Status: Online</div>
+            `;
+                }
+
+                return true;
+            }
+
+            function handleBackToSystem() {
+                const urlParams = new URLSearchParams(window.location.search);
+                const starParam = urlParams.get('star');
+                window.location.href = `star-system.html?star=${starParam || 'sun'}`;
+            }
+
+            function handleLogout() {
+                sessionStorage.removeItem('currentUser');
+                sessionStorage.removeItem('uplinkCompleted');
+                sessionStorage.removeItem('freshLogin');
                 window.location.href = 'login.html';
-                return;
             }
-            try { JSON.parse(userDataStr); } catch (e) { window.location.href = 'login.html'; }
-        })();
 
-        document.addEventListener('DOMContentLoaded', () => {
-            const urlParams = new URLSearchParams(window.location.search);
-            const starKey = urlParams.get('star');
-            const starData = window.starDatabase ? window.starDatabase[starKey] : null;
+            function loadObjectData() {
+                const urlParams = new URLSearchParams(window.location.search);
+                const starParam = urlParams.get('star');
+                let objectData = null;
 
-            const titleEl = document.getElementById('page-title');
-            const objectEl = document.getElementById('center-object');
-
-            if (starData) {
-                // 1. Меняем заголовок
-                const parts = starData.designation.split(' ');
-                if (parts.length > 1) {
-                    titleEl.innerHTML = `<span class="white-part">${parts[0]}</span> <span class="blue-part">${parts.slice(1).join(' ')}</span>`;
-                } else {
-                    titleEl.innerHTML = `<span class="white-part">STAR</span> <span class="blue-part">${starData.designation}</span>`;
+                if (!starParam || starParam.trim() === '') {
+                    console.warn('⚠️ Параметр star пуст или отсутствует. Редирект на Карту Галактики.');
+                    window.location.href = 'galaxy-map.html';
+                    return;
                 }
 
-                // 2. Рисуем объект в центре (как красивый фон для заглушки)
-                if (starKey === 'black-hole') {
-                    objectEl.innerHTML = `
-                        <div class="accretion-disk"></div>
-                        <div class="photon-ring-main"></div>
-                        <div class="event-horizon"></div>
-                    `;
+                if (starParam === 'sun') {
+                    objectData = window.sun;
+                } else if (starParam === 'alpha-centauri') {
+                    objectData = window.alphaCentauri;
+                } else if (starParam === 'epsilon-eridani') {
+                    objectData = window.epsilonEridani;
+                } else if (starParam === 'tau-ceti') {
+                    objectData = window.tauCeti;
+                } else if (starParam === 'teegarden') {
+                    objectData = window.teegarden;
+                } else if (starParam === 'trappist-1') {
+                    objectData = window.trappist1;
+                } else if (starParam === 'sagittarius-a' || starParam === 'black-hole' || starParam === 'sagittarius') {
+                    objectData = window.sagittariusA;
                 } else {
-                    const colorClass = starData.sphereClass ? starData.sphereClass.replace('sphere-', '') : 'sun';
-                    objectEl.innerHTML = `<div class="star-sphere ${colorClass}"></div>`;
+
+                    console.warn(`⚠️ Объект "${starParam}" не найден в базе. Редирект на Карту Галактики.`);
+                    window.location.href = 'galaxy-map.html';
+                    return;
+                }
+
+                if (!objectData) {
+                    console.error('❌ Данные объекта не найдены. Редирект на Карту Галактики.');
+                    window.location.href = 'galaxy-map.html';
+                    return;
+                }
+
+                console.log('✅ Загружены данные объекта:', objectData.name);
+
+                const bhContainer = document.getElementById('black-hole-container');
+                const starContainer = document.getElementById('star-container');
+
+                if (bhContainer) bhContainer.style.display = 'none';
+                if (starContainer) starContainer.style.display = 'none';
+
+                if (objectData.type === 'black-hole') {
+                    if (bhContainer) bhContainer.style.display = 'block';
+                } else {
+                    if (starContainer) {
+                        starContainer.style.display = 'block';
+                        const sphere = document.getElementById('main-star-sphere');
+                        if (sphere && objectData.visual && objectData.visual.sphereClass) {
+                            sphere.className = '';
+                            const classes = objectData.visual.sphereClass.split(' ');
+                            classes.forEach(cls => sphere.classList.add(cls));
+                        }
+                    }
+                }
+
+                const typeLabel = document.getElementById('object-type-label');
+                const nameLabel = document.getElementById('object-name-label');
+                const panelIcon = document.getElementById('panel-icon');
+
+                if (typeLabel && nameLabel) {
+                    let objectType = 'OBJECT';
+                    if (objectData.type === 'black-hole') {
+                        objectType = 'BLACK HOLE';
+                    } else if (objectData.type === 'star') {
+                        objectType = 'STAR';
+                    } else if (objectData.type === 'star-system') {
+                        objectType = 'STAR SYSTEM';
+                    }
+
+                    typeLabel.textContent = objectType + ' ';
+                    nameLabel.textContent = objectData.name.toUpperCase();
+
+                    if (panelIcon) {
+                        panelIcon.textContent = '📡';
+                    }
+                }
+
+                if (objectData.tech) {
+                    document.getElementById('tech-mass').textContent = objectData.tech.mass || '—';
+                    document.getElementById('tech-radius').textContent = objectData.tech.radius || '—';
+                    document.getElementById('tech-temperature').textContent = objectData.tech.temperature || '—';
+                    document.getElementById('tech-luminosity').textContent = objectData.tech.luminosity || '—';
+                    document.getElementById('tech-distance').textContent = objectData.tech.distance || '—';
+                    document.getElementById('tech-classification').textContent = objectData.info?.classification || '—';
+                    document.getElementById('tech-location').textContent = objectData.info?.location || '—';
+                    document.getElementById('tech-age').textContent = objectData.info?.age || '—';
+                    document.getElementById('tech-spectral-type').textContent = objectData.info?.spectralType || '—';
+                }
+
+                if (objectData.info) {
+                    document.getElementById('info-description').textContent = objectData.info.description || '—';
+
+                    const warningBox = document.getElementById('info-warning');
+                    const warningText = document.getElementById('warning-text');
+
+                    if (objectData.info.warning && warningBox && warningText) {
+                        warningText.textContent = objectData.info.warning;
+                        warningBox.style.display = 'flex';
+                    } else if (warningBox) {
+                        warningBox.style.display = 'none';
+                    }
+                }
+
+                const telemetry = document.getElementById('dashboard-telemetry');
+                if (telemetry) {
+                    const userDataStr = sessionStorage.getItem('currentUser');
+                    let callsign = "OPERATOR";
+                    if (userDataStr) {
+                        try { callsign = JSON.parse(userDataStr).callsign || "OPERATOR"; } catch (e) { }
+                    }
+                    telemetry.innerHTML = `> <span class="telemetry-cassan">CASSAN</span><span class="telemetry-dra">DRA</span>: <span data-wm-id="telemetry-message" style="color: #2ecc71;">${callsign}, ANALYZING ${objectData.name.toUpperCase()} DATA...</span>`;
+                }
+
+                const btnGalaxy = document.getElementById('btn-galaxy-map');
+                const btnSystem = document.getElementById('btn-star-system');
+
+                if (btnGalaxy) btnGalaxy.style.display = 'none';
+                if (btnSystem) btnSystem.style.display = 'none';
+
+                if (objectData.type === 'black-hole') {
+                    if (btnGalaxy) btnGalaxy.style.display = 'flex';
+                } else {
+                    if (btnSystem) btnSystem.style.display = 'flex';
                 }
             }
-        });
-    </script>
+
+            document.addEventListener('DOMContentLoaded', () => {
+                const isAuthorized = initDashboard();
+
+                if (isAuthorized) {
+                    loadObjectData();
+                }
+            });
+
+            window.addEventListener('pageshow', function (event) {
+                if (event.persisted) {
+                    console.warn('⚠️ Страница восстановлена из bfcache — принудительная проверка');
+                    const isAuthorized = initDashboard();
+
+                    if (isAuthorized) {
+                        loadObjectData();
+                    }
+                }
+            });
+        </script>
+
 </body>
+
 </html>
