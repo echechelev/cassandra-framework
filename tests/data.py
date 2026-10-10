@@ -28,13 +28,24 @@ CIS_INDEX_TABLE_URL = "cis-index-table.html"
 # Звёздные системы и Чёрная дыра
 STAR_SYSTEM_URL = {
     "no-star": "star-system.html",
-    "black-hole": "black-hole.html", 
     "sun": "star-system.html?star=sun",
     "alpha-centauri": "star-system.html?star=alpha-centauri",
     "epsilon-eridani": "star-system.html?star=epsilon-eridani",
     "tau-ceti": "star-system.html?star=tau-ceti",
     "teegarden": "star-system.html?star=teegarden",
     "trappist-1": "star-system.html?star=trappist-1",
+}
+
+# Звёзды и Чёрная дыра для Star Info
+STAR_INFO_URL = {
+    "sun": "star-info.html?star=sun",
+    "alpha-centauri": "star-info.html?star=alpha-centauri",
+    "epsilon-eridani": "star-info.html?star=epsilon-eridani",
+    "tau-ceti": "star-info.html?star=tau-ceti",
+    "teegarden": "star-info.html?star=teegarden",
+    "trappist-1": "star-info.html?star=trappist-1",
+    "sagittarius-a": "star-info.html?star=sagittarius-a",
+    "no-star": "star-info.html",  
 }
 
 # ==========================================
@@ -281,6 +292,59 @@ TRAPPIST_1G_NAME = 'TRAPPIST-1G'
 TRAPPIST_1H_ID = 'planet-trappist-1h-btn'
 TRAPPIST_1H_NAME = 'TRAPPIST-1H'
 
+# ==============================================================
+#  ДАННЫЕ ЗВЁЗД И ОБЪЕКТОВ (CSS Classes & Text & Classification)
+# ==============================================================
+
+# ️ Чёрная дыра (Стрелец A*)
+SAGITTARIUS_A_CLASS = 'black-hole'
+SAGITTARIUS_A_NAME = 'SAGITTARIUS A*'
+SAGITTARIUS_A_TYPE = 'BLACK HOLE'
+SAGITTARIUS_A_CLASSIFICATION = 'Supermassive Black Hole (SMBH)'
+SAGITTARIUS_A_DESCRIPTION = 'This supermassive object acts as the gravitational anchor'
+
+# ☀️ Солнце
+SUN_CLASS = 'sun'
+SUN_NAME = 'SOL (THE SUN)'
+SUN_TYPE = 'STAR'
+SUN_CLASSIFICATION = 'G-type Yellow Dwarf'
+SUN_DESCRIPTION = 'The central star of our planetary system'
+
+# ⭐ Альфа Центавра
+ALPHA_CENTAURI_CLASS = 'alpha'
+ALPHA_CENTAURI_NAME = 'ALPHA CENTAURI A'
+ALPHA_CENTAURI_TYPE = 'STAR SYSTEM'
+ALPHA_CENTAURI_CLASSIFICATION = 'Triple Star System' 
+ALPHA_CENTAURI_DESCRIPTION = 'The closest star system to our Solar System'
+
+# ⭐ Эпсилон Эридана
+EPSILON_ERIDANI_CLASS = 'epsilon'
+EPSILON_ERIDANI_NAME = 'EPSILON ERIDANI'
+EPSILON_ERIDANI_TYPE = 'STAR'
+EPSILON_ERIDANI_CLASSIFICATION = 'K-type Orange Dwarf' 
+EPSILON_ERIDANI_DESCRIPTION = 'A young orange dwarf star located'
+
+# ⭐ Тау Кита
+TAU_CETI_CLASS = 'tau'
+TAU_CETI_NAME = 'TAU CETI'
+TAU_CETI_TYPE = 'STAR'
+TAU_CETI_CLASSIFICATION = 'G-type Yellow Dwarf' 
+TAU_CETI_DESCRIPTION = 'A stable, metal-poor yellow dwarf remarkably similar to our Sun'
+
+# ⭐ Звезда Тигардена
+TEEGARDEN_CLASS = 'teegarden'
+TEEGARDEN_NAME = "TEEGARDEN'S"
+TEEGARDEN_TYPE = 'STAR'
+TEEGARDEN_CLASSIFICATION = 'M-type Ultra-Cool Dwarf' 
+TEEGARDEN_DESCRIPTION = 'An extremely faint ultra-cool red dwarf, one of the'
+
+# ⭐ TRAPPIST-1
+TRAPPIST_1_CLASS = 'trappist'
+TRAPPIST_1_NAME = 'TRAPPIST-1'
+TRAPPIST_1_TYPE = 'STAR'
+TRAPPIST_1_CLASSIFICATION = 'Ultra-Cool Planetary Dwarf' 
+TRAPPIST_1_DESCRIPTION = 'An extraordinary ultra-cool red dwarf hosting seven Earth-sized'
+
 # ==========================================
 # 💬 ТЕКСТЫ UI (UI Texts)
 # ==========================================
@@ -326,6 +390,15 @@ GREEN_TELEMETRY_WELCOME_ORION = f"{_GREEN_WELCOME_PREFIX}COMMANDER ORION"
 GREEN_TELEMETRY_WELCOME_KNOPA = f"{_GREEN_WELCOME_PREFIX}PILOT KNOPA" 
 
 GREEN_TELEMETRY_RESTORATION_COMPLETE = f"{_GREEN_BASE_PREFIX}RESTORATION COMPLETE. NEW CREDENTIALS ISSUED." 
+
+GREEN_TELEMETRY_STAR_INFO_SUN = f"{_GREEN_BASE_PREFIX}CASSANDRA: AURORA, ANALYZING SOL (THE SUN) DATA..."
+GREEN_TELEMETRY_STAR_INFO_ALPHA_CENTAURI = f"{_GREEN_BASE_PREFIX}CASSANDRA: AURORA, ANALYZING ALPHA CENTAURI A DATA..."
+GREEN_TELEMETRY_STAR_INFO_EPSILON_ERIDANI = f"{_GREEN_BASE_PREFIX}CASSANDRA: AURORA, ANALYZING EPSILON ERIDANI DATA..."
+GREEN_TELEMETRY_STAR_INFO_TAU_CETI = f"{_GREEN_BASE_PREFIX}CASSANDRA: AURORA, ANALYZING TAU CETI DATA..."
+GREEN_TELEMETRY_STAR_INFO_TEEGARDEN = f"{_GREEN_BASE_PREFIX}CASSANDRA: AURORA, ANALYZING TEEGARDEN'S DATA..."
+GREEN_TELEMETRY_STAR_INFO_TRAPPIST_1 = f"{_GREEN_BASE_PREFIX}CASSANDRA: AURORA, ANALYZING TRAPPIST-1 DATA..."
+GREEN_TELEMETRY_STAR_INFO_SAGITTARIUS_A = f"{_GREEN_BASE_PREFIX}CASSANDRA: AURORA, ANALYZING SAGITTARIUS A* DATA..."
+
 
 # ==========================================
 # 🏷️ Заголовки и футеры

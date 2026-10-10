@@ -220,6 +220,7 @@
       font-family: 'Courier New', monospace;
       white-space: nowrap;
       z-index: 11;
+      display: none;
     }
 
     .photon-ring-inner {
@@ -828,7 +829,7 @@
   </div>
 
   <div class="black-hole-wrapper">
-    <a href="star-info.html?star=black-hole" class="black-hole-link">
+    <a href="star-info.html?star=sagittarius-a" class="black-hole-link">
       <div class="black-hole-container">
         <div class="black-hole-glow-ring"></div>
         <div class="black-hole">
@@ -892,7 +893,7 @@
       <button class="planet-btn uplink-hidden" data-wm-id="star-alpha-centauri-btn"
         onclick="window.location.href='star-system.html?star=alpha-centauri'">
         <div class="planet-icon alpha"></div>
-        <span class="planet-label">Alpha Centauri</span>
+        <span class="planet-label">Alpha Centauri А</span>
       </button>
 
       <button class="planet-btn uplink-hidden" data-wm-id="star-epsilon-eridani-btn"
@@ -1016,7 +1017,12 @@
             const starKey = wmId.replace('star-', '').replace('-btn', '');
 
             if (starKey) {
-              window.location.href = `star-system.html?star=${starKey}`;
+              if (starKey === 'black-hole' || starKey === 'sagittarius-a') {
+                window.location.href = 'star-info.html?star=sagittarius-a';
+              }
+              else {
+                window.location.href = `star-system.html?star=${starKey}`;
+              }
             }
           });
         });
