@@ -180,7 +180,6 @@ JSON — хранение тестовых данных
 ### 🚧 В работе (Q1 2025)
 - [ ] CI/CD пайплайн (GitHub Actions / GitLab CI)
 - [ ] Параллельный запуск тестов в Docker-контейнерах
-- [ ] Расширение покрытия API-тестами (REST endpoints)
 - [ ] Тоггл «Реализм / Фантастика» с физическими расчётами массы и времени полёта
 
 ###  Планы (2025)
@@ -197,6 +196,3 @@ JSON — хранение тестовых данных
 *QA Automation Engineer | SDET | Space Enthusiast*
 
 > «Качество — это не проверка галочек, а системная инженерная работа. Каждый тест — это инвестиция в надёжность продукта.»
-
-- 🔗 GitHub: [@echechelev](https://github.com/echechelev)
-- 🚀 Project: [Cassandra Framework](https://github.com/echechelev/cassandra-framework)
