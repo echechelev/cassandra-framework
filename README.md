@@ -79,27 +79,49 @@
 
 ```text
 cassandra-framework/
+│
 ├── app/                        # Исходный код фронтенд-приложения (HTML/CSS/JS)
-├── assets/                     # Статические ресурсы (логотипы, баннеры, гифки)
+├── assets/                     # Статические ресурсы (баннеры, гифки, логотипы)
 ├── docs/                       # Техническая документация и спецификации (ТЗ)
-│   ├── design/                 # Макеты и референсы интерфейса
-│   └── specifications/         # Описание бизнес-логики и тест-кейсов
-├── evknopia/                   # Кастомные утилиты, хелперы и обертки фреймворка
+│
 ├── pages/                      # Реализация паттерна Page Object Model (POM)
-│   ├── auth/                   # Модули: login, signup, access_restoration
-│   ├── galaxy/                 # Модули: galaxy_map, star_info, star_system
-│   └── dashboard/              # Модули: dashboard, calculations
+│   ├── __init__.py             # Инициализация пакета
+│   ├── core.py                 # 🔑 Ядро: базовый класс для всех страниц
+│   ├── index.py                # Главная страница (лендинг)
+│   ├── login.py                # Страница авторизации
+│   ├── signup.py               # Страница регистрации
+│   ├── access_restoration.py   # Страница восстановления доступа
+│   ├── dashboard.py            # Главный дашборд
+│   ├── galaxy_map.py           # Карта галактики
+│   ├── star_info.py            # Информация о звездах
+│   └── star_system.py          # Планетарные системы
+│
 ├── tests/                      # Автотесты (160+ сценариев)
+│   ├── __init__.py             # Инициализация пакета
 │   ├── conftest.py             # Глобальные и модульные фикстуры pytest
 │   ├── data.py                 # Тестовые данные, константы и конфигурации
 │   ├── users.json              # Демо-учетные данные для авторизации
-│   └── [module_name]/          # Тестовые модули, зеркально отражающие структуру pages/
-├── .pre-commit-config.yaml     # Конфигурация pre-commit хуков (black, flake8, isort)
+│   ├── galaxy_map/             # Тесты карты галактики
+│   ├── star_info/              # Тесты информации о звездах
+│   ├── star_system/            # Тесты планетарных систем
+│   ├── test_access_restoration/# Тесты восстановления доступа
+│   ├── test_dashboard/         # Тесты дашборда
+│   ├── test_index/             # Тесты главной страницы
+│   ├── test_login/             # Тесты авторизации
+│   └── test_signup/            # Тесты регистрации
+│
+├── allure-results/             # Результаты Allure-отчетов (gitignored)
+├── venv/                       # Виртуальное окружение Python (gitignored)
+│
+── .flake8                     # Конфигурация линтера flake8
+├── .gitignore                  # Правила игнорирования файлов Git
+├── .pre-commit-config.yaml     # Конфигурация pre-commit хуков
+├── CAS_PHILOSOPHY.md           # Философия и идеология проекта Кассандра
+├── LICENSE                     # MIT License
 ├── pyproject.toml              # Настройки проекта, линтеров и форматтеров
 ├── pytest.ini                  # Конфигурация запуска pytest и Allure
+├── README.md                   # Этот файл
 ├── requirements.txt            # Зависимости Python-окружения
-├── CAS_PHILOSOPHY.md           # Философия и идеология проекта Кассандра
-└── README.md                   # Этот файл
 
 🔧 Технологический стек
 
