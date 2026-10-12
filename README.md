@@ -5,7 +5,7 @@
 <h1 align="center">Cassandra Framework</h1>
 <p align="center">
   <strong>Фреймворк автоматизированного тестирования для системы оценки жизнепригодности планет</strong><br>
-  <em>160+ автотестов | 9 модулей | Full-cycle QA Engineering</em>
+  <em>160+ автотестов | 8 модулей | Full-cycle QA Engineering</em>
 </p>
 
 <p align="center">
