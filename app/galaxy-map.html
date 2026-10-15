@@ -773,46 +773,64 @@
     }
 
     .planet-icon.sun {
-      background: radial-gradient(circle at 30% 30%, #fff5b0, #ffcc00, #ff8800);
+      background-color: transparent;
+      background-image: url('assets/stars/g_dwarf_icon.jpg');
+      background-size: cover;
+      background-position: center;
+      border-radius: 50%;
       box-shadow: 0 0 2vmin rgba(255, 200, 0, 0.8), 0 0 4vmin rgba(255, 150, 0, 0.4);
+      filter: brightness(1.1);
     }
 
     .planet-icon.alpha {
-      background: radial-gradient(circle at 30% 30%, #ffffff, #ffe066, #ffaa00);
-      box-shadow: 0 0 2vmin rgba(255, 255, 220, 0.9), 0 0 3vmin rgba(255, 200, 100, 0.5);
-    }
-
-    .planet-icon.epsilon {
-      background: radial-gradient(circle at 30% 30%, #ffcc66, #ff8800, #cc5500);
-      box-shadow: 0 0 1.5vmin rgba(255, 136, 0, 0.7);
-    }
-
-    .planet-icon.epsilon::after {
-      content: '';
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%) rotate(-20deg);
-      width: 140%;
-      height: 30%;
-      border: 0.2vmin solid rgba(255, 220, 150, 0.8);
+      background-color: transparent;
+      background-image: url('assets/stars/g_dwarf_icon.jpg');
+      background-size: cover;
+      background-position: center;
       border-radius: 50%;
-      box-shadow: 0 0 0.5vmin rgba(255, 220, 150, 0.4);
+      box-shadow: 0 0 2vmin rgba(255, 200, 0, 0.8), 0 0 4vmin rgba(255, 150, 0, 0.4);
+      filter: brightness(1.05);
     }
 
     .planet-icon.tau {
-      background: radial-gradient(circle at 30% 30%, #fff0b3, #ffdb4d, #e6b800);
-      box-shadow: 0 0 1.5vmin rgba(255, 219, 77, 0.7);
+      background-color: transparent;
+      background-image: url('assets/stars/g_dwarf_icon.jpg');
+      background-size: cover;
+      background-position: center;
+      border-radius: 50%;
+      box-shadow: 0 0 2vmin rgba(255, 200, 0, 0.8), 0 0 4vmin rgba(255, 150, 0, 0.4);
+      filter: brightness(1.1);
     }
 
+    .planet-icon.epsilon {
+      background-color: transparent;
+      background-image: url('assets/stars/k_dwarf_icon.jpg');
+      background-size: cover;
+      background-position: center;
+      border-radius: 50%;
+      box-shadow: 0 0 1.5vmin rgba(255, 136, 0, 0.6);
+      filter: brightness(0.85) saturate(1.1);
+    }
+
+
     .planet-icon.teegarden {
-      background: radial-gradient(circle at 30% 30%, #ff6666, #cc0000, #660000);
+      background-color: transparent;
+      background-image: url('assets/stars/m_dwarf_icon.jpg');
+      background-size: cover;
+      background-position: center;
+      border-radius: 50%;
       box-shadow: 0 0 1.5vmin rgba(204, 0, 0, 0.8), 0 0 3vmin rgba(150, 0, 0, 0.4);
+      filter: brightness(0.85) saturate(1.2);
     }
 
     .planet-icon.trappist {
-      background: radial-gradient(circle at 30% 30%, #ff6666, #cc0000, #660000);
+      background-color: transparent;
+      background-image: url('assets/stars/m_dwarf_icon.jpg');
+      background-size: cover;
+      background-position: center;
+      border-radius: 50%;
       box-shadow: 0 0 2vmin rgba(204, 0, 0, 0.8), 0 0 4vmin rgba(150, 0, 0, 0.4);
+      filter: brightness(0.85) saturate(1.2);
     }
   </style>
 </head>
@@ -896,22 +914,22 @@
         <span class="planet-label">Alpha Centauri А</span>
       </button>
 
-      <button class="planet-btn uplink-hidden" data-wm-id="star-epsilon-eridani-btn"
-        onclick="window.location.href='star-system.html?star=epsilon-eridani'">
-        <div class="planet-icon epsilon"></div>
-        <span class="planet-label">Epsilon Eridani</span>
-      </button>
-
       <button class="planet-btn uplink-hidden" data-wm-id="star-tau-ceti-btn"
         onclick="window.location.href='star-system.html?star=tau-ceti'">
         <div class="planet-icon tau"></div>
         <span class="planet-label">Tau Ceti</span>
       </button>
 
+      <button class="planet-btn uplink-hidden" data-wm-id="star-epsilon-eridani-btn"
+        onclick="window.location.href='star-system.html?star=epsilon-eridani'">
+        <div class="planet-icon epsilon"></div>
+        <span class="planet-label">Epsilon Eridani</span>
+      </button>
+
       <button class="planet-btn uplink-hidden" data-wm-id="star-teegarden-btn"
         onclick="window.location.href='star-system.html?star=teegarden'">
         <div class="planet-icon teegarden"></div>
-        <span class="planet-label">Teegarden's Star</span>
+        <span class="planet-label">Teegarden's</span>
       </button>
 
       <button class="planet-btn uplink-hidden" data-wm-id="star-trappist-1-btn"
