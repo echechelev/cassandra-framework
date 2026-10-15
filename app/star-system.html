@@ -1613,6 +1613,7 @@
     </footer>
 
     <script src="data.js"></script>
+
     <script>
         function getStarFromURL() {
             const urlParams = new URLSearchParams(window.location.search);
@@ -1666,18 +1667,8 @@
                 link.href = url;
                 document.head.appendChild(link);
             });
+            console.log(`🚀 Preload initiated for ${imagesToLoad.length} planet assets.`);
         }
-
-        const imagesToLoad = planetAssets[starKey] || [];
-        imagesToLoad.forEach(url => {
-            const link = document.createElement('link');
-            link.rel = 'preload';
-            link.as = 'image';
-            link.href = url;
-            document.head.appendChild(link);
-        });
-        console.log(`🚀 Preload initiated for ${imagesToLoad.length} planet assets.`);
-    
 
         function initDashboard() {
             const userDataStr = sessionStorage.getItem('currentUser');
@@ -1765,7 +1756,7 @@
             const starLabel = document.getElementById('star-name-label');
 
             if (starSphere) {
-                starSphere.className = 'star-sphere'; // Сброс классов перед добавлением новых
+                starSphere.className = 'star-sphere';
                 const starColorClass = starData.sphereClass.replace('sphere-', '');
                 starSphere.classList.add(starColorClass);
             }
