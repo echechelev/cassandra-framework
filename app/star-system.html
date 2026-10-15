@@ -268,6 +268,7 @@
             display: flex;
             gap: 3vmin;
             z-index: 10;
+            will-change: transform, opacity;
         }
 
         .planet-btn {
@@ -1630,30 +1631,30 @@
         function preloadPlanetsForStar(starKey) {
             const planetAssets = {
                 'sun': [
-                    'assets/sun/mercury_icon.jpg', 'assets/sun/venus_icon.jpg',
-                    'assets/sun/earth_icon.jpg', 'assets/sun/mars_icon.jpg',
-                    'assets/sun/uranus_icon.jpg', 'assets/sun/neptune_icon.jpg'
+                    'assets/sun/mercury-icon.jpg', 'assets/sun/venus-icon.jpg',
+                    'assets/sun/earth-icon.jpg', 'assets/sun/mars-icon.jpg',
+                    'assets/sun/uranus-icon.jpg', 'assets/sun/neptune-icon.jpg'
                 ],
                 'alpha-centauri': [
-                    'assets/alpha_centauri_a/proxima_b.jpg',
-                    'assets/alpha_centauri_a/proxima_c.jpg',
-                    'assets/alpha_centauri_a/proxima_d.jpg'
+                    'assets/alpha-centauri-a/proxima-b-icon.jpg',
+                    'assets/alpha-centauri-a/proxima-c-icon.jpg',
+                    'assets/alpha-centauri-a/proxima-d-icon.jpg'
                 ],
                 'tau-ceti': [
-                    'assets/tau_ceti/tau_ceti_e.jpg', 'assets/tau_ceti/tau_ceti_f.jpg',
-                    'assets/tau_ceti/tau_ceti_g.jpg', 'assets/tau_ceti/tau_ceti_h.jpg'
+                    'assets/tau-ceti/tau-ceti-e-icon.jpg', 'assets/tau-ceti/tau-ceti-f-icon.jpg',
+                    'assets/tau-ceti/tau-ceti-g-icon.jpg', 'assets/tau-ceti/tau-ceti-h-icon.jpg'
                 ],
                 'epsilon-eridani': [
-                    'assets/epsilon_eridani/epsilon_eridani_c.jpg'
+                    'assets/epsilon-eridani/epsilon-eridani-c-icon.jpg'
                 ],
                 'teegarden': [
-                    'assets/teegarden/teegarden_b.jpg', 'assets/teegarden/teegarden_c.jpg'
+                    'assets/teegarden/teegarden-b-icon.jpg', 'assets/teegarden/teegarden-c-icon.jpg'
                 ],
                 'trappist-1': [
-                    'assets/trappist_1/trappist_1_b.jpg', 'assets/trappist_1/trappist_1_c.jpg',
-                    'assets/trappist_1/trappist_1_d.jpg', 'assets/trappist_1/trappist_1_e.jpg',
-                    'assets/trappist_1/trappist_1_f.jpg', 'assets/trappist_1/trappist_1_g.jpg',
-                    'assets/trappist_1/trappist-1h.jpg'
+                    'assets/trappist-1/trappist-1b-icon.jpg', 'assets/trappist-1/trappist-1c-icon.jpg',
+                    'assets/trappist-1/trappist-1d-icon.jpg', 'assets/trappist-1/trappist-1e-icon.jpg',
+                    'assets/trappist-1/trappist-1f-icon.jpg', 'assets/trappist-1/trappist-1g-icon.jpg',
+                    'assets/trappist-1/trappist-1h-icon.jpg'
                 ]
             };
 
@@ -1665,8 +1666,18 @@
                 link.href = url;
                 document.head.appendChild(link);
             });
-            console.log(`🚀 Preload initiated for ${imagesToLoad.length} planet assets.`);
         }
+
+        const imagesToLoad = planetAssets[starKey] || [];
+        imagesToLoad.forEach(url => {
+            const link = document.createElement('link');
+            link.rel = 'preload';
+            link.as = 'image';
+            link.href = url;
+            document.head.appendChild(link);
+        });
+        console.log(`🚀 Preload initiated for ${imagesToLoad.length} planet assets.`);
+    
 
         function initDashboard() {
             const userDataStr = sessionStorage.getItem('currentUser');
