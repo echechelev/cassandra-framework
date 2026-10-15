@@ -3,9 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-    <meta http-equiv="Pragma" content="no-cache">
-    <meta http-equiv="Expires" content="0">
+    <meta http-equiv="Cache-Control" content="public, max-age=86400">
     <link rel="icon" type="image/png" href="favicon.png">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cassandra — Star System</title>
@@ -555,7 +553,6 @@
             height: 30vmin;
             border-radius: 50%;
             z-index: 10;
-            transition: all 0.5s ease;
             cursor: pointer;
         }
 
@@ -578,11 +575,11 @@
 
         .star-sphere.sun {
             background-color: transparent;
-            background-image: url('assets/stars/g_dwarf_max.jpg');
+            background-image: url('assets/stars/g-dwarf-max.jpg');
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
-            filter: brightness(1.1);
+            filter: brightness(1);
             box-shadow:
                 inset -8vmin -8vmin 20vmin rgba(0, 0, 0, 0.4),
                 inset 3vmin 3vmin 10vmin rgba(255, 255, 200, 0.3),
@@ -612,11 +609,11 @@
 
         .star-sphere.alpha {
             background-color: transparent;
-            background-image: url('assets/stars/g_dwarf_max.jpg');
+            background-image: url('assets/stars/g-dwarf-max.jpg');
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
-            filter: brightness(1.15);
+            filter: brightness(0.9);
             box-shadow:
                 inset -8vmin -8vmin 20vmin rgba(0, 0, 0, 0.4),
                 inset 3vmin 3vmin 10vmin rgba(255, 255, 220, 0.4),
@@ -646,11 +643,11 @@
 
         .star-sphere.tau {
             background-color: transparent;
-            background-image: url('assets/stars/g_dwarf_max.jpg');
+            background-image: url('assets/stars/g-dwarf-max.jpg');
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
-            filter: brightness(0.95) saturate(1.05);
+            filter: brightness(0.9);
             box-shadow:
                 inset -8vmin -8vmin 20vmin rgba(0, 0, 0, 0.4),
                 inset 3vmin 3vmin 10vmin rgba(255, 240, 179, 0.3),
@@ -681,11 +678,11 @@
 
         .star-sphere.epsilon {
             background-color: transparent;
-            background-image: url('assets/stars/k_dwarf_max.jpg');
+            background-image: url('assets/stars/k-dwarf-max.jpg');
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
-            filter: saturate(1.3) brightness(0.9);
+            filter: brightness(0.8) saturate(1.1);
             box-shadow:
                 inset -8vmin -8vmin 20vmin rgba(0, 0, 0, 0.4),
                 inset 3vmin 3vmin 10vmin rgba(255, 220, 150, 0.3),
@@ -716,11 +713,11 @@
 
         .star-sphere.teegarden {
             background-color: transparent;
-            background-image: url('assets/stars/m_dwarf_max.jpg');
+            background-image: url('assets/stars/m-dwarf-max.jpg');
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
-            filter: brightness(0.9) saturate(1.3) contrast(1.1);
+            filter: brightness(0.85) saturate(1.2);
 
             box-shadow:
                 inset -8vmin -8vmin 20vmin rgba(0, 0, 0, 0.5),
@@ -752,11 +749,11 @@
 
         .star-sphere.trappist {
             background-color: transparent;
-            background-image: url('assets/stars/m_dwarf_max.jpg');
+            background-image: url('assets/stars/m-dwarf-max.jpg');
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
-            filter: brightness(0.9) saturate(1.3) contrast(1.1);
+            filter: brightness(0.85) saturate(1.2);
 
             box-shadow:
                 inset -8vmin -8vmin 20vmin rgba(0, 0, 0, 0.5),
@@ -805,8 +802,8 @@
         }
 
         .planet-icon.planet-mercury {
-            background-color: transparent !important;
-            background-image: url('assets/sun/mercury_icon.jpg') !important;
+            background-color: #8b8b8b !important;
+            background-image: url('assets/sun/mercury-icon.jpg') !important;
             background-size: cover !important;
             background-position: center !important;
             background-repeat: no-repeat !important;
@@ -837,8 +834,8 @@
         }
 
         .planet-icon.planet-venus {
-            background-color: transparent !important;
-            background-image: url('assets/sun/venus_icon.jpg') !important;
+            background-color: #b8a88a !important;
+            background-image: url('assets/sun/venus-icon.jpg') !important;
             background-size: cover !important;
             background-position: center !important;
             background-repeat: no-repeat !important;
@@ -869,8 +866,8 @@
         }
 
         .planet-icon.planet-earth {
-            background-color: transparent !important;
-            background-image: url('assets/sun/earth_icon.jpg') !important;
+            background-color: #1e4a7a !important;
+            background-image: url('assets/sun/earth-icon.jpg') !important;
             background-size: cover !important;
             background-position: center !important;
             background-repeat: no-repeat !important;
@@ -901,8 +898,8 @@
         }
 
         .planet-icon.planet-mars {
-            background-color: transparent !important;
-            background-image: url('assets/sun/mars_icon.jpg') !important;
+            background-color: #a8442a !important;
+            background-image: url('assets/sun/mars-icon.jpg') !important;
             background-size: cover !important;
             background-position: center !important;
             background-repeat: no-repeat !important;
@@ -933,8 +930,8 @@
         }
 
         .planet-icon.planet-uranus {
-            background-color: transparent !important;
-            background-image: url('assets/sun/uranus_icon.jpg') !important;
+            background-color: #88a8b8 !important;
+            background-image: url('assets/sun/uranus-icon.jpg') !important;
             background-size: cover !important;
             background-position: center !important;
             background-repeat: no-repeat !important;
@@ -965,8 +962,8 @@
         }
 
         .planet-icon.planet-neptune {
-            background-color: transparent !important;
-            background-image: url('assets/sun/neptune_icon.jpg') !important;
+            background-color: #2a4a7a !important;
+            background-image: url('assets/sun/neptune-icon.jpg') !important;
             background-size: cover !important;
             background-position: center !important;
             background-repeat: no-repeat !important;
@@ -998,8 +995,8 @@
         }
 
         .planet-icon.planet-proxima-b {
-            background-color: #2a1000 !important;
-            background-image: url('assets/alpha_centauri_a/proxima_b.jpg') !important;
+            background-color: #4a5568 !important;
+            background-image: url('assets/alpha-centauri-a/proxima-b-icon.jpg') !important;
             background-size: cover !important;
             background-position: center !important;
             background-repeat: no-repeat !important;
@@ -1029,8 +1026,8 @@
         }
 
         .planet-icon.planet-proxima-c {
-            background-color: #5588aa !important;
-            background-image: url('assets/alpha_centauri_a/proxima_c.jpg') !important;
+            background-color: #a8b4c0 !important;
+            background-image: url('assets/alpha-centauri-a/proxima-c-icon.jpg') !important;
             background-size: cover !important;
             background-position: center !important;
             background-repeat: no-repeat !important;
@@ -1059,8 +1056,8 @@
         }
 
         .planet-icon.planet-proxima-d {
-            background-color: #aa5522 !important;
-            background-image: url('assets/alpha_centauri_a/proxima_d.jpg') !important;
+            background-color: #a87a5a !important;
+            background-image: url('assets/alpha-centauri-a/proxima-d-icon.jpg') !important;
             background-size: cover !important;
             background-position: center !important;
             background-repeat: no-repeat !important;
@@ -1089,39 +1086,9 @@
             pointer-events: none;
         }
 
-        .planet-icon.planet-epsilon-eridani-c {
-            background-color: #4a6b8a !important;
-            background-image: url('assets/epsilon_eridani/epsilon_eridani_c.jpg') !important;
-            background-size: cover !important;
-            background-position: center !important;
-            background-repeat: no-repeat !important;
-            filter: brightness(1.35) saturate(0.9);
-            box-shadow:
-                inset -0.5vmin -0.5vmin 2vmin rgba(0, 0, 0, 0.75),
-                inset 0.3vmin 0.3vmin 1vmin rgba(180, 210, 230, 0.3);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .planet-icon.planet-epsilon-eridani-c::before {
-            content: none !important;
-        }
-
-        .planet-icon.planet-epsilon-eridani-c::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: radial-gradient(circle at 30% 30%, rgba(200, 225, 245, 0.55) 0%, transparent 50%);
-            border-radius: 50%;
-            pointer-events: none;
-        }
-
         .planet-icon.planet-tau-ceti-e {
-            background-color: #8b4513 !important;
-            background-image: url('assets/tau_ceti/tau_ceti_e.jpg') !important;
+            background-color: #a07850 !important;
+            background-image: url('assets/tau-ceti/tau-ceti-e-icon.jpg') !important;
             background-size: cover !important;
             background-position: center !important;
             background-repeat: no-repeat !important;
@@ -1150,8 +1117,8 @@
         }
 
         .planet-icon.planet-tau-ceti-f {
-            background-color: #1b5e20 !important;
-            background-image: url('assets/tau_ceti/tau_ceti_f.jpg') !important;
+            background-color: #2a6a7a !important;
+            background-image: url('assets/tau-ceti/tau-ceti-f-icon.jpg') !important;
             background-size: cover !important;
             background-position: center !important;
             background-repeat: no-repeat !important;
@@ -1181,8 +1148,8 @@
         }
 
         .planet-icon.planet-tau-ceti-g {
-            background-color: #2c1e16 !important;
-            background-image: url('assets/tau_ceti/tau_ceti_g.jpg') !important;
+            background-color: #b8a8a0 !important;
+            background-image: url('assets/tau-ceti/tau-ceti-g-icon.jpg') !important;
             background-size: cover !important;
             background-position: center !important;
             background-repeat: no-repeat !important;
@@ -1212,8 +1179,8 @@
         }
 
         .planet-icon.planet-tau-ceti-h {
-            background-color: #78909c !important;
-            background-image: url('assets/tau_ceti/tau_ceti_h.jpg') !important;
+            background-color: #5a7a8a !important;
+            background-image: url('assets/tau-ceti/tau-ceti-h-icon.jpg') !important;
             background-size: cover !important;
             background-position: center !important;
             background-repeat: no-repeat !important;
@@ -1242,9 +1209,39 @@
             pointer-events: none;
         }
 
+        .planet-icon.planet-epsilon-eridani-c {
+            background-color: #7a9090 !important;
+            background-image: url('assets/epsilon-eridani/epsilon-eridani-c-icon.jpg') !important;
+            background-size: cover !important;
+            background-position: center !important;
+            background-repeat: no-repeat !important;
+            filter: brightness(1.35) saturate(0.9);
+            box-shadow:
+                inset -0.5vmin -0.5vmin 2vmin rgba(0, 0, 0, 0.75),
+                inset 0.3vmin 0.3vmin 1vmin rgba(180, 210, 230, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .planet-icon.planet-epsilon-eridani-c::before {
+            content: none !important;
+        }
+
+        .planet-icon.planet-epsilon-eridani-c::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 30% 30%, rgba(200, 225, 245, 0.55) 0%, transparent 50%);
+            border-radius: 50%;
+            pointer-events: none;
+        }
+
         .planet-icon.planet-teegarden-b {
-            background-color: #881100 !important;
-            background-image: url('assets/teegarden/teegarden_b.jpg') !important;
+            background-color: #4a6070 !important;
+            background-image: url('assets/teegarden/teegarden-b-icon.jpg') !important;
             background-size: cover !important;
             background-position: center !important;
             background-repeat: no-repeat !important;
@@ -1273,8 +1270,8 @@
         }
 
         .planet-icon.planet-teegarden-c {
-            background-color: #3d5a80 !important;
-            background-image: url('assets/teegarden/teegarden_c.jpg') !important;
+            background-color: #7a7060 !important;
+            background-image: url('assets/teegarden/teegarden-c-icon.jpg') !important;
             background-size: cover !important;
             background-position: center !important;
             background-repeat: no-repeat !important;
@@ -1303,8 +1300,8 @@
         }
 
         .planet-icon.planet-trappist-1b {
-            background-color: #2c0a0a !important;
-            background-image: url('assets/trappist_1/trappist_1_b.jpg') !important;
+            background-color: #9a3a1a !important;
+            background-image: url('assets/trappist-1/trappist-1b-icon.jpg') !important;
             background-size: cover !important;
             background-position: center !important;
             background-repeat: no-repeat !important;
@@ -1333,8 +1330,8 @@
         }
 
         .planet-icon.planet-trappist-1c {
-            background-color: #551100 !important;
-            background-image: url('assets/trappist_1/trappist_1_c.jpg') !important;
+            background-color: #a06030 !important;
+            background-image: url('assets/trappist-1/trappist-1c-icon.jpg') !important;
             background-size: cover !important;
             background-position: center !important;
             background-repeat: no-repeat !important;
@@ -1363,8 +1360,8 @@
         }
 
         .planet-icon.planet-trappist-1d {
-            background-color: #884411 !important;
-            background-image: url('assets/trappist_1/trappist_1_d.jpg') !important;
+            background-color: #8a8278 !important;
+            background-image: url('assets/trappist-1/trappist-1d-icon.jpg') !important;
             background-size: cover !important;
             background-position: center !important;
             background-repeat: no-repeat !important;
@@ -1393,8 +1390,8 @@
         }
 
         .planet-icon.planet-trappist-1e {
-            background-color: #2a5a7a !important;
-            background-image: url('assets/trappist_1/trappist_1_e.jpg') !important;
+            background-color: #6a7a80 !important;
+            background-image: url('assets/trappist-1/trappist-1e-icon.jpg') !important;
             background-size: cover !important;
             background-position: center !important;
             background-repeat: no-repeat !important;
@@ -1423,8 +1420,8 @@
         }
 
         .planet-icon.planet-trappist-1f {
-            background-color: #0d4d6b !important;
-            background-image: url('assets/trappist_1/trappist_1_f.jpg') !important;
+            background-color: #1a4a6a !important;
+            background-image: url('assets/trappist-1/trappist-1f-icon.jpg') !important;
             background-size: cover !important;
             background-position: center !important;
             background-repeat: no-repeat !important;
@@ -1453,8 +1450,8 @@
         }
 
         .planet-icon.planet-trappist-1g {
-            background-color: #336699 !important;
-            background-image: url('assets/trappist_1/trappist_1_g.jpg') !important;
+            background-color: #2a7a70 !important;
+            background-image: url('assets/trappist-1/trappist-1g-icon.jpg') !important;
             background-size: cover !important;
             background-position: center !important;
             background-repeat: no-repeat !important;
@@ -1484,8 +1481,8 @@
         }
 
         .planet-icon.planet-trappist-1h {
-            background-color: #c8d8e8 !important;
-            background-image: url('assets/trappist_1/trappist-1h.jpg') !important;
+            background-color: #6a88a0 !important;
+            background-image: url('assets/trappist-1/trappist-1h-icon.jpg') !important;
             background-size: cover !important;
             background-position: center !important;
             background-repeat: no-repeat !important;
@@ -1630,6 +1627,47 @@
             return starKey;
         }
 
+        function preloadPlanetsForStar(starKey) {
+            const planetAssets = {
+                'sun': [
+                    'assets/sun/mercury_icon.jpg', 'assets/sun/venus_icon.jpg',
+                    'assets/sun/earth_icon.jpg', 'assets/sun/mars_icon.jpg',
+                    'assets/sun/uranus_icon.jpg', 'assets/sun/neptune_icon.jpg'
+                ],
+                'alpha-centauri': [
+                    'assets/alpha_centauri_a/proxima_b.jpg',
+                    'assets/alpha_centauri_a/proxima_c.jpg',
+                    'assets/alpha_centauri_a/proxima_d.jpg'
+                ],
+                'tau-ceti': [
+                    'assets/tau_ceti/tau_ceti_e.jpg', 'assets/tau_ceti/tau_ceti_f.jpg',
+                    'assets/tau_ceti/tau_ceti_g.jpg', 'assets/tau_ceti/tau_ceti_h.jpg'
+                ],
+                'epsilon-eridani': [
+                    'assets/epsilon_eridani/epsilon_eridani_c.jpg'
+                ],
+                'teegarden': [
+                    'assets/teegarden/teegarden_b.jpg', 'assets/teegarden/teegarden_c.jpg'
+                ],
+                'trappist-1': [
+                    'assets/trappist_1/trappist_1_b.jpg', 'assets/trappist_1/trappist_1_c.jpg',
+                    'assets/trappist_1/trappist_1_d.jpg', 'assets/trappist_1/trappist_1_e.jpg',
+                    'assets/trappist_1/trappist_1_f.jpg', 'assets/trappist_1/trappist_1_g.jpg',
+                    'assets/trappist_1/trappist-1h.jpg'
+                ]
+            };
+
+            const imagesToLoad = planetAssets[starKey] || [];
+            imagesToLoad.forEach(url => {
+                const link = document.createElement('link');
+                link.rel = 'preload';
+                link.as = 'image';
+                link.href = url;
+                document.head.appendChild(link);
+            });
+            console.log(`🚀 Preload initiated for ${imagesToLoad.length} planet assets.`);
+        }
+
         function initDashboard() {
             const userDataStr = sessionStorage.getItem('currentUser');
 
@@ -1643,14 +1681,11 @@
             }
 
             const starKey = getStarFromURL();
+            if (!starKey) return;
 
-            if (!starKey) {
-                console.error('❌ Не удалось определить звезду из URL');
-                return;
-            }
+            preloadPlanetsForStar(starKey);
 
             const starData = window.starDatabase[starKey];
-
             if (!starData) {
                 console.error(`❌ Звезда "${starKey}" не найдена в базе данных`);
                 return;
@@ -1683,11 +1718,11 @@
             if (roleLabelEl) roleLabelEl.textContent = role;
             if (roleTooltipEl) {
                 roleTooltipEl.innerHTML = `
-                <div class="tooltip-title">SYSTEM ROLE</div>
-                <div>Function: ${func}</div>
-                <div>Access: Level ${accessLevel}</div>
-                <div>Status: Active</div>
-            `;
+                    <div class="tooltip-title">SYSTEM ROLE</div>
+                    <div>Function: ${func}</div>
+                    <div>Access: Level ${accessLevel}</div>
+                    <div>Status: Active</div>
+                `;
             }
 
             const userLabelEl = document.querySelector('.top-right .corner-label');
@@ -1696,19 +1731,19 @@
             if (userLabelEl) userLabelEl.textContent = fullName.toUpperCase();
             if (userTooltipEl) {
                 userTooltipEl.innerHTML = `
-                <div class="tooltip-title">CREW MEMBER</div>
-                <div>Registered Callsign: ${callsign}</div>
-                <div>ID: ${userId}</div>
-                <div>Status: Online</div>
-            `;
+                    <div class="tooltip-title">CREW MEMBER</div>
+                    <div>Registered Callsign: ${callsign}</div>
+                    <div>ID: ${userId}</div>
+                    <div>Status: Online</div>
+                `;
             }
 
             const telemetry = document.getElementById('dashboard-telemetry');
             if (telemetry) {
                 const candidates = starData.planetData.filter(p => p.type !== 'Gas Giant').length;
-
                 telemetry.innerHTML = `> <span class="telemetry-cassan">CASSAN</span><span class="telemetry-dra">DRA</span>: <span data-wm-id="telemetry-message" style="color: #2ecc71;">${callsign}, SCANNING ${starData.name.toUpperCase()} SYSTEM... ${candidates} PLANETS DETECTED. AWAITING SELECTION.</span>`;
             }
+
             const titleWhitePart = document.querySelector('.star-system-title .white-part');
             const titleBluePart = document.querySelector('.star-system-title .blue-part');
 
@@ -1719,17 +1754,7 @@
             const starLabel = document.getElementById('star-name-label');
 
             if (starSphere) {
-                starSphere.className = 'star-sphere';
-                const starColorClass = starData.sphereClass.replace('sphere-', '');
-                starSphere.classList.add(starColorClass);
-            }
-
-            if (starLabel) {
-                starLabel.textContent = starData.name.toUpperCase();
-            }
-
-            if (starSphere) {
-                starSphere.className = 'star-sphere';
+                starSphere.className = 'star-sphere'; // Сброс классов перед добавлением новых
                 const starColorClass = starData.sphereClass.replace('sphere-', '');
                 starSphere.classList.add(starColorClass);
             }
@@ -1752,7 +1777,6 @@
 
                     const icon = document.createElement('div');
                     icon.className = `planet-icon planet-${planet.id}`;
-                    icon.style.setProperty('--p-color', planet.color);
 
                     const label = document.createElement('span');
                     label.className = 'planet-label';
@@ -1773,20 +1797,7 @@
         }
 
         document.addEventListener('DOMContentLoaded', () => {
-
             initDashboard();
-
-            const starButtons = document.querySelectorAll('.planet-btn[data-wm-id^="star-"]');
-            starButtons.forEach(button => {
-                button.addEventListener('click', function () {
-                    const wmId = this.getAttribute('data-wm-id');
-                    // Извлекаем ключ звезды из ID (например, "star-sun-btn" -> "sun")
-                    const starKey = wmId.replace('star-', '').replace('-btn', '');
-                    if (starKey) {
-                        window.location.href = `star-system.html?star=${starKey}`;
-                    }
-                });
-            });
         });
 
         window.addEventListener('pageshow', function (event) {
