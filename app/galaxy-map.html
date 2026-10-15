@@ -3,11 +3,15 @@
 
 <head>
   <meta charset="UTF-8">
-  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-  <meta http-equiv="Pragma" content="no-cache">
-  <meta http-equiv="Expires" content="0">
-  <link rel="icon" type="image/png" href="favicon.png">
+  <meta http-equiv="Cache-Control" content="public, max-age=86400">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="preload" as="image" href="favicon.png">
+  <link rel="preload" as="image" href="assets/stars/g-dwarf-icon.jpg">
+  <link rel="preload" as="image" href="assets/stars/k-dwarf-icon.jpg">
+  <link rel="preload" as="image" href="assets/stars/m-dwarf-icon.jpg">
+  <link rel="preload" as="image" href="assets/stars/g-dwarf-max.jpg">
+  <link rel="preload" as="image" href="assets/stars/k-dwarf-max.jpg">
+  <link rel="preload" as="image" href="assets/stars/m-dwarf-max.jpg">
   <title>Cassandra — Galaxy Map</title>
   <style>
     :root {
@@ -773,49 +777,49 @@
     }
 
     .planet-icon.sun {
-      background-color: transparent;
-      background-image: url('assets/stars/g_dwarf_icon.jpg');
+      background-color: #f5e6b8;
+      background-image: url('assets/stars/g-dwarf-icon.jpg');
       background-size: cover;
       background-position: center;
       border-radius: 50%;
       box-shadow: 0 0 2vmin rgba(255, 200, 0, 0.8), 0 0 4vmin rgba(255, 150, 0, 0.4);
-      filter: brightness(1.1);
+      filter: brightness(0.9);
     }
 
     .planet-icon.alpha {
-      background-color: transparent;
-      background-image: url('assets/stars/g_dwarf_icon.jpg');
+      background-color: #f5e6b8;
+      background-image: url('assets/stars/g-dwarf-icon.jpg');
       background-size: cover;
       background-position: center;
       border-radius: 50%;
       box-shadow: 0 0 2vmin rgba(255, 200, 0, 0.8), 0 0 4vmin rgba(255, 150, 0, 0.4);
-      filter: brightness(1.05);
+      filter: brightness(0.9);
     }
 
     .planet-icon.tau {
-      background-color: transparent;
-      background-image: url('assets/stars/g_dwarf_icon.jpg');
+      background-color: #f5e6b8;
+      background-image: url('assets/stars/g-dwarf-icon.jpg');
       background-size: cover;
       background-position: center;
       border-radius: 50%;
       box-shadow: 0 0 2vmin rgba(255, 200, 0, 0.8), 0 0 4vmin rgba(255, 150, 0, 0.4);
-      filter: brightness(1.1);
+      filter: brightness(0.9);
     }
 
     .planet-icon.epsilon {
-      background-color: transparent;
-      background-image: url('assets/stars/k_dwarf_icon.jpg');
+      background-color: #f5d5a8;
+      background-image: url('assets/stars/k-dwarf-icon.jpg');
       background-size: cover;
       background-position: center;
       border-radius: 50%;
       box-shadow: 0 0 1.5vmin rgba(255, 136, 0, 0.6);
-      filter: brightness(0.85) saturate(1.1);
+      filter: brightness(0.8) saturate(1.1);
     }
 
 
     .planet-icon.teegarden {
-      background-color: transparent;
-      background-image: url('assets/stars/m_dwarf_icon.jpg');
+      background-color: #d4644a;
+      background-image: url('assets/stars/m-dwarf-icon.jpg');
       background-size: cover;
       background-position: center;
       border-radius: 50%;
@@ -824,8 +828,8 @@
     }
 
     .planet-icon.trappist {
-      background-color: transparent;
-      background-image: url('assets/stars/m_dwarf_icon.jpg');
+      background-color: #d4644a;
+      background-image: url('assets/stars/m-dwarf-icon.jpg');
       background-size: cover;
       background-position: center;
       border-radius: 50%;

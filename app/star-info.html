@@ -3,9 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-    <meta http-equiv="Pragma" content="no-cache">
-    <meta http-equiv="Expires" content="0">
+    <meta http-equiv="Cache-Control" content="public, max-age=86400">
     <link rel="icon" type="image/png" href="favicon.png">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cassandra — Star Info</title>
@@ -944,7 +942,6 @@
             height: 30vmin;
             border-radius: 50%;
             z-index: 10;
-            transition: all 0.5s ease;
             cursor: pointer;
         }
 
@@ -963,12 +960,12 @@
         }
 
         .star-sphere.sun {
-            background-color: transparent;
-            background-image: url('assets/stars/g_dwarf_max.jpg');
+            background-color: #f5e6b8;
+            background-image: url('assets/stars/g-dwarf-max.jpg');
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
-            filter: brightness(1.1);
+            filter: brightness(0.9);
             box-shadow:
                 inset -8vmin -8vmin 20vmin rgba(0, 0, 0, 0.4),
                 inset 3vmin 3vmin 10vmin rgba(255, 255, 200, 0.3),
@@ -977,6 +974,7 @@
             border-radius: 50%;
             position: relative;
             overflow: hidden;
+            transition: none;
         }
 
         .star-sphere.sun::before {
@@ -997,7 +995,7 @@
         }
 
         .star-sphere.alpha {
-            background-color: transparent;
+            background-color: #f5e6b8;
             background-image: url('assets/stars/g_dwarf_max.jpg');
             background-size: cover;
             background-position: center;
@@ -1031,7 +1029,7 @@
         }
 
         .star-sphere.tau {
-            background-color: transparent;
+            background-color: #f5e6b8;
             background-image: url('assets/stars/g_dwarf_max.jpg');
             background-size: cover;
             background-position: center;
@@ -1066,7 +1064,7 @@
         }
 
         .star-sphere.epsilon {
-            background-color: transparent;
+            background-color: #f5d5a8;
             background-image: url('assets/stars/k_dwarf_max.jpg');
             background-size: cover;
             background-position: center;
@@ -1101,7 +1099,7 @@
         }
 
         .star-sphere.teegarden {
-            background-color: transparent;
+            background-color: #d4644a;
             background-image: url('assets/stars/m_dwarf_max.jpg');
             background-size: cover;
             background-position: center;
@@ -1137,7 +1135,7 @@
         }
 
         .star-sphere.trappist {
-            background-color: transparent;
+            background-color: #d4644a;
             background-image: url('assets/stars/m_dwarf_max.jpg');
             background-size: cover;
             background-position: center;
@@ -1338,6 +1336,26 @@
 
         <script src="data.js"></script>
         <script>
+            function preloadStarImage(starParam) {
+                let imageUrl = '';
+                if (['sun', 'alpha-centauri', 'tau-ceti'].includes(starParam)) {
+                    imageUrl = 'assets/stars/g_dwarf_max.jpg';
+                } else if (starParam === 'epsilon-eridani') {
+                    imageUrl = 'assets/stars/epsilon_max.jpg';
+                } else if (['teegarden', 'trappist-1'].includes(starParam)) {
+                    imageUrl = 'assets/stars/teegarden_max.jpg';
+                }
+
+                if (imageUrl) {
+                    const link = document.createElement('link');
+                    link.rel = 'preload';
+                    link.as = 'image';
+                    link.href = imageUrl;
+                    document.head.appendChild(link);
+                }
+            }
+
+            // 2. Проверка авторизации
             function initDashboard() {
                 const userDataStr = sessionStorage.getItem('currentUser');
 
@@ -1414,13 +1432,16 @@
             function loadObjectData() {
                 const urlParams = new URLSearchParams(window.location.search);
                 const starParam = urlParams.get('star');
-                let objectData = null;
 
                 if (!starParam || starParam.trim() === '') {
                     console.warn('⚠️ Параметр star пуст или отсутствует. Редирект на Карту Галактики.');
                     window.location.href = 'galaxy-map.html';
                     return;
                 }
+
+                preloadStarImage(starParam);
+
+                let objectData = null;
 
                 if (starParam === 'sun') {
                     objectData = window.sun;
@@ -1437,7 +1458,6 @@
                 } else if (starParam === 'sagittarius-a' || starParam === 'black-hole' || starParam === 'sagittarius') {
                     objectData = window.sagittariusA;
                 } else {
-
                     console.warn(`⚠️ Объект "${starParam}" не найден в базе. Редирект на Карту Галактики.`);
                     window.location.href = 'galaxy-map.html';
                     return;
@@ -1464,7 +1484,7 @@
                         starContainer.style.display = 'block';
                         const sphere = document.getElementById('main-star-sphere');
                         if (sphere && objectData.visual && objectData.visual.sphereClass) {
-                            sphere.className = '';
+                            sphere.className = 'star-sphere';
                             const classes = objectData.visual.sphereClass.split(' ');
                             classes.forEach(cls => sphere.classList.add(cls));
                         }
@@ -1544,7 +1564,6 @@
 
             document.addEventListener('DOMContentLoaded', () => {
                 const isAuthorized = initDashboard();
-
                 if (isAuthorized) {
                     loadObjectData();
                 }
@@ -1554,7 +1573,6 @@
                 if (event.persisted) {
                     console.warn('⚠️ Страница восстановлена из bfcache — принудительная проверка');
                     const isAuthorized = initDashboard();
-
                     if (isAuthorized) {
                         loadObjectData();
                     }
