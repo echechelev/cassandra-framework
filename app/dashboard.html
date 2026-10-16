@@ -763,7 +763,7 @@
           if (telemetry) {
             telemetry.innerHTML = `> <span class="telemetry-cassan">CASSAN</span><span class="telemetry-dra">DRA</span>: <span id="typing-target" data-wm-id="telemetry-message" style="color: #4da6ff;"></span>`;
             const target = document.getElementById('typing-target');
-           
+
             typeWriter(`${callsign}, SERVER CONNECTION REQUIRED. INITIALIZE UPLINK PROCEDURE.`, target, 3000);
           }
           return;
@@ -783,7 +783,7 @@
       function showReadyDashboard(dynamicCallsign) {
         const telemetry = document.getElementById('dashboard-telemetry');
         if (telemetry) {
-        
+
           telemetry.innerHTML = `> <span class="telemetry-cassan">CASSAN</span><span class="telemetry-dra">DRA</span>: <span data-wm-id="telemetry-message" style="color: #2ecc71;">${dynamicCallsign}, SYSTEM READY FOR WORK. AWAITING COMMANDS.</span>`;
         }
 
@@ -828,6 +828,36 @@
         }
       }
 
+      function preloadAllAssetsInBackground() {
+        const assetsConfig = {
+          'stars': ['g-dwarf', 'k-dwarf', 'm-dwarf'],
+          'sun': ['mercury', 'venus', 'earth', 'mars', 'uranus', 'neptune'],
+          'alpha-centauri-a': ['proxima-b', 'proxima-c', 'proxima-d'],
+          'tau-ceti': ['tau-ceti-e', 'tau-ceti-f', 'tau-ceti-g', 'tau-ceti-h'],
+          'epsilon-eridani': ['epsilon-eridani-c'],
+          'teegarden': ['teegarden-b', 'teegarden-c'],
+          'trappist-1': ['trappist-1b', 'trappist-1c', 'trappist-1d', 'trappist-1e', 'trappist-1f', 'trappist-1g', 'trappist-1h']
+        };
+
+        const suffixes = ['-icon.jpg', '-max.jpg'];
+        const allAssets = [];
+
+        for (const [folder, names] of Object.entries(assetsConfig)) {
+          for (const name of names) {
+            for (const suffix of suffixes) {
+              allAssets.push(`assets/${folder}/${name}${suffix}`);
+            }
+          }
+        }
+
+        console.log(`🚀 Запуск фонового прелоада ${allAssets.length} ассетов...`);
+
+        allAssets.forEach(url => {
+          const img = new Image();
+          img.src = url;
+        });
+      }
+
       async function startUplink() {
         const telemetry = document.getElementById('dashboard-telemetry');
         const progressContainer = document.getElementById('uplink-progress-container');
@@ -836,6 +866,8 @@
         const uplinkBtn = document.querySelector('[data-wm-id="uplink-btn"]');
         const rolePanel = document.querySelector('.top-left');
         const userPanel = document.querySelector('.top-right');
+
+        preloadAllAssetsInBackground();
 
         rolePanel.classList.add('panel-offline');
         rolePanel.classList.remove('panel-online');
@@ -942,7 +974,7 @@
       }
 
       function handleLogout() {
-       
+
         sessionStorage.removeItem('currentUser');
         sessionStorage.removeItem('uplinkCompleted');
         sessionStorage.removeItem('freshLogin');
