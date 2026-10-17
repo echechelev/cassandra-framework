@@ -368,3 +368,222 @@ window.starDatabase = {
     ]
   }
 };
+
+
+// ========================================================================
+//#region 4️ 🌌 ДАННЫЕ ДЛЯ РАСЧЕТОВ  ИНДЕКСА CIS
+// ========================================================================
+
+// Формула для расчетов
+//CIS = (habitable_zone × 0.15) + 
+//     (surface × 0.15) + 
+//      (hydrosphere × 0.15) + 
+//      (atmosphere × 0.10) + 
+//      (breathability × 0.10) + 
+//      (climate × 0.10) + 
+//      (gravity × 0.10) + 
+//      (magnetic × 0.15) 
+
+window.CisDataSun = [
+  {
+    id: "mercury",
+    total_cis: 26.6,
+    cisData: {
+      habitable_zone: 40, surface: 100, hydrosphere: 0, atmosphere: 0,
+      breathability: 0, climate: 10, gravity: 38, magnetic: 5
+    }
+  },
+  {
+    id: "venus",
+    total_cis: 43.0,
+    cisData: {
+      habitable_zone: 60, surface: 100, hydrosphere: 0, atmosphere: 95,
+      breathability: 0, climate: 5, gravity: 90, magnetic: 0
+    }
+  },
+  {
+    id: "earth",
+    total_cis: 100.0,
+    cisData: {
+      habitable_zone: 100, surface: 100, hydrosphere: 100, atmosphere: 100,
+      breathability: 100, climate: 100, gravity: 100, magnetic: 100
+    }
+  },
+  {
+    id: "mars",
+    total_cis: 37.7,
+    cisData: {
+      habitable_zone: 85, surface: 100, hydrosphere: 5, atmosphere: 10,
+      breathability: 1, climate: 35, gravity: 38, magnetic: 5
+    }
+  },
+  {
+    id: "uranus",
+    total_cis: 31.4,
+    cisData: {
+      habitable_zone: 20, surface: 0, hydrosphere: 10, atmosphere: 100,
+      breathability: 0, climate: 5, gravity: 89, magnetic: 50
+    }
+  },
+  {
+    id: "neptune",
+    total_cis: 28.3,
+    cisData: {
+      habitable_zone: 10, surface: 0, hydrosphere: 5, atmosphere: 100,
+      breathability: 0, climate: 0, gravity: 100, magnetic: 40
+    }
+  }
+];
+
+window.CisDataAlphaCentauriA = [
+  {
+    id: "proxima-b",
+    total_cis: 61.5,
+    cisData: {
+      habitable_zone: 80, surface: 100, hydrosphere: 60, atmosphere: 50,
+      breathability: 10, climate: 40, gravity: 110, magnetic: 30
+    }
+  },
+  {
+    id: "proxima-c",
+    total_cis: 51.5,
+    cisData: {
+      habitable_zone: 30, surface: 20, hydrosphere: 80, atmosphere: 90,
+      breathability: 0, climate: 10, gravity: 130, magnetic: 60
+    }
+  },
+  {
+    id: "proxima-d",
+    total_cis: 28.5,
+    cisData: {
+      habitable_zone: 40, surface: 100, hydrosphere: 0, atmosphere: 10,
+      breathability: 0, climate: 20, gravity: 30, magnetic: 10
+    }
+  }
+];
+
+window.CisDataTauCeti = [
+  {
+    id: "tau-ceti-e",
+    total_cis: 62.3,
+    cisData: {
+      habitable_zone: 65, surface: 100, hydrosphere: 40, atmosphere: 70,
+      breathability: 5, climate: 30, gravity: 120, magnetic: 60
+    }
+  },
+  {
+    id: "tau-ceti-f",
+    total_cis: 73.0,
+    cisData: {
+      habitable_zone: 85, surface: 100, hydrosphere: 70, atmosphere: 65,
+      breathability: 10, climate: 55, gravity: 120, magnetic: 65
+    }
+  },
+  {
+    id: "tau-ceti-g",
+    total_cis: 39.3,
+    cisData: {
+      habitable_zone: 25, surface: 100, hydrosphere: 0, atmosphere: 30,
+      breathability: 0, climate: 15, gravity: 100, magnetic: 40
+    }
+  },
+  {
+    id: "tau-ceti-h",
+    total_cis: 43.0,
+    cisData: {
+      habitable_zone: 20, surface: 80, hydrosphere: 30, atmosphere: 40,
+      breathability: 0, climate: 10, gravity: 110, magnetic: 50
+    }
+  }
+];
+
+window.CisDataEpsilonEridani = [
+  {
+    id: "epsilon-eridani-c",
+    total_cis: 37.3,
+    cisData: {
+      habitable_zone: 15, surface: 0, hydrosphere: 10, atmosphere: 100,
+      breathability: 0, climate: 5, gravity: 110, magnetic: 80
+    }
+  }
+];
+
+window.CisDataTeegarden = [
+  {
+    id: "teegarden-b",
+    total_cis: 68.5,
+    cisData: {
+      habitable_zone: 90, surface: 100, hydrosphere: 50, atmosphere: 60,
+      breathability: 5, climate: 45, gravity: 105, magnetic: 40
+    }
+  },
+  {
+    id: "teegarden-c",
+    total_cis: 52.0,
+    cisData: {
+      habitable_zone: 70, surface: 100, hydrosphere: 20, atmosphere: 50,
+      breathability: 0, climate: 25, gravity: 110, magnetic: 30
+    }
+  }
+];
+
+
+window.CisDataTrappist1 = [
+  {
+    id: "trappist-1b",
+    total_cis: 27.5,
+    cisData: {
+      habitable_zone: 10, surface: 100, hydrosphere: 0, atmosphere: 5,
+      breathability: 0, climate: 10, gravity: 80, magnetic: 10
+    }
+  },
+  {
+    id: "trappist-1c",
+    total_cis: 32.3,
+    cisData: {
+      habitable_zone: 20, surface: 100, hydrosphere: 0, atmosphere: 15,
+      breathability: 0, climate: 15, gravity: 90, magnetic: 15
+    }
+  },
+  {
+    id: "trappist-1d",
+    total_cis: 45.0,
+    cisData: {
+      habitable_zone: 60, surface: 100, hydrosphere: 30, atmosphere: 40,
+      breathability: 0, climate: 35, gravity: 60, magnetic: 20
+    }
+  },
+  {
+    id: "trappist-1e",
+    total_cis: 65.0,
+    cisData: {
+      habitable_zone: 90, surface: 100, hydrosphere: 70, atmosphere: 60,
+      breathability: 5, climate: 60, gravity: 90, magnetic: 30
+    }
+  },
+  {
+    id: "trappist-1f",
+    total_cis: 61.5,
+    cisData: {
+      habitable_zone: 85, surface: 80, hydrosphere: 80, atmosphere: 50,
+      breathability: 0, climate: 50, gravity: 95, magnetic: 35
+    }
+  },
+  {
+    id: "trappist-1g",
+    total_cis: 51.0,
+    cisData: {
+      habitable_zone: 60, surface: 60, hydrosphere: 60, atmosphere: 40,
+      breathability: 0, climate: 30, gravity: 110, magnetic: 40
+    }
+  },
+  {
+    id: "trappist-1h",
+    total_cis: 31.3,
+    cisData: {
+      habitable_zone: 30, surface: 40, hydrosphere: 40, atmosphere: 30,
+      breathability: 0, climate: 10, gravity: 70, magnetic: 25
+    }
+  }
+];
+
