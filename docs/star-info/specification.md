@@ -26,7 +26,7 @@
 
 - **`Galaxy Map Button`** (button) — Кнопка навигации (нижний левый угол). Показывается только для черной дыры. Иконка: 🌌. Текст: Galaxy Map. Ведет на galaxy-map.html. data-wm-id="nav-galaxy-map-btn".
 
-- **`Star System Button`** (button) — Кнопка навигации (нижний левый угол). Показывается для всех звезд и систем. Иконка: . Текст: Star System. Ведет на star-system.html?star={star_key}. data-wm-id="nav-star-system-btn".
+- **`Star System Button`** (button) — Кнопка навигации (нижний левый угол). Показывается для всех звезд и систем. Иконка: ☄️. Текст: Star System. Ведет на star-system.html?star={star_key}. data-wm-id="nav-star-system-btn".
 
 - **`Info Panel Role`** (container) — Информационная панель роли пользователя (верхний левый угол). Содержит иконку, название роли и тултип с деталями.
 
