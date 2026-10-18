@@ -48,6 +48,64 @@ STAR_INFO_URL = {
     "no-star": "star-info.html",  
 }
 
+# Солнечная система 
+PLANET_URL_SUN = {
+    "mercury": "planet.html?star=sun&planet=mercury",
+    "venus": "planet.html?star=sun&planet=venus",
+    "earth": "planet.html?star=sun&planet=earth",
+    "mars": "planet.html?star=sun&planet=mars",
+    "uranus": "planet.html?star=sun&planet=uranus",
+    "neptune": "planet.html?star=sun&planet=neptune",
+    "no-planet": "planet.html"
+}
+
+# Альфа Центавра А / Проксима 
+PLANET_URL_ALPHA_CENTAURI = {
+    "proxima-b": "planet.html?star=alpha-centauri-a&planet=proxima-b",
+    "proxima-c": "planet.html?star=alpha-centauri-a&planet=proxima-c",
+    "proxima-d": "planet.html?star=alpha-centauri-a&planet=proxima-d",
+}
+
+# Тау Кита 
+PLANET_URL_TAU_CETI = {
+    "tau-ceti-e": "planet.html?star=tau-ceti&planet=tau-ceti-e",
+    "tau-ceti-f": "planet.html?star=tau-ceti&planet=tau-ceti-f",
+    "tau-ceti-g": "planet.html?star=tau-ceti&planet=tau-ceti-g",
+    "tau-ceti-h": "planet.html?star=tau-ceti&planet=tau-ceti-h",
+}
+
+# Эпсилон Эридана 
+PLANET_URL_EPSILON_ERIDANI = {
+    "epsilon-eridani-c": "planet.html?star=epsilon-eridani&planet=epsilon-eridani-c",
+}
+
+# Звезда Тигардена 
+PLANET_URL_TEEGARDEN = {
+    "teegarden-b": "planet.html?star=teegarden&planet=teegarden-b",
+    "teegarden-c": "planet.html?star=teegarden&planet=teegarden-c",
+}
+
+# TRAPPIST-1 
+PLANET_URL_TRAPPIST_1 = {
+    "trappist-1b": "planet.html?star=trappist-1&planet=trappist-1b",
+    "trappist-1c": "planet.html?star=trappist-1&planet=trappist-1c",
+    "trappist-1d": "planet.html?star=trappist-1&planet=trappist-1d",
+    "trappist-1e": "planet.html?star=trappist-1&planet=trappist-1e",
+    "trappist-1f": "planet.html?star=trappist-1&planet=trappist-1f",
+    "trappist-1g": "planet.html?star=trappist-1&planet=trappist-1g",
+    "trappist-1h": "planet.html?star=trappist-1&planet=trappist-1h",
+}
+
+# Негативные сценарии (для test_errors.py)
+PLANET_URL_INVALID = {
+    "no-params": "planet.html",
+    "no-planet": "planet.html?star=sun",
+    "no-star": "planet.html?planet=earth",
+    "empty-planet": "planet.html?star=sun&planet=",
+    "unknown-planet": "planet.html?star=sun&planet=pluto",
+    "unknown-star": "planet.html?star=kepler-442&planet=kepler-442b",
+}
+
 # ==========================================
 # 👨‍🚀 ДАННЫЕ ПОЛЬЗОВАТЕЛЕЙ (User Data)
 # ==========================================
@@ -398,8 +456,12 @@ GREEN_TELEMETRY_STAR_INFO_TAU_CETI = f"{_GREEN_BASE_PREFIX}CASSANDRA: AURORA, AN
 GREEN_TELEMETRY_STAR_INFO_TEEGARDEN = f"{_GREEN_BASE_PREFIX}CASSANDRA: AURORA, ANALYZING TEEGARDEN'S DATA..."
 GREEN_TELEMETRY_STAR_INFO_TRAPPIST_1 = f"{_GREEN_BASE_PREFIX}CASSANDRA: AURORA, ANALYZING TRAPPIST-1 DATA..."
 GREEN_TELEMETRY_STAR_INFO_SAGITTARIUS_A = f"{_GREEN_BASE_PREFIX}CASSANDRA: AURORA, ANALYZING SAGITTARIUS A* DATA..."
-
-
+GREEN_TELEMETRY_PLANET_MERCURY_METRICS = f"{_GREEN_BASE_PREFIX}CASSANDRA: AURORA, MERCURY. DOWNLOADING PLANETARY METRICS..."
+GREEN_TELEMETRY_PLANET_PROXIMA_B_METRICS = f"{_GREEN_BASE_PREFIX}CASSANDRA: AURORA, PROXIMA B. DOWNLOADING PLANETARY METRICS..."
+GREEN_TELEMETRY_PLANET_TAU_CETI_E_METRICS = f"{_GREEN_BASE_PREFIX}CASSANDRA: AURORA, TAU CETI E. DOWNLOADING PLANETARY METRICS..."
+GREEN_TELEMETRY_PLANET_EPSILON_ERIDANI_C_METRICS = f"{_GREEN_BASE_PREFIX}CASSANDRA: AURORA, EPSILON ERIDANI C. DOWNLOADING PLANETARY METRICS..."
+GREEN_TELEMETRY_PLANET_TEEGARDEN_B_METRICS = f"{_GREEN_BASE_PREFIX}CASSANDRA: AURORA, TEEGARDEN B. DOWNLOADING PLANETARY METRICS..."
+GREEN_TELEMETRY_PLANET_TRAPPIST_1B_METRICS = f"{_GREEN_BASE_PREFIX}CASSANDRA: AURORA, TRAPPIST-1B. DOWNLOADING PLANETARY METRICS..."
 # ==========================================
 # 🏷️ Заголовки и футеры
 # ==========================================
