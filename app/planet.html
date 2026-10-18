@@ -224,75 +224,6 @@
             transform: scale(1.1);
         }
 
-
-
-        .planet-btn {
-            appearance: none;
-            -webkit-appearance: none;
-            -moz-appearance: none;
-            outline: none;
-            width: var(--planet-size);
-            height: var(--planet-size);
-            border-radius: 50%;
-            border: var(--planet-border) solid rgba(77, 166, 255, 0.6);
-            background: rgba(10, 15, 40, 0.7);
-            backdrop-filter: blur(1vmin);
-            cursor: pointer;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            gap: var(--planet-gap);
-            position: relative;
-            transition: all 0.3s ease;
-            box-shadow:
-                0 0 0.5vmin rgba(77, 166, 255, 0.3),
-                inset 0 0 0.5vmin rgba(77, 166, 255, 0.2),
-                0 0 1.5vmin rgba(77, 166, 255, 0.4);
-        }
-
-        .planet-btn:hover {
-            transform: scale(1.15);
-            border-color: rgba(77, 166, 255, 1);
-            box-shadow:
-                0 0 1vmin rgba(77, 166, 255, 0.6),
-                inset 0 0 1vmin rgba(77, 166, 255, 0.4),
-                0 0 3vmin rgba(77, 166, 255, 0.8);
-        }
-
-        .planet-btn:active {
-            transform: scale(1.1);
-        }
-
-        .planet-icon {
-            width: 3.5vmin;
-            height: 3.5vmin;
-            border-radius: 50%;
-            margin-bottom: 0.2vmin;
-            position: relative;
-            overflow: hidden;
-            background: radial-gradient(circle at 30% 30%, #ffffff, var(--p-color, #888), #000000);
-            box-shadow: 0 0 1.5vmin color-mix(in srgb, var(--p-color, #888) 50%, transparent),
-                0 0 3vmin color-mix(in srgb, var(--p-color, #888) 25%, transparent);
-        }
-
-        .planet-label {
-            font-size: var(--planet-label-size);
-            font-weight: 600;
-            color: #e8ecff;
-            text-transform: uppercase;
-            letter-spacing: 0.08vmin;
-            text-align: center;
-            line-height: 1.1;
-            text-shadow: 0 0 1vmin rgba(0, 0, 0, 0.8);
-            padding: 0 0.8vmin;
-            margin-top: 0;
-            min-height: 2.2vmin;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
         .top-right .corner-icon {
             margin-top: -1.3vmin;
             margin-bottom: 0.4vmin;
@@ -1269,19 +1200,18 @@
             font-family: 'Segoe UI', 'Roboto', sans-serif;
         }
 
-        /* ===== INFO PANELS (перенесено со Star Info) ===== */
         .info-panel {
             position: fixed;
             top: 50%;
             transform: translateY(-50%);
-            width: 26vw;
-            max-width: 360px;
+            width: 21vw;
+            max-width: 290px;
             min-height: 55vh;
             background: rgba(5, 10, 30, 0.85);
             backdrop-filter: blur(2vmin);
             border: 0.1vmin solid rgba(77, 166, 255, 0.3);
             border-radius: 0.8vmin;
-            padding: 2.5vmin;
+            padding: 2vmin;
             z-index: 20;
             box-shadow: 0 0 2vmin rgba(77, 166, 255, 0.2), inset 0 0 1vmin rgba(77, 166, 255, 0.05);
             display: flex;
@@ -1302,7 +1232,7 @@
         }
 
         .info-panel-left {
-            left: 3vw;
+            left: 2.5vw;
         }
 
         .info-panel-left::before,
@@ -1329,7 +1259,7 @@
         }
 
         .info-panel-right {
-            right: 3vw;
+            right: 2.5vw;
         }
 
         .info-panel-right::before,
@@ -1479,10 +1409,11 @@
         }
 
         .info-panel-right .data-description {
-            font-size: 1.4vmin;
-            line-height: 1.9;
+            font-size: 1.2vmin;
+            line-height: 1.8;
             color: #d0d8f0;
             letter-spacing: 0.03vmin;
+            min-height: 15vh;
         }
 
         .info-panel-right .warning-box {
@@ -1508,55 +1439,7 @@
             text-align: left;
         }
 
-        .warning-box {
-            display: flex;
-            align-items: center;
-            gap: 1vmin;
-            margin-top: 2vmin;
-            padding: 1.2vmin;
-            background: linear-gradient(135deg, rgba(231, 76, 60, 0.15), rgba(231, 76, 60, 0.05));
-            border: 0.1vmin solid rgba(231, 76, 60, 0.5);
-            border-radius: 0.5vmin;
-            animation: warningPulse 2s ease-in-out infinite;
-        }
 
-        @keyframes warningPulse {
-
-            0%,
-            100% {
-                box-shadow: 0 0 0.5vmin rgba(231, 76, 60, 0.3);
-            }
-
-            50% {
-                box-shadow: 0 0 1.5vmin rgba(231, 76, 60, 0.6);
-            }
-        }
-
-        .warning-icon {
-            font-size: 1.8vmin;
-            color: #e74c3c;
-            animation: warningIconPulse 1.5s ease-in-out infinite;
-        }
-
-        @keyframes warningIconPulse {
-
-            0%,
-            100% {
-                transform: scale(1);
-            }
-
-            50% {
-                transform: scale(1.1);
-            }
-        }
-
-        .warning-text {
-            color: #e74c3c;
-            font-size: 0.9vmin;
-            line-height: 1.5;
-            font-weight: 600;
-            text-shadow: 0 0 0.5vmin rgba(231, 76, 60, 0.3);
-        }
 
         .title-white {
             color: #ffffff !important;
@@ -1566,6 +1449,51 @@
         .title-blue {
             color: #4da6ff !important;
             text-shadow: 0 0 0.8vmin rgba(77, 166, 255, 0.8);
+        }
+
+        .info-panel-right .panel-section {
+            margin-bottom: 2vmin;
+            padding-bottom: 1.5vmin;
+            border-bottom: 0.1vmin solid rgba(77, 166, 255, 0.2);
+            flex: 1;
+        }
+
+        .info-panel-right .panel-section:last-child {
+            margin-bottom: 0;
+            padding-bottom: 0;
+            border-bottom: none;
+        }
+
+        .info-panel-right .mission-status-section {
+            background: rgba(77, 166, 255, 0.03);
+            border-radius: 0.5vmin;
+            padding: 1.5vmin;
+            margin-top: auto;
+        }
+
+        .info-panel-right .mission-status-text {
+            font-style: normal;
+            color: #8a9cc7;
+            line-height: 1.7;
+            font-size: 1.1vmin;
+            font-weight: 500;
+            min-height: 8vh;
+        }
+
+        .info-panel-right .mission-status-text.unreachable {
+            color: #6a7a9a;
+            font-style: italic;
+            font-size: 1.1vmin;
+        }
+
+        .info-panel-right .mission-status-text.home-planet {
+            color: #2ecc71;
+            font-weight: 600;
+            font-size: 1.1vmin;
+        }
+
+        #mission-status-icon {
+            font-size: 2vmin;
         }
     </style>
 </head>
@@ -1578,12 +1506,13 @@
     </div>
 
     <div class="planet-container">
-        <div class="main-planet mercury-planet" id="main-planet"></div>
+        <!-- Вернули id="main-planet" и добавили data-vm-id -->
+        <div class="main-planet" id="main-planet" data-vm-id=""></div>
     </div>
 
-    <!-- Название планеты -->
     <div class="planet-name-container">
-        <div class="planet-name" id="planet-name">MERCURY</div>
+        <!-- Вернули id="planet-name" и добавили data-vm-id -->
+        <div class="planet-name" id="planet-name" data-vm-id=""></div>
     </div>
 
     <div class="corner-circle-btn top-left panel-offline" data-wm-id="info-panel-role">
@@ -1619,76 +1548,81 @@
         </span>
     </div>
 
-    <!-- Левая панель: Параметры CIS -->
     <div class="info-panel info-panel-left" data-wm-id="tech-panel">
         <div class="panel-header">
-            <span class="panel-icon" id="planet-panel-icon" data-wm-id="tech-panel-icon">🌌</span>
+            <span class="panel-icon" id="planet-panel-icon" data-wm-id="tech-panel-icon">📡</span>
             <span class="panel-title">
-                <span class="title-white">Cassandra Index</span>
-                <span class="title-blue">of Suitability </span>
+                <span class="title-white">PLANETARY </span>
+                <span class="title-blue">METRICS</span>
             </span>
         </div>
         <div class="panel-content">
             <div class="data-row">
-                <span class="data-label">🎯 Habitable Zone:</span>
-                <span class="data-value" id="cis-habitable-zone" data-wm-id="cis-habitable-zone">—</span>
+                <span class="data-label">Mass:</span>
+                <span class="data-value" id="tech-mass" data-wm-id="tech-mass">—</span>
             </div>
             <div class="data-row">
-                <span class="data-label">🪨 Surface:</span>
-                <span class="data-value" id="cis-surface" data-wm-id="cis-surface">—</span>
+                <span class="data-label">Radius:</span>
+                <span class="data-value" id="tech-radius" data-wm-id="tech-radius">—</span>
             </div>
             <div class="data-row">
-                <span class="data-label">🌊 Hydrosphere:</span>
-                <span class="data-value" id="cis-hydrosphere" data-wm-id="cis-hydrosphere">—</span>
+                <span class="data-label">Surface Gravity:</span>
+                <span class="data-value" id="tech-gravity" data-wm-id="tech-gravity">—</span>
             </div>
             <div class="data-row">
-                <span class="data-label">💨 Atmosphere:</span>
-                <span class="data-value" id="cis-atmosphere" data-wm-id="cis-atmosphere">—</span>
+                <span class="data-label">Mean Temperature:</span>
+                <span class="data-value" id="tech-temperature" data-wm-id="tech-temperature">—</span>
             </div>
             <div class="data-row">
-                <span class="data-label">🫁 Breathability:</span>
-                <span class="data-value" id="cis-breathability" data-wm-id="cis-breathability">—</span>
+                <span class="data-label">Atmospheric Pressure:</span>
+                <span class="data-value" id="tech-pressure" data-wm-id="tech-pressure">—</span>
             </div>
             <div class="data-row">
-                <span class="data-label">🌡️ Climate:</span>
-                <span class="data-value" id="cis-climate" data-wm-id="cis-climate">—</span>
+                <span class="data-label">Orbital Period:</span>
+                <span class="data-value" id="tech-orbital-period" data-wm-id="tech-orbital-period">—</span>
             </div>
             <div class="data-row">
-                <span class="data-label">⬇️ Gravity:</span>
-                <span class="data-value" id="cis-gravity" data-wm-id="cis-gravity">—</span>
+                <span class="data-label">Rotation Period:</span>
+                <span class="data-value" id="tech-rotation-period" data-wm-id="tech-rotation-period">—</span>
             </div>
             <div class="data-row">
-                <span class="data-label">🧲 Magnetic:</span>
-                <span class="data-value" id="cis-magnetic" data-wm-id="cis-magnetic">—</span>
-            </div>
-
-            <!-- Итоговая строка CIS -->
-            <div class="data-row"
-                style="border-top: 0.1vmin solid rgba(77, 166, 255, 0.4); margin-top: 0.5vmin; padding-top: 0.8vmin;">
-                <span class="data-label" style="color: #4da6ff; font-weight: 700;">📈 TOTAL CIS (vs Earth):</span>
-                <span class="data-value" id="cis-total-score" data-wm-id="cis-total-score"
-                    style="color: #2ecc71; font-weight: 700; font-size: 1.4vmin;">—</span>
+                <span class="data-label" id="tech-distance-label" data-wm-id="tech-label-distance">Distance from
+                    Earth:</span>
+                <span class="data-value" id="tech-distance" data-wm-id="tech-distance">—</span>
             </div>
         </div>
     </div>
-    <!-- Правая панель: Observation Log -->
+
     <div class="info-panel info-panel-right" data-wm-id="info-panel">
-        <div class="panel-header">
-            <span class="panel-icon" data-wm-id="info-panel-icon">🔭</span>
-            <span class="panel-title">
-                <span class="title-white">OBSERVATION </span><span class="title-blue">LOG</span>
-            </span>
-        </div>
-        <div class="panel-content">
-            <div class="data-row-full">
-                <span class="data-label">Description:</span>
-                <p class="data-description" id="info-description" data-wm-id="info-description">—</p>
+        <div class="panel-section">
+            <div class="panel-header">
+                <span class="panel-icon" data-wm-id="info-panel-icon">🔭</span>
+                <span class="panel-title">
+                    <span class="title-white">PLANETARY </span><span class="title-blue">PROFILE</span>
+                </span>
             </div>
-            <div class="warning-box" id="info-warning" data-wm-id="info-warning-box" style="display: none;">
-                <span class="warning-icon">️</span>
-                <span class="warning-text" id="warning-text" data-wm-id="info-warning-text"></span>
+            <div class="panel-content">
+                <div class="data-row-full">
+                    <p class="data-description" id="info-description" data-wm-id="info-description">—</p>
+                </div>
             </div>
         </div>
+
+        <div class="panel-section mission-status-section">
+            <div class="panel-header">
+                <span class="panel-icon" id="mission-status-icon"></span>
+                <span class="panel-title">
+                    <span class="title-white">EXPLORATION </span><span class="title-blue">STATUS</span>
+                </span>
+            </div>
+            <div class="panel-content">
+                <div class="data-row-full">
+                    <p class="data-description mission-status-text" id="mission-status-text"
+                        data-wm-id="mission-status-text">—</p>
+                </div>
+            </div>
+        </div>
+
     </div>
 
     <footer class="login-footer">
@@ -1697,7 +1631,6 @@
     </footer>
 
     <script src="data.js"></script>
-
     <script>
         function preloadPlanetImage(planetId) {
             if (!planetId) return;
@@ -1723,11 +1656,11 @@
                 link.as = 'image';
                 link.href = imageUrl;
                 document.head.appendChild(link);
-                console.log(`🚀 Preloading planet: ${imageUrl}`);
             }
         }
 
-        function initSystemPage() {
+        // 1. ПРОВЕРКА АВТОРИЗАЦИИ (возвращает true/false, как в star-info)
+        function initPlanetAuth() {
             const userDataStr = sessionStorage.getItem('currentUser');
 
             if (!userDataStr) {
@@ -1736,22 +1669,7 @@
                     telemetry.innerHTML = `> <span class="telemetry-cassan">CASSAN</span><span class="telemetry-dra">DRA</span>: <span data-wm-id="telemetry-message" style="color: #e74c3c;">ACCESS DENIED. REDIRECTING...</span>`;
                 }
                 setTimeout(() => { window.location.href = 'login.html'; }, 1500);
-                return;
-            }
-
-            const urlParams = new URLSearchParams(window.location.search);
-            const starKey = urlParams.get('star');
-
-            if (!starKey || starKey.trim() === '') {
-                console.warn('⚠️ Параметр star пуст или отсутствует');
-                window.location.href = 'galaxy-map.html';
-                return;
-            }
-
-            const starData = window.starDatabase[starKey];
-            if (!starData) {
-                console.error(`❌ Звезда "${starKey}" не найдена в базе данных`);
-                return;
+                return false; // ВАЖНО: прерываем выполнение
             }
 
             let user = {};
@@ -1760,9 +1678,10 @@
             } catch (e) {
                 sessionStorage.removeItem('currentUser');
                 window.location.href = 'login.html';
-                return;
+                return false; // ВАЖНО: прерываем выполнение
             }
 
+            // Заполняем UI пользователя
             const callsign = user.callsign ? user.callsign.toUpperCase() : 'UNKNOWN';
             const fullName = user.fullName || 'Unknown Operator';
             const role = user.role || 'OPERATOR';
@@ -1797,39 +1716,35 @@
                 <div>Status: Online</div>`;
             }
 
-            const telemetry = document.getElementById('dashboard-telemetry');
-            if (telemetry) {
-                const candidates = starData.planetData.filter(p => p.type !== 'Gas Giant').length;
-                telemetry.innerHTML = `> <span class="telemetry-cassan">CASSAN</span><span class="telemetry-dra">DRA</span>: <span data-wm-id="telemetry-message" style="color: #2ecc71;">${callsign}, SCANNING ${starData.name.toUpperCase()} SYSTEM... ${candidates} PLANETS DETECTED. AWAITING SELECTION.</span>`;
-            }
+            return true; // Авторизация успешна, можно грузить данные
         }
 
-        function getCISStatus(cis) {
-            if (cis >= 65) return { status: "HABITABLE", color: "#2ecc71" };
-            if (cis >= 45) return { status: "LIMITED", color: "#f1c40f" };
-            return { status: "UNINHABITABLE", color: "#c0392b" };
-        }
-
-        function getCISDataByStar(starKey) {
+        function getPlanetMetricsByStar(starKey) {
             const map = {
-                'sun': window.CisDataSun,
-                'alpha-centauri-a': window.CisDataAlphaCentauriA,
-                'tau-ceti': window.CisDataTauCeti,
-                'epsilon-eridani': window.CisDataEpsilonEridani,
-                'teegarden': window.CisDataTeegarden,
-                'trappist-1': window.CisDataTrappist1
+                'sun': window.PlanetMetricsSun,
+                'alpha-centauri': window.PlanetMetricsAlphaCentauriA,
+                'alpha-centauri-a': window.PlanetMetricsAlphaCentauriA,
+                'tau-ceti': window.PlanetMetricsTauCeti,
+                'epsilon-eridani': window.PlanetMetricsEpsilonEridani,
+                'teegarden': window.PlanetMetricsTeegarden,
+                'trappist-1': window.PlanetMetricsTrappist1
             };
             return map[starKey] || null;
         }
 
+        // 2. ОСНОВНАЯ ЛОГИКА ЗАГРУЗКИ ПЛАНЕТЫ
         function initPlanetView() {
             const urlParams = new URLSearchParams(window.location.search);
             const starKey = urlParams.get('star');
             const planetId = urlParams.get('planet');
-
-            const mainPlanet = document.getElementById('main-planet');
-            const planetNameEl = document.getElementById('planet-name');
             const telemetry = document.getElementById('dashboard-telemetry');
+
+            // Строгая валидация URL
+            if (!starKey || starKey.trim() === '' || !planetId || planetId.trim() === '') {
+                console.warn('⚠️ Параметры star или planet отсутствуют. Редирект на Карту Галактики.');
+                window.location.href = 'galaxy-map.html';
+                return;
+            }
 
             preloadPlanetImage(planetId);
 
@@ -1853,79 +1768,67 @@
                 'trappist-1f-planet', 'trappist-1g-planet', 'trappist-1h-planet'
             ];
 
+            const mainPlanet = document.getElementById('main-planet');
+            const planetNameEl = document.getElementById('planet-name');
+
             if (mainPlanet) {
                 allPlanetClasses.forEach(cls => mainPlanet.classList.remove(cls));
 
-                if (planetId) {
-                    mainPlanet.classList.add(`${planetId}-planet`);
+                const metricsArray = getPlanetMetricsByStar(starKey);
+                const planetMetrics = metricsArray?.find(p => p.id === planetId);
 
-                    const displayName = planetNames[planetId] || planetId.toUpperCase();
-                    if (planetNameEl) {
-                        planetNameEl.textContent = displayName;
+                if (!planetMetrics) {
+                    console.error(`❌ Планета "${planetId}" не найдена в базе данных системы "${starKey}". Редирект.`);
+                    window.location.href = 'galaxy-map.html';
+                    return;
+                }
+
+                // Рендеринг планеты
+                mainPlanet.classList.add(`${planetId}-planet`);
+                const displayName = planetNames[planetId] || planetId.toUpperCase();
+                if (planetNameEl) {
+                    planetNameEl.textContent = displayName;
+                }
+
+                // Заполнение левой панели
+                document.getElementById('tech-mass').textContent = planetMetrics.mass || '—';
+                document.getElementById('tech-radius').textContent = planetMetrics.radius || '—';
+                document.getElementById('tech-gravity').textContent = planetMetrics.gravity || '—';
+                document.getElementById('tech-temperature').textContent = planetMetrics.temperature || '—';
+                document.getElementById('tech-pressure').textContent = planetMetrics.pressure || '—';
+                document.getElementById('tech-orbital-period').textContent = planetMetrics.orbitalPeriod || '—';
+                document.getElementById('tech-rotation-period').textContent = planetMetrics.rotationPeriod || '—';
+                document.getElementById('tech-distance').textContent = planetMetrics.distance || '—';
+
+                const distanceLabel = document.getElementById('tech-distance-label');
+                if (distanceLabel) {
+                    distanceLabel.textContent = (planetId === 'earth') ? 'Distance to Sun:' : 'Distance from Earth:';
+                }
+
+                // Заполнение правой панели
+                const descEl = document.getElementById('info-description');
+                if (descEl) descEl.textContent = planetMetrics.description || 'Data unavailable.';
+
+                const statusIconEl = document.getElementById('mission-status-icon');
+                const statusTextEl = document.getElementById('mission-status-text');
+
+                if (statusIconEl) statusIconEl.textContent = planetMetrics.missionIcon || '📡';
+
+                if (statusTextEl) {
+                    statusTextEl.textContent = `${planetMetrics.missionStatus} — ${planetMetrics.missionText}`;
+                    statusTextEl.classList.remove('unreachable', 'home-planet');
+                    if (planetMetrics.unreachable) statusTextEl.classList.add('unreachable');
+                    else if (planetMetrics.isHomePlanet) statusTextEl.classList.add('home-planet');
+                }
+
+                // Финальная телеметрия
+                if (telemetry) {
+                    const userDataStr = sessionStorage.getItem('currentUser');
+                    let callsign = "OPERATOR";
+                    if (userDataStr) {
+                        try { callsign = JSON.parse(userDataStr).callsign || "OPERATOR"; } catch (e) { }
                     }
-
-                    // 🚀 ЗАПОЛНЕНИЕ CIS-ПАНЕЛИ
-                    if (starKey) {
-                        const cisDataArray = getCISDataByStar(starKey);
-                        const planetCIS = cisDataArray?.find(p => p.id === planetId);
-
-                        if (planetCIS && planetCIS.cisData) {
-                            // 1. Заполняем 8 параметров
-                            document.getElementById('cis-habitable-zone').textContent = planetCIS.cisData.habitable_zone + '%';
-                            document.getElementById('cis-surface').textContent = planetCIS.cisData.surface + '%';
-                            document.getElementById('cis-hydrosphere').textContent = planetCIS.cisData.hydrosphere + '%';
-                            document.getElementById('cis-atmosphere').textContent = planetCIS.cisData.atmosphere + '%';
-                            document.getElementById('cis-breathability').textContent = planetCIS.cisData.breathability + '%';
-                            document.getElementById('cis-climate').textContent = planetCIS.cisData.climate + '%';
-                            document.getElementById('cis-gravity').textContent = planetCIS.cisData.gravity + '%';
-                            document.getElementById('cis-magnetic').textContent = planetCIS.cisData.magnetic + '%';
-
-                            // 2. Итоговый CIS с цветовой кодировкой
-                            const totalCisEl = document.getElementById('cis-total-score');
-                            if (totalCisEl) {
-                                const status = getCISStatus(planetCIS.total_cis);
-                                totalCisEl.textContent = planetCIS.total_cis.toFixed(1) + '%';
-                                totalCisEl.style.color = status.color;
-                                totalCisEl.style.textShadow = `0 0 0.8vmin ${status.color}66`;
-                            }
-                        } else {
-                            // Фоллбэк, если данных CIS нет
-                            ['habitable-zone', 'surface', 'hydrosphere', 'atmosphere', 'breathability', 'climate', 'gravity', 'magnetic'].forEach(key => {
-                                const el = document.getElementById('cis-' + key);
-                                if (el) el.textContent = '—';
-                            });
-                            const totalEl = document.getElementById('cis-total-score');
-                            if (totalEl) {
-                                totalEl.textContent = '—';
-                                totalEl.style.color = '#7f8c8d';
-                                totalEl.style.textShadow = 'none';
-                            }
-                        }
-                    }
-
-                    // 3. Телеметрия
-                    if (telemetry && starKey) {
-                        const starData = window.starDatabase[starKey];
-                        const currentPlanet = starData?.planetData?.find(p => p.id === planetId);
-
-                        const userDataStr = sessionStorage.getItem('currentUser');
-                        let callsign = "OPERATOR";
-                        if (userDataStr) {
-                            try { callsign = JSON.parse(userDataStr).callsign || "OPERATOR"; } catch (e) { }
-                        }
-
-                        if (currentPlanet) {
-                            telemetry.innerHTML = `> <span class="telemetry-cassan">CASSAN</span><span class="telemetry-dra">DRA</span>: <span data-wm-id="telemetry-message" style="color: #2ecc71;">${callsign}, ${currentPlanet.name.toUpperCase()}. DOWNLOADING PLANETARY METRICS...</span>`;
-                        } else {
-                            telemetry.innerHTML = `> <span class="telemetry-cassan">CASSAN</span><span class="telemetry-dra">DRA</span>: <span data-wm-id="telemetry-message" style="color: #2ecc71;">${callsign}, ${displayName}. DOWNLOADING PLANETARY METRICS...</span>`;
-                        }
-                    }
-                } else {
-                    // Фоллбэк, если planetId нет в URL
-                    mainPlanet.classList.add('mercury-planet');
-                    if (planetNameEl) {
-                        planetNameEl.textContent = 'MERCURY';
-                    }
+                    telemetry.innerHTML = `> <span class="telemetry-cassan">CASSAN</span><span class="telemetry-dra">DRA</span>: <span data-wm-id="telemetry-message" style="color: #2ecc71;">${callsign}, ${displayName}. DOWNLOADING PLANETARY METRICS...</span>`;
                 }
             }
         }
@@ -1936,16 +1839,21 @@
             window.location.href = `star-system.html?star=${starParam || 'sun'}`;
         }
 
+        // 3. ИНИЦИАЛИЗАЦИЯ (Идеально как в star-info)
         document.addEventListener('DOMContentLoaded', () => {
-            initSystemPage();
-            initPlanetView();
+            const isAuthorized = initPlanetAuth();
+            if (isAuthorized) {
+                initPlanetView();
+            }
         });
 
         window.addEventListener('pageshow', function (event) {
             if (event.persisted) {
-                console.warn('️ Страница восстановлена из bfcache — принудительная инициализация');
-                initSystemPage();
-                initPlanetView();
+                console.warn('⚠️ Страница восстановлена из bfcache — принудительная проверка');
+                const isAuthorized = initPlanetAuth();
+                if (isAuthorized) {
+                    initPlanetView();
+                }
             }
         });
     </script>

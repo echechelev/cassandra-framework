@@ -42,7 +42,6 @@
 
 - **`Stars Background`** *(decorative/css)* — Анимированный фон со звёздами и Млечным Путём .stars, .milkyway.
 
-- **`Milky Way Band (decorative/css) — Светящаяся полоса Млечного Пути .milkyway .band.
 - **`Milky Way Band`** *(decorative/css)* — Светящаяся полоса Млечного Пути .milkyway .band.
 
 - **`Star Glow Ring`** *(decorative/css)* — Неоновое кольцо вокруг центральной звезды .star-glow-ring.
@@ -65,7 +64,7 @@
 
 - **`Состояние hover`** *(для кнопок Galaxy Map и Star System)* — Усиленный box-shadow (внешний и внутренний), плавное увеличение масштаба (transform: scale(1.15)).
 
-- **`Состояние active`** `(при нажатии на кнопки)` — Лёгкий эффект "проваливания" (transform: scale(1.1)).
+- **`Состояние active`** - `(при нажатии на кнопки)` — Лёгкий эффект "проваливания" (transform: scale(1.1)).
 
 - **`Состояние логотипа CASSANDRA`** — Всегда статичен. Не реагирует на :hover, :active, :focus. pointer-events: none полностью отключает взаимодействие.
 
