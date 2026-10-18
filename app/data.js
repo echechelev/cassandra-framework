@@ -371,219 +371,396 @@ window.starDatabase = {
 
 
 // ========================================================================
-//#region 4️ 🌌 ДАННЫЕ ДЛЯ РАСЧЕТОВ  ИНДЕКСА CIS
+//#region 4️ 🌌 ДАННЫЕ ПЛАНЕТ ДЛЯ СТРАНИЦЫ PLANET
 // ========================================================================
 
-// Формула для расчетов
-//CIS = (habitable_zone × 0.15) + 
-//     (surface × 0.15) + 
-//      (hydrosphere × 0.15) + 
-//      (atmosphere × 0.10) + 
-//      (breathability × 0.10) + 
-//      (climate × 0.10) + 
-//      (gravity × 0.10) + 
-//      (magnetic × 0.15) 
-
-window.CisDataSun = [
+window.PlanetMetricsSun = [
   {
     id: "mercury",
-    total_cis: 26.6,
-    cisData: {
-      habitable_zone: 40, surface: 100, hydrosphere: 0, atmosphere: 0,
-      breathability: 0, climate: 10, gravity: 38, magnetic: 5
-    }
+    mass: "0.055 M⊕",
+    radius: "2,439 km",
+    gravity: "3.7 m/s²",
+    temperature: "167 °C",
+    pressure: "~0 Pa",
+    orbitalPeriod: "88 days",
+    rotationPeriod: "58.6 days",
+    distance: "0.39 AU",
+    description: "The smallest planet in the Solar System and closest to the Sun. Its orbital period around the Sun is 87.97 Earth days — the shortest of all planets. Surface is heavily cratered, resembling Earth's Moon. No atmosphere to retain heat, causing extreme temperature swings from -180°C to 430°C.",
+    missionStatus: "NO LANDINGS",
+    missionText: "Multiple flybys completed. Mariner 10 (1974-1975), MESSENGER (2011-2015). No surface missions due to extreme temperatures and solar radiation.",
+    missionIcon: "🛸"
   },
   {
     id: "venus",
-    total_cis: 43.0,
-    cisData: {
-      habitable_zone: 60, surface: 100, hydrosphere: 0, atmosphere: 95,
-      breathability: 0, climate: 5, gravity: 90, magnetic: 0
-    }
+    mass: "0.815 M",
+    radius: "6,051 km",
+    gravity: "8.87 m/s²",
+    temperature: "464 °C",
+    pressure: "92 bar",
+    orbitalPeriod: "225 days",
+    rotationPeriod: "243 days",
+    distance: "0.72 AU",
+    description: "The second planet from the Sun, often called Earth's 'sister planet' due to similar size. It has the densest atmosphere of the terrestrial planets — 96.5% CO₂, creating a runaway greenhouse effect. Surface pressure is 92 times that of Earth. Rotates in the opposite direction to most planets.",
+    missionStatus: "MULTIPLE LANDINGS",
+    missionText: "Venera 13 (1982) — 127 minutes survival. Venera 14 (1982) — 57 minutes. Harsh surface conditions (464°C, 92 bar) limit mission duration.",
+    missionIcon: "🪐"
   },
   {
     id: "earth",
-    total_cis: 100.0,
-    cisData: {
-      habitable_zone: 100, surface: 100, hydrosphere: 100, atmosphere: 100,
-      breathability: 100, climate: 100, gravity: 100, magnetic: 100
-    }
+    mass: "1 M⊕",
+    radius: "6,371 km",
+    gravity: "9.8 m/s²",
+    temperature: "15 °C",
+    pressure: "1 bar",
+    orbitalPeriod: "365.25 days",
+    rotationPeriod: "24 hours",
+    distance: "1 AU",
+    description: "The third planet from the Sun and the only known planet to harbor life. 71% of the surface is covered by water. Dense atmosphere composed of nitrogen (78%) and oxygen (21%). Protected by a strong magnetic field that shields the surface from harmful solar radiation.",
+    missionStatus: "HOME PLANET",
+    missionText: "Continuous human habitation. Origin point of all space exploration. No exploration status applicable.",
+    missionIcon: "",
+    isHomePlanet: true
   },
   {
     id: "mars",
-    total_cis: 37.7,
-    cisData: {
-      habitable_zone: 85, surface: 100, hydrosphere: 5, atmosphere: 10,
-      breathability: 1, climate: 35, gravity: 38, magnetic: 5
-    }
+    mass: "0.107 M",
+    radius: "3,389 km",
+    gravity: "3.72 m/s²",
+    temperature: "-65 °C",
+    pressure: "0.006 bar",
+    orbitalPeriod: "687 days",
+    rotationPeriod: "24.6 hours",
+    distance: "1.52 AU",
+    description: "The fourth planet from the Sun, known as the 'Red Planet' due to iron oxide (rust) on its surface. Home to Olympus Mons, the largest volcano in the Solar System, and Valles Marineris, a canyon system stretching 4,000 km. Thin CO₂ atmosphere. Evidence of ancient liquid water flows.",
+    missionStatus: "ACTIVE OPERATIONS",
+    missionText: "Perseverance (2021-present), Curiosity (2012-present), InSight (2018-2022). Multiple successful landings and ongoing surface operations.",
+    missionIcon: "🤖"
   },
   {
     id: "uranus",
-    total_cis: 31.4,
-    cisData: {
-      habitable_zone: 20, surface: 0, hydrosphere: 10, atmosphere: 100,
-      breathability: 0, climate: 5, gravity: 89, magnetic: 50
-    }
+    mass: "14.5 M",
+    radius: "25,362 km",
+    gravity: "8.87 m/s²",
+    temperature: "-195 °C",
+    pressure: "~1.2 bar",
+    orbitalPeriod: "84 years",
+    rotationPeriod: "17.2 hours",
+    distance: "19.2 AU",
+    description: "The seventh planet from the Sun, an ice giant with a unique axial tilt of 98° — it essentially rotates on its side. Atmosphere composed of hydrogen, helium, and methane, giving it a pale blue-green color. Has 13 known rings and 27 known moons.",
+    missionStatus: "FLYBY ONLY",
+    missionText: "Voyager 2 flyby (January 1986). No dedicated missions. Extreme distance and harsh conditions prevent landing attempts.",
+    missionIcon: "🛸"
   },
   {
     id: "neptune",
-    total_cis: 28.3,
-    cisData: {
-      habitable_zone: 10, surface: 0, hydrosphere: 5, atmosphere: 100,
-      breathability: 0, climate: 0, gravity: 100, magnetic: 40
-    }
+    mass: "17.1 M⊕",
+    radius: "24,622 km",
+    gravity: "11.15 m/s²",
+    temperature: "-200 °C",
+    pressure: "~1.2 bar",
+    orbitalPeriod: "165 years",
+    rotationPeriod: "16.1 hours",
+    distance: "30.1 AU",
+    description: "The eighth and farthest known planet from the Sun, an ice giant similar to Uranus. Known for supersonic winds reaching 2,100 km/h — the fastest in the Solar System. Deep blue color from methane in its atmosphere. Has 14 known moons, including Triton with its geysers of nitrogen.",
+    missionStatus: "FLYBY ONLY",
+    missionText: "Voyager 2 flyby (August 1989). No dedicated missions. Extreme distance prevents landing attempts.",
+    missionIcon: "🛸"
   }
 ];
 
-window.CisDataAlphaCentauriA = [
+window.PlanetMetricsAlphaCentauriA = [
   {
     id: "proxima-b",
-    total_cis: 61.5,
-    cisData: {
-      habitable_zone: 80, surface: 100, hydrosphere: 60, atmosphere: 50,
-      breathability: 10, climate: 40, gravity: 110, magnetic: 30
-    }
+    mass: "~1.2 M⊕",
+    radius: "~1.1 R⊕",
+    gravity: "~10.8 m/s²",
+    temperature: "-39 °C",
+    pressure: "Unknown",
+    orbitalPeriod: "11.2 days",
+    rotationPeriod: "Tidally locked",
+    distance: "4.246 ly",
+    description: "The closest known exoplanet to the Solar System, orbiting within the habitable zone of Proxima Centauri. Likely a rocky world with a mass slightly larger than Earth. Subject to intense stellar flares from its host red dwarf star.",
+    missionStatus: "BEYOND REACH",
+    missionText: "Physical landing currently impossible due to extreme interstellar distance (4.246 ly). Deep-space telemetry and remote observation only.",
+    missionIcon: "📡",
+    unreachable: true
   },
   {
     id: "proxima-c",
-    total_cis: 51.5,
-    cisData: {
-      habitable_zone: 30, surface: 20, hydrosphere: 80, atmosphere: 90,
-      breathability: 0, climate: 10, gravity: 130, magnetic: 60
-    }
+    mass: "~7 M",
+    radius: "~2.5 R",
+    gravity: "~1.1 g",
+    temperature: "-234 °C",
+    pressure: "Unknown",
+    orbitalPeriod: "5.2 years",
+    rotationPeriod: "Unknown",
+    distance: "4.246 ly",
+    description: "A super-Earth or mini-Neptune candidate orbiting much further out in the Proxima Centauri system. Extremely cold due to its wide orbit. Its existence is still debated among astronomers, but it remains a compelling target for future astrometry.",
+    missionStatus: "BEYOND REACH",
+    missionText: "Physical landing currently impossible due to extreme interstellar distance (4.246 ly). Deep-space telemetry and remote observation only.",
+    missionIcon: "📡",
+    unreachable: true
   },
   {
     id: "proxima-d",
-    total_cis: 28.5,
-    cisData: {
-      habitable_zone: 40, surface: 100, hydrosphere: 0, atmosphere: 10,
-      breathability: 0, climate: 20, gravity: 30, magnetic: 10
-    }
+    mass: "~0.26 M⊕",
+    radius: "~0.81 R⊕",
+    gravity: "~3.9 m/s²",
+    temperature: "-13 °C",
+    pressure: "Unknown",
+    orbitalPeriod: "5.1 days",
+    rotationPeriod: "Unknown",
+    distance: "4.246 ly",
+    description: "One of the lightest exoplanets ever discovered, with a mass roughly a quarter of Earth's. Orbits very close to Proxima Centauri, completing a revolution in just over 5 days. Too close to the star to support liquid water on its surface.",
+    missionStatus: "BEYOND REACH",
+    missionText: "Physical landing currently impossible due to extreme interstellar distance (4.246 ly). Deep-space telemetry and remote observation only.",
+    missionIcon: "📡",
+    unreachable: true
   }
 ];
 
-window.CisDataTauCeti = [
+window.PlanetMetricsTauCeti = [
   {
     id: "tau-ceti-e",
-    total_cis: 62.3,
-    cisData: {
-      habitable_zone: 65, surface: 100, hydrosphere: 40, atmosphere: 70,
-      breathability: 5, climate: 30, gravity: 120, magnetic: 60
-    }
+    mass: "~4.29 M⊕",
+    radius: "~1.78 R⊕",
+    gravity: "~1.35 g",
+    temperature: "~23 °C",
+    pressure: "Unknown",
+    orbitalPeriod: "168 days",
+    rotationPeriod: "Unknown",
+    distance: "11.9 ly",
+    description: "A super-Earth located in the habitable zone of Tau Ceti. With a calculated mean temperature of ~23°C, it could potentially support liquid water if atmospheric conditions are favorable. Its mass suggests a rocky composition with possible thick atmosphere.",
+    missionStatus: "BEYOND REACH",
+    missionText: "Physical landing currently impossible due to extreme interstellar distance (11.9 ly). Deep-space telemetry and remote observation only.",
+    missionIcon: "📡",
+    unreachable: true
   },
   {
     id: "tau-ceti-f",
-    total_cis: 73.0,
-    cisData: {
-      habitable_zone: 85, surface: 100, hydrosphere: 70, atmosphere: 65,
-      breathability: 10, climate: 55, gravity: 120, magnetic: 65
-    }
+    mass: "~3.93 M⊕",
+    radius: "~1.73 R⊕",
+    gravity: "~1.31 g",
+    temperature: "-17 °C",
+    pressure: "Unknown",
+    orbitalPeriod: "642 days",
+    rotationPeriod: "Unknown",
+    distance: "11.9 ly",
+    description: "Another super-Earth in the outer edge of Tau Ceti's habitable zone. With an orbital period of 642 days and mean temperature of -17°C, it may have subsurface oceans beneath an icy crust. Prime candidate for astrobiology studies.",
+    missionStatus: "BEYOND REACH",
+    missionText: "Physical landing currently impossible due to extreme interstellar distance (11.9 ly). Deep-space telemetry and remote observation only.",
+    missionIcon: "📡",
+    unreachable: true
   },
   {
     id: "tau-ceti-g",
-    total_cis: 39.3,
-    cisData: {
-      habitable_zone: 25, surface: 100, hydrosphere: 0, atmosphere: 30,
-      breathability: 0, climate: 15, gravity: 100, magnetic: 40
-    }
+    mass: "~1.75 M⊕",
+    radius: "~1.25 R⊕",
+    gravity: "~1.11 g",
+    temperature: "-40 °C",
+    pressure: "Unknown",
+    orbitalPeriod: "20 days",
+    rotationPeriod: "Unknown",
+    distance: "11.9 ly",
+    description: "A mini-Neptune or large rocky world orbiting close to Tau Ceti with a rapid 20-day period. Its proximity to the star and low temperature suggest a thin or absent atmosphere. Likely tidally locked with extreme temperature gradients.",
+    missionStatus: "BEYOND REACH",
+    missionText: "Physical landing currently impossible due to extreme interstellar distance (11.9 ly). Deep-space telemetry and remote observation only.",
+    missionIcon: "",
+    unreachable: true
   },
   {
     id: "tau-ceti-h",
-    total_cis: 43.0,
-    cisData: {
-      habitable_zone: 20, surface: 80, hydrosphere: 30, atmosphere: 40,
-      breathability: 0, climate: 10, gravity: 110, magnetic: 50
-    }
+    mass: "~1.83 M⊕",
+    radius: "~1.27 R",
+    gravity: "~1.13 g",
+    temperature: "-50 °C",
+    pressure: "Unknown",
+    orbitalPeriod: "49 days",
+    rotationPeriod: "Unknown",
+    distance: "11.9 ly",
+    description: "A super-Earth with a 49-day orbital period, positioned between the inner and outer regions of Tau Ceti's system. Cold surface temperatures and unknown atmospheric composition make it a challenging but intriguing target for future spectroscopic analysis.",
+    missionStatus: "BEYOND REACH",
+    missionText: "Physical landing currently impossible due to extreme interstellar distance (11.9 ly). Deep-space telemetry and remote observation only.",
+    missionIcon: "📡",
+    unreachable: true
   }
 ];
 
-window.CisDataEpsilonEridani = [
+window.PlanetMetricsEpsilonEridani = [
   {
     id: "epsilon-eridani-c",
-    total_cis: 37.3,
-    cisData: {
-      habitable_zone: 15, surface: 0, hydrosphere: 10, atmosphere: 100,
-      breathability: 0, climate: 5, gravity: 110, magnetic: 80
-    }
+    mass: "~248 M⊕",
+    radius: "~12.1 R",
+    gravity: "~20.5 m/s²",
+    temperature: "-143 °C",
+    pressure: "Unknown",
+    orbitalPeriod: "6.85 years",
+    rotationPeriod: "Unknown",
+    distance: "10.5 ly",
+    description: "A massive gas giant orbiting Epsilon Eridani, often compared to Jupiter in our own Solar System. With a mass nearly 250 times that of Earth and an orbital period of 6.85 years, it is a cold, turbulent world dominated by hydrogen and helium. Its immense gravity and lack of a solid surface make physical landing impossible.",
+    missionStatus: "BEYOND REACH",
+    missionText: "Physical landing currently impossible due to extreme interstellar distance (10.5 ly) and its nature as a gas giant. Deep-space telemetry and remote observation only.",
+    missionIcon: "",
+    unreachable: true
   }
 ];
 
-window.CisDataTeegarden = [
+window.PlanetMetricsTeegarden = [
   {
     id: "teegarden-b",
-    total_cis: 68.5,
-    cisData: {
-      habitable_zone: 90, surface: 100, hydrosphere: 50, atmosphere: 60,
-      breathability: 5, climate: 45, gravity: 105, magnetic: 40
-    }
+    mass: "~1.05 M⊕",
+    radius: "~1.02 R⊕",
+    gravity: "~9.9 m/s²",
+    temperature: "~28 °C",
+    pressure: "Unknown",
+    orbitalPeriod: "4.9 days",
+    rotationPeriod: "Tidally locked",
+    distance: "12.5 ly",
+    description: "One of the most Earth-like exoplanets ever discovered, with a mass and radius almost identical to Earth. It orbits within the habitable zone of Teegarden's Star, a cool red dwarf. Due to its close 4.9-day orbit, it is likely tidally locked, meaning one side permanently faces the star while the other remains in eternal darkness.",
+    missionStatus: "BEYOND REACH",
+    missionText: "Physical landing currently impossible due to extreme interstellar distance (12.5 ly). Deep-space telemetry and remote observation only.",
+    missionIcon: "📡",
+    unreachable: true
   },
   {
     id: "teegarden-c",
-    total_cis: 52.0,
-    cisData: {
-      habitable_zone: 70, surface: 100, hydrosphere: 20, atmosphere: 50,
-      breathability: 0, climate: 25, gravity: 110, magnetic: 30
-    }
+    mass: "~1.11 M⊕",
+    radius: "~1.04 R⊕",
+    gravity: "~10.2 m/s²",
+    temperature: "-47 °C",
+    pressure: "Unknown",
+    orbitalPeriod: "11.4 days",
+    rotationPeriod: "Tidally locked",
+    distance: "12.5 ly",
+    description: "A rocky super-Earth located at the outer edge of the habitable zone. With a mean temperature of -47°C, it is significantly colder than its sibling, Teegarden's Star b. Like its neighbor, it is tidally locked, creating extreme temperature contrasts between its day and night sides.",
+    missionStatus: "BEYOND REACH",
+    missionText: "Physical landing currently impossible due to extreme interstellar distance (12.5 ly). Deep-space telemetry and remote observation only.",
+    missionIcon: "📡",
+    unreachable: true
   }
 ];
 
-
-window.CisDataTrappist1 = [
+window.PlanetMetricsTrappist1 = [
   {
     id: "trappist-1b",
-    total_cis: 27.5,
-    cisData: {
-      habitable_zone: 10, surface: 100, hydrosphere: 0, atmosphere: 5,
-      breathability: 0, climate: 10, gravity: 80, magnetic: 10
-    }
+    mass: "~1.02 M⊕",
+    radius: "~1.12 R⊕",
+    gravity: "~0.81 g",
+    temperature: "~127 °C",
+    pressure: "Unknown",
+    orbitalPeriod: "1.51 days",
+    rotationPeriod: "Tidally locked",
+    distance: "40.7 ly",
+    description: "The innermost known planet of the TRAPPIST-1 system. With a mean temperature of ~127°C, it is far too hot to support liquid water on its surface. Likely a rocky world similar in size to Earth, completely tidally locked to its host star.",
+    missionStatus: "BEYOND REACH",
+    missionText: "Physical landing currently impossible due to extreme interstellar distance (40.7 ly). Deep-space telemetry and remote observation only.",
+    missionIcon: "📡",
+    unreachable: true
   },
   {
     id: "trappist-1c",
-    total_cis: 32.3,
-    cisData: {
-      habitable_zone: 20, surface: 100, hydrosphere: 0, atmosphere: 15,
-      breathability: 0, climate: 15, gravity: 90, magnetic: 15
-    }
+    mass: "~1.16 M⊕",
+    radius: "~1.10 R⊕",
+    gravity: "~0.97 g",
+    temperature: "~107 °C",
+    pressure: "Unknown",
+    orbitalPeriod: "2.42 days",
+    rotationPeriod: "Tidally locked",
+    distance: "40.7 ly",
+    description: "The second planet from the star, still well inside the habitable zone. Recent observations suggest it lacks a thick atmosphere, making it a barren, rocky world with extreme temperature gradients between its day and night sides.",
+    missionStatus: "BEYOND REACH",
+    missionText: "Physical landing currently impossible due to extreme interstellar distance (40.7 ly). Deep-space telemetry and remote observation only.",
+    missionIcon: "📡",
+    unreachable: true
   },
   {
     id: "trappist-1d",
-    total_cis: 45.0,
-    cisData: {
-      habitable_zone: 60, surface: 100, hydrosphere: 30, atmosphere: 40,
-      breathability: 0, climate: 35, gravity: 60, magnetic: 20
-    }
+    mass: "~0.30 M⊕",
+    radius: "~0.79 R⊕",
+    gravity: "~0.48 g",
+    temperature: "~15 °C",
+    pressure: "Unknown",
+    orbitalPeriod: "4.05 days",
+    rotationPeriod: "Tidally locked",
+    distance: "40.7 ly",
+    description: "The smallest planet in the system, located right at the inner edge of the habitable zone. Its calculated mean temperature of ~15°C is remarkably similar to Earth's. If it possesses a sufficient atmosphere, it could harbor liquid water.",
+    missionStatus: "BEYOND REACH",
+    missionText: "Physical landing currently impossible due to extreme interstellar distance (40.7 ly). Deep-space telemetry and remote observation only.",
+    missionIcon: "📡",
+    unreachable: true
   },
   {
     id: "trappist-1e",
-    total_cis: 65.0,
-    cisData: {
-      habitable_zone: 90, surface: 100, hydrosphere: 70, atmosphere: 60,
-      breathability: 5, climate: 60, gravity: 90, magnetic: 30
-    }
+    mass: "~0.77 M",
+    radius: "~0.92 R⊕",
+    gravity: "~0.91 g",
+    temperature: "-22 °C",
+    pressure: "Unknown",
+    orbitalPeriod: "6.10 days",
+    rotationPeriod: "Tidally locked",
+    distance: "40.7 ly",
+    description: "Widely considered the most Earth-like planet in the TRAPPIST-1 system. Located squarely in the middle of the habitable zone, it has a rocky composition and density very similar to Earth. The prime candidate for potential extraterrestrial life.",
+    missionStatus: "BEYOND REACH",
+    missionText: "Physical landing currently impossible due to extreme interstellar distance (40.7 ly). Deep-space telemetry and remote observation only.",
+    missionIcon: "📡",
+    unreachable: true
   },
   {
     id: "trappist-1f",
-    total_cis: 61.5,
-    cisData: {
-      habitable_zone: 85, surface: 80, hydrosphere: 80, atmosphere: 50,
-      breathability: 0, climate: 50, gravity: 95, magnetic: 35
-    }
+    mass: "~0.93 M",
+    radius: "~1.05 R⊕",
+    gravity: "~0.86 g",
+    temperature: "-54 °C",
+    pressure: "Unknown",
+    orbitalPeriod: "9.21 days",
+    rotationPeriod: "Tidally locked",
+    distance: "40.7 ly",
+    description: "Located in the outer region of the habitable zone. Colder than its inner siblings, it may be covered by a global ocean beneath an icy crust. A fascinating target for astrobiology, as subsurface life could thrive in its dark oceans.",
+    missionStatus: "BEYOND REACH",
+    missionText: "Physical landing currently impossible due to extreme interstellar distance (40.7 ly). Deep-space telemetry and remote observation only.",
+    missionIcon: "",
+    unreachable: true
   },
   {
     id: "trappist-1g",
-    total_cis: 51.0,
-    cisData: {
-      habitable_zone: 60, surface: 60, hydrosphere: 60, atmosphere: 40,
-      breathability: 0, climate: 30, gravity: 110, magnetic: 40
-    }
+    mass: "~1.15 M⊕",
+    radius: "~1.13 R⊕",
+    gravity: "~0.90 g",
+    temperature: "-74 °C",
+    pressure: "Unknown",
+    orbitalPeriod: "12.35 days",
+    rotationPeriod: "Tidally locked",
+    distance: "40.7 ly",
+    description: "The largest planet in the system, situated near the outer edge of the habitable zone. Likely an 'eyeball planet' — a world with a frozen night side and a small region of liquid water on the day side, or completely covered in ice.",
+    missionStatus: "BEYOND REACH",
+    missionText: "Physical landing currently impossible due to extreme interstellar distance (40.7 ly). Deep-space telemetry and remote observation only.",
+    missionIcon: "📡",
+    unreachable: true
   },
   {
     id: "trappist-1h",
-    total_cis: 31.3,
-    cisData: {
-      habitable_zone: 30, surface: 40, hydrosphere: 40, atmosphere: 30,
-      breathability: 0, climate: 10, gravity: 70, magnetic: 25
-    }
+    mass: "~0.33 M⊕",
+    radius: "~0.76 R",
+    gravity: "~0.58 g",
+    temperature: "-100 °C",
+    pressure: "Unknown",
+    orbitalPeriod: "18.77 days",
+    rotationPeriod: "Tidally locked",
+    distance: "40.7 ly",
+    description: "The outermost known planet in the system. With a mean temperature of -100°C, it is far too cold to support surface liquid water. Likely a frozen, icy world similar to the outer moons of our own Solar System.",
+    missionStatus: "BEYOND REACH",
+    missionText: "Physical landing currently impossible due to extreme interstellar distance (40.7 ly). Deep-space telemetry and remote observation only.",
+    missionIcon: "📡",
+    unreachable: true
   }
 ];
 
+// Формула для расчетов
+//CIS = (habitable_zone × 0.15) +
+//     (surface × 0.15) +
+//      (hydrosphere × 0.15) +
+//      (atmosphere × 0.10) +
+//      (breathability × 0.10) +
+//      (climate × 0.10) +
+//      (gravity × 0.10) +
+//      (magnetic × 0.15) 
