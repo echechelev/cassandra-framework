@@ -132,7 +132,7 @@
 
     - 1. sun - star-system.html?star=sun
 
-    - 2. alpha-centauri - star-system.html?star=alpha-centauri
+    - 2. alpha-centauri - star-system.html?star=alpha-centauri-a
 
     - 3. epsilon - star-system.html?star=epsilon
 

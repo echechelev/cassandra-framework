@@ -13,8 +13,8 @@ STAR_SYSTEM = [
     ),
     (
         "CAS-03",
-        browser.element('[data-wm-id="star-alpha-centauri-btn"]'),
-        "star-system.html?star=alpha-centauri",
+        browser.element('[data-wm-id="star-alpha-centauri-a-btn"]'),
+        "star-system.html?star=alpha-centauri-a",
         "Альфа Центавра",
     ),
     (

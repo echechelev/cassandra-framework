@@ -63,14 +63,14 @@ def test_sun_panels(star_info_page):
 def test_alpha_centauri_a_panels(star_info_page):
     """
     Сценарий:
-    1. Перейти на страницу 'star-info.html?star=alpha-centauri'.
+    1. Перейти на страницу 'star-info.html?star=alpha-centauri-a'.
     2. Проверить текстовое содержимое левой и правой панели.
     3. Левая панель содержит Classification: 'Triple Star System'.
     4. Правая панель содержит Description: 'The closest star system to our Solar System...'
     """
 
     # ⚡ ACT
-    star_page: StarInfoPage = star_info_page(data.STAR_INFO_URL["alpha-centauri"])
+    star_page: StarInfoPage = star_info_page(data.STAR_INFO_URL["alpha-centauri-a"])
 
     # ✅ ASSERT
     star_page.verify_tech_classification(data.ALPHA_CENTAURI_CLASSIFICATION)

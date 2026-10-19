@@ -16,7 +16,7 @@ class GalaxyMapPage(CorePage):
     # Кнопки звезды
     black_hole_btn = browser.element('[data-wm-id="black-hole-btn"]')
     sun_btn = browser.element('[data-wm-id="star-sun-btn"]')
-    alpha_centauri_btn = browser.element('[data-wm-id="star-alpha-centauri-btn"]')
+    alpha_centauri_btn = browser.element('[data-wm-id="star-alpha-centauri-a-btn"]')
     epsilon_eridani_btn = browser.element('[data-wm-id="star-epsilon-eridani-btn"]')
     tau_ceti_btn = browser.element('[data-wm-id="star-tau-ceti-btn"]')
     teegarden_btn = browser.element('[data-wm-id="star-teegarden-btn"]')

@@ -98,7 +98,7 @@ window.sun = {
 };
 
 window.alphaCentauri = {
-  id: "alpha-centauri",
+  id: "alpha-centauri-a",
   name: "Alpha Centauri A",
   type: "star-system",
   path: "MILKY WAY > ORION ARM > ALPHA CENTAURI",
@@ -270,7 +270,7 @@ window.starDatabase = {
     ]
   },
 
-  "alpha-centauri": {
+  "alpha-centauri-a": {
     designation: "Alpha Centauri A",
     classification: "G2V / K1V Binary Star System",
     mass: "2.2 M (Combined A & B)",

@@ -29,7 +29,7 @@ CIS_INDEX_TABLE_URL = "cis-index-table.html"
 STAR_SYSTEM_URL = {
     "no-star": "star-system.html",
     "sun": "star-system.html?star=sun",
-    "alpha-centauri": "star-system.html?star=alpha-centauri",
+    "alpha-centauri-a": "star-system.html?star=alpha-centauri-a",
     "epsilon-eridani": "star-system.html?star=epsilon-eridani",
     "tau-ceti": "star-system.html?star=tau-ceti",
     "teegarden": "star-system.html?star=teegarden",
@@ -39,7 +39,7 @@ STAR_SYSTEM_URL = {
 # Звёзды и Чёрная дыра для Star Info
 STAR_INFO_URL = {
     "sun": "star-info.html?star=sun",
-    "alpha-centauri": "star-info.html?star=alpha-centauri",
+    "alpha-centauri-a": "star-info.html?star=alpha-centauri-a",
     "epsilon-eridani": "star-info.html?star=epsilon-eridani",
     "tau-ceti": "star-info.html?star=tau-ceti",
     "teegarden": "star-info.html?star=teegarden",
@@ -60,7 +60,7 @@ PLANET_URL_SUN = {
 }
 
 # Альфа Центавра А / Проксима 
-PLANET_URL_ALPHA_CENTAURI = {
+PLANET_URL_ALPHA_CENTAURI_A = {
     "proxima-b": "planet.html?star=alpha-centauri-a&planet=proxima-b",
     "proxima-c": "planet.html?star=alpha-centauri-a&planet=proxima-c",
     "proxima-d": "planet.html?star=alpha-centauri-a&planet=proxima-d",
@@ -236,9 +236,15 @@ INFO_PANEL_ROLE_PILOT = 'PILOT'
 # 🌌 ПЛАНЕТЫ СОЛНЕЧНОЙ СИСТЕМЫ (Solar System Planets)
 # ==========================================
 
+# Общий статус исследования планет
+PLANET_EXPLORATION_STATUS = 'BEYOND REACH — Physical landing currently'
+
 # 🌑 Меркурий
 MERCURY_ID = 'planet-mercury-btn'
 MERCURY_NAME = 'MERCURY'
+MERCURY_MASS = '0.055 M⊕'
+MERCURY_PLANETARY_PROFILE = 'The smallest planet in the'
+MERCURY_EXPLORATION_STATUS = 'NO LANDINGS — Multiple flybys'
 
 # 🌟 Венера
 VENUS_ID = 'planet-venus-btn'
@@ -269,6 +275,8 @@ NEPTUNE_NAME = 'NEPTUNE'
 # 🪐 Проксима B
 PROXIMA_B_ID = 'planet-proxima-b-btn'
 PROXIMA_B_NAME = 'PROXIMA B'
+PROXIMA_B_MASS = '~1.2 M⊕'
+PROXIMA_B_PLANETARY_PROFILE = 'The closest known exoplanet'
 
 # 🔵 Проксима C
 PROXIMA_C_ID = 'planet-proxima-c-btn'
@@ -285,6 +293,8 @@ PROXIMA_D_NAME = 'PROXIMA D'
 # 🪐 Эпсилон Эридана C
 EPSILON_ERIDANI_C_ID = 'planet-epsilon-eridani-c-btn'
 EPSILON_ERIDANI_C_NAME = 'EPSILON ERIDANI C'
+EPSILON_ERIDANI_C_MASS = '~248 M⊕'
+EPSILON_ERIDANI_C_PLANETARY_PROFILE = 'A massive gas giant orbiting Epsilon Eridani'
 
 # ==========================================
 # 🌟 ПЛАНЕТЫ ТАУ КИТА (Tau Ceti Planets)
@@ -293,6 +303,9 @@ EPSILON_ERIDANI_C_NAME = 'EPSILON ERIDANI C'
 #  Тау Кита e
 TAU_CETI_E_ID = 'planet-tau-ceti-e-btn'
 TAU_CETI_E_NAME = 'TAU CETI E'
+TAU_CETI_E_MASS = '~4.29 M⊕'
+TAU_CETI_E_PLANETARY_PROFILE = 'A super-Earth located in the habitable zone'
+
 
 # 🌊 Тау Кита f
 TAU_CETI_F_ID = 'planet-tau-ceti-f-btn'
@@ -313,6 +326,8 @@ TAU_CETI_H_NAME = 'TAU CETI H'
 # 🌑 Тигарден b
 TEEGARDEN_B_ID = 'planet-teegarden-b-btn'
 TEEGARDEN_B_NAME = 'TEEGARDEN B'
+TEEGARDEN_B_MASS = '~1.05 M⊕'
+TEEGARDEN_B_PLANETARY_PROFILE = 'One of the most Earth-like exoplanets'
 
 #  Тигарден c
 TEEGARDEN_C_ID = 'planet-teegarden-c-btn'
@@ -325,6 +340,8 @@ TEEGARDEN_C_NAME = 'TEEGARDEN C'
 # 🔴 TRAPPIST-1 b
 TRAPPIST_1B_ID = 'planet-trappist-1b-btn'
 TRAPPIST_1B_NAME = 'TRAPPIST-1B'
+TRAPPIST_1B_MASS = '~1.02 M⊕'
+TRAPPIST_1B_PLANETARY_PROFILE = 'The innermost known planet'
 
 # 🟠 TRAPPIST-1 c
 TRAPPIST_1C_ID = 'planet-trappist-1c-btn'
@@ -368,7 +385,7 @@ SUN_TYPE = 'STAR'
 SUN_CLASSIFICATION = 'G-type Yellow Dwarf'
 SUN_DESCRIPTION = 'The central star of our planetary system'
 
-# ⭐ Альфа Центавра
+# ⭐ Альфа Центавра А
 ALPHA_CENTAURI_CLASS = 'alpha'
 ALPHA_CENTAURI_NAME = 'ALPHA CENTAURI A'
 ALPHA_CENTAURI_TYPE = 'STAR SYSTEM'
