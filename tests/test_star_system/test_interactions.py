@@ -60,17 +60,17 @@ def test_successful_navigation_to_the_sun_and_planets(star_system):
 def test_successful_navigation_to_alpha_centauri_and_planets(star_system):
     """
     Сценарий:
-    1. Перейти на страницу 'star-system.html?star=alpha-centauri'.
+    1. Перейти на страницу 'star-system.html?star=alpha-centauri-a'.
     2. Проверить: URL звездной системы и название всех кнопок планет.
     3. Кликнуть на кнопку планеты Проксима B.
-    4. Проверить: URL браузера изменяется на 'planet.html?star=alpha-centauri&planet=proxima-b'.
+    4. Проверить: URL браузера изменяется на 'planet.html?star=alpha-centauri-a&planet=proxima-b'.
     """
 
     # ⚡ ACT
-    star_page: StarSystemPage = star_system("alpha-centauri")
+    star_page: StarSystemPage = star_system("alpha-centauri-a")
 
     # ✅ ASSERT
-    star_page.wait_for_url_strict("star-system.html?star=alpha-centauri")
+    star_page.wait_for_url_strict("star-system.html?star=alpha-centauri-a")
     star_page.check_button_content(
         button_id=data.PROXIMA_B_ID, expected_text=data.PROXIMA_B_NAME
     )
@@ -85,7 +85,7 @@ def test_successful_navigation_to_alpha_centauri_and_planets(star_system):
     star_page.click_planet(star_page.proxima_b_btn)
 
     # ✅ ASSERT
-    star_page.wait_for_url_strict("planet.html?star=alpha-centauri&planet=proxima-b")
+    star_page.wait_for_url_strict("planet.html?star=alpha-centauri-a&planet=proxima-b")
 
 
 @allure.id("CAS-03")

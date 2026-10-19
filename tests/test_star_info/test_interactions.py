@@ -80,20 +80,19 @@ def test_successful_sun_loading(star_info_page):
 @pytest.mark.interactions
 def test_successful_alpha_centauri_a_loading(star_info_page):
     """
-    Сценарий:
-    1. Перейти на страницу 'star-info.html?star=alpha-centauri'.
-    2. Проверить: URL равен 'star-info.html?star=alpha-centauri'
-    3. Проверить: отображается желтая звезда (.star-sphere.alpha).
+    Сценарий:-a'.
+    2. Проверить: URL равен 'star-info.html?star=alpha-centauri-a'
+    3. Проверить: отображается желтая звезда (.star-sphere.alpha-a).
     4. Проверить: заголовок панели: STAR SYSTEM ALPHA CENTAURI А.
     5. Проверить: текст телеметрии '> CASSANDRA: AURORA, ANALYZING ALPHA CENTAURI А DATA...'
     6. Проверить: кнопка Star System видна.
     """
 
     # ⚡ ACT
-    star_page: StarInfoPage = star_info_page(data.STAR_INFO_URL["alpha-centauri"])
+    star_page: StarInfoPage = star_info_page(data.STAR_INFO_URL["alpha-centauri-a"])
 
     # ✅ ASSERT
-    star_page.wait_for_url_strict("star-info.html?star=alpha-centauri")
+    star_page.wait_for_url_strict("star-info.html?star=alpha-centauri-a")
     star_page.verify_visual_class(data.ALPHA_CENTAURI_CLASS)
     star_page.verify_text(
         star_page.tech_panel_type, expected_text=data.ALPHA_CENTAURI_TYPE

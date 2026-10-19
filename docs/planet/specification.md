@@ -174,30 +174,155 @@ PlanetMetricsAlphaCentauriA, window.PlanetMetricsTauCeti, window.PlanetMetricsEp
 
     - Ожидаемый результат: Ожидаемый URL 'planet.html?star=trappist-1&planet=trappist-1b'. Имя планеты 'TRAPPIST-1B'. Телеметрия имеет текст '> CASSANDRA: AURORA, TRAPPIST-1B. DOWNLOADING PLANETARY METRICS...'. Кнопка Star System видна.
 
+- **CAS-07: Навигация на Звездную Систему Солнце с Меркурия**
 
-- **CAS-07: Навигация на Звездную Систему Солнце**
-
-    - Переход: Перейти на страницу planet.html?star=sun&planet=mars
+    - Переход: Перейти на страницу planet.html?star=sun&planet=mercury
 
     - Действие: Кликнуть на элемент data-wm-id='nav-star-system-btn'.
 
     - Ожидаемый результат: URL изменяется на star-system.html?star=sun.
 
+- **CAS-08: Навигация на Звездную Систему Альфа Центавра А с Проксимы Б**
+
+    - Переход: Перейти на страницу planet.html?star=alpha-centauri&planet=proxima-b
+
+    - Действие: Кликнуть на элемент data-wm-id='nav-star-system-btn'.
+
+    - Ожидаемый результат: URL изменяется на star-system.html?star=alpha-centauri-a.
+
+- **CAS-09: Навигация на Звездную Систему Тау Кита с Тау Кита Е**
+
+    - Переход: Перейти на страницу planet.html?star=tau-ceti&planet=tau-ceti-e
+
+    - Действие: Кликнуть на элемент data-wm-id='nav-star-system-btn'.
+
+    - Ожидаемый результат: URL изменяется на star-system.html?star=tau-ceti.
+
+- **CAS-10: Навигация на Звездную Систему Эпсилон Эридани с Эпсилон Эридани Ц**
+
+    - Переход: Перейти на страницу planet.html?star=epsilon-eridani&planet=epsilon-eridani-c
+
+    - Действие: Кликнуть на элемент data-wm-id='nav-star-system-btn'.
+
+    - Ожидаемый результат: URL изменяется на star-system.html?star=epsilon-eridani.
+
+- **CAS-11: Навигация на Звездную Систему Тегарднес с Эпсилон Тегарднес Б**
+
+    - Переход: Перейти на страницу planet.html?star=teegarden&planet=teegarden-b
+
+    - Действие: Кликнуть на элемент data-wm-id='nav-star-system-btn'.
+
+    - Ожидаемый результат: URL изменяется на star-system.html?star=teegarden.
+
+- **CAS-12: Навигация на Звездную Систему Траппист-1 с Траппист-1Б**
+
+    - Переход: Перейти на страницу planet.html?star=trappist-1&planet=trappist-1b
+
+    - Действие: Кликнуть на элемент data-wm-id='nav-star-system-btn'.
+
+    - Ожидаемый результат: URL изменяется на star-system.html?star=trappist-1.
+
 ### test_states.py — Валидация состояний UI
 
-CAS-01: Валидация метрик для Марса
-Переход: planet.html?star=sun&planet=mars
-Действие: Проверить текстовое содержимое левой панели.
-Ожидаемый результат: Mass: "0.107 M⊕", Gravity: "3.72 m/s²", Temperature: "-65 °C".
-CAS-02: Валидация описания для Проксимы b
-Переход: planet.html?star=alpha-centauri-a&planet=proxima-b
-Действие: Проверить текстовое содержимое правой панели (Planetary Profile).
-Ожидаемый результат: Описание содержит упоминание "habitable zone" и "red dwarf star".
-test_workflows.py — Сквозные бизнес-сценарии
-CAS-01: Полный цикл исследования планеты с возвратом
-Переход: star-system.html?star=sun → Клик по планете Земля.
-Действие: Дождаться загрузки planet.html?star=sun&planet=earth. Проверить данные. Нажать кнопку "Назад" в браузере.
-Ожидаемый результат: Возврат на star-system.html?star=sun. Состояние сессии сохранено.
+- **CAS-01: Валидация метрик для Меркурия**
+
+    - Переход: Перейти на страницу planet.html?star=sun&planet=mercury
+
+    - Действие: Проверить текстовое содержимое информацыионных панелей.
+
+    - Ожидаемый результат:
+
+        - PLANETARY METRICS - Mass: "0.055 M⊕"
+
+        - PLANETARY PROFILE - The smallest planet in the
+
+        - EXPLORATION STATUS - NO LANDINGS — Multiple flybys
+
+- **CAS-02: Валидация метрик для Проксима Б**
+
+    - Переход: Перейти на страницу planet.html?star=alpha-centauri&planet=proxima-b
+
+    - Действие: Проверить текстовое содержимое информацыионных панелей.
+
+    - Ожидаемый результат:
+
+        - PLANETARY METRICS - Mass: "~1.2 M⊕"
+
+        - PLANETARY PROFILE - The closest known exoplanet
+
+        - EXPLORATION STATUS - BEYOND REACH — Physical landing currently
+
+- **CAS-03: Валидация метрик для Тау Кита Е**
+
+    - Переход: Перейти на страницу planet.html?star=tau-ceti&planet=tau-ceti-e
+
+    - Действие: Проверить текстовое содержимое информацыионных панелей.
+
+    - Ожидаемый результат:
+
+        - PLANETARY METRICS - Mass: "~4.29 M⊕"
+
+        - PLANETARY PROFILE - A super-Earth located in the habitable zone
+
+        - EXPLORATION STATUS - BEYOND REACH — Physical landing currently
+
+- **CAS-04: Валидация метрик для Эпсилона Эридани Ц**
+
+    - Переход: Перейти на страницу planet.html?star=epsilon-eridani&planet=epsilon-eridani-c
+
+    - Действие: Проверить текстовое содержимое информацыионных панелей.
+
+    - Ожидаемый результат:
+
+        - PLANETARY METRICS - Mass: "~248 M⊕"
+
+        - PLANETARY PROFILE - A massive gas giant orbiting Epsilon Eridani
+        
+        - EXPLORATION STATUS - BEYOND REACH — Physical landing currently
+
+- **CAS-05: Валидация метрик для Эпсилона Тегарден Б**
+
+    - Переход: planet.html?star=teegarden&planet=teegarden-b
+
+    - Действие: Проверить текстовое содержимое информацыионных панелей.
+
+    - Ожидаемый результат:
+
+        - PLANETARY METRICS - Mass: "~1.05 M⊕"
+
+        - PLANETARY PROFILE - One of the most Earth-like exoplanets
+        
+        - EXPLORATION STATUS - BEYOND REACH — Physical landing currently
+
+- **CAS-06: Валидация метрик для Эпсилона Траппист-1Б**
+
+    - Переход: planet.html?star=trappist-1&planet=trappist-1b
+
+    - Действие: Проверить текстовое содержимое информацыионных панелей.
+
+    - Ожидаемый результат:
+
+        - PLANETARY METRICS - Mass: "~1.02 M⊕"
+
+        - PLANETARY PROFILE - The innermost known planet
+        
+        - EXPLORATION STATUS - BEYOND REACH — Physical landing currently
+
+### test_workflows.py — Сквозные бизнес-сценарии
+
+- **CAS-01: Полный цикл исследования планеты с возвратом**
+
+    - Переход: Перейти на страницу planet.html?star=sun&planet=mercury
+    
+    - Действие: Кликнуть на data-wm-id="nav-star-system-btn" → Дождаться star-system.html?star=sun. Нажать кнопку "Назад" в браузере.
+
+    - - Ожидаемый результат, URL соотвествует 'planet.html?star=sun&planet=mercury', левая и права информационные панели, содержат:
+
+        - PLANETARY METRICS - Mass: "0.055 M⊕"
+
+        - PLANETARY PROFILE - The smallest planet in the
+
+        - EXPLORATION STATUS - NO LANDINGS — Multiple flybys
 
 ## 7. 🎨 Визуальные требования
 

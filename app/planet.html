@@ -1377,7 +1377,7 @@
             font-weight: 500;
             text-align: right;
             font-family: 'Courier New', monospace;
-            font-size: 1.2vmin;
+            font-size: 1.3vmin;
             text-shadow: 0 0 0.5vmin rgba(232, 236, 255, 0.3);
         }
 
@@ -1409,7 +1409,7 @@
         }
 
         .info-panel-right .data-description {
-            font-size: 1.2vmin;
+            font-size: 1.4vmin;
             line-height: 1.8;
             color: #d0d8f0;
             letter-spacing: 0.03vmin;
@@ -1418,7 +1418,7 @@
 
         .info-panel-right .warning-box {
             margin-top: auto;
-            padding: 1.2vmin;
+            padding: 1.3vmin;
             min-height: 6vh;
             display: flex;
             align-items: center;
@@ -1475,7 +1475,7 @@
             font-style: normal;
             color: #8a9cc7;
             line-height: 1.7;
-            font-size: 1.1vmin;
+            font-size: 1.3vmin;
             font-weight: 500;
             min-height: 8vh;
         }
@@ -1489,7 +1489,7 @@
         .info-panel-right .mission-status-text.home-planet {
             color: #2ecc71;
             font-weight: 600;
-            font-size: 1.1vmin;
+            font-size: 1.2vmin;
         }
 
         #mission-status-icon {
@@ -1506,12 +1506,10 @@
     </div>
 
     <div class="planet-container">
-        <!-- Вернули id="main-planet" и добавили data-vm-id -->
         <div class="main-planet" id="main-planet" data-vm-id=""></div>
     </div>
 
     <div class="planet-name-container">
-        <!-- Вернули id="planet-name" и добавили data-vm-id -->
         <div class="planet-name" id="planet-name" data-vm-id=""></div>
     </div>
 
@@ -1659,7 +1657,6 @@
             }
         }
 
-        // 1. ПРОВЕРКА АВТОРИЗАЦИИ (возвращает true/false, как в star-info)
         function initPlanetAuth() {
             const userDataStr = sessionStorage.getItem('currentUser');
 
@@ -1669,7 +1666,7 @@
                     telemetry.innerHTML = `> <span class="telemetry-cassan">CASSAN</span><span class="telemetry-dra">DRA</span>: <span data-wm-id="telemetry-message" style="color: #e74c3c;">ACCESS DENIED. REDIRECTING...</span>`;
                 }
                 setTimeout(() => { window.location.href = 'login.html'; }, 1500);
-                return false; // ВАЖНО: прерываем выполнение
+                return false;
             }
 
             let user = {};
@@ -1678,10 +1675,9 @@
             } catch (e) {
                 sessionStorage.removeItem('currentUser');
                 window.location.href = 'login.html';
-                return false; // ВАЖНО: прерываем выполнение
+                return false; 
             }
 
-            // Заполняем UI пользователя
             const callsign = user.callsign ? user.callsign.toUpperCase() : 'UNKNOWN';
             const fullName = user.fullName || 'Unknown Operator';
             const role = user.role || 'OPERATOR';
@@ -1716,13 +1712,12 @@
                 <div>Status: Online</div>`;
             }
 
-            return true; // Авторизация успешна, можно грузить данные
+            return true; 
         }
 
         function getPlanetMetricsByStar(starKey) {
             const map = {
                 'sun': window.PlanetMetricsSun,
-                'alpha-centauri': window.PlanetMetricsAlphaCentauriA,
                 'alpha-centauri-a': window.PlanetMetricsAlphaCentauriA,
                 'tau-ceti': window.PlanetMetricsTauCeti,
                 'epsilon-eridani': window.PlanetMetricsEpsilonEridani,
@@ -1732,14 +1727,12 @@
             return map[starKey] || null;
         }
 
-        // 2. ОСНОВНАЯ ЛОГИКА ЗАГРУЗКИ ПЛАНЕТЫ
         function initPlanetView() {
             const urlParams = new URLSearchParams(window.location.search);
             const starKey = urlParams.get('star');
             const planetId = urlParams.get('planet');
             const telemetry = document.getElementById('dashboard-telemetry');
 
-            // Строгая валидация URL
             if (!starKey || starKey.trim() === '' || !planetId || planetId.trim() === '') {
                 console.warn('⚠️ Параметры star или planet отсутствуют. Редирект на Карту Галактики.');
                 window.location.href = 'galaxy-map.html';
@@ -1783,14 +1776,12 @@
                     return;
                 }
 
-                // Рендеринг планеты
                 mainPlanet.classList.add(`${planetId}-planet`);
                 const displayName = planetNames[planetId] || planetId.toUpperCase();
                 if (planetNameEl) {
                     planetNameEl.textContent = displayName;
                 }
 
-                // Заполнение левой панели
                 document.getElementById('tech-mass').textContent = planetMetrics.mass || '—';
                 document.getElementById('tech-radius').textContent = planetMetrics.radius || '—';
                 document.getElementById('tech-gravity').textContent = planetMetrics.gravity || '—';
@@ -1805,7 +1796,6 @@
                     distanceLabel.textContent = (planetId === 'earth') ? 'Distance to Sun:' : 'Distance from Earth:';
                 }
 
-                // Заполнение правой панели
                 const descEl = document.getElementById('info-description');
                 if (descEl) descEl.textContent = planetMetrics.description || 'Data unavailable.';
 
@@ -1821,7 +1811,6 @@
                     else if (planetMetrics.isHomePlanet) statusTextEl.classList.add('home-planet');
                 }
 
-                // Финальная телеметрия
                 if (telemetry) {
                     const userDataStr = sessionStorage.getItem('currentUser');
                     let callsign = "OPERATOR";
@@ -1839,7 +1828,6 @@
             window.location.href = `star-system.html?star=${starParam || 'sun'}`;
         }
 
-        // 3. ИНИЦИАЛИЗАЦИЯ (Идеально как в star-info)
         document.addEventListener('DOMContentLoaded', () => {
             const isAuthorized = initPlanetAuth();
             if (isAuthorized) {
