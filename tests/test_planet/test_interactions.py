@@ -47,8 +47,8 @@ def test_mercury_page_loads_successfully(planet_page):
 def test_proxima_b_page_loads_successfully(planet_page):
     """
     Сценарий:
-    1. Перейти на страницу 'planet.html?star=alpha-centauri&planet=proxima-b'.
-    2. Проверить: URL равен 'planet.html?star=alpha-centauri&planet=proxima-b'
+    1. Перейти на страницу 'planet.html?star=alpha-centauri-a&planet=proxima-b'.
+    2. Проверить: URL равен 'planet.html?star=alpha-centaur-ai&planet=proxima-b'
     3. Проверить: название планеты: PROXIMA B.
     4. Проверить: текст телеметрии '> CASSANDRA: AURORA, PROXIMA B. DOWNLOADING PLANETARY METRICS...'
     5. Проверить: кнопка Star System видна.
@@ -56,7 +56,7 @@ def test_proxima_b_page_loads_successfully(planet_page):
 
     # ⚡ ACT
     planet: PlanetPage = planet_page(
-        data.PLANET_URL_ALPHA_CENTAURI["proxima-b"], expect_redirect=True
+        data.PLANET_URL_ALPHA_CENTAURI_A["proxima-b"], expect_redirect=True
     )
 
     # ✅ ASSERT
@@ -193,27 +193,55 @@ def test_trappist_1b_page_loads_successfully(planet_page):
 
 
 @allure.id("CAS-07")
-@allure.title("☀️ Навигация на Звездную Систему Солнце")
+@allure.title("☀️ Навигация на Звездную Систему Солнце с Меркурия")
 @allure.label("owner", "Evgeniy Chechelev")
 @allure.label("feature", "planet")
 @pytest.mark.regress
 @pytest.mark.planet
 @pytest.mark.interactions
-def test_navigate_to_sun_star_system(planet_page):
+def test_navigate_to_sun_system_from_mercury(planet_page):
     """
     Сценарий:
-    1. Перейти на страницу 'planet.html?star=sun&planet=mars'.
+    1. Перейти на страницу 'planet.html?star=sun&planet=mercury'.
     2. Кликнуть: на кнопку 'Star System'
     3. Проверить: URL сменился на 'star-system.html?star=sun'
     """
 
     # ⚡ ACT
     planet: PlanetPage = planet_page(
-        data.PLANET_URL_SUN["mars"], expect_redirect=True
+        data.PLANET_URL_SUN["mercury"], expect_redirect=True
     )
     planet.click_star_system()
 
     # ✅ ASSERT
     planet.wait_for_url_strict("star-system.html?star=sun")
+
+
+@allure.id("CAS-08")
+@allure.title("🌟 Навигация на Звездную Систему Альфа Центавра А с Проксимы Б")
+@allure.label("owner", "Evgeniy Chechelev")
+@allure.label("feature", "planet")
+@pytest.mark.regress
+@pytest.mark.planet
+@pytest.mark.interactions
+def test_navigate_to_alpha_centauri_a_from_proxima_b(planet_page):
+    """
+    Сценарий:
+    1. Перейти на страницу 'planet.html?star=alpha-centauri-a&planet=proxima-b'.
+    2. Кликнуть: на кнопку 'Star System'
+    3. Проверить: URL сменился на 'star-system.html?star=alpha-centauri-a.'
+    """
+
+    # ⚡ ACT
+    planet: PlanetPage = planet_page(
+        data.PLANET_URL_ALPHA_CENTAURI_A["proxima-b"], expect_redirect=True
+    )
+    planet.click_star_system()
+
+    # ✅ ASSERT
+    planet.wait_for_url_strict("star-system.html?star=alpha-centauri-a")
+
+
+
    
    
