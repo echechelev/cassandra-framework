@@ -1,0 +1,1353 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <title>Cassandra — Flight Calculator</title>
+  <style>
+    :root {
+      --corner-btn-size: 10vmin;
+      --corner-btn-border: 0.2vmin;
+      --corner-btn-gap: 0.35vmin;
+      --corner-icon-size: 3vmin;
+      --corner-label-size: 1.1vmin;
+      --corner-btn-offset-v: 4vh;
+      --corner-btn-offset-h: 2vw;
+
+      --neon-blue: #4da6ff;
+      --neon-glow: rgba(77, 166, 255, 0.6);
+      --bg-dark: rgba(10, 15, 40, 0.85);
+      --text-main: #e8ecff;
+      --text-dim: #8a94b8;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', 'Roboto', sans-serif;
+    }
+
+    body {
+      color: #e8ecff;
+      min-height: 100vh;
+      position: relative;
+      overflow: hidden;
+      /* Было overflow-x: hidden → меняем на overflow: hidden */
+      background-color: #050816;
+    }
+
+    /* === ЗВЁЗДНЫЙ ФОН === */
+    .stars {
+      position: fixed;
+      inset: 0;
+      z-index: -2;
+      background:
+        radial-gradient(1px 1px at 10% 10%, rgba(255, 255, 255, .9), transparent 50%),
+        radial-gradient(1.5px 1.5px at 20% 30%, rgba(255, 255, 255, .7), transparent 50%),
+        radial-gradient(1px 1px at 30% 70%, rgba(255, 255, 255, .8), transparent 50%),
+        radial-gradient(2px 2px at 40% 20%, rgba(255, 255, 255, .6), transparent 50%),
+        radial-gradient(1px 1px at 50% 50%, rgba(255, 255, 255, .9), transparent 50%),
+        radial-gradient(1.5px 1.5px at 60% 80%, rgba(255, 255, 255, .7), transparent 50%),
+        radial-gradient(1px 1px at 70% 40%, rgba(255, 255, 255, .8), transparent 50%),
+        radial-gradient(2px 2px at 80% 90%, rgba(255, 255, 255, .5), transparent 50%),
+        radial-gradient(1px 1px at 90% 15%, rgba(255, 255, 255, .9), transparent 50%),
+        linear-gradient(180deg, #050816 0%, #0a0e27 50%, #131b3a 100%);
+      background-size: 15vmin 15vmin, 20vmin 20vmin, 18vmin 18vmin, 25vmin 25vmin,
+        16vmin 16vmin, 22vmin 22vmin, 19vmin 19vmin, 28vmin 28vmin,
+        17vmin 17vmin, 100% 100%;
+    }
+
+    .milkyway {
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      overflow: hidden;
+      pointer-events: none;
+    }
+
+    .milkyway .band {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 280vmax;
+      height: 25vmin;
+      transform: translate(-50%, -50%) rotate(-28deg);
+      background: linear-gradient(180deg,
+          transparent,
+          rgba(120, 160, 255, .08) 15%,
+          rgba(190, 215, 255, .18) 35%,
+          rgba(255, 255, 255, .25) 50%,
+          rgba(190, 215, 255, .18) 65%,
+          rgba(120, 160, 255, .08) 85%,
+          transparent);
+      filter: blur(1.5vmin);
+    }
+
+    /* === УГЛОВЫЕ КНОПКИ === */
+    .corner-circle-btn {
+      position: fixed;
+      width: var(--corner-btn-size);
+      height: var(--corner-btn-size);
+      border-radius: 50%;
+      border: var(--corner-btn-border) solid rgba(77, 166, 255, 0.6);
+      background: rgba(10, 15, 40, 0.7);
+      backdrop-filter: blur(1vmin);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: var(--corner-btn-gap);
+      z-index: 10;
+      box-shadow:
+        0 0 0.5vmin rgba(77, 166, 255, 0.3),
+        inset 0 0 0.5vmin rgba(77, 166, 255, 0.2),
+        0 0 1.5vmin rgba(77, 166, 255, 0.4);
+      transition: all 0.3s ease;
+      cursor: pointer;
+      padding: 0;
+      text-align: center;
+    }
+
+    .corner-circle-btn:hover {
+      border-color: rgba(77, 166, 255, 1);
+      box-shadow:
+        0 0 1vmin rgba(77, 166, 255, 0.6),
+        inset 0 0 1vmin rgba(77, 166, 255, 0.4),
+        0 0 3vmin rgba(77, 166, 255, 0.8);
+    }
+
+    .corner-circle-btn.bottom-left,
+    .corner-circle-btn.bottom-right {
+      bottom: var(--corner-btn-offset-v);
+    }
+
+    .corner-circle-btn.bottom-left {
+      left: var(--corner-btn-offset-h);
+    }
+
+    .corner-circle-btn.bottom-right {
+      right: var(--corner-btn-offset-h);
+    }
+
+    .corner-circle-btn.top-left {
+      top: var(--corner-btn-offset-v);
+      left: var(--corner-btn-offset-h);
+    }
+
+    .corner-circle-btn.top-right {
+      top: var(--corner-btn-offset-v);
+      right: var(--corner-btn-offset-h);
+    }
+
+    .corner-icon {
+      font-size: var(--corner-icon-size);
+      line-height: 1;
+      filter: drop-shadow(0 0 0.8vmin rgba(77, 166, 255, 0.5));
+    }
+
+    .corner-label {
+      font-size: var(--corner-label-size);
+      font-weight: 600;
+      text-align: center;
+      line-height: 1.2;
+      color: #e8ecff;
+      text-transform: uppercase;
+      letter-spacing: 0.05vmin;
+    }
+
+    .top-left .corner-icon,
+    .top-right .corner-icon,
+    .bottom-left .corner-icon,
+    .bottom-right .corner-icon {
+      margin-top: -1.3vmin;
+      margin-bottom: 0.4vmin;
+    }
+
+    .top-left .corner-label,
+    .bottom-left .corner-label,
+    .bottom-right .corner-label {
+      margin-top: 0.4vmin;
+    }
+
+    .top-right .corner-label {
+      color: #2ecc71 !important;
+      text-shadow: 0 0 0.8vmin rgba(46, 204, 113, 0.5) !important;
+    }
+
+    .top-left,
+    .top-right {
+      cursor: default;
+    }
+
+    .top-left:hover,
+    .top-right:hover {
+      border-color: rgba(77, 166, 255, 0.8);
+      box-shadow: 0 0 1.5vmin rgba(77, 166, 255, 0.4), inset 0 0 1.5vmin rgba(77, 166, 255, 0.2);
+      transform: none !important;
+    }
+
+    .bottom-left:hover,
+    .bottom-right:hover {
+      transform: scale(1.15);
+      border-color: rgba(77, 166, 255, 1);
+      box-shadow: 0 0 1vmin rgba(77, 166, 255, 0.6), inset 0 0 1vmin rgba(77, 166, 255, 0.4), 0 0 3vmin rgba(77, 166, 255, 0.8);
+    }
+
+    .bottom-left:active,
+    .bottom-right:active {
+      transform: scale(1.1);
+    }
+
+    /* === КНОПКА CASSANDRA (ЗАГЛУШКА) === */
+    .cassandra-logo {
+      cursor: default !important;
+      pointer-events: none !important;
+      transform: none !important;
+      opacity: 0.55 !important;
+      filter: brightness(0.7) !important;
+    }
+
+    .cassandra-logo:hover,
+    .cassandra-logo:active {
+      transform: none !important;
+      opacity: 0.7 !important;
+      filter: brightness(0.7) !important;
+      border-color: rgba(77, 166, 255, 0.3) !important;
+      box-shadow:
+        0 0 0.3vmin rgba(77, 166, 255, 0.15),
+        inset 0 0 0.3vmin rgba(77, 166, 255, 0.1) !important;
+    }
+
+    .cassandra-label {
+      font-size: 1.3vmin !important;
+      letter-spacing: 0.05vmin;
+      display: flex;
+      gap: 0.1vmin;
+    }
+
+    .cassandra-label .cassan {
+      color: #ffffff !important;
+      text-shadow: 0 0 0.5vmin rgba(255, 255, 255, 0.5);
+    }
+
+    .cassandra-label .dra {
+      color: #4da6ff !important;
+      text-shadow: 0 0 0.8vmin rgba(77, 166, 255, 0.8);
+    }
+
+    /* === TOOLTIP ДЛЯ ИНФО-ПАНЕЛЕЙ === */
+    .info-tooltip {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(10, 15, 30, 0.95);
+      border: 0.1vmin solid #4da6ff;
+      border-radius: 0.5vmin;
+      padding: 1.2vmin 1.8vmin;
+      font-size: 1.2vmin;
+      color: #e8ecff;
+      min-width: 14vw;
+      max-width: 18vw;
+      white-space: normal;
+      word-wrap: break-word;
+      overflow-wrap: break-word;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s ease;
+      pointer-events: none;
+      z-index: 100;
+      box-shadow: 0 0 1.5vmin rgba(77, 166, 255, 0.5);
+      text-align: left;
+      line-height: 1.6;
+    }
+
+    .top-left .info-tooltip {
+      left: 115%;
+    }
+
+    .top-right .info-tooltip {
+      right: 115%;
+      left: auto;
+      text-align: right;
+    }
+
+    .top-left:hover .info-tooltip,
+    .top-right:hover .info-tooltip {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .top-left:hover .info-tooltip {
+      transform: translateY(-50%) translateX(0.5vmin);
+    }
+
+    .top-right:hover .info-tooltip {
+      transform: translateY(-50%) translateX(-0.5vmin);
+    }
+
+    .info-tooltip .tooltip-title {
+      color: #4da6ff;
+      font-weight: bold;
+      margin-bottom: 0.5vmin;
+      border-bottom: 0.1vmin solid rgba(77, 166, 255, 0.3);
+      padding-bottom: 0.3vmin;
+      letter-spacing: 0.1vmin;
+    }
+
+    /* ============================================
+       КАЛЬКУЛЯТОР — СБАЛАНСИРОВАННЫЕ РАЗМЕРЫ
+       ============================================ */
+
+    .calculator-container {
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      min-height: 100vh;
+      padding: 12vmin 2vmin 3vmin;
+    }
+
+    .calculator-modal {
+      width: clamp(700px, 58vw, 950px);
+      max-height: 82vh;
+      overflow-y: auto;
+      background: rgba(10, 15, 40, 0.92);
+      backdrop-filter: blur(1.5vmin);
+      border: 1px solid rgba(77, 166, 255, 0.3);
+      border-radius: 1.5vmin;
+      padding: 2.5vmin;
+      box-shadow: 0 0 4vmin rgba(77, 166, 255, 0.15), inset 0 0 2vmin rgba(77, 166, 255, 0.05);
+      display: flex;
+      flex-direction: column;
+      gap: 2vmin;
+    }
+
+    .calculator-modal::-webkit-scrollbar {
+      width: 0.5vmin;
+    }
+
+    .calculator-modal::-webkit-scrollbar-track {
+      background: rgba(10, 15, 40, 0.5);
+    }
+
+    .calculator-modal::-webkit-scrollbar-thumb {
+      background: var(--neon-blue);
+      border-radius: 0.3vmin;
+    }
+
+    .modal-header {
+      text-align: center;
+      font-size: 2vmin;
+      font-weight: 600;
+      letter-spacing: 0.15vmin;
+      text-transform: uppercase;
+    }
+
+    .modal-header .white-part {
+      color: #ffffff;
+      text-shadow: 0 0 1vmin rgba(255, 255, 255, 0.3);
+    }
+
+    .modal-header .blue-part {
+      color: #4da6ff;
+      text-shadow: 0 0 1vmin var(--neon-glow);
+    }
+
+    .route-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2vmin;
+    }
+
+    .location-panel {
+      background: rgba(5, 8, 22, 0.6);
+      border: 1px solid rgba(77, 166, 255, 0.2);
+      border-radius: 1.2vmin;
+      padding: 1.5vmin;
+      display: flex;
+      flex-direction: column;
+      gap: 1vmin;
+      position: relative;
+    }
+
+    .location-panel::before {
+      content: '';
+      position: absolute;
+      top: -1px;
+      left: 20%;
+      width: 60%;
+      height: 2px;
+      background: var(--neon-blue);
+      box-shadow: 0 0 1vmin var(--neon-blue);
+    }
+
+    .panel-title {
+      font-size: 1.5vmin;
+      color: var(--text-dim);
+      text-transform: uppercase;
+      letter-spacing: 0.08vmin;
+      display: flex;
+      align-items: center;
+      gap: 0.8vmin;
+    }
+
+    .panel-title .dot {
+      width: 1vmin;
+      height: 1vmin;
+      border-radius: 50%;
+    }
+
+    .dot.departure {
+      background: #00ff88;
+      box-shadow: 0 0 1vmin #00ff88;
+    }
+
+    .dot.arrival {
+      background: #4da6ff;
+      box-shadow: 0 0 1vmin #4da6ff;
+    }
+
+    .planet-circle {
+      width: 90px;
+      height: 90px;
+      border-radius: 50%;
+      margin: 0.5vmin auto 0;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      background: radial-gradient(circle at 30% 30%, rgba(77, 166, 255, 0.1), rgba(5, 8, 22, 0.8));
+      border: 2px solid rgba(77, 166, 255, 0.4);
+      box-shadow: 0 0 15px rgba(77, 166, 255, 0.3), inset 0 0 15px rgba(77, 166, 255, 0.1);
+      transition: all 0.3s ease;
+      font-size: 0;
+      line-height: 0;
+    }
+
+    .planet-circle:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 25px rgba(77, 166, 255, 0.5), inset 0 0 20px rgba(77, 166, 255, 0.2);
+    }
+
+    .location-panel:first-child .planet-circle {
+      border-color: rgba(0, 255, 136, 0.4);
+      box-shadow: 0 0 15px rgba(0, 255, 136, 0.3), inset 0 0 15px rgba(0, 255, 136, 0.1);
+      background: radial-gradient(circle at 30% 30%, rgba(0, 255, 136, 0.1), rgba(5, 8, 22, 0.8));
+    }
+
+    .location-panel:first-child .planet-circle:hover {
+      box-shadow: 0 0 25px rgba(0, 255, 136, 0.5), inset 0 0 20px rgba(0, 255, 136, 0.2);
+    }
+
+    .planet-circle img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 50%;
+      opacity: 0.9;
+      display: block;
+      user-select: none;
+      -webkit-user-drag: none;
+    }
+
+    .planet-description {
+      text-align: center;
+      font-size: 1.1vmin;
+      color: var(--text-dim);
+      font-style: italic;
+      margin-top: -0.3vmin;
+      min-height: 1.3vmin;
+    }
+
+    .input-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5vmin;
+    }
+
+    .input-group label {
+      font-size: 1.2vmin;
+      color: var(--text-dim);
+    }
+
+    .cosmic-input {
+      background: rgba(10, 15, 40, 0.8);
+      border: 1px solid rgba(77, 166, 255, 0.3);
+      border-radius: 0.7vmin;
+      padding: 0.9vmin 1vmin;
+      color: var(--text-main);
+      font-size: 1.3vmin;
+      outline: none;
+      transition: all 0.3s ease;
+    }
+
+    .cosmic-input:focus {
+      border-color: var(--neon-blue);
+      box-shadow: 0 0 1vmin rgba(77, 166, 255, 0.3);
+    }
+
+    .ship-selection {
+      display: flex;
+      flex-direction: column;
+      gap: 1.2vmin;
+    }
+
+    .ship-options {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1vmin;
+    }
+
+    .ship-option {
+      position: relative;
+    }
+
+    .ship-option input {
+      position: absolute;
+      opacity: 0;
+      cursor: pointer;
+    }
+
+    .ship-card {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background: rgba(10, 15, 40, 0.6);
+      border: 1px solid rgba(77, 166, 255, 0.2);
+      border-radius: 0.8vmin;
+      padding: 0.9vmin 0.6vmin;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-align: center;
+    }
+
+    .ship-card:hover {
+      border-color: rgba(77, 166, 255, 0.6);
+      background: rgba(77, 166, 255, 0.1);
+    }
+
+    .ship-option input:checked+.ship-card {
+      border-color: var(--neon-blue);
+      background: rgba(77, 166, 255, 0.15);
+      box-shadow: 0 0 1.5vmin rgba(77, 166, 255, 0.3);
+    }
+
+    .ship-name {
+      font-size: 1.2vmin;
+      font-weight: 600;
+      color: var(--text-main);
+      margin-bottom: 0.2vmin;
+    }
+
+    .ship-speed {
+      font-size: 1.5vmin;
+      color: var(--text-dim);
+      font-family: monospace;
+    }
+
+    /* Кнопки действий */
+    .buttons-row {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 3vmin;
+      margin-top: 0.5vmin;
+    }
+
+    .start-btn,
+    .info-btn,
+    .clear-btn {
+      width: 7.5vmin;
+      height: 7.5vmin;
+      border-radius: 50%;
+      border: 2px solid;
+      background: rgba(10, 15, 40, 0.8);
+      font-size: 1.2vmin;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05vmin;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .start-btn {
+      border-color: #00ff88;
+      color: #00ff88;
+      box-shadow: 0 0 2vmin rgba(0, 255, 136, 0.4), inset 0 0 1vmin rgba(0, 255, 136, 0.2);
+      text-shadow: 0 0 0.8vmin rgba(0, 255, 136, 0.6);
+    }
+
+    .start-btn:hover {
+      transform: scale(1.1);
+      color: #ffffff;
+      box-shadow: 0 0 4vmin rgba(0, 255, 136, 0.7), inset 0 0 2vmin rgba(0, 255, 136, 0.4);
+      text-shadow: 0 0 1.5vmin rgba(0, 255, 136, 1);
+    }
+
+    .start-btn:active {
+      transform: scale(0.95);
+    }
+
+    .start-btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .info-btn {
+      border-color: #4da6ff;
+      color: #4da6ff;
+      box-shadow: 0 0 2vmin rgba(77, 166, 255, 0.4), inset 0 0 1vmin rgba(77, 166, 255, 0.2);
+      text-shadow: 0 0 0.8vmin rgba(77, 166, 255, 0.6);
+    }
+
+    .info-btn:hover {
+      transform: scale(1.1);
+      color: #ffffff;
+      box-shadow: 0 0 4vmin rgba(77, 166, 255, 0.7), inset 0 0 2vmin rgba(77, 166, 255, 0.4);
+      text-shadow: 0 0 1.5vmin rgba(77, 166, 255, 1);
+    }
+
+    .info-btn:active {
+      transform: scale(0.95);
+    }
+
+    /* КНОПКА CLEAR ТЕПЕРЬ КРАСНАЯ */
+    .clear-btn {
+      border-color: #ff4d4d;
+      color: #ff4d4d;
+      box-shadow: 0 0 2vmin rgba(255, 77, 77, 0.4), inset 0 0 1vmin rgba(255, 77, 77, 0.2);
+      text-shadow: 0 0 0.8vmin rgba(255, 77, 77, 0.6);
+    }
+
+    .clear-btn:hover {
+      transform: scale(1.1);
+      color: #ffffff;
+      box-shadow: 0 0 4vmin rgba(255, 77, 77, 0.7), inset 0 0 2vmin rgba(255, 77, 77, 0.4);
+      text-shadow: 0 0 1.5vmin rgba(255, 77, 77, 1);
+    }
+
+    .clear-btn:active {
+      transform: scale(0.95);
+    }
+
+    /* Анимация расчёта */
+    .calculation-overlay {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      gap: 1.2vmin;
+      margin-top: 0.8vmin;
+    }
+
+    .calculation-overlay.active {
+      display: flex;
+    }
+
+    .radar-scan {
+      width: 6vmin;
+      height: 6vmin;
+      border: 2px solid rgba(77, 166, 255, 0.3);
+      border-radius: 50%;
+      position: relative;
+      background: radial-gradient(circle, rgba(77, 166, 255, 0.1) 0%, transparent 70%);
+    }
+
+    .radar-scan::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 50%;
+      height: 50%;
+      background: linear-gradient(45deg, transparent 50%, rgba(77, 166, 255, 0.8) 100%);
+      transform-origin: 0 0;
+      animation: radarSpin 1.5s linear infinite;
+      border-radius: 0 0 100% 0;
+    }
+
+    @keyframes radarSpin {
+      0% {
+        transform: rotate(0deg);
+      }
+
+      100% {
+        transform: rotate(360deg);
+      }
+    }
+
+    .calc-text {
+      font-size: 1.3vmin;
+      color: var(--neon-blue);
+      letter-spacing: 0.15vmin;
+      animation: pulseText 1s ease-in-out infinite alternate;
+    }
+
+    @keyframes pulseText {
+      from {
+        opacity: 0.5;
+      }
+
+      to {
+        opacity: 1;
+        text-shadow: 0 0 1vmin var(--neon-blue);
+      }
+    }
+
+    /* Результат */
+    .result-area {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.8vmin;
+      margin-top: 0.8vmin;
+      padding: 1.5vmin 2.5vmin;
+      min-width: 35vmin;
+      background: rgba(77, 166, 255, 0.05);
+      border: 1px solid rgba(77, 166, 255, 0.3);
+      border-radius: 0.8vmin;
+      animation: fadeIn 0.5s ease-out;
+    }
+
+    .result-area.active {
+      display: flex;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(1vmin);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .result-label {
+      font-size: 1.1vmin;
+      color: var(--text-dim);
+      text-transform: uppercase;
+    }
+
+    .result-value {
+      font-size: 2vmin;
+      font-weight: 700;
+      color: var(--neon-blue);
+      font-family: monospace;
+      text-shadow: 0 0 2vmin var(--neon-glow);
+      letter-spacing: 0.15vmin;
+    }
+
+    /* Модальные окна */
+    .info-modal-overlay,
+    .warning-modal-overlay,
+    .alert-modal-overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(5, 8, 22, 0.9);
+      backdrop-filter: blur(5px);
+      z-index: 9999;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .info-modal-overlay.active,
+    .warning-modal-overlay.active,
+    .alert-modal-overlay.active {
+      display: flex;
+    }
+
+    .info-modal-content {
+      position: relative;
+      background: var(--bg-dark);
+      border: 1px solid rgba(77, 166, 255, 0.4);
+      border-radius: 1.5vmin;
+      padding: 3vmin 4vmin;
+      max-width: 55vmin;
+      max-height: 55vh;
+      overflow-y: auto;
+      box-shadow: 0 0 6vmin rgba(77, 166, 255, 0.3);
+      text-align: center;
+    }
+
+    .warning-modal-content {
+      position: relative;
+      background: rgba(40, 10, 10, 0.95);
+      border: 2px solid rgba(255, 77, 77, 0.6);
+      border-radius: 1.5vmin;
+      padding: 3vmin 4vmin;
+      max-width: 45vmin;
+      box-shadow: 0 0 8vmin rgba(255, 77, 77, 0.5);
+      text-align: center;
+      animation: fadeIn 0.3s ease-out;
+    }
+
+    .alert-modal-content {
+      position: relative;
+      background: var(--bg-dark);
+      border: 1px solid rgba(255, 215, 0, 0.5);
+      border-radius: 1.5vmin;
+      padding: 2.5vmin 3.5vmin;
+      max-width: 40vmin;
+      box-shadow: 0 0 6vmin rgba(255, 215, 0, 0.3);
+      text-align: center;
+      animation: fadeIn 0.3s ease-out;
+    }
+
+    .close-info-btn,
+    .close-warning-btn,
+    .close-alert-btn {
+      position: absolute;
+      top: 1vmin;
+      right: 1.5vmin;
+      background: transparent;
+      border: none;
+      color: var(--text-dim);
+      font-size: 3vmin;
+      line-height: 1;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-weight: 300;
+    }
+
+    .close-info-btn:hover,
+    .close-warning-btn:hover,
+    .close-alert-btn:hover {
+      color: #ff4d4d;
+      transform: scale(1.1);
+    }
+
+    .info-text {
+      font-size: 1.8vmin;
+      color: var(--text-dim);
+      line-height: 1.6;
+      text-align: center;
+      width: 100%;
+    }
+
+    .info-text .info-title {
+      color: var(--neon-blue);
+      font-weight: 700;
+      font-size: 2.2vmin;
+      margin-bottom: 1vmin;
+      display: block;
+    }
+
+    .info-text .info-line {
+      display: block;
+      margin: 0.5vmin 0;
+    }
+
+    .info-text .accuracy {
+      margin-top: 1.2vmin;
+      color: var(--neon-blue);
+      display: block;
+      font-weight: 600;
+      font-size: 1.9vmin;
+    }
+
+    .warning-text {
+      font-size: 1.9vmin;
+      color: #ff6b6b;
+      line-height: 1.5;
+      text-align: center;
+      width: 100%;
+    }
+
+    .warning-text .warning-title {
+      color: #ff4d4d;
+      font-weight: 700;
+      font-size: 2.4vmin;
+      margin-bottom: 1.2vmin;
+      display: block;
+      text-shadow: 0 0 2vmin rgba(255, 77, 77, 0.6);
+    }
+
+    .warning-text .warning-message {
+      display: block;
+      margin: 0.6vmin 0;
+      color: #ff8a8a;
+    }
+
+    .warning-text .warning-detail {
+      margin-top: 1.2vmin;
+      color: #ff6b6b;
+      display: block;
+      font-size: 1.6vmin;
+      font-family: monospace;
+    }
+
+    .alert-text {
+      font-size: 1.7vmin;
+      color: var(--text-main);
+      line-height: 1.5;
+    }
+
+    /* === ФУТЕР === */
+    .login-footer {
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+      text-align: center;
+      color: #4a5480;
+      font-size: 1.2vmin;
+      letter-spacing: 0.1vmin;
+      padding-bottom: 2vmin;
+      z-index: 5;
+    }
+
+    .copyright {
+      margin-top: 4vmin;
+      font-size: 1.4vmin;
+      letter-spacing: 0.15vmin;
+      color: #5a6488;
+    }
+
+    .telemetry {
+      color: #4da6ff;
+      font-family: 'Courier New', monospace;
+      margin-bottom: 0.8vmin;
+      font-size: 1.3vmin;
+      text-transform: uppercase;
+      letter-spacing: 0.1vmin;
+      text-shadow: 0 0 0.8vmin rgba(77, 166, 255, 0.4);
+      min-height: 2vmin;
+    }
+
+    .telemetry-cassan {
+      color: #ffffff !important;
+    }
+
+    .telemetry-dra {
+      color: #4da6ff !important;
+      text-shadow: 0 0 0.6vmin rgba(77, 166, 255, 0.6) !important;
+    }
+
+    .telemetry::after {
+      content: "█";
+      animation: blink 1s step-end infinite;
+      margin-left: 0.4vmin;
+    }
+
+    @keyframes blink {
+      50% {
+        opacity: 0;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- === ФОН === -->
+  <div class="stars"></div>
+  <div class="milkyway">
+    <div class="band"></div>
+  </div>
+
+  <!-- === УГЛОВЫЕ КНОПКИ === -->
+  <div class="corner-circle-btn top-left" data-wm-id="info-panel-role">
+    <span class="corner-icon" data-wm-id="role-icon">🛰️</span>
+    <span class="corner-label" data-wm-id="role-label">STANDBY</span>
+    <div class="info-tooltip">
+      <div class="tooltip-title">SYSTEM ROLE</div>
+      <div>Function: Comms & Diagnostics</div>
+      <div>Access: Level 2</div>
+      <div>Status: Active</div>
+    </div>
+  </div>
+
+  <div class="corner-circle-btn top-right" data-wm-id="info-panel-user">
+    <span class="corner-icon" data-wm-id="user-icon">👨‍🚀</span>
+    <span class="corner-label" data-wm-id="user-label">UNKNOWN</span>
+    <div class="info-tooltip">
+      <div class="tooltip-title">CREW MEMBER</div>
+      <div>Registered Callsign: AURORA</div>
+      <div>ID: 884-2A</div>
+      <div>Status: Online</div>
+    </div>
+  </div>
+
+  <button class="corner-circle-btn bottom-left" data-wm-id="nav-dashboard-btn"
+    onclick="window.location.href='dashboard.html'">
+    <span class="corner-icon">️🕹️</span>
+    <span class="corner-label">DASHBOARD</span>
+  </button>
+
+  <!-- КНОПКА CASSANDRA ВМЕСТО CIS INDEX TABLE -->
+  <button class="corner-circle-btn bottom-right cassandra-logo" data-wm-id="cassandra-btn">
+    <span class="corner-icon"></span>
+    <div class="corner-label cassandra-label">
+      <span class="cassan">CASSAN</span><span class="dra">DRA</span>
+    </div>
+  </button>
+
+  <!-- === КАЛЬКУЛЯТОР === -->
+  <div class="calculator-container">
+    <div class="calculator-modal" data-wm-id="container">
+      <div class="modal-header">
+        <span class="white-part">💫 FLIGHT TIME</span>
+        <span class="blue-part">CALCULATOR</span>
+      </div>
+
+      <div class="route-grid">
+        <div class="location-panel" data-wm-id="departure-panel">
+          <div class="panel-title"><span class="dot departure"></span> Departure</div>
+          <div class="planet-circle" data-wm-id="dep-circle"><img src="" alt="Departure Planet" data-wm-id="dep-img">
+          </div>
+          <div class="planet-description" data-wm-id="dep-desc"></div>
+          <div class="input-group">
+            <label>Dep System</label>
+            <select class="cosmic-input" id="dep-system" data-wm-id="dep-system-select"></select>
+          </div>
+          <div class="input-group">
+            <label>Dep Planet</label>
+            <select class="cosmic-input" id="dep-planet" data-wm-id="dep-planet-select"></select>
+          </div>
+        </div>
+
+        <div class="location-panel" data-wm-id="arrival-panel">
+          <div class="panel-title"><span class="dot arrival"></span> Arrival</div>
+          <div class="planet-circle" data-wm-id="arr-circle"><img src="" alt="Arrival Planet" data-wm-id="arr-img"></div>
+          <div class="planet-description" ddata-wm-id="arr-desc"></div>
+          <div class="input-group">
+            <label>Arr System</label>
+            <select class="cosmic-input" id="arr-system" data-wm-id="arr-system-select"></select>
+          </div>
+          <div class="input-group">
+            <label>Arr Planet</label>
+            <select class="cosmic-input" id="arr-planet" data-wm-id="arr-planet-select"></select>
+          </div>
+        </div>
+      </div>
+
+      <div class="ship-selection" data-wm-id="ship-selection">
+        <div class="panel-title" style="justify-content: center;">Vessel Class</div>
+        <div class="ship-options">
+          <label class="ship-option">
+            <input type="radio" name="ship" value="voyager" data-wm-id="ship-voyager-btn">
+            <div class="ship-card">
+              <div class="ship-name">Voyager</div>
+              <div class="ship-speed">16 km/s</div>
+            </div>
+          </label>
+          <label class="ship-option">
+            <input type="radio" name="ship" value="parker" data-wm-id="ship-parker-btn">
+            <div class="ship-card">
+              <div class="ship-name">Parker Probe</div>
+              <div class="ship-speed">197 km/s</div>
+            </div>
+          </label>
+          <label class="ship-option">
+            <input type="radio" name="ship" value="light" data-wm-id="ship-light-btn">
+            <div class="ship-card">
+              <div class="ship-name">Light Drive</div>
+              <div class="ship-speed">0.1 c</div>
+            </div>
+          </label>
+          <label class="ship-option">
+            <input type="radio" name="ship" value="warp" data-wm-id="ship-warp-btn">
+            <div class="ship-card">
+              <div class="ship-name">Warp Drive</div>
+              <div class="ship-speed">0.5 c</div>
+            </div>
+          </label>
+        </div>
+      </div>
+
+      <!-- Buttons -->
+      <div class="buttons-row" data-wm-id="buttons-row">
+        <button class="start-btn" id="calc-btn" onclick="startCalculation()" data-wm-id="start-btn">Start</button>
+        <button class="info-btn" id="info-btn" onclick="openInfoModal()" data-wm-id="info-btn">Info</button>
+        <button class="clear-btn" id="clear-btn" onclick="clearAllFields()" data-wm-id="clear-btn">Clear</button>
+      </div>
+
+      <div class="calculation-overlay" id="calc-overlay" data-wm-id="calc-overlay">
+        <div class="radar-scan"></div>
+        <div class="calc-text">CALCULATING TRAJECTORY...</div>
+      </div>
+
+      <div class="result-area" id="result-area" data-wm-id="result-area">
+        <div class="result-label" data-wm-id="result-label">Estimated Flight Time</div>
+        <div class="result-value" id="result-time" data-wm-id="result-time">00.00.00</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- === МОДАЛКИ === -->
+  <div class="info-modal-overlay" id="info-modal" onclick="closeInfoModalOutside(event)" data-wm-id="info-modal">
+    <div class="info-modal-content">
+      <button class="close-info-btn" onclick="closeInfoModal()" data-wm-id="close-info-btn">&times;</button>
+      <div class="info-text">
+        <span class="info-title">Flight Calculation Methodology</span>
+        <span class="info-line">• Distance is calculated using <strong style="color: var(--neon-blue);">minimum orbital
+            separation</strong> between planets (closest approach).</span>
+        <span class="info-line">• The calculation accounts for trajectory planning, orbital insertion, and braking
+          maneuvers.</span>
+        <span class="info-line">• For inter-system flights, 3D stellar coordinates are used (in light-years).</span>
+        <span class="info-line">• For intra-system flights, orbital radii (AU) are used.</span>
+        <span class="accuracy">Accuracy: ~70–80% for rough estimation. Actual flight time may vary by 30–50% depending
+          on planetary alignment and chosen trajectory.</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="warning-modal-overlay" id="warning-modal" onclick="closeWarningModalOutside(event)"
+    data-wm-id="warning-modal">
+    <div class="warning-modal-content">
+      <button class="close-warning-btn" onclick="closeWarningModal()" data-wm-id="close-warning-btn">&times;</button>
+      <div class="warning-text">
+        <span class="warning-title">⚠️ SPEED WARNING</span>
+        <span class="warning-message" id="warning-message" data-wm-id="warning-message">This speed is impractical for
+          this distance.</span>
+        <span class="warning-detail" id="warning-detail" data-wm-id="warning-detail"></span>
+      </div>
+    </div>
+  </div>
+
+  <div class="alert-modal-overlay" id="alert-modal" onclick="closeAlertModalOutside(event)" data-wm-id="alert-modal">
+    <div class="alert-modal-content">
+      <button class="close-alert-btn" onclick="closeAlertModal()" data-wm-id="close-alert-btn">&times;</button>
+      <div class="alert-text" id="alert-message">Notification</div>
+    </div>
+  </div>
+
+  <!-- === ФУТЕР === -->
+  <footer class="login-footer">
+    <div class="telemetry" id="dashboard-telemetry" data-wm-id="system-telemetry"></div>
+    <div class="copyright">Evknopia © 2026</div>
+  </footer>
+
+  <!-- === ДАННЫЕ И ЛОГИКА === -->
+  <script src="data.js"></script>
+  <script>
+    function initDashboard() {
+      const userDataStr = sessionStorage.getItem('currentUser');
+      if (!userDataStr) {
+        const telemetry = document.getElementById('dashboard-telemetry');
+        if (telemetry) telemetry.innerHTML = `> <span class="telemetry-cassan">CASSAN</span><span class="telemetry-dra">DRA</span>: <span data-wm-id="telemetry-message" style="color: #e74c3c;">ACCESS DENIED. REDIRECTING...</span>`;
+        setTimeout(() => { window.location.href = 'login.html'; }, 1500);
+        return;
+      }
+      let user = {};
+      try { user = JSON.parse(userDataStr); }
+      catch (e) { sessionStorage.removeItem('currentUser'); window.location.href = 'login.html'; return; }
+
+      const callsign = user.callsign ? user.callsign.toUpperCase() : 'UNKNOWN';
+      const fullName = user.fullName || 'Unknown Operator';
+      const role = user.role || 'OPERATOR';
+      const roleIcon = user.roleIcon || '🛰️';
+      const accessLevel = user.accessLevel || '?';
+      const func = user.function || 'General Duties';
+      const userId = user.id || 'UNKNOWN';
+
+      const roleIconEl = document.querySelector('.top-left .corner-icon');
+      const roleLabelEl = document.querySelector('.top-left .corner-label');
+      const roleTooltipEl = document.querySelector('.top-left .info-tooltip');
+      if (roleIconEl) roleIconEl.textContent = roleIcon;
+      if (roleLabelEl) roleLabelEl.textContent = role;
+      if (roleTooltipEl) roleTooltipEl.innerHTML = `<div class="tooltip-title">SYSTEM ROLE</div><div>Function: ${func}</div><div>Access: Level ${accessLevel}</div><div>Status: Active</div>`;
+
+      const userLabelEl = document.querySelector('.top-right .corner-label');
+      const userTooltipEl = document.querySelector('.top-right .info-tooltip');
+      if (userLabelEl) userLabelEl.textContent = fullName.toUpperCase();
+      if (userTooltipEl) userTooltipEl.innerHTML = `<div class="tooltip-title">CREW MEMBER</div><div>Registered Callsign: ${callsign}</div><div>ID: ${userId}</div><div>Status: Online</div>`;
+
+      const telemetry = document.getElementById('dashboard-telemetry');
+      if (telemetry) telemetry.innerHTML = `> <span class="telemetry-cassan">CASSAN</span><span class="telemetry-dra">DRA</span>: <span data-wm-id="telemetry-message" style="color: #2ecc71;">${callsign}, FLIGHT CALCULATOR READY. SELECT ROUTE AND VESSEL CLASS.</span>`;
+
+      initializeCalculator();
+    }
+
+    const speeds = { 'voyager': 16 / 299792, 'parker': 197 / 299792, 'light': 0.1, 'warp': 0.5 };
+
+    function calculateDistance(systemId1, systemId2, planetId1, planetId2) {
+      if (!window.FlightCalculator || !window.FlightCalculator.systems) return 0.001;
+      const sys1 = window.FlightCalculator.systems.find(s => s.id === systemId1);
+      const sys2 = window.FlightCalculator.systems.find(s => s.id === systemId2);
+      if (!sys1 || !sys2) return 0.001;
+      if (sys1.id !== sys2.id) {
+        const dx = sys2.x - sys1.x, dy = sys2.y - sys1.y, dz = sys2.z - sys1.z;
+        return Math.sqrt(dx * dx + dy * dy + dz * dz) * 1.15;
+      }
+      const planet1 = window.FlightCalculator.planets.find(p => p.id === planetId1);
+      const planet2 = window.FlightCalculator.planets.find(p => p.id === planetId2);
+      if (!planet1 || !planet2) return 0.001;
+      const r1 = planet1.orbitRadius !== undefined ? planet1.orbitRadius : 0;
+      const r2 = planet2.orbitRadius !== undefined ? planet2.orbitRadius : 0;
+      return (Math.abs(r1 - r2) * 0.000015813 * 1.42) + 0.000019;
+    }
+
+    function formatTime(totalYears) {
+      const years = Math.floor(totalYears);
+      const months = Math.floor((totalYears - years) * 12);
+      const days = Math.floor(((totalYears - years) * 12 - months) * 30);
+      return `${years} ${years === 1 ? 'year' : 'years'} ${months} ${months === 1 ? 'month' : 'months'} and ${days} ${days === 1 ? 'day' : 'days'}`;
+    }
+
+    function clearVisuals() {
+      document.querySelector('.location-panel:first-child .planet-circle img').src = "";
+      document.querySelector('.location-panel:first-child .planet-description').textContent = "";
+      document.querySelector('.location-panel:last-child .planet-circle img').src = "";
+      document.querySelector('.location-panel:last-child .planet-description').textContent = "";
+    }
+
+    function initializeCalculator() {
+      const depSys = document.getElementById('dep-system');
+      const arrSys = document.getElementById('arr-system');
+      const depPl = document.getElementById('dep-planet');
+      const arrPl = document.getElementById('arr-planet');
+      [depSys, arrSys, depPl, arrPl].forEach(el => el.innerHTML = '');
+      depSys.add(new Option("— Select System —", ""));
+      arrSys.add(new Option("— Select System —", ""));
+      depPl.add(new Option("— Select Planet —", ""));
+      arrPl.add(new Option("— Select Planet —", ""));
+      if (window.FlightCalculator && window.FlightCalculator.systems) {
+        window.FlightCalculator.systems.forEach(sys => {
+          depSys.add(new Option(sys.name, sys.id));
+          arrSys.add(new Option(sys.name, sys.id));
+        });
+      }
+      [depSys, arrSys, depPl, arrPl].forEach(el => el.value = "");
+      clearVisuals();
+      depSys.addEventListener('change', () => { updatePlanets('dep'); updateVisuals(); });
+      arrSys.addEventListener('change', () => { updatePlanets('arr'); updateVisuals(); });
+      depPl.addEventListener('change', () => { updatePlanets('arr'); updateVisuals(); });
+      arrPl.addEventListener('change', () => { updatePlanets('dep'); updateVisuals(); });
+    }
+
+    function updatePlanets(side) {
+      const depSysId = document.getElementById('dep-system').value;
+      const arrSysId = document.getElementById('arr-system').value;
+      const depPl = document.getElementById('dep-planet');
+      const arrPl = document.getElementById('arr-planet');
+      const currentDepPlId = depPl.value;
+      const currentArrPlId = arrPl.value;
+
+      if (side === 'dep' || side === 'both') {
+        depPl.innerHTML = '';
+        depPl.add(new Option("— Select Planet —", ""));
+        if (depSysId && window.FlightCalculator) {
+          window.FlightCalculator.planets.filter(p => depSysId !== arrSysId ? p.systemId === depSysId : p.systemId === depSysId && p.id !== currentArrPlId).forEach(p => depPl.add(new Option(p.name, p.id)));
+        }
+        depPl.value = (currentDepPlId && Array.from(depPl.options).some(o => o.value === currentDepPlId)) ? currentDepPlId : "";
+      }
+      if (side === 'arr' || side === 'both') {
+        arrPl.innerHTML = '';
+        arrPl.add(new Option("— Select Planet —", ""));
+        if (arrSysId && window.FlightCalculator) {
+          window.FlightCalculator.planets.filter(p => depSysId !== arrSysId ? p.systemId === arrSysId : p.systemId === arrSysId && p.id !== currentDepPlId).forEach(p => arrPl.add(new Option(p.name, p.id)));
+        }
+        arrPl.value = (currentArrPlId && Array.from(arrPl.options).some(o => o.value === currentArrPlId)) ? currentArrPlId : "";
+      }
+    }
+
+    function updateVisuals() {
+      const depPlId = document.getElementById('dep-planet').value;
+      const arrPlId = document.getElementById('arr-planet').value;
+      const depImg = document.querySelector('.location-panel:first-child .planet-circle img');
+      const depDesc = document.querySelector('.location-panel:first-child .planet-description');
+      const arrImg = document.querySelector('.location-panel:last-child .planet-circle img');
+      const arrDesc = document.querySelector('.location-panel:last-child .planet-description');
+
+      if (depPlId && window.FlightCalculator) {
+        const p = window.FlightCalculator.planets.find(x => x.id === depPlId);
+        if (p) { depImg.src = p.img; depDesc.textContent = p.phrase; }
+      } else { depImg.src = ""; depDesc.textContent = ""; }
+
+      if (arrPlId && window.FlightCalculator) {
+        const p = window.FlightCalculator.planets.find(x => x.id === arrPlId);
+        if (p) { arrImg.src = p.img; arrDesc.textContent = p.phrase; }
+      } else { arrImg.src = ""; arrDesc.textContent = ""; }
+    }
+
+    function startCalculation() {
+      const depSys = document.getElementById('dep-system').value;
+      const arrSys = document.getElementById('arr-system').value;
+      const depPl = document.getElementById('dep-planet').value;
+      const arrPl = document.getElementById('arr-planet').value;
+      const shipElement = document.querySelector('input[name="ship"]:checked');
+
+      if (!depSys || !arrSys) { showAlert("Please select both Departure and Arrival systems first."); return; }
+      if (!depPl || !arrPl) { showAlert("Please select both Departure and Arrival planets."); return; }
+      if (!shipElement) { showAlert("Please select a Vessel Class."); return; }
+
+      const btn = document.getElementById('calc-btn');
+      const overlay = document.getElementById('calc-overlay');
+      const resultArea = document.getElementById('result-area');
+
+      resultArea.classList.remove('active');
+      btn.disabled = true;
+      overlay.classList.add('active');
+
+      const shipValue = shipElement.value;
+      const distance = calculateDistance(depSys, arrSys, depPl, arrPl);
+      const shipNames = { 'voyager': 'Voyager (16 km/s)', 'parker': 'Parker Probe (197 km/s)', 'light': 'Light Drive (0.1 c)', 'warp': 'Warp Drive (0.5 c)' };
+
+      setTimeout(() => {
+        overlay.classList.remove('active');
+        btn.disabled = false;
+        if ((shipValue === 'light' || shipValue === 'warp') && distance < 1.0) {
+          document.getElementById('warning-message').textContent = `This speed is impractical for this distance. ${shipNames[shipValue]} cannot reach cruise speed.`;
+          document.getElementById('warning-detail').textContent = `Distance: ${distance.toFixed(6)} light-years (minimum required: 1.0 ly)`;
+          openWarningModal();
+        } else {
+          document.querySelector('.result-label').textContent = 'Estimated Flight Time';
+          document.getElementById('result-time').textContent = formatTime(distance / speeds[shipValue]);
+          resultArea.classList.add('active');
+        }
+      }, 3000);
+    }
+
+    function clearAllFields() {
+      document.getElementById('dep-system').value = "";
+      document.getElementById('arr-system').value = "";
+      document.getElementById('dep-planet').value = "";
+      document.getElementById('arr-planet').value = "";
+      document.querySelectorAll('input[name="ship"]').forEach(r => r.checked = false);
+      clearVisuals();
+      updatePlanets('both');
+      document.getElementById('result-area').classList.remove('active');
+    }
+
+    function openInfoModal() { document.getElementById('info-modal').classList.add('active'); }
+    function closeInfoModal() { document.getElementById('info-modal').classList.remove('active'); }
+    function closeInfoModalOutside(e) { if (e.target.id === 'info-modal') closeInfoModal(); }
+
+    function openWarningModal() { document.getElementById('warning-modal').classList.add('active'); }
+    function closeWarningModal() { document.getElementById('warning-modal').classList.remove('active'); }
+    function closeWarningModalOutside(e) { if (e.target.id === 'warning-modal') closeWarningModal(); }
+
+    function showAlert(msg) {
+      document.getElementById('alert-message').textContent = msg;
+      document.getElementById('alert-modal').classList.add('active');
+    }
+    function closeAlertModal() { document.getElementById('alert-modal').classList.remove('active'); }
+    function closeAlertModalOutside(e) { if (e.target.id === 'alert-modal') closeAlertModal(); }
+
+    document.addEventListener('DOMContentLoaded', initDashboard);
+    window.addEventListener('pageshow', function (event) {
+      if (event.persisted) {
+        console.warn('⚠️ Страница восстановлена из bfcache — принудительная проверка');
+        initDashboard();
+      }
+    });
+  </script>
+</body>
+
+</html>м
