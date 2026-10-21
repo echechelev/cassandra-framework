@@ -36,6 +36,8 @@ window.MOCK_USERS = {
   }
 };
 
+//#endregion
+
 // ========================================================================
 //#region 2️⃣ 🌌 АСТРОНОМИЧЕСКИЕ ОБЪЕКТЫ (STAR-INFO)
 // ========================================================================
@@ -241,6 +243,8 @@ window.trappist1 = {
   }
 };
 
+//#endregion
+
 // ========================================================================
 //#region 3️⃣ 🌠 ЗВЕЗДНЫЕ СИСТЕМЫ (STAR SYSTEMS)
 // ========================================================================
@@ -369,6 +373,7 @@ window.starDatabase = {
   }
 };
 
+//#endregion
 
 // ========================================================================
 //#region 4️ 🌌 ДАННЫЕ ПЛАНЕТ ДЛЯ СТРАНИЦЫ PLANET
@@ -754,6 +759,71 @@ window.PlanetMetricsTrappist1 = [
     unreachable: true
   }
 ];
+
+//#endregion
+
+// ========================================================================
+//#region 5️⃣ 🚀 ДАННЫЕ ДЛЯ КАЛЬКУЛЯТОРА ПОЛЕТОВ
+// ========================================================================
+
+
+
+window.FlightCalculator = {
+  systems: [
+    { id: 'sol', name: 'Sol', x: 0, y: 0, z: 0 },
+    { id: 'alpha', name: 'Alpha Centauri A', x: 4.0, y: 1.0, z: 1.5 }, // ~4.37 св. года
+    { id: 'epsilon', name: 'Epsilon Eridani', x: 8.5, y: -5.0, z: 3.5 }, // ~10.5 св. года
+    { id: 'tau', name: 'Tau Ceti', x: -10.5, y: 4.5, z: 3.5 }, // ~11.9 св. года
+    { id: 'teegarden', name: "Teegarden's Star", x: 1.5, y: -8.5, z: -9.0 }, // ~12.5 св. года
+    { id: 'trappist', name: 'TRAPPIST-1', x: -35.0, y: 15.0, z: -12.0 } // ~39.6 св. года
+  ],
+
+  planets: [
+    // --- SOL SYSTEM ---
+    { id: 'sun', name: 'Sun', systemId: 'sol', orbitRadius: 0, img: 'assets/stars/g-dwarf-max.jpg', phrase: 'Sun — The Heart of the System' },
+    { id: 'mercury', name: 'Mercury', systemId: 'sol', orbitRadius: 0.39, img: 'assets/sun/mercury-max.jpg', phrase: 'Mercury — The Swift Messenger' },
+    { id: 'venus', name: 'Venus', systemId: 'sol', orbitRadius: 0.72, img: 'assets/sun/venus-max.jpg', phrase: 'Venus — The Morning Star' },
+    { id: 'earth', name: 'Earth', systemId: 'sol', orbitRadius: 1.00, img: 'assets/sun/earth-max.jpg', phrase: 'Earth — The Cradle of Life' },
+    { id: 'mars', name: 'Mars', systemId: 'sol', orbitRadius: 1.52, img: 'assets/sun/mars-max.jpg', phrase: 'Mars — The Red Planet' },
+    { id: 'uranus', name: 'Uranus', systemId: 'sol', orbitRadius: 19.2, img: 'assets/sun/uranus-max.jpg', phrase: 'Uranus — The Ice Giant' },
+    { id: 'neptune', name: 'Neptune', systemId: 'sol', orbitRadius: 30.1, img: 'assets/sun/neptune-max.jpg', phrase: 'Neptune — The Azure Giant' },
+
+    // --- ALPHA CENTAURI A SYSTEM ---
+    { id: 'alpha-centauri-a', name: 'Alpha Centauri A', systemId: 'alpha', orbitRadius: 0, img: 'assets/stars/g-dwarf-max.jpg', phrase: 'Alpha Centauri A — The Nearest Sun' },
+    { id: 'proxima-b', name: 'Proxima b', systemId: 'alpha', orbitRadius: 0.05, img: 'assets/alpha-centauri-a/proxima-b-max.jpg', phrase: 'Proxima b — The Habitable Frontier' },
+    { id: 'proxima-c', name: 'Proxima c', systemId: 'alpha', orbitRadius: 1.49, img: 'assets/alpha-centauri-a/proxima-c-max.jpg', phrase: 'Proxima c — The Distant Ice World' },
+    { id: 'proxima-d', name: 'Proxima d', systemId: 'alpha', orbitRadius: 0.03, img: 'assets/alpha-centauri-a/proxima-d-max.jpg', phrase: 'Proxima d — The Inner Ember' },
+
+    // --- EPSILON ERIDANI SYSTEM ---
+    { id: 'epsilon-eridani', name: 'Epsilon Eridani', systemId: 'epsilon', orbitRadius: 0, img: 'assets/stars/k-dwarf-max.jpg', phrase: 'Epsilon Eridani — The Young Neighbor' },
+    { id: 'epsilon-eridani-c', name: 'Epsilon Eridani c', systemId: 'epsilon', orbitRadius: 40.0, img: 'assets/epsilon-eridani/epsilon-eridani-c-max.jpg', phrase: 'Epsilon Eridani c — The Hidden Giant' },
+
+    // --- TAU CETI SYSTEM ---
+    { id: 'tau-ceti', name: 'Tau Ceti', systemId: 'tau', orbitRadius: 0, img: 'assets/stars/g-dwarf-max.jpg', phrase: 'Tau Ceti — The Ancient Watcher' },
+    { id: 'tau-ceti-e', name: 'Tau Ceti e', systemId: 'tau', orbitRadius: 0.54, img: 'assets/tau-ceti/tau-ceti-e-max.jpg', phrase: 'Tau Ceti e — The Scorched Shore' },
+    { id: 'tau-ceti-f', name: 'Tau Ceti f', systemId: 'tau', orbitRadius: 1.33, img: 'assets/tau-ceti/tau-ceti-f-max.jpg', phrase: 'Tau Ceti f — The Frozen Ocean' },
+    { id: 'tau-ceti-g', name: 'Tau Ceti g', systemId: 'tau', orbitRadius: 0.13, img: 'assets/tau-ceti/tau-ceti-g-max.jpg', phrase: 'Tau Ceti g — The Verdant Hope' },
+    { id: 'tau-ceti-h', name: 'Tau Ceti h', systemId: 'tau', orbitRadius: 1.90, img: 'assets/tau-ceti/tau-ceti-h-max.jpg', phrase: 'Tau Ceti h — The Distant Ice' },
+
+    // --- TEEGARDEN SYSTEM ---
+    { id: 'teegarden-star', name: "Teegarden's Star", systemId: 'teegarden', orbitRadius: 0, img: 'assets/stars/m-dwarf-max.jpg', phrase: "Teegarden's Star — The Faint Red Beacon" },
+    { id: 'teegarden-b', name: 'Teegarden b', systemId: 'teegarden', orbitRadius: 0.025, img: 'assets/teegarden/teegarden-b-max.jpg', phrase: 'Teegarden b — The Earth-like Shadow' },
+    { id: 'teegarden-c', name: 'Teegarden c', systemId: 'teegarden', orbitRadius: 0.044, img: 'assets/teegarden/teegarden-c-max.jpg', phrase: 'Teegarden c — The Frozen Twin' },
+
+    // --- TRAPPIST-1 SYSTEM ---
+    { id: 'trappist-1', name: 'TRAPPIST-1', systemId: 'trappist', orbitRadius: 0, img: 'assets/stars/m-dwarf-max.jpg', phrase: 'TRAPPIST-1 — The Seven Sisters\' Sun' },
+    { id: 'trappist-1b', name: 'TRAPPIST-1 b', systemId: 'trappist', orbitRadius: 0.011, img: 'assets/trappist-1/trappist-1b-max.jpg', phrase: 'TRAPPIST-1 b — The Scorched Inner World' },
+    { id: 'trappist-1c', name: 'TRAPPIST-1 c', systemId: 'trappist', orbitRadius: 0.016, img: 'assets/trappist-1/trappist-1c-max.jpg', phrase: 'TRAPPIST-1 c — The Burning Twin' },
+    { id: 'trappist-1d', name: 'TRAPPIST-1 d', systemId: 'trappist', orbitRadius: 0.022, img: 'assets/trappist-1/trappist-1d-max.jpg', phrase: 'TRAPPIST-1 d — The Twilight Border' },
+    { id: 'trappist-1e', name: 'TRAPPIST-1 e', systemId: 'trappist', orbitRadius: 0.029, img: 'assets/trappist-1/trappist-1e-max.jpg', phrase: 'TRAPPIST-1 e — The Golden Hope' },
+    { id: 'trappist-1f', name: 'TRAPPIST-1 f', systemId: 'trappist', orbitRadius: 0.038, img: 'assets/trappist-1/trappist-1f-max.jpg', phrase: 'TRAPPIST-1 f — The Ocean World' },
+    { id: 'trappist-1g', name: 'TRAPPIST-1 g', systemId: 'trappist', orbitRadius: 0.047, img: 'assets/trappist-1/trappist-1g-max.jpg', phrase: 'TRAPPIST-1 g — The Verdant Dream' },
+    { id: 'trappist-1h', name: 'TRAPPIST-1 h', systemId: 'trappist', orbitRadius: 0.062, img: 'assets/trappist-1/trappist-1h-max.jpg', phrase: 'TRAPPIST-1 h — The Frozen Frontier' }
+  ]
+};
+
+
+//#endregion
 
 // Формула для расчетов
 //CIS = (habitable_zone × 0.15) +
