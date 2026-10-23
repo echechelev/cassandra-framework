@@ -7,6 +7,7 @@ from selenium.webdriver.chrome.options import Options
 
 from pages.access_restoration import AccessRestorationPage
 from pages.dashboard import DashboardPage
+from pages.flight_calc import FlightCalcPage
 from pages.galaxy_map import GalaxyMapPage
 from pages.index import IndexPage
 from pages.login import LoginPage
@@ -24,7 +25,7 @@ CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
 APP_DIR = os.path.abspath(os.path.join(CURRENT_DIR, "..", "app"))
 SAFE_DIR = APP_DIR.replace("\\", "/")
 BASE_URL = os.getenv("CASSANDRA_URL", f"file:///{SAFE_DIR}/")
-SHOW_BROWSER = os.getenv("SHOW_BROWSER", "True").lower() == "true"
+SHOW_BROWSER = os.getenv("SHOW_BROWSER", "false").lower() == "true"
 
 
 @pytest.fixture(scope="function", autouse=True)
@@ -110,6 +111,21 @@ def dashboard_page():
     page = DashboardPage()
     page.open()
 
+    yield page
+
+    page.clear_all_storages()
+
+@pytest.fixture(scope="function")
+def flight_calc_page(dashboard_page_aurora):
+    """🔓 Открывает страницу без ожидания аплинка и очищает Storage после теста."""
+
+    dashboard_page_aurora.fast_forward_uplink()
+    dashboard_page_aurora.click_refresh_page()
+    dashboard_page_aurora.flight_calc_btn.should(be.visible)
+    
+    page = FlightCalcPage()
+
+    page.open()
     yield page
 
     page.clear_all_storages()

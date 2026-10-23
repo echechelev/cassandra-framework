@@ -35,11 +35,9 @@
       min-height: 100vh;
       position: relative;
       overflow: hidden;
-      /* Было overflow-x: hidden → меняем на overflow: hidden */
       background-color: #050816;
     }
 
-    /* === ЗВЁЗДНЫЙ ФОН === */
     .stars {
       position: fixed;
       inset: 0;
@@ -86,7 +84,6 @@
       filter: blur(1.5vmin);
     }
 
-    /* === УГЛОВЫЕ КНОПКИ === */
     .corner-circle-btn {
       position: fixed;
       width: var(--corner-btn-size);
@@ -201,7 +198,6 @@
       transform: scale(1.1);
     }
 
-    /* === КНОПКА CASSANDRA (ЗАГЛУШКА) === */
     .cassandra-logo {
       cursor: default !important;
       pointer-events: none !important;
@@ -238,7 +234,6 @@
       text-shadow: 0 0 0.8vmin rgba(77, 166, 255, 0.8);
     }
 
-    /* === TOOLTIP ДЛЯ ИНФО-ПАНЕЛЕЙ === */
     .info-tooltip {
       position: absolute;
       top: 50%;
@@ -296,10 +291,6 @@
       padding-bottom: 0.3vmin;
       letter-spacing: 0.1vmin;
     }
-
-    /* ============================================
-       КАЛЬКУЛЯТОР — СБАЛАНСИРОВАННЫЕ РАЗМЕРЫ
-       ============================================ */
 
     .calculator-container {
       display: flex;
@@ -549,7 +540,6 @@
       font-family: monospace;
     }
 
-    /* Кнопки действий */
     .buttons-row {
       display: flex;
       align-items: center;
@@ -621,7 +611,6 @@
       transform: scale(0.95);
     }
 
-    /* КНОПКА CLEAR ТЕПЕРЬ КРАСНАЯ */
     .clear-btn {
       border-color: #ff4d4d;
       color: #ff4d4d;
@@ -640,7 +629,6 @@
       transform: scale(0.95);
     }
 
-    /* Анимация расчёта */
     .calculation-overlay {
       display: none;
       flex-direction: column;
@@ -703,7 +691,6 @@
       }
     }
 
-    /* Результат */
     .result-area {
       display: none;
       flex-direction: column;
@@ -749,7 +736,6 @@
       letter-spacing: 0.15vmin;
     }
 
-    /* Модальные окна */
     .info-modal-overlay,
     .warning-modal-overlay,
     .alert-modal-overlay {
@@ -898,7 +884,6 @@
       line-height: 1.5;
     }
 
-    /* === ФУТЕР === */
     .login-footer {
       position: fixed;
       bottom: 0;
@@ -954,13 +939,11 @@
 
 <body>
 
-  <!-- === ФОН === -->
   <div class="stars"></div>
   <div class="milkyway">
     <div class="band"></div>
   </div>
 
-  <!-- === УГЛОВЫЕ КНОПКИ === -->
   <div class="corner-circle-btn top-left" data-wm-id="info-panel-role">
     <span class="corner-icon" data-wm-id="role-icon">🛰️</span>
     <span class="corner-label" data-wm-id="role-label">STANDBY</span>
@@ -989,7 +972,6 @@
     <span class="corner-label">DASHBOARD</span>
   </button>
 
-  <!-- КНОПКА CASSANDRA ВМЕСТО CIS INDEX TABLE -->
   <button class="corner-circle-btn bottom-right cassandra-logo" data-wm-id="cassandra-btn">
     <span class="corner-icon"></span>
     <div class="corner-label cassandra-label">
@@ -997,7 +979,6 @@
     </div>
   </button>
 
-  <!-- === КАЛЬКУЛЯТОР === -->
   <div class="calculator-container">
     <div class="calculator-modal" data-wm-id="container">
       <div class="modal-header">
@@ -1023,7 +1004,8 @@
 
         <div class="location-panel" data-wm-id="arrival-panel">
           <div class="panel-title"><span class="dot arrival"></span> Arrival</div>
-          <div class="planet-circle" data-wm-id="arr-circle"><img src="" alt="Arrival Planet" data-wm-id="arr-img"></div>
+          <div class="planet-circle" data-wm-id="arr-circle"><img src="" alt="Arrival Planet" data-wm-id="arr-img">
+          </div>
           <div class="planet-description" ddata-wm-id="arr-desc"></div>
           <div class="input-group">
             <label>Arr System</label>
@@ -1070,7 +1052,6 @@
         </div>
       </div>
 
-      <!-- Buttons -->
       <div class="buttons-row" data-wm-id="buttons-row">
         <button class="start-btn" id="calc-btn" onclick="startCalculation()" data-wm-id="start-btn">Start</button>
         <button class="info-btn" id="info-btn" onclick="openInfoModal()" data-wm-id="info-btn">Info</button>
@@ -1089,7 +1070,6 @@
     </div>
   </div>
 
-  <!-- === МОДАЛКИ === -->
   <div class="info-modal-overlay" id="info-modal" onclick="closeInfoModalOutside(event)" data-wm-id="info-modal">
     <div class="info-modal-content">
       <button class="close-info-btn" onclick="closeInfoModal()" data-wm-id="close-info-btn">&times;</button>
@@ -1127,13 +1107,11 @@
     </div>
   </div>
 
-  <!-- === ФУТЕР === -->
   <footer class="login-footer">
     <div class="telemetry" id="dashboard-telemetry" data-wm-id="system-telemetry"></div>
     <div class="copyright">Evknopia © 2026</div>
   </footer>
 
-  <!-- === ДАННЫЕ И ЛОГИКА === -->
   <script src="data.js"></script>
   <script>
     function initDashboard() {
@@ -1225,10 +1203,32 @@
       }
       [depSys, arrSys, depPl, arrPl].forEach(el => el.value = "");
       clearVisuals();
+
+      document.querySelectorAll('input[name="ship"]').forEach(radio => {
+        radio.checked = false;
+      });
+      document.querySelectorAll('.ship-option').forEach(label => {
+        label.classList.remove('active');
+      });
+
       depSys.addEventListener('change', () => { updatePlanets('dep'); updateVisuals(); });
       arrSys.addEventListener('change', () => { updatePlanets('arr'); updateVisuals(); });
       depPl.addEventListener('change', () => { updatePlanets('arr'); updateVisuals(); });
       arrPl.addEventListener('change', () => { updatePlanets('dep'); updateVisuals(); });
+
+      const shipInputs = document.querySelectorAll('input[name="ship"]');
+      const shipLabels = document.querySelectorAll('.ship-option');
+
+      shipInputs.forEach(input => {
+        input.addEventListener('change', () => {
+
+          shipLabels.forEach(label => label.classList.remove('active'));
+
+          if (input.checked) {
+            input.closest('.ship-option').classList.add('active');
+          }
+        });
+      });
     }
 
     function updatePlanets(side) {
@@ -1320,6 +1320,7 @@
       document.getElementById('dep-planet').value = "";
       document.getElementById('arr-planet').value = "";
       document.querySelectorAll('input[name="ship"]').forEach(r => r.checked = false);
+      document.querySelectorAll('.ship-option').forEach(label => label.classList.remove('active'));
       clearVisuals();
       updatePlanets('both');
       document.getElementById('result-area').classList.remove('active');
@@ -1341,13 +1342,27 @@
     function closeAlertModalOutside(e) { if (e.target.id === 'alert-modal') closeAlertModal(); }
 
     document.addEventListener('DOMContentLoaded', initDashboard);
-    window.addEventListener('pageshow', function (event) {
-      if (event.persisted) {
-        console.warn('⚠️ Страница восстановлена из bfcache — принудительная проверка');
-        initDashboard();
-      }
+
+    window.addEventListener('pagehide', function () {
+      document.querySelectorAll('input[name="ship"]').forEach(radio => radio.checked = false);
+      document.querySelectorAll('.ship-option').forEach(label => label.classList.remove('active'));
+    });
+
+    window.addEventListener('pageshow', function () {
+      setTimeout(() => {
+        document.querySelectorAll('input[name="ship"]').forEach(radio => radio.checked = false);
+        document.querySelectorAll('.ship-option').forEach(label => label.classList.remove('active'));
+
+        const depSys = document.getElementById('dep-system');
+        const arrSys = document.getElementById('arr-system');
+        if (depSys) depSys.value = "";
+        if (arrSys) arrSys.value = "";
+
+        clearVisuals();
+        document.getElementById('result-area').classList.remove('active');
+      }, 0);
     });
   </script>
 </body>
 
-</html>м
+</html>

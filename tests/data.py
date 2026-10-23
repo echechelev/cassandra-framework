@@ -23,7 +23,10 @@ ACCESS_RESTORATION_URL = "access-restoration.html"
 # Основные страницы навигации
 DASHBOARD_URL = "dashboard.html"
 GALAXY_MAP_URL = "galaxy-map.html"
+FLIGHT_CALC_URL = "flight-calc.html"
 CIS_INDEX_TABLE_URL = "cis-index-table.html"
+MISSION_CONTROL_URL = "mission-control.html"
+CASSANDRA_SEETTINGS_URL = "settings.html"
 
 # Звёздные системы и Чёрная дыра
 STAR_SYSTEM_URL = {
@@ -241,6 +244,7 @@ PLANET_EXPLORATION_STATUS = 'BEYOND REACH — Physical landing currently'
 
 # 🌑 Меркурий
 MERCURY_ID = 'planet-mercury-btn'
+MERCURY_CALC_SELECT = 'Mercury'
 MERCURY_NAME = 'MERCURY'
 MERCURY_MASS = '0.055 M⊕'
 MERCURY_PLANETARY_PROFILE = 'The smallest planet in the'
@@ -248,24 +252,30 @@ MERCURY_EXPLORATION_STATUS = 'NO LANDINGS — Multiple flybys'
 
 # 🌟 Венера
 VENUS_ID = 'planet-venus-btn'
+VENUS_CALC_SELECT = 'Venus'
 VENUS_NAME = 'VENUS'
 
 # 🌍 Земля
 EARTH_ID = 'planet-earth-btn'
+EARTH_CALC_SELECT= 'earth'
 EARTH_NAME = 'EARTH'
 EARTH_CSS_CLASS = 'planet-icon.planet-earth'
 EARTH_COLOR = '#4da6ff'
 
 # 🔴 Марс
 MARS_ID = 'planet-mars-btn'
+MARS_CALC_SELECT = 'mars'
 MARS_NAME = 'MARS'
 
 # 🧊 Уран
 URANUS_ID = 'planet-uranus-btn'
+URANUS_CALC_SELECT = 'uranus'
 URANUS_NAME = 'URANUS'
+
 
 # 🌊 Нептун
 NEPTUNE_ID = 'planet-neptune-btn'
+NEPTUNE_CALC_SELECT = 'neptune'
 NEPTUNE_NAME = 'NEPTUNE'
 
 # ==========================================
@@ -274,16 +284,20 @@ NEPTUNE_NAME = 'NEPTUNE'
 
 # 🪐 Проксима B
 PROXIMA_B_ID = 'planet-proxima-b-btn'
+PROXIMA_B_CALC_SELECT = 'proxima-b'
 PROXIMA_B_NAME = 'PROXIMA B'
 PROXIMA_B_MASS = '~1.2 M⊕'
 PROXIMA_B_PLANETARY_PROFILE = 'The closest known exoplanet'
 
 # 🔵 Проксима C
 PROXIMA_C_ID = 'planet-proxima-c-btn'
+PROXIMA_C_CALC_SELECT = 'proxima-c'
 PROXIMA_C_NAME = 'PROXIMA C'
+
 
 # 🌑 Проксима D
 PROXIMA_D_ID = 'planet-proxima-d-btn'
+PROXIMA_D_CALC_SELECT = 'proxima-d'
 PROXIMA_D_NAME = 'PROXIMA D'
 
 # ==========================================
@@ -292,6 +306,7 @@ PROXIMA_D_NAME = 'PROXIMA D'
 
 # 🪐 Эпсилон Эридана C
 EPSILON_ERIDANI_C_ID = 'planet-epsilon-eridani-c-btn'
+EPSILON_ERIDANI_C_CALC_SELECT = 'epsilon-eridani-c'
 EPSILON_ERIDANI_C_NAME = 'EPSILON ERIDANI C'
 EPSILON_ERIDANI_C_MASS = '~248 M⊕'
 EPSILON_ERIDANI_C_PLANETARY_PROFILE = 'A massive gas giant orbiting Epsilon Eridani'
@@ -302,6 +317,7 @@ EPSILON_ERIDANI_C_PLANETARY_PROFILE = 'A massive gas giant orbiting Epsilon Erid
 
 #  Тау Кита e
 TAU_CETI_E_ID = 'planet-tau-ceti-e-btn'
+TAU_CETI_E_CALC_SELECT = 'tau-ceti-e'
 TAU_CETI_E_NAME = 'TAU CETI E'
 TAU_CETI_E_MASS = '~4.29 M⊕'
 TAU_CETI_E_PLANETARY_PROFILE = 'A super-Earth located in the habitable zone'
@@ -309,14 +325,17 @@ TAU_CETI_E_PLANETARY_PROFILE = 'A super-Earth located in the habitable zone'
 
 # 🌊 Тау Кита f
 TAU_CETI_F_ID = 'planet-tau-ceti-f-btn'
+TAU_CETI_F_CALC_SELECT = 'tau-ceti-f'
 TAU_CETI_F_NAME = 'TAU CETI F'
 
 # 🧊 Тау Кита g
 TAU_CETI_G_ID = 'planet-tau-ceti-g-btn'
+TAU_CETI_G_CALC_SELECT = 'tau-ceti-g'
 TAU_CETI_G_NAME = 'TAU CETI G'
 
 # ❄️ Тау Кита h
 TAU_CETI_H_ID = 'planet-tau-ceti-h-btn'
+TAU_CETI_H_CALC_SELECT = 'tau-ceti-h'
 TAU_CETI_H_NAME = 'TAU CETI H'
 
 # ==========================================
@@ -325,12 +344,14 @@ TAU_CETI_H_NAME = 'TAU CETI H'
 
 # 🌑 Тигарден b
 TEEGARDEN_B_ID = 'planet-teegarden-b-btn'
+TEEGARDEN_B_CALC_SELECT = 'teegarden-b'
 TEEGARDEN_B_NAME = 'TEEGARDEN B'
 TEEGARDEN_B_MASS = '~1.05 M⊕'
 TEEGARDEN_B_PLANETARY_PROFILE = 'One of the most Earth-like exoplanets'
 
 #  Тигарден c
 TEEGARDEN_C_ID = 'planet-teegarden-c-btn'
+TEEGARDEN_C_CALC_SELECT = 'teegarden-c'
 TEEGARDEN_C_NAME = 'TEEGARDEN C'
 
 # ==========================================
@@ -339,32 +360,39 @@ TEEGARDEN_C_NAME = 'TEEGARDEN C'
 
 # 🔴 TRAPPIST-1 b
 TRAPPIST_1B_ID = 'planet-trappist-1b-btn'
+TRAPPIST_1B_CALC_SELECT = 'trappist-1b'
 TRAPPIST_1B_NAME = 'TRAPPIST-1B'
 TRAPPIST_1B_MASS = '~1.02 M⊕'
 TRAPPIST_1B_PLANETARY_PROFILE = 'The innermost known planet'
 
 # 🟠 TRAPPIST-1 c
 TRAPPIST_1C_ID = 'planet-trappist-1c-btn'
+TRAPPIST_1C_CALC_SELECT = 'trappist-1c'
 TRAPPIST_1C_NAME = 'TRAPPIST-1C'
 
 #  TRAPPIST-1 d
 TRAPPIST_1D_ID = 'planet-trappist-1d-btn'
+TRAPPIST_1D_CALC_SELECT = 'trappist-1d'
 TRAPPIST_1D_NAME = 'TRAPPIST-1D'
 
 # 🌍 TRAPPIST-1 e
 TRAPPIST_1E_ID = 'planet-trappist-1e-btn'
+TRAPPIST_1E_CALC_SELECT = 'trappist-1e'
 TRAPPIST_1E_NAME = 'TRAPPIST-1E'
 
 # 🔵 TRAPPIST-1 f
 TRAPPIST_1F_ID = 'planet-trappist-1f-btn'
+TRAPPIST_1F_CALC_SELECT = 'trappist-1f'
 TRAPPIST_1F_NAME = 'TRAPPIST-1F'
 
 # 🧊 TRAPPIST-1 g
 TRAPPIST_1G_ID = 'planet-trappist-1g-btn'
+TRAPPIST_1G_CALC_SELECT = 'trappist-1g'
 TRAPPIST_1G_NAME = 'TRAPPIST-1G'
 
 # ⚪ TRAPPIST-1 h
 TRAPPIST_1H_ID = 'planet-trappist-1h-btn'
+TRAPPIST_1H_CALC_SELECT = 'trappist-1h'
 TRAPPIST_1H_NAME = 'TRAPPIST-1H'
 
 # ==============================================================
@@ -379,6 +407,8 @@ SAGITTARIUS_A_CLASSIFICATION = 'Supermassive Black Hole (SMBH)'
 SAGITTARIUS_A_DESCRIPTION = 'This supermassive object acts as the gravitational anchor'
 
 # ☀️ Солнце
+SOL_CALC_ID_SYSTEM = 'sol'
+SUN_CALC_SELECT = 'sun'
 SUN_CLASS = 'sun'
 SUN_NAME = 'SOL (THE SUN)'
 SUN_TYPE = 'STAR'
@@ -386,6 +416,8 @@ SUN_CLASSIFICATION = 'G-type Yellow Dwarf'
 SUN_DESCRIPTION = 'The central star of our planetary system'
 
 # ⭐ Альфа Центавра А
+ALPHA_CENTAURI_CALC_ID_SYSTEM = 'alpha'
+ALPHA_CENTAURI_CALC_SELECT = 'alpha-centauri-a'
 ALPHA_CENTAURI_CLASS = 'alpha'
 ALPHA_CENTAURI_NAME = 'ALPHA CENTAURI A'
 ALPHA_CENTAURI_TYPE = 'STAR SYSTEM'
@@ -393,6 +425,8 @@ ALPHA_CENTAURI_CLASSIFICATION = 'Triple Star System'
 ALPHA_CENTAURI_DESCRIPTION = 'The closest star system to our Solar System'
 
 # ⭐ Эпсилон Эридана
+EPSILON_ERIDANI_CALC_ID_SYSTEM = 'epsilon'
+EPSILON_ERIDANI_CALC_SELECT = 'epsilon-eridani'
 EPSILON_ERIDANI_CLASS = 'epsilon'
 EPSILON_ERIDANI_NAME = 'EPSILON ERIDANI'
 EPSILON_ERIDANI_TYPE = 'STAR'
@@ -400,6 +434,8 @@ EPSILON_ERIDANI_CLASSIFICATION = 'K-type Orange Dwarf'
 EPSILON_ERIDANI_DESCRIPTION = 'A young orange dwarf star located'
 
 # ⭐ Тау Кита
+TAU_CETI_CALC_ID_SYSTEM = 'tau'
+TAU_CETI_CALC_SELECT = 'tau_ceti'
 TAU_CETI_CLASS = 'tau'
 TAU_CETI_NAME = 'TAU CETI'
 TAU_CETI_TYPE = 'STAR'
@@ -407,6 +443,8 @@ TAU_CETI_CLASSIFICATION = 'G-type Yellow Dwarf'
 TAU_CETI_DESCRIPTION = 'A stable, metal-poor yellow dwarf remarkably similar to our Sun'
 
 # ⭐ Звезда Тигардена
+TEEGARDEN_CALC_ID_SYSTEM = 'teegarden'
+TEEGARDEN_CALC_SELECT = 'teegarden-star'
 TEEGARDEN_CLASS = 'teegarden'
 TEEGARDEN_NAME = "TEEGARDEN'S"
 TEEGARDEN_TYPE = 'STAR'
@@ -414,6 +452,8 @@ TEEGARDEN_CLASSIFICATION = 'M-type Ultra-Cool Dwarf'
 TEEGARDEN_DESCRIPTION = 'An extremely faint ultra-cool red dwarf, one of the'
 
 # ⭐ TRAPPIST-1
+TRAPPIST_1_CALC_ID_SYSTEM = 'trappist'
+TRAPPIST_1_CALC_SELECT = 'trappist-1'
 TRAPPIST_1_CLASS = 'trappist'
 TRAPPIST_1_NAME = 'TRAPPIST-1'
 TRAPPIST_1_TYPE = 'STAR'
@@ -435,6 +475,13 @@ PROTOCOL_VERIFIED = '✅ Access Protocol Verified'
 # Основные экраны
 RESTORATION_PROTOCOL = 'Access Restoration Protocol'
 COLONIZATION_ACCESS = 'Access to Colonization Assessment System'
+
+# Модалки на странице "Калькулятора полетов"
+CALC_MODAL_SELECT_SYSTEMS = "Please select both Departure and Arrival systems first."
+CALC_MODAL_SELECT_PLANETS = "Please select both Departure and Arrival planets."
+CALC_MODAL_SELECT_VESSEL = "Please select a Vessel Class."
+CALC_MODAL_INFO = "Flight Calculation Methodology"
+CALC_MODAL_WARNING_EARTH_MARS = "Distance: 0.000031 light-years (minimum required: 1.0 ly)"
 
 # ==========================================
 #  Телеметрия: Синий блок (Ожидание / Статусы)
