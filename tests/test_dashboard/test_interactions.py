@@ -161,7 +161,7 @@ def test_planet_bar_navigation(dashboard_page_aurora):
     1. Выполнить авторизацию под пользователем 'AURORA'.
     2. Перейти на страницу 'Dashboard Page'.
     3. Нажать на кнопку 'Uplink Button'. Дождаться завершения анимации (100%).
-    4. Поочередно нажать на все кнопки 'Planet Bar', кроме 'Flight Calc Btn'.
+    4. Поочередно нажать на все кнопки 'Planet Bar'.
     5. Проверить: каждая кнопка становится кликабельной после 100% загрузки прогресс-бара.
     6. Проверить: каждая кнопка открывает соответствующую страницу (правильный URL).
     """
@@ -174,6 +174,7 @@ def test_planet_bar_navigation(dashboard_page_aurora):
 
     # ✅ ASSERT
     dashboard_page_aurora.navigate_to_galaxy_map()
+    dashboard_page_aurora.navigate_to_flight_cal()
     dashboard_page_aurora.navigate_to_cis_index_table()
     dashboard_page_aurora.navigate_to_mission_control()
     dashboard_page_aurora.navigate_to_settings()
