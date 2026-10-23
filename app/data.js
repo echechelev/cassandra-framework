@@ -822,8 +822,172 @@ window.FlightCalculator = {
   ]
 };
 
-
 //#endregion
+
+// ========================================================================
+//#region 6️⃣ 🧬 ДАННЫЕ ДЛЯ РАСЧЕТА CIS
+// ========================================================================
+
+window.CIS_THRESHOLDS = [
+  { min: 70, max: 100, label: "HIGHLY HABITABLE", class: "status-habitable", color: "#2ecc71", desc: "Идеальна для колонизации, жизнь вероятна" },
+  { min: 50, max: 69, label: "CONDITIONALLY HABITABLE", class: "status-limited", color: "#f1c40f", desc: "Условно пригодна, требуются рекомендации" },
+  { min: 35, max: 49, label: "MARGINALLY HABITABLE", class: "status-uninhabitable", color: "#e74c3c", desc: "Мало пригодна, требуется разведка зонда" },
+  { min: 0, max: 34, label: "UNINHABITABLE", class: "status-dead", color: "#7f8c8d", desc: "Непригодна, безнадёжна для земной жизни" }
+];
+
+window.CisPlanet = [
+  // --- SOL SYSTEM ---
+  {
+    id: "mercury", name: "Mercury", star: "Sol", type: "Terrestrial",
+    cis_params: { habitable_zone: 10, surface: 100, hydrosphere: 0, atmosphere: 0, breathability: 0, climate: 5, gravity: 38, magnetic: 5, stellar_flares: 80 },
+    description: "The smallest planet and closest to the Sun. Extreme temperature fluctuations and lack of atmosphere make it completely hostile.",
+    warning: "CRITICAL: Extreme thermal variations, vacuum conditions, high solar radiation."
+  },
+  {
+    id: "venus", name: "Venus", star: "Sol", type: "Terrestrial",
+    cis_params: { habitable_zone: 60, surface: 10, hydrosphere: 0, atmosphere: 0, breathability: 0, climate: 0, gravity: 90, magnetic: 0, stellar_flares: 70 },
+    description: "Earth's 'evil twin'. Similar in size and mass, but its runaway greenhouse effect creates a hellish surface environment.",
+    warning: "CRITICAL: Crushing atmospheric pressure (90 atm), toxic sulfuric acid clouds, extreme heat."
+  },
+  {
+    id: "earth", name: "Earth", star: "Sol", type: "Terrestrial",
+    cis_params: { habitable_zone: 100, surface: 100, hydrosphere: 100, atmosphere: 100, breathability: 100, climate: 100, gravity: 100, magnetic: 100, stellar_flares: 100 }, // stellar_flares = 100 для идеального эталона
+    description: "The home world of humanity. The absolute baseline and gold standard for all planetary habitability comparisons.",
+    warning: "None. Optimal conditions."
+  },
+  {
+    id: "mars", name: "Mars", star: "Sol", type: "Terrestrial",
+    cis_params: { habitable_zone: 85, surface: 100, hydrosphere: 10, atmosphere: 20, breathability: 0, climate: 30, gravity: 38, magnetic: 10, stellar_flares: 60 },
+    description: "The Red Planet. Cold and dry, but possesses a solid surface, water ice, and a day length similar to Earth's.",
+    warning: "WARNING: Thin atmosphere, high radiation, requires pressurized habitats and life support."
+  },
+  {
+    id: "uranus", name: "Uranus", star: "Sol", type: "Ice Giant",
+    cis_params: { habitable_zone: 10, surface: 0, hydrosphere: 80, atmosphere: 10, breathability: 0, climate: 0, gravity: 89, magnetic: 40, stellar_flares: 10 },
+    description: "An ice giant with a unique sideways rotation. Lacks a solid surface for colonization.",
+    warning: "CRITICAL: No solid surface, extreme cold, crushing atmospheric pressure at depth."
+  },
+  {
+    id: "neptune", name: "Neptune", star: "Sol", type: "Ice Giant",
+    cis_params: { habitable_zone: 5, surface: 0, hydrosphere: 80, atmosphere: 10, breathability: 0, climate: 0, gravity: 100, magnetic: 40, stellar_flares: 5 },
+    description: "The windiest and most distant major planet. Dark, cold, and whipped by supersonic winds.",
+    warning: "CRITICAL: No solid surface, extreme cold, supersonic atmospheric dynamics."
+  },
+
+  // --- ALPHA CENTAURI / PROXIMA SYSTEM ---
+  {
+    id: "proxima-b", name: "Proxima Centauri b", star: "Proxima Centauri", type: "Terrestrial",
+    cis_params: { habitable_zone: 75, surface: 100, hydrosphere: 40, atmosphere: 30, breathability: 0, climate: 35, gravity: 95, magnetic: 20, stellar_flares: 10 },
+    description: "The closest known exoplanet to Earth, orbiting in the habitable zone of a red dwarf.",
+    warning: "CRITICAL: Extreme stellar flare activity from host star, uncertain atmosphere."
+  },
+  {
+    id: "proxima-c", name: "Proxima Centauri c", star: "Proxima Centauri", type: "Super-Earth",
+    cis_params: { habitable_zone: 20, surface: 30, hydrosphere: 60, atmosphere: 50, breathability: 0, climate: 10, gravity: 60, magnetic: 30, stellar_flares: 30 },
+    description: "A super-Earth or mini-Neptune orbiting far from its star. Likely a cold, icy world with high gravity.",
+    warning: "WARNING: Far outside habitable zone, extremely cold, high gravity."
+  },
+  {
+    id: "proxima-d", name: "Proxima Centauri d", star: "Proxima Centauri", type: "Sub-Earth",
+    cis_params: { habitable_zone: 50, surface: 100, hydrosphere: 10, atmosphere: 10, breathability: 0, climate: 20, gravity: 25, magnetic: 10, stellar_flares: 5 },
+    description: "A lightweight sub-Earth orbiting very close to its star.",
+    warning: "CRITICAL: Very close to active red dwarf, likely no atmosphere, extreme radiation."
+  },
+
+  // --- EPSILON ERIDANI SYSTEM ---
+  {
+    id: "epsilon-eridani-c", name: "Epsilon Eridani c", star: "Epsilon Eridani", type: "Gas Giant",
+    cis_params: { habitable_zone: 5, surface: 0, hydrosphere: 10, atmosphere: 10, breathability: 0, climate: 0, gravity: 80, magnetic: 60, stellar_flares: 50 },
+    description: "A massive gas giant orbiting far beyond the habitable zone of a young, active star.",
+    warning: "CRITICAL: No solid surface, extreme cold, high radiation environment from young host star."
+  },
+
+  // --- TAU CETI SYSTEM ---
+  {
+    id: "tau-ceti-e", name: "Tau Ceti e", star: "Tau Ceti", type: "Super-Earth",
+    cis_params: { habitable_zone: 70, surface: 80, hydrosphere: 60, atmosphere: 70, breathability: 10, climate: 40, gravity: 60, magnetic: 60, stellar_flares: 15 },
+    description: "A massive super-Earth near the inner edge of the habitable zone.",
+    warning: "WARNING: High gravity (approx 1.6g), potential runaway greenhouse effect."
+  },
+  {
+    id: "tau-ceti-f", name: "Tau Ceti f", star: "Tau Ceti", type: "Super-Earth",
+    cis_params: { habitable_zone: 90, surface: 90, hydrosphere: 80, atmosphere: 80, breathability: 15, climate: 70, gravity: 60, magnetic: 70, stellar_flares: 15 },
+    description: "The most promising candidate in the Tau Ceti system. Located squarely in the habitable zone.",
+    warning: "WARNING: Higher gravity than Earth. Atmospheric composition remains unconfirmed."
+  },
+  {
+    id: "tau-ceti-g", name: "Tau Ceti g", star: "Tau Ceti", type: "Super-Earth",
+    cis_params: { habitable_zone: 50, surface: 90, hydrosphere: 20, atmosphere: 60, breathability: 0, climate: 20, gravity: 70, magnetic: 50, stellar_flares: 15 },
+    description: "A super-Earth orbiting too close to its star. Likely experienced a runaway greenhouse effect.",
+    warning: "CRITICAL: High surface temperatures, probable loss of surface water."
+  },
+  {
+    id: "tau-ceti-h", name: "Tau Ceti h", star: "Tau Ceti", type: "Super-Earth",
+    cis_params: { habitable_zone: 60, surface: 80, hydrosphere: 70, atmosphere: 50, breathability: 0, climate: 30, gravity: 75, magnetic: 60, stellar_flares: 15 },
+    description: "A cold super-Earth at the outer edge of the habitable zone.",
+    warning: "WARNING: Low average temperatures, likely requires subsurface or heavily insulated habitats."
+  },
+
+  // --- TEEGARDEN'S STAR SYSTEM ---
+  {
+    id: "teegarden-b", name: "Teegarden's Star b", star: "Teegarden's Star", type: "Terrestrial",
+    cis_params: { habitable_zone: 85, surface: 90, hydrosphere: 40, atmosphere: 30, breathability: 0, climate: 40, gravity: 95, magnetic: 20, stellar_flares: 40 },
+    description: "One of the most Earth-like exoplanets discovered by mass and orbital position.",
+    warning: "WARNING: Atmospheric retention is uncertain due to host star type."
+  },
+  {
+    id: "teegarden-c", name: "Teegarden's Star c", star: "Teegarden's Star", type: "Terrestrial",
+    cis_params: { habitable_zone: 60, surface: 90, hydrosphere: 30, atmosphere: 20, breathability: 0, climate: 20, gravity: 90, magnetic: 20, stellar_flares: 40 },
+    description: "A slightly more massive cousin of planet b, orbiting near the outer edge of the habitable zone.",
+    warning: "CRITICAL: Outer habitable zone edge, high probability of global glaciation."
+  },
+
+  // --- TRAPPIST-1 SYSTEM ---
+  {
+    id: "trappist-1b", name: "TRAPPIST-1 b", star: "TRAPPIST-1", type: "Terrestrial",
+    cis_params: { habitable_zone: 30, surface: 90, hydrosphere: 10, atmosphere: 20, breathability: 0, climate: 10, gravity: 95, magnetic: 30, stellar_flares: 60 },
+    description: "The innermost planet. Receives about 4 times the radiation Earth gets from the Sun.",
+    warning: "CRITICAL: Extreme heat, probable runaway greenhouse effect, high stellar radiation."
+  },
+  {
+    id: "trappist-1c", name: "TRAPPIST-1 c", star: "TRAPPIST-1", type: "Terrestrial",
+    cis_params: { habitable_zone: 40, surface: 90, hydrosphere: 20, atmosphere: 30, breathability: 0, climate: 15, gravity: 100, magnetic: 30, stellar_flares: 60 },
+    description: "Slightly further out, but still likely too hot for liquid water.",
+    warning: "WARNING: High surface temperatures, uncertain atmospheric composition."
+  },
+  {
+    id: "trappist-1d", name: "TRAPPIST-1 d", star: "TRAPPIST-1", type: "Terrestrial",
+    cis_params: { habitable_zone: 70, surface: 90, hydrosphere: 50, atmosphere: 50, breathability: 5, climate: 40, gravity: 35, magnetic: 40, stellar_flares: 50 },
+    description: "The lightest planet in the system, orbiting at the inner edge of the habitable zone.",
+    warning: "WARNING: Low gravity, moderate stellar flare exposure."
+  },
+  {
+    id: "trappist-1e", name: "TRAPPIST-1 e", star: "TRAPPIST-1", type: "Terrestrial",
+    cis_params: { habitable_zone: 85, surface: 95, hydrosphere: 80, atmosphere: 70, breathability: 10, climate: 60, gravity: 90, magnetic: 60, stellar_flares: 40 },
+    description: "The crown jewel of the system. Most likely to have a rocky surface, liquid water oceans, and a stable climate.",
+    warning: "INFO: Best candidate for habitability. Conditions on the day-night boundary may be Earth-like."
+  },
+  {
+    id: "trappist-1f", name: "TRAPPIST-1 f", star: "TRAPPIST-1", type: "Terrestrial",
+    cis_params: { habitable_zone: 80, surface: 90, hydrosphere: 70, atmosphere: 60, breathability: 5, climate: 50, gravity: 95, magnetic: 50, stellar_flares: 40 },
+    description: "Located in the middle of the habitable zone. Likely possesses a thick atmosphere.",
+    warning: "WARNING: May require subsurface or heavily insulated habitats."
+  },
+  {
+    id: "trappist-1g", name: "TRAPPIST-1 g", star: "TRAPPIST-1", type: "Terrestrial",
+    cis_params: { habitable_zone: 70, surface: 90, hydrosphere: 60, atmosphere: 50, breathability: 0, climate: 30, gravity: 90, magnetic: 50, stellar_flares: 40 },
+    description: "The largest planet in the system, orbiting near the outer edge of the habitable zone.",
+    warning: "WARNING: Low average temperatures, high probability of global glaciation."
+  },
+  {
+    id: "trappist-1h", name: "TRAPPIST-1 h", star: "TRAPPIST-1", type: "Terrestrial",
+    cis_params: { habitable_zone: 40, surface: 90, hydrosphere: 20, atmosphere: 20, breathability: 0, climate: 5, gravity: 75, magnetic: 40, stellar_flares: 40 },
+    description: "The outermost known planet. Too far from the star to maintain liquid water on the surface.",
+    warning: "CRITICAL: Extreme cold, likely no surface liquid water."
+  }
+];
+
+
 
 // Формула для расчетов
 //CIS = (habitable_zone × 0.15) +

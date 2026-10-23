@@ -5,139 +5,342 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="icon" type="image/svg+xml" href="favicon.svg">
-  <title>404 — Cassandra Framework</title>
+  <title>Cassandra — Cis Index Table</title>
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: 'Segoe UI', sans-serif;
+    :root {
+      --neon-blue: #4da6ff;
+      --text-main: #e8ecff;
+      --text-dim: #8a94b8;
+      --corner-btn-size: 10vmin;
+      --corner-btn-border: 0.2vmin;
+      --corner-btn-gap: 0.35vmin;
+      --corner-icon-size: 3vmin;
+      --corner-label-size: 1.1vmin;
+      --corner-btn-offset-v: 4vh;
+      --corner-btn-offset-h: 2vw;
+      --green: #2ecc71;
+      --yellow: #f1c40f;
+      --red: #c0392b;
     }
 
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', 'Roboto', sans-serif; }
+
     body {
-      color: #e8ecff;
+      color: var(--text-main);
       min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
+      position: relative;
+      overflow-x: hidden;
       background-color: #050816;
-      overflow: hidden;
     }
 
     .stars {
-      position: fixed;
-      inset: 0;
-      z-index: -2;
-      background: radial-gradient(1px 1px at 10% 10%, #fff, transparent 50%),
-        radial-gradient(2px 2px at 40% 20%, #fff, transparent 50%),
-        radial-gradient(1px 1px at 70% 40%, #fff, transparent 50%),
+      position: fixed; inset: 0; z-index: -2;
+      background:
+        radial-gradient(1px 1px at 10% 10%, rgba(255, 255, 255, .9), transparent 50%),
+        radial-gradient(1.5px 1.5px at 20% 30%, rgba(255, 255, 255, .7), transparent 50%),
+        radial-gradient(1px 1px at 30% 70%, rgba(255, 255, 255, .8), transparent 50%),
+        radial-gradient(2px 2px at 40% 20%, rgba(255, 255, 255, .6), transparent 50%),
+        radial-gradient(1px 1px at 50% 50%, rgba(255, 255, 255, .9), transparent 50%),
         linear-gradient(180deg, #050816 0%, #0a0e27 50%, #131b3a 100%);
+      background-size: 15vmin 15vmin, 20vmin 20vmin, 18vmin 18vmin, 25vmin 25vmin, 16vmin 16vmin, 100% 100%;
     }
 
     .milkyway {
-      position: fixed;
-      inset: 0;
-      z-index: -1;
-      background: linear-gradient(180deg, transparent, rgba(120, 160, 255, .1) 50%, transparent);
-      transform: rotate(-28deg);
-      filter: blur(2vmin);
+      position: fixed; inset: 0; z-index: -1; overflow: hidden; pointer-events: none;
+    }
+    .milkyway .band {
+      position: absolute; top: 50%; left: 50%; width: 280vmax; height: 25vmin;
+      transform: translate(-50%, -50%) rotate(-28deg);
+      background: linear-gradient(180deg, transparent, rgba(120, 160, 255, .08) 15%, rgba(190, 215, 255, .18) 35%, rgba(255, 255, 255, .25) 50%, rgba(190, 215, 255, .18) 65%, rgba(120, 160, 255, .08) 85%, transparent);
+      filter: blur(1.5vmin);
     }
 
-    .logo {
-      font-size: 8vmin;
-      font-weight: 800;
-      letter-spacing: 1vmin;
-      margin-bottom: 6vmin;
+    .login-footer {
+      position: absolute; bottom: 0; width: 100%; text-align: center;
+      color: #4a5480; font-size: 1.2vmin; letter-spacing: 0.1vmin; padding-bottom: 2vmin;
+    }
+    .copyright { margin-top: 4vmin; font-size: 1.4vmin; letter-spacing: 0.15vmin; color: #5a6488; }
+
+    .telemetry {
+      color: #4da6ff; font-family: 'Courier New', monospace; margin-bottom: 0.8vmin;
+      font-size: 1.3vmin; text-transform: uppercase; letter-spacing: 0.1vmin;
+      text-shadow: 0 0 0.8vmin rgba(77, 166, 255, 0.4); min-height: 2vmin;
+    }
+    .telemetry-cassan { color: #ffffff !important; }
+    .telemetry-dra { color: #4da6ff !important; text-shadow: 0 0 0.6vmin rgba(77, 166, 255, 0.6) !important; }
+    .telemetry::after { content: "█"; animation: blink 1s step-end infinite; margin-left: 0.4vmin; }
+    @keyframes blink { 50% { opacity: 0; } }
+
+    .corner-circle-btn {
+      position: fixed; width: var(--corner-btn-size); height: var(--corner-btn-size);
+      border-radius: 50%; border: var(--corner-btn-border) solid rgba(77, 166, 255, 0.6);
+      background: rgba(10, 15, 40, 0.7); backdrop-filter: blur(1vmin);
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      gap: var(--corner-btn-gap); z-index: 10;
+      box-shadow: 0 0 0.5vmin rgba(77, 166, 255, 0.3), inset 0 0 0.5vmin rgba(77, 166, 255, 0.2), 0 0 1.5vmin rgba(77, 166, 255, 0.4);
+      transition: all 0.3s ease; cursor: pointer; padding: 0; text-align: center; text-decoration: none;
+    }
+    .corner-circle-btn:hover {
+      border-color: rgba(77, 166, 255, 1);
+      box-shadow: 0 0 1vmin rgba(77, 166, 255, 0.6), inset 0 0 1vmin rgba(77, 166, 255, 0.4), 0 0 3vmin rgba(77, 166, 255, 0.8);
+      transform: scale(1.15);
+    }
+    .corner-circle-btn.bottom-left { bottom: var(--corner-btn-offset-v); left: var(--corner-btn-offset-h); }
+    .corner-circle-btn.bottom-right { bottom: var(--corner-btn-offset-v); right: var(--corner-btn-offset-h); }
+    .corner-circle-btn.top-left { top: var(--corner-btn-offset-v); left: var(--corner-btn-offset-h); cursor: default; }
+    .corner-circle-btn.top-right { top: var(--corner-btn-offset-v); right: var(--corner-btn-offset-h); cursor: default; }
+
+    .corner-icon { font-size: var(--corner-icon-size); line-height: 1; filter: drop-shadow(0 0 0.8vmin rgba(77, 166, 255, 0.5)); margin-top: -1.3vmin; margin-bottom: 0.4vmin; }
+    .corner-label { font-size: var(--corner-label-size); font-weight: 600; text-align: center; line-height: 1.2; color: #e8ecff; text-transform: uppercase; letter-spacing: 0.05vmin; margin-top: 0.4vmin; }
+    .top-right .corner-label { color: #2ecc71 !important; text-shadow: 0 0 0.8vmin rgba(46, 204, 113, 0.5) !important; }
+
+    .info-tooltip {
+      position: absolute; top: 50%; transform: translateY(-50%);
+      background: rgba(10, 15, 30, 0.95); border: 0.1vmin solid #4da6ff; border-radius: 0.5vmin;
+      padding: 1.2vmin 1.8vmin; font-size: 1.2vmin; color: #e8ecff;
+      min-width: 14vw; max-width: 18vw; white-space: normal; word-wrap: break-word;
+      opacity: 0; visibility: hidden; transition: all 0.3s ease; pointer-events: none; z-index: 100;
+      box-shadow: 0 0 1.5vmin rgba(77, 166, 255, 0.5); text-align: left; line-height: 1.6;
+    }
+    .top-left .info-tooltip { left: 115%; }
+    .top-right .info-tooltip { right: 115%; left: auto; text-align: right; width: 8vw; min-width: 6vw; max-width: 10vw; }
+    .top-left:hover .info-tooltip, .top-right:hover .info-tooltip { opacity: 1; visibility: visible; transform: translateY(-50%) translateX(0.5vmin); }
+    .top-right:hover .info-tooltip { transform: translateY(-50%) translateX(-0.5vmin); }
+    .info-tooltip .tooltip-title { color: #4da6ff; font-weight: bold; margin-bottom: 0.5vmin; border-bottom: 0.1vmin solid rgba(77, 166, 255, 0.3); padding-bottom: 0.3vmin; letter-spacing: 0.1vmin; }
+
+    /* ОСНОВНОЙ КОНТЕНТ ТЕПЕРЬ ВИДЕН СРАЗУ */
+    .main-content {
+      opacity: 1;
+      visibility: visible;
+      padding: 4vmin 6vmin 8vmin;
+      min-height: 100vh;
     }
 
-    .logo .w {
-      color: #fff;
+    .page-header {
+      text-align: center; margin-bottom: 4vmin; padding-bottom: 2vmin;
+      border-bottom: 0.1vmin solid rgba(77, 166, 255, 0.3);
     }
+    .page-title { font-size: 2.4vmin; font-weight: 700; letter-spacing: 0.3vmin; text-shadow: 0 0 1.5vmin rgba(77, 166, 255, 0.5); }
+    .page-title .white { color: #fff; }
+    .page-title .blue { color: var(--neon-blue); }
+    .page-subtitle { margin-top: 0.8vmin; font-size: 1.1vmin; color: var(--text-dim); font-family: 'Courier New', monospace; letter-spacing: 0.1vmin; }
 
-    .logo .b {
-      color: #4da6ff;
-      text-shadow: 0 0 2vmin rgba(77, 166, 255, 0.6);
+    .cis-table {
+      width: 100%; border-collapse: collapse; background: rgba(5, 10, 30, 0.6);
+      border: 0.1vmin solid rgba(77, 166, 255, 0.3); border-radius: 0.4vmin; overflow: hidden; font-size: 1.1vmin;
     }
-
-    .error-box {
-      text-align: center;
-      padding: 4vmin 8vmin;
-      border: 0.2vmin solid rgba(231, 76, 60, 0.5);
-      border-radius: 1.5vmin;
-      background: rgba(10, 15, 40, 0.6);
-      backdrop-filter: blur(1vmin);
-      box-shadow: 0 0 3vmin rgba(231, 76, 60, 0.3);
+    .cis-table thead { background: rgba(77, 166, 255, 0.1); }
+    .cis-table th {
+      padding: 1.2vmin 1vmin; text-align: left; color: var(--neon-blue); font-weight: 700;
+      letter-spacing: 0.1vmin; border-bottom: 0.15vmin solid rgba(77, 166, 255, 0.6); font-size: 1vmin; text-transform: uppercase;
     }
-
-    .code {
-      font-size: 10vmin;
-      font-weight: 900;
-      color: #e74c3c;
-      text-shadow: 0 0 2vmin #e74c3c;
-      line-height: 1;
+    .cis-table td {
+      padding: 1vmin; border-bottom: 0.05vmin solid rgba(77, 166, 255, 0.1);
+      font-family: 'Courier New', monospace; color: var(--text-main);
     }
-
-    .title {
-      font-size: 2.5vmin;
-      font-weight: 700;
-      color: #e8ecff;
-      text-transform: uppercase;
-      margin: 2vmin 0 1vmin;
-      letter-spacing: 0.1vmin;
+    .cis-table tbody tr:hover { background: rgba(77, 166, 255, 0.05); cursor: help; }
+    .cis-table .planet-name { font-weight: 700; color: #fff; }
+    .cis-table .cis-value { font-weight: 700; font-size: 1.2vmin; }
+    .cis-table .status-cell {
+      padding: 0.4vmin 0.8vmin; border-radius: 0.3vmin; font-size: 0.95vmin;
+      font-weight: 600; letter-spacing: 0.05vmin; display: inline-block;
     }
-
-    .desc {
-      font-size: 1.5vmin;
-      color: #7a86b8;
-      margin-bottom: 4vmin;
-    }
-
-    .back-btn {
-      display: inline-block;
-      padding: 1.2vmin 3vmin;
-      border: 0.15vmin solid rgba(77, 166, 255, 0.6);
-      border-radius: 0.6vmin;
-      background: rgba(10, 15, 40, 0.8);
-      color: #4da6ff;
-      font-size: 1.4vmin;
-      font-weight: 600;
-      text-decoration: none;
-      text-transform: uppercase;
-      transition: all 0.3s;
-    }
-
-    .back-btn:hover {
-      background: rgba(77, 166, 255, 0.2);
-      box-shadow: 0 0 2vmin rgba(77, 166, 255, 0.5);
-      transform: translateY(-0.2vmin);
-    }
-
-    .footer {
-      position: absolute;
-      bottom: 3vmin;
-      color: #5a6488;
-      font-size: 1.2vmin;
-    }
+    .status-habitable { background: rgba(46, 204, 113, 0.15); color: var(--green); border: 0.1vmin solid rgba(46, 204, 113, 0.4); }
+    .status-limited { background: rgba(241, 196, 15, 0.15); color: var(--yellow); border: 0.1vmin solid rgba(241, 196, 15, 0.4); }
+    .status-uninhabitable { background: rgba(192, 57, 43, 0.15); color: var(--red); border: 0.1vmin solid rgba(192, 57, 43, 0.4); }
   </style>
 </head>
 
 <body>
+
   <div class="stars"></div>
-  <div class="milkyway"></div>
+  <div class="milkyway"><div class="band"></div></div>
 
-  <div class="logo">
-    <span class="w">CASSAN</span><span class="b">DRA</span>
+  <!-- ===== ОСНОВНОЙ КОНТЕНТ (Таблица) ===== -->
+  <div id="main-content" class="main-content">
+    <div class="page-header">
+      <div class="page-title">
+        <span class="white">CASSANDRA </span><span class="blue">INDEX OF SUITABILITY</span>
+      </div>
+      <div class="page-subtitle">// CLASSIFIED — CALCULATIONS MODULE v1.1 //</div>
+    </div>
+
+    <table class="cis-table">
+      <thead>
+        <tr>
+          <th>Planet</th>
+          <th>Star</th>
+          <th>H.Zone</th>
+          <th>Surf.</th>
+          <th>Hydro</th>
+          <th>Atm.</th>
+          <th>Breath.</th>
+          <th>Clim.</th>
+          <th>Grav.</th>
+          <th>Mag.</th>
+          <th>Flares</th>
+          <th>CIS</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody id="cis-table-body">
+        <!-- Данные заполняются через JS -->
+      </tbody>
+    </table>
+
+    <div class="corner-circle-btn top-left" data-wm-id="info-panel-role">
+      <span class="corner-icon" data-wm-id="role-icon">🛰️</span>
+      <span class="corner-label" data-wm-id="role-label">STANDBY</span>
+      <div class="info-tooltip">
+        <div class="tooltip-title">SYSTEM ROLE</div>
+        <div>Function: Comms & Diagnostics</div>
+        <div>Access: Level 2</div>
+        <div>Status: Active</div>
+      </div>
+    </div>
+
+    <div class="corner-circle-btn top-right" data-wm-id="info-panel-user">
+      <span class="corner-icon" data-wm-id="user-icon">👨‍🚀</span>
+      <span class="corner-label" data-wm-id="user-label">UNKNOWN</span>
+      <div class="info-tooltip">
+        <div class="tooltip-title">CREW MEMBER</div>
+        <div>Registered Callsign: UNKNOWN</div>
+        <div>ID: ---</div>
+        <div>Status: Online</div>
+      </div>
+    </div>
+
+    <button class="corner-circle-btn bottom-left" data-wm-id="nav-dashboard-btn" onclick="window.location.href='dashboard.html'">
+      <span class="corner-icon">🕹️</span>
+      <span class="corner-label">DASHBOARD</span>
+    </button>
+
+    <button class="corner-circle-btn bottom-right" data-wm-id="nav-cis-index-table-btn" onclick="window.location.href='cis-index-table.html'">
+      <span class="corner-icon">🧬</span>
+      <div class="corner-label">CIS INDEX <br> TABLE</div>
+    </button>
+
+    <footer class="login-footer">
+      <div class="telemetry" id="dashboard-telemetry" data-wm-id="system-telemetry"></div>
+      <div class="copyright">Evknopia © 2026</div>
+    </footer>
   </div>
 
-  <div class="error-box">
-    <div class="code">404</div>
-    <div class="title">Module Under Construction</div>
-    <div class="desc">This page is currently in development.<br>Please return to dashboard.</div>
-    <a href="dashboard.html" class="back-btn">← Back to Dashboard</a>
-  </div>
+  <script>
+    // ===== ДАННЫЕ ДЛЯ РАСЧЕТА CIS =====
+    window.CIS_THRESHOLDS = [
+      { min: 70, max: 100, label: "HIGHLY HABITABLE", class: "status-habitable", color: "#2ecc71", desc: "Идеальна для колонизации" },
+      { min: 50, max: 69, label: "CONDITIONALLY HABITABLE", class: "status-limited", color: "#f1c40f", desc: "Условно пригодна" },
+      { min: 35, max: 49, label: "MARGINALLY HABITABLE", class: "status-uninhabitable", color: "#e74c3c", desc: "Мало пригодна, разведка зонда" },
+      { min: 0, max: 34, label: "UNINHABITABLE", class: "status-dead", color: "#7f8c8d", desc: "Непригодна для жизни" }
+    ];
 
-  <div class="footer">Evknopia © 2026</div>
+    window.CisPlanet = [
+      { id: "earth", name: "Earth", star: "Sol", type: "Terrestrial", cis_params: { habitable_zone: 100, surface: 100, hydrosphere: 100, atmosphere: 100, breathability: 100, climate: 100, gravity: 100, magnetic: 100, stellar_flares: 100 }, description: "The home world of humanity.", warning: "None. Optimal conditions." },
+      { id: "trappist-1e", name: "TRAPPIST-1 e", star: "TRAPPIST-1", type: "Terrestrial", cis_params: { habitable_zone: 85, surface: 95, hydrosphere: 80, atmosphere: 70, breathability: 10, climate: 60, gravity: 90, magnetic: 60, stellar_flares: 40 }, description: "The crown jewel of the system.", warning: "INFO: Best candidate for habitability." },
+      { id: "tau-ceti-f", name: "Tau Ceti f", star: "Tau Ceti", type: "Super-Earth", cis_params: { habitable_zone: 90, surface: 90, hydrosphere: 80, atmosphere: 80, breathability: 15, climate: 70, gravity: 60, magnetic: 70, stellar_flares: 15 }, description: "Located squarely in the habitable zone.", warning: "WARNING: Higher gravity than Earth." },
+      { id: "mars", name: "Mars", star: "Sol", type: "Terrestrial", cis_params: { habitable_zone: 85, surface: 100, hydrosphere: 10, atmosphere: 20, breathability: 0, climate: 30, gravity: 38, magnetic: 10, stellar_flares: 60 }, description: "The Red Planet. Cold and dry.", warning: "WARNING: Thin atmosphere, high radiation." },
+      { id: "proxima-b", name: "Proxima Centauri b", star: "Proxima Centauri", type: "Terrestrial", cis_params: { habitable_zone: 75, surface: 100, hydrosphere: 40, atmosphere: 30, breathability: 0, climate: 35, gravity: 95, magnetic: 20, stellar_flares: 10 }, description: "The closest known exoplanet to Earth.", warning: "CRITICAL: Extreme stellar flare activity." },
+      { id: "venus", name: "Venus", star: "Sol", type: "Terrestrial", cis_params: { habitable_zone: 60, surface: 10, hydrosphere: 0, atmosphere: 0, breathability: 0, climate: 0, gravity: 90, magnetic: 0, stellar_flares: 70 }, description: "Earth's 'evil twin'.", warning: "CRITICAL: Crushing atmospheric pressure, extreme heat." }
+    ];
+
+    // ===== ИНИЦИАЛИЗАЦИЯ ИНТЕРФЕЙСА =====
+    function initDashboard() {
+      let user = {};
+      try { user = JSON.parse(sessionStorage.getItem('currentUser') || '{}'); } catch (e) {}
+
+      const callsign = user.callsign ? user.callsign.toUpperCase() : 'UNKNOWN';
+      const fullName = user.fullName || 'Unknown Operator';
+      const role = user.role || 'OPERATOR';
+      const roleIcon = user.roleIcon || '🛰️';
+      const accessLevel = user.accessLevel || '?';
+      const func = user.function || 'General Duties';
+      const userId = user.id || 'UNKNOWN';
+
+      const roleIconEl = document.querySelector('.top-left .corner-icon');
+      const roleLabelEl = document.querySelector('.top-left .corner-label');
+      const roleTooltipEl = document.querySelector('.top-left .info-tooltip');
+      if (roleIconEl) roleIconEl.textContent = roleIcon;
+      if (roleLabelEl) roleLabelEl.textContent = role;
+      if (roleTooltipEl) roleTooltipEl.innerHTML = `<div class="tooltip-title">SYSTEM ROLE</div><div>Function: ${func}</div><div>Access: Level ${accessLevel}</div><div>Status: Active</div>`;
+
+      const userLabelEl = document.querySelector('.top-right .corner-label');
+      const userTooltipEl = document.querySelector('.top-right .info-tooltip');
+      if (userLabelEl) userLabelEl.textContent = fullName.toUpperCase();
+      if (userTooltipEl) userTooltipEl.innerHTML = `<div class="tooltip-title">CREW MEMBER</div><div>Registered Callsign: ${callsign}</div><div>ID: ${userId}</div><div>Status: Online</div>`;
+
+      const telemetry = document.getElementById('dashboard-telemetry');
+      if (telemetry) telemetry.innerHTML = `> <span class="telemetry-cassan">CASSAN</span><span class="telemetry-dra">DRA</span>: <span style="color: #2ecc71;">${callsign}, CIS DATABASE LOADED. READY FOR ANALYSIS.</span>`;
+    }
+
+    // ===== ЛОГИКА РАСЧЕТА И РЕНДЕРА ТАБЛИЦЫ =====
+    function calculateCIS(params) {
+      const weights = {
+        habitable_zone: 0.15, surface: 0.15, hydrosphere: 0.20,
+        atmosphere: 0.10, breathability: 0.05, climate: 0.10,
+        gravity: 0.05, magnetic: 0.10, stellar_flares: 0.10
+      };
+      let cis = 0;
+      for (const [key, value] of Object.entries(params)) {
+        cis += value * (weights[key] || 0);
+      }
+      return Math.round(cis * 10) / 10;
+    }
+
+    function getCISStatus(score) {
+      for (const threshold of window.CIS_THRESHOLDS) {
+        if (score >= threshold.min && score <= threshold.max) return threshold;
+      }
+      return window.CIS_THRESHOLDS[window.CIS_THRESHOLDS.length - 1];
+    }
+
+    function renderCISTable() {
+      const tbody = document.getElementById('cis-table-body');
+      if (!tbody) return;
+      tbody.innerHTML = '';
+
+      const sortedPlanets = [...window.CisPlanet].map(planet => {
+        const score = calculateCIS(planet.cis_params);
+        const status = getCISStatus(score);
+        return { ...planet, cis_score: score, cis_status: status };
+      }).sort((a, b) => b.cis_score - a.cis_score);
+
+      sortedPlanets.forEach(planet => {
+        const p = planet.cis_params;
+        const status = planet.cis_status;
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td class="planet-name">${planet.name}</td>
+          <td>${planet.star}</td>
+          <td>${p.habitable_zone}</td>
+          <td>${p.surface}</td>
+          <td>${p.hydrosphere}</td>
+          <td>${p.atmosphere}</td>
+          <td>${p.breathability}</td>
+          <td>${p.climate}</td>
+          <td>${p.gravity}</td>
+          <td>${p.magnetic}</td>
+          <td>${p.stellar_flares}</td>
+          <td class="cis-value" style="color: ${status.color}; text-shadow: 0 0 0.5vmin ${status.color}80;">
+            ${planet.cis_score}%
+          </td>
+          <td>
+            <span class="status-cell ${status.class}" style="border-color: ${status.color}60; color: ${status.color}; background: ${status.color}20;">
+              ${status.label}
+            </span>
+          </td>
+        `;
+        tr.title = `${planet.description}\n\n⚠️ ${planet.warning}`;
+        tbody.appendChild(tr);
+      });
+    }
+
+    // ===== ЗАПУСК ПРИ ЗАГРУЗКЕ =====
+    document.addEventListener('DOMContentLoaded', () => {
+      initDashboard();
+      renderCISTable(); // Мгновенный рендер без всяких проверок!
+    });
+  </script>
+
 </body>
-
 </html>
