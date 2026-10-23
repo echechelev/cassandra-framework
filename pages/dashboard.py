@@ -10,7 +10,6 @@ from selenium.common.exceptions import (
     TimeoutException,
     WebDriverException,
 )
-from selenium.webdriver import ActionChains
 
 from pages.core import CorePage
 from tests import data
@@ -100,11 +99,22 @@ class DashboardPage(CorePage):
             """
             self.galaxy_map_btn.should(be.clickable)
             self.galaxy_map_btn.click()
-            self.wait_for_url("galaxy-map.html")
+            self.wait_for_url(data.GALAXY_MAP_URL)
+            self.click_dashboard()
+            self.wait_for_url(data.DASHBOARD_URL)
     
-            # Временно: клик по кнопке "Назад в браузере"
-            self.click_browser_back()
-            self.wait_for_url("dashboard.html")
+            return self
+
+    @allure.step("Переход в Flight-calc")
+    def navigate_to_flight_cal(self):
+            """
+            Кликает по кнопке 'Flight-calc', проверяет URL и возвращается на Dashboard.
+            """
+            self.flight_calc_btn.should(be.clickable)
+            self.flight_calc_btn.click()
+            self.wait_for_url(data.FLIGHT_CALC_URL)
+            self.click_dashboard()
+            self.wait_for_url(data.DASHBOARD_URL)
     
             return self
 
@@ -115,11 +125,11 @@ class DashboardPage(CorePage):
             """
             self.cis_index_table_btn.should(be.clickable)
             self.cis_index_table_btn.click()
-            self.wait_for_url("cis-index-table.html")
-    
+            self.wait_for_url(data.CIS_INDEX_TABLE_URL)
+
             # Временно: клик по заглушке "Back to Dashboard" для возврата
             self.back_btn.click()
-            self.wait_for_url("dashboard.html")
+            self.wait_for_url(data.DASHBOARD_URL)
     
             return self
 
@@ -130,11 +140,11 @@ class DashboardPage(CorePage):
             """
             self.mission_control_btn.should(be.clickable)
             self.mission_control_btn.click()
-            self.wait_for_url("mission-control.html")
+            self.wait_for_url(data.MISSION_CONTROL_URL)
     
             # Временно: клик по заглушке "Back to Dashboard" для возврата
             self.back_btn.click()
-            self.wait_for_url("dashboard.html")
+            self.wait_for_url(data.DASHBOARD_URL)
     
             return self
 
@@ -145,11 +155,11 @@ class DashboardPage(CorePage):
             """
             self.settings_btn.should(be.clickable)
             self.settings_btn.click()
-            self.wait_for_url("settings.html")
+            self.wait_for_url(data.CASSANDRA_SEETTINGS_URL)
     
             # Временно: клик по заглушке "Back to Dashboard" для возврата
             self.back_btn.click()
-            self.wait_for_url("dashboard.html")
+            self.wait_for_url(data.DASHBOARD_URL)
     
             return self
 
