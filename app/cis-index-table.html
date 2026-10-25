@@ -21,9 +21,15 @@
       --green: #2ecc71;
       --yellow: #f1c40f;
       --red: #c0392b;
+      --gray: #7f8c8d;
     }
 
-    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', 'Roboto', sans-serif; }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', 'Roboto', sans-serif;
+    }
 
     body {
       color: var(--text-main);
@@ -33,8 +39,11 @@
       background-color: #050816;
     }
 
+    /* ===== ФОН ===== */
     .stars {
-      position: fixed; inset: 0; z-index: -2;
+      position: fixed;
+      inset: 0;
+      z-index: -2;
       background:
         radial-gradient(1px 1px at 10% 10%, rgba(255, 255, 255, .9), transparent 50%),
         radial-gradient(1.5px 1.5px at 20% 30%, rgba(255, 255, 255, .7), transparent 50%),
@@ -46,148 +55,910 @@
     }
 
     .milkyway {
-      position: fixed; inset: 0; z-index: -1; overflow: hidden; pointer-events: none;
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      overflow: hidden;
+      pointer-events: none;
     }
+
     .milkyway .band {
-      position: absolute; top: 50%; left: 50%; width: 280vmax; height: 25vmin;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 280vmax;
+      height: 25vmin;
       transform: translate(-50%, -50%) rotate(-28deg);
       background: linear-gradient(180deg, transparent, rgba(120, 160, 255, .08) 15%, rgba(190, 215, 255, .18) 35%, rgba(255, 255, 255, .25) 50%, rgba(190, 215, 255, .18) 65%, rgba(120, 160, 255, .08) 85%, transparent);
       filter: blur(1.5vmin);
     }
 
-    .login-footer {
-      position: absolute; bottom: 0; width: 100%; text-align: center;
-      color: #4a5480; font-size: 1.2vmin; letter-spacing: 0.1vmin; padding-bottom: 2vmin;
+    /* ===== ОСНОВНОЙ КОНТЕНТ ===== */
+    .main-content {
+      padding: 7vmin 8vmin 8vmin;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      gap: 2vmin;
     }
-    .copyright { margin-top: 4vmin; font-size: 1.4vmin; letter-spacing: 0.15vmin; color: #5a6488; }
 
-    .telemetry {
-      color: #4da6ff; font-family: 'Courier New', monospace; margin-bottom: 0.8vmin;
-      font-size: 1.3vmin; text-transform: uppercase; letter-spacing: 0.1vmin;
-      text-shadow: 0 0 0.8vmin rgba(77, 166, 255, 0.4); min-height: 2vmin;
+    .page-header {
+      text-align: center;
+      padding-bottom: 2vmin;
+      margin-bottom: -3vmin;
     }
-    .telemetry-cassan { color: #ffffff !important; }
-    .telemetry-dra { color: #4da6ff !important; text-shadow: 0 0 0.6vmin rgba(77, 166, 255, 0.6) !important; }
-    .telemetry::after { content: "█"; animation: blink 1s step-end infinite; margin-left: 0.4vmin; }
-    @keyframes blink { 50% { opacity: 0; } }
 
+    .page-title {
+      font-size: 2.4vmin;
+      font-weight: 700;
+      letter-spacing: 0.3vmin;
+      text-shadow: 0 0 1.5vmin rgba(77, 166, 255, 0.5);
+      transform: translateY(-3vmin);
+      margin-top: 0;
+    }
+
+    .page-title .white {
+      color: #fff;
+    }
+
+    .page-title .blue {
+      color: var(--neon-blue);
+    }
+
+    /* ===== ЗОНА СКАНЕРА ===== */
+    .scanner-zone {
+      height: 40vmin;
+      width: 100vmin;
+      border: 0.1vmin solid rgba(77, 166, 255, 0.3);
+      border-radius: 0.4vmin;
+      background: rgba(5, 10, 30, 0.6);
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      padding: 2vmin 4vmin 1vmin;
+      flex-shrink: 0;
+      margin: 0 auto 5vmin;
+    }
+
+    .scanner-zone::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image: linear-gradient(rgba(77, 166, 255, 0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(77, 166, 255, 0.05) 1px, transparent 1px);
+      background-size: 3vmin 3vmin;
+      pointer-events: none;
+    }
+
+    .scanner-zone::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at center, transparent 0%, rgba(5, 10, 30, 0.8) 100%);
+      pointer-events: none;
+    }
+
+    .scanner-empty {
+      text-align: center;
+      color: var(--text-dim);
+      z-index: 1;
+    }
+
+    .scanner-empty .icon {
+      font-size: 6vmin;
+      opacity: 0.4;
+      margin-bottom: 2vmin;
+    }
+
+    .scanner-empty .title {
+      font-size: 1.8vmin;
+      font-weight: 600;
+      letter-spacing: 0.2vmin;
+      margin-bottom: 1vmin;
+    }
+
+    .scanner-empty .hint {
+      font-size: 1.2vmin;
+      opacity: 0.6;
+      font-family: 'Courier New', monospace;
+    }
+
+    .scanner-active {
+      z-index: 1;
+      width: 100%;
+      max-width: 60vmin;
+      display: none;
+    }
+
+    .scanner-active.active {
+      display: block;
+    }
+
+    .scan-header {
+      text-align: center;
+      margin-bottom: 3vmin;
+    }
+
+    .scan-planet-name {
+      font-size: 2.2vmin;
+      font-weight: 700;
+      letter-spacing: 0.3vmin;
+      color: #fff;
+      text-shadow: 0 0 1vmin rgba(77, 166, 255, 0.6);
+      margin-bottom: 1vmin;
+    }
+
+    .scan-status-line {
+      font-family: 'Courier New', monospace;
+      font-size: 1.1vmin;
+      color: var(--neon-blue);
+      letter-spacing: 0.1vmin;
+    }
+
+    .scan-status-line::after {
+      content: '█';
+      animation: blink 1s step-end infinite;
+      margin-left: 0.3vmin;
+    }
+
+    .scan-params {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5vmin 3vmin;
+      margin-bottom: 3vmin;
+    }
+
+    .param-row {
+      display: flex;
+      align-items: center;
+      gap: 1vmin;
+      font-family: 'Courier New', monospace;
+      font-size: 1.1vmin;
+    }
+
+    .param-label {
+      width: 12vmin;
+      color: var(--text-dim);
+      text-transform: uppercase;
+      letter-spacing: 0.05vmin;
+      font-size: 1.15vmin;
+    }
+
+    .param-value {
+      width: 4vmin;
+      text-align: right;
+      color: var(--text-main);
+      font-weight: 600;
+      font-size: 1.2vmin;
+    }
+
+    .param-bar-container {
+      flex: 1;
+      height: 1.2vmin;
+      background: rgba(77, 166, 255, 0.1);
+      border-radius: 0.2vmin;
+      overflow: hidden;
+    }
+
+    .param-bar {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, var(--neon-blue), #7ec8ff);
+      border-radius: 0.2vmin;
+      transition: width 0.5s ease;
+      box-shadow: 0 0 0.5vmin rgba(77, 166, 255, 0.6);
+    }
+
+    .param-row.pending .param-value {
+      color: var(--text-dim);
+      opacity: 0.3;
+    }
+
+    .cis-result {
+      text-align: center;
+      padding: 1vmin 2vmin 1.5vmin;
+      border-top: 0.1vmin solid rgba(77, 166, 255, 0.2);
+      margin-top: -0.3vmin;
+      display: none;
+    }
+
+    .cis-result.visible {
+      display: block;
+      animation: fadeInUp 0.8s ease;
+    }
+
+    .cis-label {
+      font-size: 1.6vmin;
+      letter-spacing: 0.2vmin;
+      margin-bottom: 1vmin;
+      text-transform: uppercase;
+    }
+
+    .cis-label-white {
+      color: #fff;
+      font-weight: 700;
+    }
+
+    .cis-label-blue {
+      color: var(--neon-blue);
+      font-weight: 700;
+      text-shadow: 0 0 1vmin rgba(77, 166, 255, 0.5);
+    }
+
+    .cis-score {
+      font-size: 3vmin;
+      font-weight: 700;
+      font-family: 'Courier New', monospace;
+      color: #fff;
+      text-shadow: 0 0 2vmin currentColor;
+      line-height: 1;
+      margin-bottom: 1vmin;
+    }
+
+    .cis-status-badge {
+      display: inline-block;
+      padding: 0.8vmin 2vmin;
+      border-radius: 0.3vmin;
+      font-size: 1vmin;
+      font-weight: 600;
+      letter-spacing: 0.15vmin;
+      text-transform: uppercase;
+      border: 0.1vmin solid;
+    }
+
+    .table-controls {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 2vmin;
+      padding: 1vmin 2vmin;
+      /* Уменьшили padding */
+      margin: -5vmin auto -0vmin;
+      /* Отрицательный margin снизу */
+      width: fit-content;
+      background: rgba(5, 10, 30, 0.6);
+      border: 0.1vmin solid rgba(77, 166, 255, 0.3);
+      border-radius: 0.4vmin;
+      box-shadow: 0 0 1vmin rgba(77, 166, 255, 0.1);
+    }
+
+    .table-controls .ctrl-btn {
+      padding: 0.8vmin 2vmin;
+      border-radius: 0.3vmin;
+      border: none;
+      background: linear-gradient(135deg, #1e5fbf, #4da6ff);
+      color: white;
+      font-size: 1.1vmin;
+      font-weight: 600;
+      letter-spacing: 0.1vmin;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 0.6vmin;
+      box-shadow: 0 0 1vmin rgba(77, 166, 255, 0.4);
+    }
+
+    .table-controls .ctrl-btn:hover:not(:disabled) {
+      box-shadow: 0 0 2vmin rgba(77, 166, 255, 0.7);
+      transform: translateY(-0.1vmin);
+    }
+
+    .table-controls .ctrl-btn:active:not(:disabled) {
+      transform: translateY(0);
+    }
+
+    .table-controls .ctrl-btn:disabled {
+      opacity: 0.3;
+      cursor: not-allowed;
+      box-shadow: none;
+    }
+
+    .table-controls .ctrl-btn .icon {
+      font-size: 1.3vmin;
+      line-height: 1;
+    }
+
+    /* ===== ЗОНА АРХИВА ===== */
+    .archive-zone {
+      width: 100vmin;
+      /* Добавили фиксированную ширину как у сканера */
+      margin: 0 auto;
+      /* Центрируем */
+      border: 0.1vmin solid rgba(77, 166, 255, 0.3);
+      border-radius: 0.4vmin;
+      background: rgba(5, 10, 30, 0.6);
+      padding: 1vmin;
+    }
+
+    .archive-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-bottom: 1.5vmin;
+      border-bottom: 0.1vmin solid rgba(77, 166, 255, 0.2);
+      margin-bottom: 1.5vmin;
+    }
+
+    .archive-title {
+      font-size: 1.4vmin;
+      font-weight: 700;
+      letter-spacing: 0.2vmin;
+      color: var(--neon-blue);
+      text-transform: uppercase;
+    }
+
+    .archive-count {
+      font-family: 'Courier New', monospace;
+      font-size: 1.1vmin;
+      color: var(--text-dim);
+    }
+
+    .archive-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5vmin;
+      max-height: 20vmin;
+      /* Было 25vmin — уменьшили до 4 строк */
+      overflow-y: auto;
+    }
+
+    .archive-list::-webkit-scrollbar {
+      width: 0.4vmin;
+    }
+
+    .archive-list::-webkit-scrollbar-track {
+      background: rgba(77, 166, 255, 0.05);
+    }
+
+    .archive-list::-webkit-scrollbar-thumb {
+      background: rgba(77, 166, 255, 0.3);
+      border-radius: 0.2vmin;
+    }
+
+    .archive-empty {
+      text-align: center;
+      padding: 4vmin;
+      color: var(--text-dim);
+      font-size: 1.2vmin;
+      font-family: 'Courier New', monospace;
+      opacity: 0.5;
+    }
+
+    .archive-row {
+      display: grid;
+      grid-template-columns: 2vmin 2fr 1.5fr 1fr 2fr auto;
+      gap: 1.5vmin;
+      align-items: center;
+      padding: 1.2vmin 1.5vmin;
+      background: rgba(77, 166, 255, 0.03);
+      border-left: 0.2vmin solid transparent;
+      border-radius: 0.2vmin;
+      font-family: 'Courier New', monospace;
+      font-size: 1.1vmin;
+      transition: all 0.3s ease;
+      animation: slideIn 0.4s ease;
+    }
+
+    .archive-row:hover {
+      background: rgba(77, 166, 255, 0.08);
+      border-left-color: var(--neon-blue);
+    }
+
+    .archive-row .status-dot {
+      width: 1vmin;
+      height: 1vmin;
+      border-radius: 50%;
+      box-shadow: 0 0 0.5vmin currentColor;
+    }
+
+    .archive-row .planet-name {
+      font-weight: 700;
+      color: #fff;
+    }
+
+    .archive-row .star-name {
+      color: var(--text-dim);
+    }
+
+    .archive-row .cis-value {
+      font-weight: 700;
+    }
+
+    .archive-row .status-badge {
+      padding: 0.4vmin 0.8vmin;
+      border-radius: 0.2vmin;
+      font-size: 0.9vmin;
+      font-weight: 600;
+      letter-spacing: 0.05vmin;
+      text-transform: uppercase;
+      border: 0.1vmin solid;
+      text-align: center;
+    }
+
+    .archive-row .action-btn {
+      background: transparent;
+      border: 0.1vmin solid rgba(77, 166, 255, 0.3);
+      color: var(--neon-blue);
+      padding: 0.4vmin 0.8vmin;
+      border-radius: 0.2vmin;
+      font-size: 0.9vmin;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-family: 'Courier New', monospace;
+    }
+
+    .archive-row .action-btn:hover {
+      background: rgba(77, 166, 255, 0.1);
+      border-color: var(--neon-blue);
+    }
+
+    /* ===== МОДАЛЬНОЕ ОКНО ===== */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(5, 8, 22, 0.85);
+      backdrop-filter: blur(8px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.3s ease, visibility 0.3s ease;
+    }
+
+    .modal-overlay.active {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .modal-content {
+      background: rgba(10, 15, 40, 0.95);
+      border: 0.15vmin solid rgba(77, 166, 255, 0.5);
+      border-radius: 1vmin;
+      padding: 3vmin;
+      min-width: 40vmin;
+      max-width: 50vmin;
+      box-shadow: 0 0 4vmin rgba(77, 166, 255, 0.3);
+      animation: modalAppear 0.3s ease-out;
+    }
+
+    @keyframes modalAppear {
+      from {
+        opacity: 0;
+        transform: scale(0.95) translateY(-2vmin);
+      }
+
+      to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+      }
+    }
+
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 2.5vmin;
+      padding-bottom: 1.5vmin;
+      border-bottom: 0.1vmin solid rgba(77, 166, 255, 0.3);
+    }
+
+    .modal-header h3 {
+      font-size: 1.8vmin;
+      color: var(--neon-blue);
+      letter-spacing: 0.15vmin;
+      text-transform: uppercase;
+    }
+
+    .modal-close {
+      background: transparent;
+      border: none;
+      color: var(--text-dim);
+      font-size: 2.5vmin;
+      cursor: pointer;
+      transition: color 0.2s ease;
+      line-height: 1;
+    }
+
+    .modal-close:hover {
+      color: #ff4d4d;
+    }
+
+    .modal-body label {
+      display: block;
+      font-size: 1.2vmin;
+      color: var(--text-dim);
+      margin-bottom: 0.8vmin;
+      text-transform: uppercase;
+      letter-spacing: 0.08vmin;
+    }
+
+    .modal-body input {
+      width: 100%;
+      padding: 1.2vmin 1.5vmin;
+      background: rgba(5, 8, 22, 0.8);
+      border: 0.1vmin solid rgba(77, 166, 255, 0.3);
+      border-radius: 0.5vmin;
+      color: var(--text-main);
+      font-size: 1.4vmin;
+      outline: none;
+      transition: all 0.3s ease;
+    }
+
+    .modal-body input:focus {
+      border-color: var(--neon-blue);
+      box-shadow: 0 0 1.5vmin rgba(77, 166, 255, 0.3);
+    }
+
+    .modal-body input::placeholder {
+      color: rgba(232, 236, 255, 0.3);
+    }
+
+    .modal-body input.error {
+      border-color: #e74c3c;
+      box-shadow: 0 0 1.5vmin rgba(231, 76, 60, 0.3);
+    }
+
+    .modal-hint {
+      margin-top: 0.8vmin;
+      font-size: 1vmin;
+      color: var(--text-dim);
+      font-style: italic;
+    }
+
+    .modal-actions {
+      display: flex;
+      gap: 1.5vmin;
+      margin-top: 2.5vmin;
+      justify-content: flex-end;
+    }
+
+    .modal-btn {
+      padding: 1vmin 2.5vmin;
+      border-radius: 0.5vmin;
+      font-size: 1.2vmin;
+      font-weight: 600;
+      letter-spacing: 0.1vmin;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .modal-btn.primary {
+      background: linear-gradient(135deg, #1e5fbf, #4da6ff);
+      border: none;
+      color: white;
+      box-shadow: 0 0 1.5vmin rgba(77, 166, 255, 0.4);
+    }
+
+    .modal-btn.primary:hover {
+      box-shadow: 0 0 2.5vmin rgba(77, 166, 255, 0.7);
+      transform: translateY(-0.2vmin);
+    }
+
+    .modal-btn.secondary {
+      background: transparent;
+      border: 0.1vmin solid rgba(77, 166, 255, 0.4);
+      color: var(--neon-blue);
+    }
+
+    .modal-btn.secondary:hover {
+      background: rgba(77, 166, 255, 0.1);
+    }
+
+    /* ===== УГЛОВЫЕ КНОПКИ ===== */
     .corner-circle-btn {
-      position: fixed; width: var(--corner-btn-size); height: var(--corner-btn-size);
-      border-radius: 50%; border: var(--corner-btn-border) solid rgba(77, 166, 255, 0.6);
-      background: rgba(10, 15, 40, 0.7); backdrop-filter: blur(1vmin);
-      display: flex; flex-direction: column; align-items: center; justify-content: center;
-      gap: var(--corner-btn-gap); z-index: 10;
+      position: fixed;
+      width: var(--corner-btn-size);
+      height: var(--corner-btn-size);
+      border-radius: 50%;
+      border: var(--corner-btn-border) solid rgba(77, 166, 255, 0.6);
+      background: rgba(10, 15, 40, 0.7);
+      backdrop-filter: blur(1vmin);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: var(--corner-btn-gap);
+      z-index: 10;
       box-shadow: 0 0 0.5vmin rgba(77, 166, 255, 0.3), inset 0 0 0.5vmin rgba(77, 166, 255, 0.2), 0 0 1.5vmin rgba(77, 166, 255, 0.4);
-      transition: all 0.3s ease; cursor: pointer; padding: 0; text-align: center; text-decoration: none;
+      transition: all 0.3s ease;
+      cursor: pointer;
+      padding: 0;
+      text-align: center;
+      text-decoration: none;
     }
+
     .corner-circle-btn:hover {
       border-color: rgba(77, 166, 255, 1);
       box-shadow: 0 0 1vmin rgba(77, 166, 255, 0.6), inset 0 0 1vmin rgba(77, 166, 255, 0.4), 0 0 3vmin rgba(77, 166, 255, 0.8);
       transform: scale(1.15);
     }
-    .corner-circle-btn.bottom-left { bottom: var(--corner-btn-offset-v); left: var(--corner-btn-offset-h); }
-    .corner-circle-btn.bottom-right { bottom: var(--corner-btn-offset-v); right: var(--corner-btn-offset-h); }
-    .corner-circle-btn.top-left { top: var(--corner-btn-offset-v); left: var(--corner-btn-offset-h); cursor: default; }
-    .corner-circle-btn.top-right { top: var(--corner-btn-offset-v); right: var(--corner-btn-offset-h); cursor: default; }
 
-    .corner-icon { font-size: var(--corner-icon-size); line-height: 1; filter: drop-shadow(0 0 0.8vmin rgba(77, 166, 255, 0.5)); margin-top: -1.3vmin; margin-bottom: 0.4vmin; }
-    .corner-label { font-size: var(--corner-label-size); font-weight: 600; text-align: center; line-height: 1.2; color: #e8ecff; text-transform: uppercase; letter-spacing: 0.05vmin; margin-top: 0.4vmin; }
-    .top-right .corner-label { color: #2ecc71 !important; text-shadow: 0 0 0.8vmin rgba(46, 204, 113, 0.5) !important; }
+    .corner-circle-btn.bottom-left {
+      bottom: var(--corner-btn-offset-v);
+      left: var(--corner-btn-offset-h);
+    }
+
+    .corner-circle-btn.bottom-right {
+      bottom: var(--corner-btn-offset-v);
+      right: var(--corner-btn-offset-h);
+    }
+
+    .corner-circle-btn.top-left {
+      top: var(--corner-btn-offset-v);
+      left: var(--corner-btn-offset-h);
+      cursor: default;
+    }
+
+    .corner-circle-btn.top-right {
+      top: var(--corner-btn-offset-v);
+      right: var(--corner-btn-offset-h);
+      cursor: default;
+    }
+
+    .corner-icon {
+      font-size: var(--corner-icon-size);
+      line-height: 1;
+      filter: drop-shadow(0 0 0.8vmin rgba(77, 166, 255, 0.5));
+      margin-top: -1.3vmin;
+      margin-bottom: 0.4vmin;
+    }
+
+    .corner-label {
+      font-size: var(--corner-label-size);
+      font-weight: 600;
+      text-align: center;
+      line-height: 1.2;
+      color: #e8ecff;
+      text-transform: uppercase;
+      letter-spacing: 0.05vmin;
+      margin-top: 0.4vmin;
+    }
+
+    .top-right .corner-label {
+      color: #2ecc71 !important;
+      text-shadow: 0 0 0.8vmin rgba(46, 204, 113, 0.5) !important;
+    }
 
     .info-tooltip {
-      position: absolute; top: 50%; transform: translateY(-50%);
-      background: rgba(10, 15, 30, 0.95); border: 0.1vmin solid #4da6ff; border-radius: 0.5vmin;
-      padding: 1.2vmin 1.8vmin; font-size: 1.2vmin; color: #e8ecff;
-      min-width: 14vw; max-width: 18vw; white-space: normal; word-wrap: break-word;
-      opacity: 0; visibility: hidden; transition: all 0.3s ease; pointer-events: none; z-index: 100;
-      box-shadow: 0 0 1.5vmin rgba(77, 166, 255, 0.5); text-align: left; line-height: 1.6;
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(10, 15, 30, 0.95);
+      border: 0.1vmin solid #4da6ff;
+      border-radius: 0.5vmin;
+      padding: 1.2vmin 1.8vmin;
+      font-size: 1.2vmin;
+      color: #e8ecff;
+      min-width: 14vw;
+      max-width: 18vw;
+      white-space: normal;
+      word-wrap: break-word;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s ease;
+      pointer-events: none;
+      z-index: 100;
+      box-shadow: 0 0 1.5vmin rgba(77, 166, 255, 0.5);
+      text-align: left;
+      line-height: 1.6;
     }
-    .top-left .info-tooltip { left: 115%; }
-    .top-right .info-tooltip { right: 115%; left: auto; text-align: right; width: 8vw; min-width: 6vw; max-width: 10vw; }
-    .top-left:hover .info-tooltip, .top-right:hover .info-tooltip { opacity: 1; visibility: visible; transform: translateY(-50%) translateX(0.5vmin); }
-    .top-right:hover .info-tooltip { transform: translateY(-50%) translateX(-0.5vmin); }
-    .info-tooltip .tooltip-title { color: #4da6ff; font-weight: bold; margin-bottom: 0.5vmin; border-bottom: 0.1vmin solid rgba(77, 166, 255, 0.3); padding-bottom: 0.3vmin; letter-spacing: 0.1vmin; }
 
-    /* ОСНОВНОЙ КОНТЕНТ ТЕПЕРЬ ВИДЕН СРАЗУ */
-    .main-content {
+    .top-left .info-tooltip {
+      left: 115%;
+    }
+
+    .top-right .info-tooltip {
+      right: 115%;
+      left: auto;
+      text-align: right;
+      width: 8vw;
+      min-width: 6vw;
+      max-width: 10vw;
+    }
+
+    .top-left:hover .info-tooltip,
+    .top-right:hover .info-tooltip {
       opacity: 1;
       visibility: visible;
-      padding: 4vmin 6vmin 8vmin;
-      min-height: 100vh;
+      transform: translateY(-50%) translateX(0.5vmin);
     }
 
-    .page-header {
-      text-align: center; margin-bottom: 4vmin; padding-bottom: 2vmin;
+    .top-right:hover .info-tooltip {
+      transform: translateY(-50%) translateX(-0.5vmin);
+    }
+
+    .info-tooltip .tooltip-title {
+      color: #4da6ff;
+      font-weight: bold;
+      margin-bottom: 0.5vmin;
       border-bottom: 0.1vmin solid rgba(77, 166, 255, 0.3);
+      padding-bottom: 0.3vmin;
+      letter-spacing: 0.1vmin;
     }
-    .page-title { font-size: 2.4vmin; font-weight: 700; letter-spacing: 0.3vmin; text-shadow: 0 0 1.5vmin rgba(77, 166, 255, 0.5); }
-    .page-title .white { color: #fff; }
-    .page-title .blue { color: var(--neon-blue); }
-    .page-subtitle { margin-top: 0.8vmin; font-size: 1.1vmin; color: var(--text-dim); font-family: 'Courier New', monospace; letter-spacing: 0.1vmin; }
 
-    .cis-table {
-      width: 100%; border-collapse: collapse; background: rgba(5, 10, 30, 0.6);
-      border: 0.1vmin solid rgba(77, 166, 255, 0.3); border-radius: 0.4vmin; overflow: hidden; font-size: 1.1vmin;
+    /* ===== ФУТЕР И ТЕЛЕМЕТРИЯ ===== */
+    .login-footer {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      width: 100%;
+      text-align: center;
+      color: #4a5480;
+      font-size: 1.2vmin;
+      letter-spacing: 0.1vmin;
+      padding-bottom: 2vmin;
     }
-    .cis-table thead { background: rgba(77, 166, 255, 0.1); }
-    .cis-table th {
-      padding: 1.2vmin 1vmin; text-align: left; color: var(--neon-blue); font-weight: 700;
-      letter-spacing: 0.1vmin; border-bottom: 0.15vmin solid rgba(77, 166, 255, 0.6); font-size: 1vmin; text-transform: uppercase;
+
+    .copyright {
+      margin-top: 4vmin;
+      font-size: 1.4vmin;
+      letter-spacing: 0.15vmin;
+      color: #5a6488;
     }
-    .cis-table td {
-      padding: 1vmin; border-bottom: 0.05vmin solid rgba(77, 166, 255, 0.1);
-      font-family: 'Courier New', monospace; color: var(--text-main);
+
+    .telemetry {
+      color: #4da6ff;
+      font-family: 'Courier New', monospace;
+      margin-bottom: 0.8vmin;
+      font-size: 1.3vmin;
+      text-transform: uppercase;
+      letter-spacing: 0.1vmin;
+      text-shadow: 0 0 0.8vmin rgba(77, 166, 255, 0.4);
+      min-height: 2vmin;
     }
-    .cis-table tbody tr:hover { background: rgba(77, 166, 255, 0.05); cursor: help; }
-    .cis-table .planet-name { font-weight: 700; color: #fff; }
-    .cis-table .cis-value { font-weight: 700; font-size: 1.2vmin; }
-    .cis-table .status-cell {
-      padding: 0.4vmin 0.8vmin; border-radius: 0.3vmin; font-size: 0.95vmin;
-      font-weight: 600; letter-spacing: 0.05vmin; display: inline-block;
+
+    .telemetry-cassan {
+      color: #ffffff !important;
     }
-    .status-habitable { background: rgba(46, 204, 113, 0.15); color: var(--green); border: 0.1vmin solid rgba(46, 204, 113, 0.4); }
-    .status-limited { background: rgba(241, 196, 15, 0.15); color: var(--yellow); border: 0.1vmin solid rgba(241, 196, 15, 0.4); }
-    .status-uninhabitable { background: rgba(192, 57, 43, 0.15); color: var(--red); border: 0.1vmin solid rgba(192, 57, 43, 0.4); }
+
+    .telemetry-dra {
+      color: #4da6ff !important;
+      text-shadow: 0 0 0.6vmin rgba(77, 166, 255, 0.6) !important;
+    }
+
+    .telemetry::after {
+      content: "█";
+      animation: blink 1s step-end infinite;
+      margin-left: 0.4vmin;
+    }
+
+    /* ===== АНИМАЦИИ ===== */
+    @keyframes blink {
+      50% {
+        opacity: 0;
+      }
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(2vmin);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes slideIn {
+      from {
+        opacity: 0;
+        transform: translateX(-2vmin);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    @keyframes pulse {
+
+      0%,
+      100% {
+        opacity: 1;
+      }
+
+      50% {
+        opacity: 0.5;
+      }
+    }
+
+    .scanning-pulse {
+      animation: pulse 1.5s ease-in-out infinite;
+    }
   </style>
-</head>
 
 <body>
 
   <div class="stars"></div>
-  <div class="milkyway"><div class="band"></div></div>
+  <div class="milkyway">
+    <div class="band"></div>
+  </div>
 
-  <!-- ===== ОСНОВНОЙ КОНТЕНТ (Таблица) ===== -->
-  <div id="main-content" class="main-content">
+  <div class="main-content">
     <div class="page-header">
       <div class="page-title">
-        <span class="white">CASSANDRA </span><span class="blue">INDEX OF SUITABILITY</span>
+        <span class="white">CASSANDRA </span><span class="blue">DEEP SCAN TERMINAL</span>
       </div>
-      <div class="page-subtitle">// CLASSIFIED — CALCULATIONS MODULE v1.1 //</div>
     </div>
 
-    <table class="cis-table">
-      <thead>
-        <tr>
-          <th>Planet</th>
-          <th>Star</th>
-          <th>H.Zone</th>
-          <th>Surf.</th>
-          <th>Hydro</th>
-          <th>Atm.</th>
-          <th>Breath.</th>
-          <th>Clim.</th>
-          <th>Grav.</th>
-          <th>Mag.</th>
-          <th>Flares</th>
-          <th>CIS</th>
-          <th>Status</th>
-        </tr>
-      </thead>
-      <tbody id="cis-table-body">
-        <!-- Данные заполняются через JS -->
-      </tbody>
-    </table>
+    <!-- ===== ЗОНА СКАНЕРА ===== -->
+    <div class="scanner-zone" id="scanner-zone">
+      <div class="scanner-empty" id="scanner-empty">
+        <div class="icon">🛸</div>
+        <div class="title">DEEP SCAN TERMINAL READY</div>
+        <div class="hint">Click "ADD TARGET" to initiate planetary analysis</div>
+      </div>
 
+      <div class="scanner-active" id="scanner-active">
+        <div class="scan-header">
+          <div class="scan-planet-name" id="scan-planet-name">—</div>
+          <div class="scan-status-line" id="scan-status-line">INITIALIZING SCAN SEQUENCE</div>
+        </div>
+        <div class="scan-params" id="scan-params"></div>
+        <div class="cis-result" id="cis-result">
+          <div class="cis-label">
+            <span class="cis-label-white">CASSANDRA INDEX</span> <span class="cis-label-blue">OF SUITABILITY</span>
+          </div>
+          <div class="cis-score" id="cis-score">0.0%</div>
+          <div class="cis-status-badge" id="cis-status-badge">—</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== КОНТЕЙНЕР С КНОПКАМИ (между таблицами) ===== -->
+    <div class="table-controls">
+      <button class="ctrl-btn" id="btn-add">
+        <span class="icon">📜</span> ADD
+      </button>
+      <button class="ctrl-btn" id="btn-scan" disabled>
+        <span class="icon">🌍</span> SCAN
+      </button>
+      <button class="ctrl-btn" id="btn-clear" disabled>
+        <span class="icon">🗑️</span> CLEAR
+      </button>
+    </div>
+
+    <!-- ===== ЗОНА АРХИВА ===== -->
+    <div class="archive-zone">
+      <div class="archive-header">
+        <div class="archive-title"> SCAN ARCHIVE</div>
+        <div class="archive-count" id="archive-count">0 records</div>
+      </div>
+      <div class="archive-list" id="archive-list">
+        <div class="archive-empty">NO SCANS IN ARCHIVE</div>
+      </div>
+    </div>
+
+    <!-- ===== МОДАЛКА ===== -->
+    <div class="modal-overlay" id="modal-overlay">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3>ADD SCAN TARGET</h3>
+          <button class="modal-close" id="btn-close-modal">&times;</button>
+        </div>
+        <div class="modal-body">
+          <label for="planet-input">Planet Name:</label>
+          <input type="text" id="planet-input" placeholder="e.g., Mars, TRAPPIST-1 e" autocomplete="off">
+          <div class="modal-hint">Demo: Type any name to see the UI animation</div>
+        </div>
+        <div class="modal-actions">
+          <button class="modal-btn primary" id="btn-confirm">ADD</button>
+          <button class="modal-btn secondary" id="btn-cancel">CANCEL</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== УГЛОВЫЕ КНОПКИ ===== -->
     <div class="corner-circle-btn top-left" data-wm-id="info-panel-role">
       <span class="corner-icon" data-wm-id="role-icon">🛰️</span>
       <span class="corner-label" data-wm-id="role-label">STANDBY</span>
@@ -200,7 +971,7 @@
     </div>
 
     <div class="corner-circle-btn top-right" data-wm-id="info-panel-user">
-      <span class="corner-icon" data-wm-id="user-icon">👨‍🚀</span>
+      <span class="corner-icon" data-wm-id="user-icon">‍🚀</span>
       <span class="corner-label" data-wm-id="user-label">UNKNOWN</span>
       <div class="info-tooltip">
         <div class="tooltip-title">CREW MEMBER</div>
@@ -210,12 +981,14 @@
       </div>
     </div>
 
-    <button class="corner-circle-btn bottom-left" data-wm-id="nav-dashboard-btn" onclick="window.location.href='dashboard.html'">
+    <button class="corner-circle-btn bottom-left" data-wm-id="nav-dashboard-btn"
+      onclick="window.location.href='dashboard.html'">
       <span class="corner-icon">🕹️</span>
       <span class="corner-label">DASHBOARD</span>
     </button>
 
-    <button class="corner-circle-btn bottom-right" data-wm-id="nav-cis-index-table-btn" onclick="window.location.href='cis-index-table.html'">
+    <button class="corner-circle-btn bottom-right" data-wm-id="nav-cis-index-table-btn"
+      onclick="window.location.href='cis-index-table.html'">
       <span class="corner-icon">🧬</span>
       <div class="corner-label">CIS INDEX <br> TABLE</div>
     </button>
@@ -226,121 +999,287 @@
     </footer>
   </div>
 
-  <script>
-    // ===== ДАННЫЕ ДЛЯ РАСЧЕТА CIS =====
-    window.CIS_THRESHOLDS = [
-      { min: 70, max: 100, label: "HIGHLY HABITABLE", class: "status-habitable", color: "#2ecc71", desc: "Идеальна для колонизации" },
-      { min: 50, max: 69, label: "CONDITIONALLY HABITABLE", class: "status-limited", color: "#f1c40f", desc: "Условно пригодна" },
-      { min: 35, max: 49, label: "MARGINALLY HABITABLE", class: "status-uninhabitable", color: "#e74c3c", desc: "Мало пригодна, разведка зонда" },
-      { min: 0, max: 34, label: "UNINHABITABLE", class: "status-dead", color: "#7f8c8d", desc: "Непригодна для жизни" }
-    ];
+</body>
 
-    window.CisPlanet = [
-      { id: "earth", name: "Earth", star: "Sol", type: "Terrestrial", cis_params: { habitable_zone: 100, surface: 100, hydrosphere: 100, atmosphere: 100, breathability: 100, climate: 100, gravity: 100, magnetic: 100, stellar_flares: 100 }, description: "The home world of humanity.", warning: "None. Optimal conditions." },
-      { id: "trappist-1e", name: "TRAPPIST-1 e", star: "TRAPPIST-1", type: "Terrestrial", cis_params: { habitable_zone: 85, surface: 95, hydrosphere: 80, atmosphere: 70, breathability: 10, climate: 60, gravity: 90, magnetic: 60, stellar_flares: 40 }, description: "The crown jewel of the system.", warning: "INFO: Best candidate for habitability." },
-      { id: "tau-ceti-f", name: "Tau Ceti f", star: "Tau Ceti", type: "Super-Earth", cis_params: { habitable_zone: 90, surface: 90, hydrosphere: 80, atmosphere: 80, breathability: 15, climate: 70, gravity: 60, magnetic: 70, stellar_flares: 15 }, description: "Located squarely in the habitable zone.", warning: "WARNING: Higher gravity than Earth." },
-      { id: "mars", name: "Mars", star: "Sol", type: "Terrestrial", cis_params: { habitable_zone: 85, surface: 100, hydrosphere: 10, atmosphere: 20, breathability: 0, climate: 30, gravity: 38, magnetic: 10, stellar_flares: 60 }, description: "The Red Planet. Cold and dry.", warning: "WARNING: Thin atmosphere, high radiation." },
-      { id: "proxima-b", name: "Proxima Centauri b", star: "Proxima Centauri", type: "Terrestrial", cis_params: { habitable_zone: 75, surface: 100, hydrosphere: 40, atmosphere: 30, breathability: 0, climate: 35, gravity: 95, magnetic: 20, stellar_flares: 10 }, description: "The closest known exoplanet to Earth.", warning: "CRITICAL: Extreme stellar flare activity." },
-      { id: "venus", name: "Venus", star: "Sol", type: "Terrestrial", cis_params: { habitable_zone: 60, surface: 10, hydrosphere: 0, atmosphere: 0, breathability: 0, climate: 0, gravity: 90, magnetic: 0, stellar_flares: 70 }, description: "Earth's 'evil twin'.", warning: "CRITICAL: Crushing atmospheric pressure, extreme heat." }
-    ];
+<!-- Данные остаются, они нам нужны для следующей итерации -->
+<script src="data.js"></script>
 
-    // ===== ИНИЦИАЛИЗАЦИЯ ИНТЕРФЕЙСА =====
-    function initDashboard() {
-      let user = {};
-      try { user = JSON.parse(sessionStorage.getItem('currentUser') || '{}'); } catch (e) {}
+<script>
+  // ===== ПРОВЕРКА АВТОРИЗАЦИИ И ИНИЦИАЛИЗАЦИЯ =====
+  function initDashboard() {
+    const userDataStr = sessionStorage.getItem('currentUser');
 
-      const callsign = user.callsign ? user.callsign.toUpperCase() : 'UNKNOWN';
-      const fullName = user.fullName || 'Unknown Operator';
-      const role = user.role || 'OPERATOR';
-      const roleIcon = user.roleIcon || '🛰️';
-      const accessLevel = user.accessLevel || '?';
-      const func = user.function || 'General Duties';
-      const userId = user.id || 'UNKNOWN';
-
-      const roleIconEl = document.querySelector('.top-left .corner-icon');
-      const roleLabelEl = document.querySelector('.top-left .corner-label');
-      const roleTooltipEl = document.querySelector('.top-left .info-tooltip');
-      if (roleIconEl) roleIconEl.textContent = roleIcon;
-      if (roleLabelEl) roleLabelEl.textContent = role;
-      if (roleTooltipEl) roleTooltipEl.innerHTML = `<div class="tooltip-title">SYSTEM ROLE</div><div>Function: ${func}</div><div>Access: Level ${accessLevel}</div><div>Status: Active</div>`;
-
-      const userLabelEl = document.querySelector('.top-right .corner-label');
-      const userTooltipEl = document.querySelector('.top-right .info-tooltip');
-      if (userLabelEl) userLabelEl.textContent = fullName.toUpperCase();
-      if (userTooltipEl) userTooltipEl.innerHTML = `<div class="tooltip-title">CREW MEMBER</div><div>Registered Callsign: ${callsign}</div><div>ID: ${userId}</div><div>Status: Online</div>`;
-
+    if (!userDataStr) {
       const telemetry = document.getElementById('dashboard-telemetry');
-      if (telemetry) telemetry.innerHTML = `> <span class="telemetry-cassan">CASSAN</span><span class="telemetry-dra">DRA</span>: <span style="color: #2ecc71;">${callsign}, CIS DATABASE LOADED. READY FOR ANALYSIS.</span>`;
-    }
-
-    // ===== ЛОГИКА РАСЧЕТА И РЕНДЕРА ТАБЛИЦЫ =====
-    function calculateCIS(params) {
-      const weights = {
-        habitable_zone: 0.15, surface: 0.15, hydrosphere: 0.20,
-        atmosphere: 0.10, breathability: 0.05, climate: 0.10,
-        gravity: 0.05, magnetic: 0.10, stellar_flares: 0.10
-      };
-      let cis = 0;
-      for (const [key, value] of Object.entries(params)) {
-        cis += value * (weights[key] || 0);
+      if (telemetry) {
+        telemetry.innerHTML = `> <span class="telemetry-cassan">CASSAN</span><span class="telemetry-dra">DRA</span>: <span style="color: #e74c3c;">ACCESS DENIED. REDIRECTING...</span>`;
       }
-      return Math.round(cis * 10) / 10;
+      setTimeout(() => { window.location.href = 'login.html'; }, 1500);
+      return;
     }
 
-    function getCISStatus(score) {
-      for (const threshold of window.CIS_THRESHOLDS) {
-        if (score >= threshold.min && score <= threshold.max) return threshold;
-      }
-      return window.CIS_THRESHOLDS[window.CIS_THRESHOLDS.length - 1];
+    let user = {};
+    try { user = JSON.parse(userDataStr); } catch (e) {
+      sessionStorage.removeItem('currentUser');
+      window.location.href = 'login.html';
+      return;
     }
 
-    function renderCISTable() {
-      const tbody = document.getElementById('cis-table-body');
-      if (!tbody) return;
-      tbody.innerHTML = '';
+    const callsign = user.callsign ? user.callsign.toUpperCase() : 'UNKNOWN';
+    const fullName = user.fullName || 'Unknown Operator';
+    const role = user.role || 'OPERATOR';
+    const roleIcon = user.roleIcon || '🛰️';
+    const accessLevel = user.accessLevel || '?';
+    const func = user.function || 'General Duties';
+    const userId = user.id || 'UNKNOWN';
 
-      const sortedPlanets = [...window.CisPlanet].map(planet => {
-        const score = calculateCIS(planet.cis_params);
-        const status = getCISStatus(score);
-        return { ...planet, cis_score: score, cis_status: status };
-      }).sort((a, b) => b.cis_score - a.cis_score);
+    const roleIconEl = document.querySelector('.top-left .corner-icon');
+    const roleLabelEl = document.querySelector('.top-left .corner-label');
+    const roleTooltipEl = document.querySelector('.top-left .info-tooltip');
+    if (roleIconEl) roleIconEl.textContent = roleIcon;
+    if (roleLabelEl) roleLabelEl.textContent = role;
+    if (roleTooltipEl) roleTooltipEl.innerHTML = `<div class="tooltip-title">SYSTEM ROLE</div><div>Function: ${func}</div><div>Access: Level ${accessLevel}</div><div>Status: Active</div>`;
 
-      sortedPlanets.forEach(planet => {
-        const p = planet.cis_params;
-        const status = planet.cis_status;
-        const tr = document.createElement('tr');
-        tr.innerHTML = `
-          <td class="planet-name">${planet.name}</td>
-          <td>${planet.star}</td>
-          <td>${p.habitable_zone}</td>
-          <td>${p.surface}</td>
-          <td>${p.hydrosphere}</td>
-          <td>${p.atmosphere}</td>
-          <td>${p.breathability}</td>
-          <td>${p.climate}</td>
-          <td>${p.gravity}</td>
-          <td>${p.magnetic}</td>
-          <td>${p.stellar_flares}</td>
-          <td class="cis-value" style="color: ${status.color}; text-shadow: 0 0 0.5vmin ${status.color}80;">
-            ${planet.cis_score}%
-          </td>
-          <td>
-            <span class="status-cell ${status.class}" style="border-color: ${status.color}60; color: ${status.color}; background: ${status.color}20;">
-              ${status.label}
-            </span>
-          </td>
-        `;
-        tr.title = `${planet.description}\n\n⚠️ ${planet.warning}`;
-        tbody.appendChild(tr);
-      });
+    const userLabelEl = document.querySelector('.top-right .corner-label');
+    const userTooltipEl = document.querySelector('.top-right .info-tooltip');
+    if (userLabelEl) userLabelEl.textContent = fullName.toUpperCase();
+    if (userTooltipEl) userTooltipEl.innerHTML = `<div class="tooltip-title">CREW MEMBER</div><div>Registered Callsign: ${callsign}</div><div>ID: ${userId}</div><div>Status: Online</div>`;
+
+    const telemetry = document.getElementById('dashboard-telemetry');
+    if (telemetry) {
+      telemetry.innerHTML = `> <span class="telemetry-cassan">CASSAN</span><span class="telemetry-dra">DRA</span>: <span style="color: #2ecc71;">${callsign}, DEEP SCAN TERMINAL ONLINE.</span>`;
     }
+  }
 
-    // ===== ЗАПУСК ПРИ ЗАГРУЗКЕ =====
-    document.addEventListener('DOMContentLoaded', () => {
-      initDashboard();
-      renderCISTable(); // Мгновенный рендер без всяких проверок!
+  // ===== ПЕРЕМЕННЫЕ И DOM ЭЛЕМЕНТЫ =====
+  let currentTargetName = "";
+  let archiveCount = 0;
+
+  const modalOverlay = document.getElementById('modal-overlay');
+  const planetInput = document.getElementById('planet-input');
+  const scannerEmpty = document.getElementById('scanner-empty');
+  const scannerActive = document.getElementById('scanner-active');
+  const scanPlanetName = document.getElementById('scan-planet-name');
+  const scanStatusLine = document.getElementById('scan-status-line');
+  const scanParams = document.getElementById('scan-params');
+  const cisResult = document.getElementById('cis-result');
+  const cisScore = document.getElementById('cis-score');
+  const cisStatusBadge = document.getElementById('cis-status-badge');
+  const archiveList = document.getElementById('archive-list');
+  const archiveCountEl = document.getElementById('archive-count');
+
+  const btnAdd = document.getElementById('btn-add');
+  const btnScan = document.getElementById('btn-scan');
+  const btnClear = document.getElementById('btn-clear');
+  const btnConfirm = document.getElementById('btn-confirm');
+  const btnCancel = document.getElementById('btn-cancel');
+  const btnCloseModal = document.getElementById('btn-close-modal');
+
+  // ===== ЛОГИКА МОДАЛЬНОГО ОКНА =====
+  btnAdd.addEventListener('click', () => {
+    modalOverlay.classList.add('active');
+    planetInput.value = '';
+    planetInput.classList.remove('error');
+    setTimeout(() => planetInput.focus(), 100);
+  });
+
+  function closeModal() {
+    modalOverlay.classList.remove('active');
+    planetInput.classList.remove('error');
+  }
+  btnCloseModal.addEventListener('click', closeModal);
+  btnCancel.addEventListener('click', closeModal);
+  modalOverlay.addEventListener('click', (e) => { if (e.target === modalOverlay) closeModal(); });
+  planetInput.addEventListener('keydown', (e) => { if (e.key === 'Enter') btnConfirm.click(); });
+
+  btnConfirm.addEventListener('click', () => {
+    const name = planetInput.value.trim();
+    if (!name) { planetInput.classList.add('error'); return; }
+
+    currentTargetName = name.toUpperCase();
+    closeModal();
+    prepareScannerUI();
+  });
+
+  // ===== ПОДГОТОВКА СКАНЕРА =====
+  function prepareScannerUI() {
+    scannerEmpty.style.display = 'none';
+    scannerActive.classList.add('active');
+    scanPlanetName.textContent = `TARGET: ${currentTargetName}`;
+    scanStatusLine.textContent = 'AWAITING SCAN INITIATION';
+    cisResult.classList.remove('visible');
+
+    const mockParams = [
+      'HABITABLE ZONE', 'HYDROSPHERE', 'BREATHABILITY', 'GRAVITY',
+      'STELLAR FLARES', 'SURFACE', 'ATMOSPHERE', 'CLIMATE', 'MAGNETIC', 'ALIEN ACTIVITY 👽'
+    ];
+    scanParams.innerHTML = '';
+    mockParams.forEach(label => {
+      const row = document.createElement('div');
+      row.className = 'param-row pending';
+      row.innerHTML = `
+        <div class="param-label">${label}</div>
+        <div class="param-bar-container"><div class="param-bar"></div></div>
+        <div class="param-value">—</div>
+      `;
+      scanParams.appendChild(row);
     });
-  </script>
+
+    btnScan.disabled = false;
+    updateTelemetry(`TARGET ACQUIRED: ${currentTargetName}. READY FOR SCAN.`);
+  }
+
+  // ===== АНИМАЦИЯ СКАНИРОВАНИЯ =====
+  btnScan.addEventListener('click', async () => {
+    btnScan.disabled = true;
+    btnAdd.disabled = true;
+    scanStatusLine.textContent = 'DEEP SCAN IN PROGRESS';
+    scanStatusLine.classList.add('scanning-pulse');
+
+    const rows = scanParams.querySelectorAll('.param-row');
+    const hardcodedValues = [14, 26, 64, 97, 84, 41, 28, 17, 16, 0];
+    let valueIndex = 0;
+
+    for (const row of rows) {
+      const bar = row.querySelector('.param-bar');
+      const valueEl = row.querySelector('.param-value');
+      const fakeValue = hardcodedValues[valueIndex];
+      valueIndex++;
+
+      await animateValue(valueEl, 0, fakeValue, 500);
+      bar.style.width = `${fakeValue}%`;
+      row.classList.remove('pending');
+      row.classList.add('filled');
+      await sleep(150);
+    }
+
+    scanStatusLine.textContent = 'CALCULATING CASSANDRA INDEX';
+    await sleep(800);
+
+    const fakeCIS = 90.8;
+    cisResult.classList.add('visible');
+    await animateCIS(cisScore, fakeCIS);
+
+    const statusColor = '#2ecc71';
+    const statusText = 'HIGHLY HABITABLE';
+
+    cisScore.style.color = statusColor;
+    cisStatusBadge.textContent = statusText;
+    cisStatusBadge.style.color = statusColor;
+    cisStatusBadge.style.borderColor = statusColor;
+    cisStatusBadge.style.background = `${statusColor}20`;
+
+    scanStatusLine.textContent = 'SCAN COMPLETE';
+    scanStatusLine.classList.remove('scanning-pulse');
+    updateTelemetry(`SCAN COMPLETE: ${currentTargetName} — CIS ${fakeCIS}%`);
+
+    addToArchiveUI(currentTargetName, 'UNKNOWN', fakeCIS, statusText, statusColor);
+
+    setTimeout(() => {
+      btnAdd.disabled = false;
+      btnClear.disabled = false;
+    }, 1500);
+  });
+
+  // ===== РАБОТА С АРХИВОМ =====
+  function addToArchiveUI(planet, star, cis, status, color) {
+    if (archiveCount === 0) archiveList.innerHTML = '';
+    archiveCount++;
+    archiveCountEl.textContent = `${archiveCount} record${archiveCount !== 1 ? 's' : ''}`;
+
+    const row = document.createElement('div');
+    row.className = 'archive-row';
+    row.innerHTML = `
+      <div class="status-dot" style="color: ${color}; background: ${color};"></div>
+      <div class="planet-name">${planet}</div>
+      <div class="star-name">${star}</div>
+      <div class="cis-value" style="color: ${color};">${cis}%</div>
+      <div class="status-badge" style="color: ${color}; border-color: ${color}; background: ${color}15;">${status}</div>
+      <button class="action-btn">DETAILS</button>
+    `;
+    archiveList.prepend(row);
+  }
+
+  btnClear.addEventListener('click', () => {
+    archiveCount = 0;
+    archiveList.innerHTML = '<div class="archive-empty">NO SCANS IN ARCHIVE</div>';
+    archiveCountEl.textContent = '0 records';
+    btnClear.disabled = true;
+    updateTelemetry('ARCHIVE CLEARED');
+  });
+
+  // ===== УТИЛИТЫ АНИМАЦИИ =====
+  function sleep(ms) { return new Promise(resolve => setTimeout(resolve, ms)); }
+
+  async function animateValue(el, from, to, duration) {
+    const start = performance.now();
+    return new Promise(resolve => {
+      function update(now) {
+        const elapsed = now - start;
+        const progress = Math.min(elapsed / duration, 1);
+        const current = Math.round(from + (to - from) * progress);
+        el.textContent = current;
+        if (progress < 1) requestAnimationFrame(update);
+        else { el.textContent = to; resolve(); }
+      }
+      requestAnimationFrame(update);
+    });
+  }
+
+  async function animateCIS(el, target) {
+    const duration = 1200;
+    const start = performance.now();
+    return new Promise(resolve => {
+      function update(now) {
+        const elapsed = now - start;
+        const progress = Math.min(elapsed / duration, 1);
+        const eased = 1 - Math.pow(1 - progress, 3);
+        el.textContent = `${(target * eased).toFixed(1)}%`;
+        if (progress < 1) requestAnimationFrame(update);
+        else { el.textContent = `${target.toFixed(1)}%`; resolve(); }
+      }
+      requestAnimationFrame(update);
+    });
+  }
+
+  function updateTelemetry(msg) {
+    const tel = document.getElementById('dashboard-telemetry');
+    tel.innerHTML = `> <span class="telemetry-cassan">CASSAN</span><span class="telemetry-dra">DRA</span>: <span style="color: #2ecc71;">${msg}</span>`;
+  }
+
+  // ===== ИНИЦИАЛИЗАЦИЯ ПРИ ЗАГРУЗКЕ =====
+  function initArchive() {
+    // 1. Сканер пуст и готов к работе
+    scannerEmpty.style.display = 'block';
+    scannerActive.classList.remove('active');
+    cisResult.classList.remove('visible');
+
+    // 2. Заполняем архив 7 записями
+    archiveList.innerHTML = '';
+    archiveCount = 0;
+
+    addToArchiveUI('MARS', 'Sol', 90.8, 'HIGHLY HABITABLE', '#2ecc71');
+    addToArchiveUI('VENUS', 'Sol', 12.3, 'UNINHABITABLE', '#c0392b');
+    addToArchiveUI('EUROPA', 'Jupiter', 54.7, 'MARGINALLY HABITABLE', '#f1c40f');
+    addToArchiveUI('KEPLER-442b', 'Kepler-442', 78.2, 'HABITABLE', '#2ecc71');
+    addToArchiveUI('TITAN', 'Saturn', 48.5, 'MARGINALLY HABITABLE', '#f1c40f');
+    addToArchiveUI('PROXIMA b', 'Proxima Centauri', 8.1, 'UNINHABITABLE', '#c0392b');
+    addToArchiveUI('TRAPPIST-1e', 'TRAPPIST-1', 82.4, 'HABITABLE', '#2ecc71');
+
+    // 3. Состояние кнопок
+    btnScan.disabled = true;
+    btnAdd.disabled = false;
+    btnClear.disabled = false;
+
+    updateTelemetry('SYSTEM READY. ADD TARGET TO BEGIN.');
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    initDashboard();
+    initArchive();
+  });
+</script>
 
 </body>
+
 </html>
