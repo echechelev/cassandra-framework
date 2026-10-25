@@ -143,25 +143,43 @@
       text-align: center;
       color: var(--text-dim);
       z-index: 1;
+      position: absolute;
+      top: 45%;
+      /* Было 50%, поднимаем выше */
+      left: 50%;
+      transform: translate(-50%, -50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 2.5vmin;
+      /* Одинаковые отступы между всеми элементами */
+      width: 100%;
     }
 
     .scanner-empty .icon {
-      font-size: 6vmin;
-      opacity: 0.4;
-      margin-bottom: 2vmin;
+      font-size: 8vmin;
+      opacity: 0.6;
+      /* Убрали margin-bottom - теперь отступы через gap */
     }
 
     .scanner-empty .title {
-      font-size: 1.8vmin;
-      font-weight: 600;
-      letter-spacing: 0.2vmin;
-      margin-bottom: 1vmin;
+      font-size: 2.2vmin;
+      font-weight: 700;
+      letter-spacing: 0.3vmin;
+      color: var(--text-main);
+      text-transform: uppercase;
+      text-shadow: 0 0 1vmin rgba(77, 166, 255, 0.4);
+      margin-bottom: 4.5vmin;
+      /* Добавили отступ до подсказки */
     }
 
     .scanner-empty .hint {
-      font-size: 1.2vmin;
-      opacity: 0.6;
+      font-size: 1.5vmin;
+      opacity: 0.7;
       font-family: 'Courier New', monospace;
+      letter-spacing: 0.1vmin;
+      /* Убрали margin-top */
     }
 
     .scanner-active {
@@ -244,10 +262,10 @@
     .param-bar {
       height: 100%;
       width: 0%;
-      background: linear-gradient(90deg, var(--neon-blue), #7ec8ff);
       border-radius: 0.2vmin;
-      transition: width 0.5s ease;
-      box-shadow: 0 0 0.5vmin rgba(77, 166, 255, 0.6);
+      transition: width 0.5s ease, background 0.5s ease;
+      box-shadow: 0 0 0.5vmin currentColor;
+      /* Свечение в цвет полоски */
     }
 
     .param-row.pending .param-value {
@@ -370,16 +388,17 @@
       border: 0.1vmin solid rgba(77, 166, 255, 0.3);
       border-radius: 0.4vmin;
       background: rgba(5, 10, 30, 0.6);
-      padding: 1vmin;
+      padding: 1.5vmin 2vmin 2vmin;
     }
 
     .archive-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding-bottom: 1.5vmin;
+      padding-bottom: 1vmin;
       border-bottom: 0.1vmin solid rgba(77, 166, 255, 0.2);
-      margin-bottom: 1.5vmin;
+      margin-bottom: 1vmin;
+      /* Было 6vmin — уменьшили */
     }
 
     .archive-title {
@@ -401,8 +420,8 @@
       flex-direction: column;
       gap: 0.5vmin;
       max-height: 20vmin;
-      /* Было 25vmin — уменьшили до 4 строк */
       overflow-y: auto;
+      /* Убрали min-height — он создавал пустое пространство */
     }
 
     .archive-list::-webkit-scrollbar {
@@ -420,11 +439,30 @@
 
     .archive-empty {
       text-align: center;
-      padding: 4vmin;
-      color: var(--text-dim);
-      font-size: 1.2vmin;
+      color: #fff;
+      /* Белый цвет вместо серого */
+      font-size: 1.4vmin;
       font-family: 'Courier New', monospace;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      min-height: 12vmin;
+      gap: 1.5vmin;
+      opacity: 0.8;
+      transform: translateY(-3vmin);
+      /* Чуть приглушить, но не 0.5 */
+    }
+
+    .archive-empty .empty-icon {
+      font-size: 4vmin;
       opacity: 0.5;
+    }
+
+    .archive-empty .empty-text {
+      letter-spacing: 0.15vmin;
+      text-shadow: 0 0 0.5vmin rgba(255, 255, 255, 0.3);
     }
 
     .archive-row {
@@ -875,6 +913,81 @@
     .scanning-pulse {
       animation: pulse 1.5s ease-in-out infinite;
     }
+
+    /* ===== БОКОВЫЕ КРУГИ СКАНЕРА ===== */
+    .scan-side-circles {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 2vmin;
+      margin-bottom: 1vmin;
+    }
+
+    .side-circle {
+      width: 12vmin;
+      height: 12vmin;
+      border-radius: 50%;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      background: radial-gradient(circle at 30% 30%, rgba(77, 166, 255, 0.1), rgba(5, 8, 22, 0.8));
+      border: 2px solid rgba(77, 166, 255, 0.4);
+      box-shadow: 0 0 15px rgba(77, 166, 255, 0.3), inset 0 0 15px rgba(77, 166, 255, 0.1);
+      transition: all 0.3s ease;
+    }
+
+    .side-circle:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 25px rgba(77, 166, 255, 0.5), inset 0 0 20px rgba(77, 166, 255, 0.2);
+    }
+
+    .side-circle img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 50%;
+      opacity: 0.9;
+      display: none;
+      /* Скрыто по умолчанию, показывается если есть src */
+    }
+
+    .side-circle img.active {
+      display: block;
+    }
+
+    .side-circle .planet-emoji {
+      font-size: 6vmin;
+      line-height: 1;
+      filter: drop-shadow(0 0 1vmin rgba(77, 166, 255, 0.5));
+    }
+
+    .side-circle .circle-label {
+      position: absolute;
+      bottom: -2.5vmin;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 1vmin;
+      color: var(--neon-blue);
+      text-transform: uppercase;
+      letter-spacing: 0.1vmin;
+      white-space: nowrap;
+      text-shadow: 0 0 0.5vmin rgba(77, 166, 255, 0.5);
+    }
+
+    /* Правый круг — заглушка (пульсация) */
+    .side-circle.placeholder {
+      border-style: dashed;
+      opacity: 0.5;
+    }
+
+    .side-circle.placeholder::after {
+      content: '?';
+      font-size: 5vmin;
+      color: var(--neon-blue);
+      animation: pulse 2s ease-in-out infinite;
+    }
   </style>
 
 <body>
@@ -894,12 +1007,13 @@
     <!-- ===== ЗОНА СКАНЕРА ===== -->
     <div class="scanner-zone" id="scanner-zone">
       <div class="scanner-empty" id="scanner-empty">
-        <div class="icon">🛸</div>
+        <div class="icon">🪐</div>
         <div class="title">DEEP SCAN TERMINAL READY</div>
         <div class="hint">Click "ADD TARGET" to initiate planetary analysis</div>
       </div>
 
       <div class="scanner-active" id="scanner-active">
+
         <div class="scan-header">
           <div class="scan-planet-name" id="scan-planet-name">—</div>
           <div class="scan-status-line" id="scan-status-line">INITIALIZING SCAN SEQUENCE</div>
@@ -931,73 +1045,75 @@
     <!-- ===== ЗОНА АРХИВА ===== -->
     <div class="archive-zone">
       <div class="archive-header">
-        <div class="archive-title"> SCAN ARCHIVE</div>
+        <div class="archive-title">💾 SCAN ARCHIVE</div>
         <div class="archive-count" id="archive-count">0 records</div>
       </div>
       <div class="archive-list" id="archive-list">
-        <div class="archive-empty">NO SCANS IN ARCHIVE</div>
-      </div>
-    </div>
-
-    <!-- ===== МОДАЛКА ===== -->
-    <div class="modal-overlay" id="modal-overlay">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h3>ADD SCAN TARGET</h3>
-          <button class="modal-close" id="btn-close-modal">&times;</button>
-        </div>
-        <div class="modal-body">
-          <label for="planet-input">Planet Name:</label>
-          <input type="text" id="planet-input" placeholder="e.g., Mars, TRAPPIST-1 e" autocomplete="off">
-          <div class="modal-hint">Demo: Type any name to see the UI animation</div>
-        </div>
-        <div class="modal-actions">
-          <button class="modal-btn primary" id="btn-confirm">ADD</button>
-          <button class="modal-btn secondary" id="btn-cancel">CANCEL</button>
+        <div class="archive-empty">
+          <div class="empty-icon">📂</div>
+          <div class="empty-text">NO SCANS IN ARCHIVE</div>
         </div>
       </div>
-    </div>
 
-    <!-- ===== УГЛОВЫЕ КНОПКИ ===== -->
-    <div class="corner-circle-btn top-left" data-wm-id="info-panel-role">
-      <span class="corner-icon" data-wm-id="role-icon">🛰️</span>
-      <span class="corner-label" data-wm-id="role-label">STANDBY</span>
-      <div class="info-tooltip">
-        <div class="tooltip-title">SYSTEM ROLE</div>
-        <div>Function: Comms & Diagnostics</div>
-        <div>Access: Level 2</div>
-        <div>Status: Active</div>
+      <!-- ===== МОДАЛКА ===== -->
+      <div class="modal-overlay" id="modal-overlay">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h3>ADD SCAN TARGET</h3>
+            <button class="modal-close" id="btn-close-modal">&times;</button>
+          </div>
+          <div class="modal-body">
+            <label for="planet-input">Planet Name:</label>
+            <input type="text" id="planet-input" placeholder="e.g., Mars, TRAPPIST-1 e" autocomplete="off">
+            <div class="modal-hint">Demo: Type any name to see the UI animation</div>
+          </div>
+          <div class="modal-actions">
+            <button class="modal-btn primary" id="btn-confirm">ADD</button>
+            <button class="modal-btn secondary" id="btn-cancel">CANCEL</button>
+          </div>
+        </div>
       </div>
-    </div>
 
-    <div class="corner-circle-btn top-right" data-wm-id="info-panel-user">
-      <span class="corner-icon" data-wm-id="user-icon">‍🚀</span>
-      <span class="corner-label" data-wm-id="user-label">UNKNOWN</span>
-      <div class="info-tooltip">
-        <div class="tooltip-title">CREW MEMBER</div>
-        <div>Registered Callsign: UNKNOWN</div>
-        <div>ID: ---</div>
-        <div>Status: Online</div>
+      <!-- ===== УГЛОВЫЕ КНОПКИ ===== -->
+      <div class="corner-circle-btn top-left" data-wm-id="info-panel-role">
+        <span class="corner-icon" data-wm-id="role-icon">🛰️</span>
+        <span class="corner-label" data-wm-id="role-label">STANDBY</span>
+        <div class="info-tooltip">
+          <div class="tooltip-title">SYSTEM ROLE</div>
+          <div>Function: Comms & Diagnostics</div>
+          <div>Access: Level 2</div>
+          <div>Status: Active</div>
+        </div>
       </div>
+
+      <div class="corner-circle-btn top-right" data-wm-id="info-panel-user">
+        <span class="corner-icon" data-wm-id="user-icon">👨‍🚀</span>
+        <span class="corner-label" data-wm-id="user-label">UNKNOWN</span>
+        <div class="info-tooltip">
+          <div class="tooltip-title">CREW MEMBER</div>
+          <div>Registered Callsign: UNKNOWN</div>
+          <div>ID: ---</div>
+          <div>Status: Online</div>
+        </div>
+      </div>
+
+      <button class="corner-circle-btn bottom-left" data-wm-id="nav-dashboard-btn"
+        onclick="window.location.href='dashboard.html'">
+        <span class="corner-icon">🕹️</span>
+        <span class="corner-label">DASHBOARD</span>
+      </button>
+
+      <button class="corner-circle-btn bottom-right" data-wm-id="nav-cis-index-table-btn"
+        onclick="window.location.href='cis-index-table.html'">
+        <span class="corner-icon">🚀</span>
+        <div class="corner-label">MISSION CONTROL</div>
+      </button>
+
+      <footer class="login-footer">
+        <div class="telemetry" id="dashboard-telemetry" data-wm-id="system-telemetry"></div>
+        <div class="copyright">Evknopia © 2026</div>
+      </footer>
     </div>
-
-    <button class="corner-circle-btn bottom-left" data-wm-id="nav-dashboard-btn"
-      onclick="window.location.href='dashboard.html'">
-      <span class="corner-icon">🕹️</span>
-      <span class="corner-label">DASHBOARD</span>
-    </button>
-
-    <button class="corner-circle-btn bottom-right" data-wm-id="nav-cis-index-table-btn"
-      onclick="window.location.href='cis-index-table.html'">
-      <span class="corner-icon">🧬</span>
-      <div class="corner-label">CIS INDEX <br> TABLE</div>
-    </button>
-
-    <footer class="login-footer">
-      <div class="telemetry" id="dashboard-telemetry" data-wm-id="system-telemetry"></div>
-      <div class="copyright">Evknopia © 2026</div>
-    </footer>
-  </div>
 
 </body>
 
@@ -1053,6 +1169,7 @@
 
   // ===== ПЕРЕМЕННЫЕ И DOM ЭЛЕМЕНТЫ =====
   let currentTargetName = "";
+  let currentPlanetData = null; // Храним данные текущей найденной планеты
   let archiveCount = 0;
 
   const modalOverlay = document.getElementById('modal-overlay');
@@ -1075,11 +1192,69 @@
   const btnCancel = document.getElementById('btn-cancel');
   const btnCloseModal = document.getElementById('btn-close-modal');
 
+  // ===== ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ ДЛЯ ДАННЫХ =====
+
+  // Поиск планеты в data.js
+  function findPlanetData(name) {
+    if (!window.CisPlanet) return null;
+    return window.CisPlanet.find(p => p.planet.toUpperCase() === name.toUpperCase());
+  }
+
+  // Получение статуса по CIS из data.js
+  function getStatusByCIS(score) {
+    if (!window.CIS_THRESHOLDS) return { label: "UNKNOWN", color: "#7f8c8d" };
+    return window.CIS_THRESHOLDS.find(t => score >= t.min && score <= t.max) || window.CIS_THRESHOLDS[window.CIS_THRESHOLDS.length - 1];
+  }
+
+  // ===== РАСЧЁТ CIS ПО ВЗВЕШЕННОЙ ФОРМУЛЕ =====
+  function calculateCIS(params) {
+    const weights = {
+      habitable_zone: 0.15,
+      surface: 0.15,
+      hydrosphere: 0.20,
+      atmosphere: 0.10,
+      breathability: 0.05,
+      climate: 0.10,
+      gravity: 0.05,
+      magnetic: 0.10,
+      stellar_flares: 0.10
+    };
+
+    let cis = 0;
+    for (const key in weights) {
+      const value = params[key] || 0; // Если параметр отсутствует — считаем как 0
+      cis += value * weights[key];
+    }
+
+    return cis.toFixed(1);
+  }
+
+  // Словарь для красивых названий параметров
+  const PARAM_LABELS = {
+    habitable_zone: 'HABITABLE ZONE',
+    hydrosphere: 'HYDROSPHERE',
+    breathability: 'BREATHABILITY',
+    gravity: 'GRAVITY',
+    stellar_flares: 'STELLAR FLARES',
+    surface: 'SURFACE',
+    atmosphere: 'ATMOSPHERE',
+    climate: 'CLIMATE',
+    magnetic: 'MAGNETIC'
+  };
+
+  function getParamColor(value) {
+    if (value >= 70) return '#2ecc71';
+    if (value >= 50) return '#f1c40f';
+    if (value >= 35) return '#e74c3c';
+    return '#7f8c8d';
+  }
+
   // ===== ЛОГИКА МОДАЛЬНОГО ОКНА =====
   btnAdd.addEventListener('click', () => {
     modalOverlay.classList.add('active');
     planetInput.value = '';
     planetInput.classList.remove('error');
+    planetInput.placeholder = 'e.g., Mercury, Mars, TRAPPIST-1 e';
     setTimeout(() => planetInput.focus(), 100);
   });
 
@@ -1094,9 +1269,25 @@
 
   btnConfirm.addEventListener('click', () => {
     const name = planetInput.value.trim();
-    if (!name) { planetInput.classList.add('error'); return; }
+    if (!name) {
+      planetInput.classList.add('error');
+      return;
+    }
 
     currentTargetName = name.toUpperCase();
+    const foundPlanet = findPlanetData(currentTargetName);
+
+    // ЕСЛИ ПЛАНЕТА НЕ НАЙДЕНА — ПОКАЗЫВАЕМ ОШИБКУ В МОДАЛКЕ
+    if (!foundPlanet) {
+      planetInput.classList.add('error');
+      planetInput.value = ''; // Очищаем поле
+      planetInput.placeholder = 'Planet not found in database. Try again.'; // Меняем подсказку
+      setTimeout(() => planetInput.focus(), 100);
+      return; // Прерываем выполнение, модалка не закрывается
+    }
+
+    // Если найдена — сохраняем и продолжаем
+    currentPlanetData = foundPlanet;
     closeModal();
     prepareScannerUI();
   });
@@ -1105,18 +1296,19 @@
   function prepareScannerUI() {
     scannerEmpty.style.display = 'none';
     scannerActive.classList.add('active');
-    scanPlanetName.textContent = `TARGET: ${currentTargetName}`;
+    scanPlanetName.textContent = `TARGET: ${currentPlanetData.planet.toUpperCase()}`;
     scanStatusLine.textContent = 'AWAITING SCAN INITIATION';
     cisResult.classList.remove('visible');
 
-    const mockParams = [
-      'HABITABLE ZONE', 'HYDROSPHERE', 'BREATHABILITY', 'GRAVITY',
-      'STELLAR FLARES', 'SURFACE', 'ATMOSPHERE', 'CLIMATE', 'MAGNETIC', 'ALIEN ACTIVITY 👽'
-    ];
     scanParams.innerHTML = '';
-    mockParams.forEach(label => {
+
+    // 1. Добавляем параметры из cis_params
+    const paramKeys = Object.keys(currentPlanetData.cis_params);
+    paramKeys.forEach(key => {
+      const label = PARAM_LABELS[key] || key.toUpperCase().replace('_', ' ');
       const row = document.createElement('div');
       row.className = 'param-row pending';
+      row.dataset.paramKey = key;
       row.innerHTML = `
         <div class="param-label">${label}</div>
         <div class="param-bar-container"><div class="param-bar"></div></div>
@@ -1125,8 +1317,19 @@
       scanParams.appendChild(row);
     });
 
+    // 2. Добавляем строку Alien Activity в конец
+    const alienRow = document.createElement('div');
+    alienRow.className = 'param-row pending';
+    alienRow.dataset.paramKey = 'alien_activity';
+    alienRow.innerHTML = `
+      <div class="param-label">ALIEN ACTIVITY 👽</div>
+      <div class="param-bar-container"><div class="param-bar"></div></div>
+      <div class="param-value">—</div>
+    `;
+    scanParams.appendChild(alienRow);
+
     btnScan.disabled = false;
-    updateTelemetry(`TARGET ACQUIRED: ${currentTargetName}. READY FOR SCAN.`);
+    updateTelemetry(`TARGET ACQUIRED: ${currentPlanetData.planet}. DATA LOADED. READY FOR SCAN.`);
   }
 
   // ===== АНИМАЦИЯ СКАНИРОВАНИЯ =====
@@ -1136,44 +1339,79 @@
     scanStatusLine.textContent = 'DEEP SCAN IN PROGRESS';
     scanStatusLine.classList.add('scanning-pulse');
 
+    const scannerZone = document.getElementById('scanner-zone');
+    const scanLine = document.getElementById('scan-line');
+    if (scannerZone) scannerZone.classList.add('scanning');
+    if (scanLine) scanLine.classList.add('active');
+
     const rows = scanParams.querySelectorAll('.param-row');
-    const hardcodedValues = [14, 26, 64, 97, 84, 41, 28, 17, 16, 0];
-    let valueIndex = 0;
 
     for (const row of rows) {
       const bar = row.querySelector('.param-bar');
       const valueEl = row.querySelector('.param-value');
-      const fakeValue = hardcodedValues[valueIndex];
-      valueIndex++;
+      const paramKey = row.dataset.paramKey;
 
-      await animateValue(valueEl, 0, fakeValue, 500);
-      bar.style.width = `${fakeValue}%`;
+      let realValue = 0;
+      let displayValue = "0";
+
+      if (paramKey === 'alien_activity') {
+        displayValue = window.GLOBAL_ALIEN_ACTIVITY || "0 👽";
+        realValue = 0;
+      } else {
+        realValue = currentPlanetData.cis_params[paramKey];
+        displayValue = realValue.toString();
+      }
+
+      const color = getParamColor(realValue);
+
+      await animateValue(valueEl, 0, realValue, 500);
+
+      if (paramKey === 'alien_activity') {
+        valueEl.textContent = displayValue;
+      }
+
+      bar.style.width = `${realValue}%`;
+      bar.style.background = `linear-gradient(90deg, ${color}, ${color}dd)`;
+      bar.style.color = color;
+      valueEl.style.color = color;
       row.classList.remove('pending');
       row.classList.add('filled');
+
       await sleep(150);
     }
 
     scanStatusLine.textContent = 'CALCULATING CASSANDRA INDEX';
     await sleep(800);
 
-    const fakeCIS = 90.8;
+    // Расчет реального CIS и получение статуса из data.js
+    const finalCIS = calculateCIS(currentPlanetData.cis_params);
+    const statusInfo = getStatusByCIS(parseFloat(finalCIS));
+
     cisResult.classList.add('visible');
-    await animateCIS(cisScore, fakeCIS);
+    await animateCIS(cisScore, parseFloat(finalCIS));
 
-    const statusColor = '#2ecc71';
-    const statusText = 'HIGHLY HABITABLE';
-
-    cisScore.style.color = statusColor;
-    cisStatusBadge.textContent = statusText;
-    cisStatusBadge.style.color = statusColor;
-    cisStatusBadge.style.borderColor = statusColor;
-    cisStatusBadge.style.background = `${statusColor}20`;
+    cisScore.style.color = statusInfo.color;
+    cisStatusBadge.textContent = statusInfo.label;
+    cisStatusBadge.style.color = statusInfo.color;
+    cisStatusBadge.style.borderColor = statusInfo.color;
+    cisStatusBadge.style.background = `${statusInfo.color}20`;
 
     scanStatusLine.textContent = 'SCAN COMPLETE';
     scanStatusLine.classList.remove('scanning-pulse');
-    updateTelemetry(`SCAN COMPLETE: ${currentTargetName} — CIS ${fakeCIS}%`);
 
-    addToArchiveUI(currentTargetName, 'UNKNOWN', fakeCIS, statusText, statusColor);
+    if (scannerZone) scannerZone.classList.remove('scanning');
+    if (scanLine) scanLine.classList.remove('active');
+
+    updateTelemetry(`SCAN COMPLETE: ${currentPlanetData.planet} — CIS ${finalCIS}%`);
+
+    // Добавляем в архив с реальными данными
+    addToArchiveUI(
+      currentPlanetData.planet,
+      currentPlanetData.star,
+      finalCIS,
+      statusInfo.label,
+      statusInfo.color
+    );
 
     setTimeout(() => {
       btnAdd.disabled = false;
@@ -1183,7 +1421,12 @@
 
   // ===== РАБОТА С АРХИВОМ =====
   function addToArchiveUI(planet, star, cis, status, color) {
-    if (archiveCount === 0) archiveList.innerHTML = '';
+    // Принудительно удаляем empty state если он есть
+    const emptyState = archiveList.querySelector('.archive-empty');
+    if (emptyState) {
+      emptyState.remove();
+    }
+
     archiveCount++;
     archiveCountEl.textContent = `${archiveCount} record${archiveCount !== 1 ? 's' : ''}`;
 
@@ -1197,16 +1440,8 @@
       <div class="status-badge" style="color: ${color}; border-color: ${color}; background: ${color}15;">${status}</div>
       <button class="action-btn">DETAILS</button>
     `;
-    archiveList.prepend(row);
+    archiveList.appendChild(row);
   }
-
-  btnClear.addEventListener('click', () => {
-    archiveCount = 0;
-    archiveList.innerHTML = '<div class="archive-empty">NO SCANS IN ARCHIVE</div>';
-    archiveCountEl.textContent = '0 records';
-    btnClear.disabled = true;
-    updateTelemetry('ARCHIVE CLEARED');
-  });
 
   // ===== УТИЛИТЫ АНИМАЦИИ =====
   function sleep(ms) { return new Promise(resolve => setTimeout(resolve, ms)); }
@@ -1249,27 +1484,22 @@
 
   // ===== ИНИЦИАЛИЗАЦИЯ ПРИ ЗАГРУЗКЕ =====
   function initArchive() {
-    // 1. Сканер пуст и готов к работе
     scannerEmpty.style.display = 'block';
     scannerActive.classList.remove('active');
     cisResult.classList.remove('visible');
 
-    // 2. Заполняем архив 7 записями
-    archiveList.innerHTML = '';
+    archiveList.innerHTML = `
+      <div class="archive-empty">
+        <div class="empty-icon">📂</div>
+        <div class="empty-text">NO SCANS IN ARCHIVE</div>
+      </div>
+    `;
     archiveCount = 0;
+    archiveCountEl.textContent = '0 records';
 
-    addToArchiveUI('MARS', 'Sol', 90.8, 'HIGHLY HABITABLE', '#2ecc71');
-    addToArchiveUI('VENUS', 'Sol', 12.3, 'UNINHABITABLE', '#c0392b');
-    addToArchiveUI('EUROPA', 'Jupiter', 54.7, 'MARGINALLY HABITABLE', '#f1c40f');
-    addToArchiveUI('KEPLER-442b', 'Kepler-442', 78.2, 'HABITABLE', '#2ecc71');
-    addToArchiveUI('TITAN', 'Saturn', 48.5, 'MARGINALLY HABITABLE', '#f1c40f');
-    addToArchiveUI('PROXIMA b', 'Proxima Centauri', 8.1, 'UNINHABITABLE', '#c0392b');
-    addToArchiveUI('TRAPPIST-1e', 'TRAPPIST-1', 82.4, 'HABITABLE', '#2ecc71');
-
-    // 3. Состояние кнопок
     btnScan.disabled = true;
     btnAdd.disabled = false;
-    btnClear.disabled = false;
+    btnClear.disabled = true;
 
     updateTelemetry('SYSTEM READY. ADD TARGET TO BEGIN.');
   }
