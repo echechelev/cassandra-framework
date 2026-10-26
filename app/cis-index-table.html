@@ -449,7 +449,6 @@
       min-height: 12vmin;
       gap: 1.5vmin;
       opacity: 0.8;
-      transform: translateY(-3vmin);
     }
 
     .archive-empty .empty-icon {
@@ -464,7 +463,7 @@
 
     .archive-row {
       display: grid;
-      grid-template-columns: 2vmin 2fr 1.5fr 1fr 2fr auto;
+      grid-template-columns: 0.5vmin 1fr 1fr 1fr 1fr auto auto;
       gap: 1.5vmin;
       align-items: center;
       padding: 1.2vmin 1.5vmin;
@@ -475,6 +474,8 @@
       font-size: 1.1vmin;
       transition: all 0.3s ease;
       animation: slideIn 0.4s ease;
+      width: 100%;
+      /* ← ДОБАВИЛИ ЭТО */
     }
 
     .archive-row:hover {
@@ -528,6 +529,26 @@
     .archive-row .action-btn:hover {
       background: rgba(77, 166, 255, 0.1);
       border-color: var(--neon-blue);
+    }
+
+    /* Кнопка DELETE */
+    .archive-row .delete-btn {
+      background: transparent;
+      border: 0.1vmin solid #e74c3c;
+      color: #e74c3c;
+      padding: 0.4vmin 0.8vmin;
+      border-radius: 0.2vmin;
+      font-size: 0.9vmin;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-family: 'Courier New', monospace;
+    }
+
+    .archive-row .delete-btn:hover {
+      background: #e74c3c;
+      color: white;
+      border-color: #e74c3c;
+      box-shadow: 0 0 0.8vmin rgba(231, 76, 60, 0.4);
     }
 
     /* ===== МОДАЛЬНЫЕ ОКНА ===== */
@@ -1156,6 +1177,132 @@
       font-weight: 600;
       letter-spacing: 0.05vmin;
     }
+
+    /* ===== МОДАЛКА DETAILS ===== */
+    .details-modal {
+      min-width: 70vmin;
+      max-width: 80vmin;
+      max-height: 80vh;
+      overflow-y: auto;
+    }
+
+    .details-section {
+      margin-bottom: 2.5vmin;
+      padding: 1.5vmin;
+      background: rgba(77, 166, 255, 0.05);
+      border-left: 0.3vmin solid var(--neon-blue);
+      border-radius: 0.3vmin;
+    }
+
+    .details-section.warning-section {
+      border-left-color: #e74c3c;
+      background: rgba(231, 76, 60, 0.05);
+    }
+
+    .details-label {
+      font-size: 1.4vmin;
+      font-weight: 700;
+      color: var(--neon-blue);
+      text-transform: uppercase;
+      letter-spacing: 0.1vmin;
+      margin-bottom: 1vmin;
+    }
+
+    .warning-section .details-label {
+      color: #e74c3c;
+    }
+
+    .details-text {
+      font-size: 1.3vmin;
+      color: var(--text-main);
+      line-height: 1.6;
+      opacity: 0.9;
+    }
+
+    /* ===== МОДАЛКА ПОДТВЕРЖДЕНИЯ УДАЛЕНИЯ ===== */
+    .confirm-delete-modal {
+      min-width: 50vmin;
+      max-width: 60vmin;
+    }
+
+    .confirm-text {
+      font-size: 1.4vmin;
+      color: var(--text-main);
+      line-height: 1.6;
+      text-align: center;
+      margin-bottom: 1vmin;
+    }
+
+    .confirm-subtext {
+      font-size: 1.2vmin;
+      color: var(--text-dim);
+      text-align: center;
+      font-style: italic;
+    }
+
+    .planet-highlight {
+      color: var(--neon-blue);
+      font-weight: 700;
+      text-transform: uppercase;
+      text-shadow: 0 0 0.8vmin rgba(77, 166, 255, 0.5);
+    }
+
+    .modal-btn.danger {
+      background: linear-gradient(135deg, #c0392b, #e74c3c);
+      border: none;
+      color: white;
+      box-shadow: 0 0 1.5vmin rgba(231, 76, 60, 0.4);
+    }
+
+    .modal-btn.danger:hover {
+      box-shadow: 0 0 2.5vmin rgba(231, 76, 60, 0.7);
+      transform: translateY(-0.2vmin);
+    }
+
+    /* ===== ЗАГЛУШКА CASSANDRA (вместо MISSION CONTROL) ===== */
+    .cassandra-logo {
+      cursor: default !important;
+      pointer-events: none !important;
+      transform: none !important;
+      opacity: 0.55 !important;
+      filter: brightness(0.7) !important;
+    }
+
+    .cassandra-logo:hover,
+    .cassandra-logo:active {
+      transform: none !important;
+      opacity: 0.7 !important;
+      filter: brightness(0.7) !important;
+      border-color: rgba(77, 166, 255, 0.3) !important;
+      box-shadow:
+        0 0 0.3vmin rgba(77, 166, 255, 0.15),
+        inset 0 0 0.3vmin rgba(77, 166, 255, 0.1) !important;
+    }
+
+    .cassandra-label {
+      font-size: 1.3vmin !important;
+      letter-spacing: 0.05vmin;
+      display: flex;
+      gap: 0.1vmin;
+      flex-direction: row;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .cassandra-label .cassan {
+      color: #ffffff !important;
+      text-shadow: 0 0 0.5vmin rgba(255, 255, 255, 0.5);
+    }
+
+    .cassandra-label .dra {
+      color: #4da6ff !important;
+      text-shadow: 0 0 0.8vmin rgba(77, 166, 255, 0.8);
+    }
+
+    /* Отключаем hover-эффект scale для этой кнопки */
+    .bottom-right.cassandra-logo:hover {
+      transform: none !important;
+    }
   </style>
 
 <body>
@@ -1206,7 +1353,7 @@
         <span class="icon">🌍</span> SCAN
       </button>
       <button class="ctrl-btn" id="btn-clear" disabled>
-        <span class="icon">🗑️</span> CLEAR
+        <span class="icon">🗑️</span> CLEAR ALL
       </button>
       <button class="ctrl-btn" id="btn-scan-info">
         <span class="icon">ℹ️️</span> INDEX INFO
@@ -1357,10 +1504,11 @@
     <span class="corner-label">DASHBOARD</span>
   </button>
 
-  <button class="corner-circle-btn bottom-right" data-wm-id="nav-cis-index-table-btn"
-    onclick="window.location.href='cis-index-table.html'">
-    <span class="corner-icon">🚀</span>
-    <div class="corner-label">MISSION CONTROL</div>
+  <button class="corner-circle-btn bottom-right cassandra-logo" data-wm-id="cassandra-btn">
+    <span class="corner-icon"></span>
+    <div class="corner-label cassandra-label">
+      <span class="cassan">CASSAN</span><span class="dra">DRA</span>
+    </div>
   </button>
 
   <footer class="login-footer">
@@ -1372,6 +1520,54 @@
   <div class="toast-notification" id="toast-notification">
     <span class="toast-icon">⚠️</span>
     <span class="toast-message" id="toast-message">Scan result already in archive. Please select another planet.</span>
+  </div>
+
+  <!-- ===== МОДАЛКА DETAILS ===== -->
+  <div class="modal-overlay" id="details-overlay">
+    <div class="modal-content details-modal">
+      <div class="modal-header">
+        <h3 id="details-planet-name">PLANET DETAILS</h3>
+        <button class="modal-close" id="btn-close-details">&times;</button>
+      </div>
+
+      <div class="modal-body">
+        <div class="details-section">
+          <div class="details-label">📋 DESCRIPTION</div>
+          <div class="details-text" id="details-description">—</div>
+        </div>
+
+        <div class="details-section warning-section">
+          <div class="details-label">⚠️ WARNING</div>
+          <div class="details-text" id="details-warning">—</div>
+        </div>
+      </div>
+
+      <div class="modal-actions">
+        <button class="modal-btn secondary" id="btn-cancel-details">CLOSE</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== МОДАЛКА ПОДТВЕРЖДЕНИЯ УДАЛЕНИЯ ===== -->
+  <!-- ===== МОДАЛКА ПОДТВЕРЖДЕНИЯ УДАЛЕНИЯ ===== -->
+  <div class="modal-overlay" id="confirm-delete-overlay">
+    <div class="modal-content confirm-delete-modal">
+      <div class="modal-header">
+        <h3 id="confirm-delete-title">⚠️ CONFIRM DELETION</h3>
+        <button class="modal-close" id="btn-close-confirm-delete">&times;</button>
+      </div>
+
+      <div class="modal-body">
+        <p class="confirm-text" id="confirm-delete-text">Are you sure you want to delete scan record for <span
+            id="confirm-planet-name" class="planet-highlight">—</span>?</p>
+        <p class="confirm-subtext">This action cannot be undone.</p>
+      </div>
+
+      <div class="modal-actions">
+        <button class="modal-btn secondary" id="btn-cancel-delete">CANCEL</button>
+        <button class="modal-btn danger" id="btn-confirm-delete">DELETE</button>
+      </div>
+    </div>
   </div>
 
 </body>
@@ -1394,12 +1590,7 @@
     });
 
     const systemOrder = [
-      'Sol',                    // 1. Солнце
-      'Proxima Centauri',       // 2. Альфа Центавра (Проксима)
-      'Tau Ceti',               // 3. Тау Кита
-      'Epsilon Eridani',        // 4. Эпсилон Эридана
-      "Teegarden's Star",       // 5. Звезда Тигардена
-      'TRAPPIST-1'              // 6. Траппист-1
+      'Sol', 'Proxima Centauri', 'Tau Ceti', 'Epsilon Eridani', "Teegarden's Star", 'TRAPPIST-1'
     ];
 
     const sortedSystems = Object.keys(systemsMap).sort((a, b) => {
@@ -1573,20 +1764,14 @@
     atmosphere: 'ATMOSPHERE 💨', climate: 'CLIMATE 🌦️', magnetic: 'MAGNETIC 🧲'
   };
 
-  // ===== ЕДИНЫЙ ИСТОЧНИК ПРАВДЫ ДЛЯ ЦВЕТОВ =====
   function getParamColor(value) {
-    // Если thresholds не загрузились, используем безопасный фоллбэк
     if (!window.CIS_THRESHOLDS || !Array.isArray(window.CIS_THRESHOLDS)) {
       if (value >= 76) return '#2ecc71';
       if (value >= 51) return '#f1c40f';
       if (value >= 26) return '#e74c3c';
       return '#7f8c8d';
     }
-
-    // Ищем подходящий диапазон в CIS_THRESHOLDS
     const threshold = window.CIS_THRESHOLDS.find(t => value >= t.min && value <= t.max);
-
-    // Возвращаем цвет из thresholds, или серый по умолчанию
     return threshold ? threshold.color : '#7f8c8d';
   }
 
@@ -1613,26 +1798,20 @@
     });
   }
 
-  // Функция показа toast-уведомления
   function showToast(message, duration = 3000) {
     const toast = document.getElementById('toast-notification');
     const toastMessage = document.getElementById('toast-message');
     if (toast && toastMessage) {
       toastMessage.textContent = message;
       toast.classList.add('active');
-      setTimeout(() => {
-        toast.classList.remove('active');
-      }, duration);
+      setTimeout(() => { toast.classList.remove('active'); }, duration);
     }
   }
 
-  // Функция проверки, есть ли планета в архиве
   function isPlanetInArchive(planetName) {
     const existingRows = archiveList.querySelectorAll('.archive-row');
     for (const row of existingRows) {
-      if (row.querySelector('.planet-name').textContent === planetName) {
-        return true;
-      }
+      if (row.querySelector('.planet-name').textContent === planetName) return true;
     }
     return false;
   }
@@ -1646,12 +1825,10 @@
       const foundPlanet = findPlanetData(planetName);
 
       if (foundPlanet) {
-        // Проверяем, есть ли планета уже в архиве
         if (isPlanetInArchive(foundPlanet.planet)) {
           showToast(`Scan result for ${foundPlanet.planet.toUpperCase()} already in archive. Please select another planet.`);
-          return; // Не закрываем модалку, не сканируем
+          return;
         }
-
         currentTargetName = planetName.toUpperCase();
         currentPlanetData = foundPlanet;
         closeModal();
@@ -1684,19 +1861,42 @@
     if (scanInfoOverlay) scanInfoOverlay.classList.remove('active');
   }
 
-  if (btnScanInfo) {
-    btnScanInfo.addEventListener('click', () => {
-      if (scanInfoOverlay) scanInfoOverlay.classList.add('active');
-    });
-  }
-
+  if (btnScanInfo) btnScanInfo.addEventListener('click', () => { if (scanInfoOverlay) scanInfoOverlay.classList.add('active'); });
   if (btnCloseScanInfo) btnCloseScanInfo.addEventListener('click', closeScanInfoModal);
   if (btnCancelInfo) btnCancelInfo.addEventListener('click', closeScanInfoModal);
   if (scanInfoOverlay) {
-    scanInfoOverlay.addEventListener('click', (e) => {
-      if (e.target === scanInfoOverlay) closeScanInfoModal();
-    });
+    scanInfoOverlay.addEventListener('click', (e) => { if (e.target === scanInfoOverlay) closeScanInfoModal(); });
   }
+
+  // ===== ЛОГИКА МОДАЛКИ DETAILS =====
+  const detailsOverlay = document.getElementById('details-overlay');
+  const btnCloseDetails = document.getElementById('btn-close-details');
+  const btnCancelDetails = document.getElementById('btn-cancel-details');
+
+  function openDetailsModal(planetName, description, warning) {
+    if (!detailsOverlay) return;
+    document.getElementById('details-planet-name').textContent = `${planetName.toUpperCase()} — DETAILS`;
+    document.getElementById('details-description').textContent = description || 'No description available.';
+    document.getElementById('details-warning').textContent = warning || 'No warnings.';
+    detailsOverlay.classList.add('active');
+  }
+
+  function closeDetailsModal() {
+    if (detailsOverlay) detailsOverlay.classList.remove('active');
+  }
+
+  if (btnCloseDetails) btnCloseDetails.addEventListener('click', closeDetailsModal);
+  if (btnCancelDetails) btnCancelDetails.addEventListener('click', closeDetailsModal);
+  if (detailsOverlay) {
+    detailsOverlay.addEventListener('click', (e) => { if (e.target === detailsOverlay) closeDetailsModal(); });
+  }
+
+  // Делегирование клика на кнопки DETAILS в архиве
+  archiveList.addEventListener('click', (e) => {
+    const btn = e.target.closest('.action-btn');
+    if (!btn) return;
+    openDetailsModal(btn.dataset.planet, btn.dataset.description, btn.dataset.warning);
+  });
 
   // ===== 6. ПОДГОТОВКА СКАНЕРА =====
   function prepareScannerUI() {
@@ -1713,22 +1913,14 @@
       const row = document.createElement('div');
       row.className = 'param-row pending';
       row.dataset.paramKey = key;
-      row.innerHTML = `
-        <div class="param-label">${label}</div>
-        <div class="param-bar-container"><div class="param-bar"></div></div>
-        <div class="param-value">—</div>
-      `;
+      row.innerHTML = `<div class="param-label">${label}</div><div class="param-bar-container"><div class="param-bar"></div></div><div class="param-value">—</div>`;
       scanParams.appendChild(row);
     });
 
     const alienRow = document.createElement('div');
     alienRow.className = 'param-row pending';
     alienRow.dataset.paramKey = 'alien_activity';
-    alienRow.innerHTML = `
-      <div class="param-label">ALIEN ACTIVITY 👽</div>
-      <div class="param-bar-container"><div class="param-bar"></div></div>
-      <div class="param-value">—</div>
-    `;
+    alienRow.innerHTML = `<div class="param-label">ALIEN ACTIVITY 👽</div><div class="param-bar-container"><div class="param-bar"></div></div><div class="param-value">—</div>`;
     scanParams.appendChild(alienRow);
 
     btnScan.disabled = false;
@@ -1765,13 +1957,10 @@
         displayValue = realValue.toString();
       }
 
-      // Цвет теперь берется из единого источника (CIS_THRESHOLDS)
       const color = getParamColor(realValue);
       await animateValue(valueEl, 0, realValue, 500);
 
-      if (paramKey === 'alien_activity') {
-        valueEl.textContent = displayValue;
-      }
+      if (paramKey === 'alien_activity') valueEl.textContent = displayValue;
 
       bar.style.width = `${realValue}%`;
       bar.style.background = `linear-gradient(90deg, ${color}, ${color}dd)`;
@@ -1805,7 +1994,6 @@
     if (scanLine) scanLine.classList.remove('active');
 
     updateTelemetry(`SCAN COMPLETE: ${currentPlanetData.planet} — CIS ${finalCIS}%`);
-
     addToArchiveUI(currentPlanetData.planet, currentPlanetData.star, finalCIS, statusInfo.label, statusInfo.color);
 
     setTimeout(() => {
@@ -1815,24 +2003,24 @@
   });
 
   // ===== 8. РАБОТА С АРХИВОМ И СОХРАНЕНИЕМ СОСТОЯНИЯ =====
-
-  // Сохранение архива в sessionStorage
   function saveArchiveToStorage() {
     const archiveData = { count: archiveCount, records: [] };
     const rows = archiveList.querySelectorAll('.archive-row');
     rows.forEach(row => {
+      const btn = row.querySelector('.action-btn');
       archiveData.records.push({
         planet: row.querySelector('.planet-name').textContent,
         star: row.querySelector('.star-name').textContent,
         cis: row.querySelector('.cis-value').textContent,
         status: row.querySelector('.status-badge').textContent,
-        color: row.querySelector('.status-dot').style.color
+        color: row.querySelector('.status-dot').style.color,
+        description: btn?.dataset.description || '',
+        warning: btn?.dataset.warning || ''
       });
     });
     sessionStorage.setItem('cisArchive', JSON.stringify(archiveData));
   }
 
-  // Сохранение состояния сканера в sessionStorage
   function saveScannerState() {
     let alienVal = 0;
     const alienRow = scanParams.querySelector('[data-param-key="alien_activity"] .param-value');
@@ -1857,7 +2045,6 @@
     sessionStorage.setItem('cisScannerState', JSON.stringify(scannerState));
   }
 
-  // Восстановление архива из sessionStorage
   function restoreArchiveFromStorage() {
     const savedData = sessionStorage.getItem('cisArchive');
     if (!savedData) return false;
@@ -1877,7 +2064,8 @@
           <div class="star-name">${record.star}</div>
           <div class="cis-value" style="color: ${record.color};">${record.cis}</div>
           <div class="status-badge" style="color: ${record.color}; border-color: ${record.color}; background: ${record.color}15;">${record.status}</div>
-          <button class="action-btn">DETAILS</button>
+          <button class="action-btn" data-planet="${record.planet}" data-description="${record.description.replace(/"/g, '&quot;')}" data-warning="${record.warning.replace(/"/g, '&quot;')}">DETAILS</button>
+          <button class="delete-btn" data-planet="${record.planet}">DELETE</button>
         `;
         archiveList.appendChild(row);
       });
@@ -1890,7 +2078,6 @@
     }
   }
 
-  // Восстановление состояния сканера из sessionStorage
   function restoreScannerState() {
     const savedState = sessionStorage.getItem('cisScannerState');
     if (!savedState) return false;
@@ -1912,29 +2099,19 @@
           const label = PARAM_LABELS[key] || key.toUpperCase().replace('_', ' ');
           const value = state.planetData.cis_params[key];
           const color = getParamColor(value);
-
           const row = document.createElement('div');
           row.className = 'param-row filled';
           row.dataset.paramKey = key;
-          row.innerHTML = `
-            <div class="param-label">${label}</div>
-            <div class="param-bar-container"><div class="param-bar" style="width: ${value}%; background: linear-gradient(90deg, ${color}, ${color}dd); color: ${color};"></div></div>
-            <div class="param-value" style="color: ${color};">${value}</div>
-          `;
+          row.innerHTML = `<div class="param-label">${label}</div><div class="param-bar-container"><div class="param-bar" style="width: ${value}%; background: linear-gradient(90deg, ${color}, ${color}dd); color: ${color};"></div></div><div class="param-value" style="color: ${color};">${value}</div>`;
           scanParams.appendChild(row);
         });
 
         const alienValue = state.alienValue !== undefined ? state.alienValue : generateAlienActivity();
-        const alienColor = getParamColor(alienValue); // Используем единую функцию для цвета
-
+        const alienColor = getParamColor(alienValue);
         const alienRow = document.createElement('div');
         alienRow.className = 'param-row filled';
         alienRow.dataset.paramKey = 'alien_activity';
-        alienRow.innerHTML = `
-          <div class="param-label">ALIEN ACTIVITY 👽</div>
-          <div class="param-bar-container"><div class="param-bar" style="width: ${alienValue}%; background: linear-gradient(90deg, ${alienColor}, ${alienColor}dd); color: ${alienColor};"></div></div>
-          <div class="param-value" style="color: ${alienColor};">${alienValue}</div>
-        `;
+        alienRow.innerHTML = `<div class="param-label">ALIEN ACTIVITY 👽</div><div class="param-bar-container"><div class="param-bar" style="width: ${alienValue}%; background: linear-gradient(90deg, ${alienColor}, ${alienColor}dd); color: ${alienColor};"></div></div><div class="param-value" style="color: ${alienColor};">${alienValue}</div>`;
         scanParams.appendChild(alienRow);
 
         if (state.cisResult && state.cisResult.isVisible) {
@@ -1950,7 +2127,6 @@
         if (btnScan) btnScan.disabled = false;
         if (btnAdd) btnAdd.disabled = false;
         if (btnClear) btnClear.disabled = false;
-
         return true;
       }
       return false;
@@ -1967,6 +2143,10 @@
     archiveCount++;
     archiveCountEl.textContent = `${archiveCount} record${archiveCount !== 1 ? 's' : ''}`;
 
+    const planetData = findPlanetData(planet);
+    const description = planetData?.description || 'No description available.';
+    const warning = planetData?.warning || 'No warnings.';
+
     const row = document.createElement('div');
     row.className = 'archive-row';
     row.innerHTML = `
@@ -1975,7 +2155,8 @@
       <div class="star-name">${star}</div>
       <div class="cis-value" style="color: ${color};">${cis}%</div>
       <div class="status-badge" style="color: ${color}; border-color: ${color}; background: ${color}15;">${status}</div>
-      <button class="action-btn">DETAILS</button>
+      <button class="action-btn" data-planet="${planet}" data-description="${description.replace(/"/g, '&quot;')}" data-warning="${warning.replace(/"/g, '&quot;')}">DETAILS</button>
+      <button class="delete-btn" data-planet="${planet}">DELETE</button>
     `;
     archiveList.appendChild(row);
 
@@ -2030,12 +2211,7 @@
     const restoredScanner = restoreScannerState();
 
     if (!restoredArchive || archiveCount === 0) {
-      archiveList.innerHTML = `
-        <div class="archive-empty">
-          <div class="empty-icon">📂</div>
-          <div class="empty-text">NO SCANS IN ARCHIVE</div>
-        </div>
-      `;
+      archiveList.innerHTML = `<div class="archive-empty"><div class="empty-icon">📂</div><div class="empty-text">NO SCANS IN ARCHIVE</div></div>`;
       archiveCount = 0;
       archiveCountEl.textContent = '0 records';
       if (btnClear) btnClear.disabled = true;
@@ -2054,36 +2230,115 @@
     updateTelemetry('SYSTEM READY. ADD TARGET TO BEGIN.');
   }
 
-  // Обработчик кнопки CLEAR
-  if (btnClear) {
-    btnClear.addEventListener('click', () => {
-      archiveList.innerHTML = `
-        <div class="archive-empty">
-          <div class="empty-icon">📂</div>
-          <div class="empty-text">NO SCANS IN ARCHIVE</div>
-        </div>
-      `;
-      archiveCount = 0;
-      archiveCountEl.textContent = '0 records';
+  // ===== 11. ЛОГИКА МОДАЛКИ ПОДТВЕРЖДЕНИЯ УДАЛЕНИЯ =====
+  const confirmDeleteOverlay = document.getElementById('confirm-delete-overlay');
+  const btnCloseConfirmDelete = document.getElementById('btn-close-confirm-delete');
+  const btnCancelDelete = document.getElementById('btn-cancel-delete');
+  const btnConfirmDelete = document.getElementById('btn-confirm-delete');
+  const confirmPlanetName = document.getElementById('confirm-planet-name');
+  const confirmDeleteTitle = document.getElementById('confirm-delete-title');
+  const confirmDeleteText = document.getElementById('confirm-delete-text');
 
-      scannerEmpty.style.display = 'block';
-      scannerActive.classList.remove('active');
-      cisResult.classList.remove('visible');
-      scanParams.innerHTML = '';
-      currentTargetName = "";
-      currentPlanetData = null;
+  let pendingDeleteRow = null;
+  let pendingDeletePlanet = null;
+  let deleteMode = 'single'; // 'single' или 'all'
 
-      btnClear.disabled = true;
-      btnScan.disabled = true;
-      btnAdd.disabled = false;
+  function openConfirmDeleteModal(planetName, row) {
+    if (!confirmDeleteOverlay) return;
+    deleteMode = 'single';
+    confirmDeleteTitle.textContent = '⚠️ CONFIRM DELETION';
+    confirmDeleteText.innerHTML = `Are you sure you want to delete scan record for <span class="planet-highlight">${planetName}</span>?`;
+    confirmPlanetName.textContent = planetName;
+    pendingDeleteRow = row;
+    pendingDeletePlanet = planetName;
+    btnConfirmDelete.textContent = 'DELETE';
+    confirmDeleteOverlay.classList.add('active');
+  }
 
-      sessionStorage.removeItem('cisArchive');
-      sessionStorage.removeItem('cisScannerState');
+  function openConfirmClearAllModal() {
+    if (!confirmDeleteOverlay) return;
+    deleteMode = 'all';
+    confirmDeleteTitle.textContent = '⚠️ CONFIRM CLEAR ALL';
+    confirmDeleteText.innerHTML = `Are you sure you want to delete <span class="planet-highlight">ALL</span> scan records from the archive?`;
+    pendingDeleteRow = null;
+    pendingDeletePlanet = null;
+    btnConfirmDelete.textContent = 'CLEAR ALL';
+    confirmDeleteOverlay.classList.add('active');
+  }
 
-      updateTelemetry('ARCHIVE CLEARED. SYSTEM READY.');
+  function closeConfirmDeleteModal() {
+    if (confirmDeleteOverlay) confirmDeleteOverlay.classList.remove('active');
+    pendingDeleteRow = null;
+    pendingDeletePlanet = null;
+    deleteMode = 'single';
+  }
+
+  if (btnCloseConfirmDelete) btnCloseConfirmDelete.addEventListener('click', closeConfirmDeleteModal);
+  if (btnCancelDelete) btnCancelDelete.addEventListener('click', closeConfirmDeleteModal);
+  if (confirmDeleteOverlay) {
+    confirmDeleteOverlay.addEventListener('click', (e) => {
+      if (e.target === confirmDeleteOverlay) closeConfirmDeleteModal();
     });
   }
 
+  if (btnConfirmDelete) {
+    btnConfirmDelete.addEventListener('click', () => {
+      if (deleteMode === 'single' && pendingDeleteRow) {
+        // Удаление одной записи
+        pendingDeleteRow.remove();
+        archiveCount--;
+        archiveCountEl.textContent = `${archiveCount} record${archiveCount !== 1 ? 's' : ''}`;
+
+        if (archiveCount === 0) {
+          archiveList.innerHTML = `<div class="archive-empty"><div class="empty-icon">📂</div><div class="empty-text">NO SCANS IN ARCHIVE</div></div>`;
+          if (btnClear) btnClear.disabled = true;
+        }
+
+        saveArchiveToStorage();
+        updateTelemetry(`RECORD DELETED: ${pendingDeletePlanet.toUpperCase()}`);
+      } else if (deleteMode === 'all') {
+        // Очистка всего архива
+        archiveList.innerHTML = `<div class="archive-empty"><div class="empty-icon">📂</div><div class="empty-text">NO SCANS IN ARCHIVE</div></div>`;
+        archiveCount = 0;
+        archiveCountEl.textContent = '0 records';
+        if (btnClear) btnClear.disabled = true;
+
+        scannerEmpty.style.display = 'block';
+        scannerActive.classList.remove('active');
+        cisResult.classList.remove('visible');
+        scanParams.innerHTML = '';
+        currentTargetName = "";
+        currentPlanetData = null;
+        btnScan.disabled = true;
+        btnAdd.disabled = false;
+
+        sessionStorage.removeItem('cisArchive');
+        sessionStorage.removeItem('cisScannerState');
+        updateTelemetry('ARCHIVE CLEARED. SYSTEM READY.');
+      }
+      closeConfirmDeleteModal();
+    });
+  }
+
+  // Обработчик кнопки DELETE в архиве (открывает модалку для одной записи)
+  archiveList.addEventListener('click', (e) => {
+    const deleteBtn = e.target.closest('.delete-btn');
+    if (!deleteBtn) return;
+    const planetName = deleteBtn.dataset.planet;
+    const row = deleteBtn.closest('.archive-row');
+    openConfirmDeleteModal(planetName, row);
+  });
+
+  // Обработчик кнопки CLEAR ALL (открывает модалку для всего архива)
+  if (btnClear) {
+    btnClear.addEventListener('click', () => {
+      if (archiveCount > 0) {
+        openConfirmClearAllModal();
+      }
+    });
+  }
+
+  // Запуск при загрузке
   document.addEventListener('DOMContentLoaded', () => {
     const isAuthorized = initDashboard();
     if (isAuthorized) {
