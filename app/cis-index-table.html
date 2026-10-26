@@ -97,6 +97,13 @@
       margin-top: 0;
     }
 
+    .page-title .icon {
+      font-size: 2.4vmin;
+      margin-right: 1vmin;
+      vertical-align: middle;
+      filter: drop-shadow(0 0 0.8vmin rgba(77, 166, 255, 0.5));
+    }
+
     .page-title .white {
       color: #fff;
     }
@@ -113,7 +120,7 @@
       border-radius: 0.4vmin;
       background: rgba(5, 10, 30, 0.6);
       position: relative;
-      overflow: hidden;
+      overflow: visible;
       display: flex;
       align-items: flex-start;
       justify-content: center;
@@ -145,7 +152,6 @@
       z-index: 1;
       position: absolute;
       top: 45%;
-      /* Было 50%, поднимаем выше */
       left: 50%;
       transform: translate(-50%, -50%);
       display: flex;
@@ -153,14 +159,12 @@
       align-items: center;
       justify-content: center;
       gap: 2.5vmin;
-      /* Одинаковые отступы между всеми элементами */
       width: 100%;
     }
 
     .scanner-empty .icon {
       font-size: 8vmin;
       opacity: 0.6;
-      /* Убрали margin-bottom - теперь отступы через gap */
     }
 
     .scanner-empty .title {
@@ -171,7 +175,6 @@
       text-transform: uppercase;
       text-shadow: 0 0 1vmin rgba(77, 166, 255, 0.4);
       margin-bottom: 4.5vmin;
-      /* Добавили отступ до подсказки */
     }
 
     .scanner-empty .hint {
@@ -179,7 +182,6 @@
       opacity: 0.7;
       font-family: 'Courier New', monospace;
       letter-spacing: 0.1vmin;
-      /* Убрали margin-top */
     }
 
     .scanner-active {
@@ -265,7 +267,6 @@
       border-radius: 0.2vmin;
       transition: width 0.5s ease, background 0.5s ease;
       box-shadow: 0 0 0.5vmin currentColor;
-      /* Свечение в цвет полоски */
     }
 
     .param-row.pending .param-value {
@@ -325,15 +326,14 @@
       border: 0.1vmin solid;
     }
 
+    /* ===== КОНТРОЛЫ ТАБЛИЦЫ ===== */
     .table-controls {
       display: flex;
       justify-content: center;
       align-items: center;
       gap: 2vmin;
       padding: 1vmin 2vmin;
-      /* Уменьшили padding */
-      margin: -5vmin auto -0vmin;
-      /* Отрицательный margin снизу */
+      margin: -5vmin auto 0vmin;
       width: fit-content;
       background: rgba(5, 10, 30, 0.6);
       border: 0.1vmin solid rgba(77, 166, 255, 0.3);
@@ -382,9 +382,7 @@
     /* ===== ЗОНА АРХИВА ===== */
     .archive-zone {
       width: 100vmin;
-      /* Добавили фиксированную ширину как у сканера */
       margin: 0 auto;
-      /* Центрируем */
       border: 0.1vmin solid rgba(77, 166, 255, 0.3);
       border-radius: 0.4vmin;
       background: rgba(5, 10, 30, 0.6);
@@ -398,7 +396,6 @@
       padding-bottom: 1vmin;
       border-bottom: 0.1vmin solid rgba(77, 166, 255, 0.2);
       margin-bottom: 1vmin;
-      /* Было 6vmin — уменьшили */
     }
 
     .archive-title {
@@ -421,18 +418,20 @@
       gap: 0.5vmin;
       max-height: 20vmin;
       overflow-y: auto;
-      /* Убрали min-height — он создавал пустое пространство */
     }
 
-    .archive-list::-webkit-scrollbar {
+    .archive-list::-webkit-scrollbar,
+    .planet-selector-modal::-webkit-scrollbar {
       width: 0.4vmin;
     }
 
-    .archive-list::-webkit-scrollbar-track {
+    .archive-list::-webkit-scrollbar-track,
+    .planet-selector-modal::-webkit-scrollbar-track {
       background: rgba(77, 166, 255, 0.05);
     }
 
-    .archive-list::-webkit-scrollbar-thumb {
+    .archive-list::-webkit-scrollbar-thumb,
+    .planet-selector-modal::-webkit-scrollbar-thumb {
       background: rgba(77, 166, 255, 0.3);
       border-radius: 0.2vmin;
     }
@@ -440,7 +439,6 @@
     .archive-empty {
       text-align: center;
       color: #fff;
-      /* Белый цвет вместо серого */
       font-size: 1.4vmin;
       font-family: 'Courier New', monospace;
       display: flex;
@@ -452,7 +450,6 @@
       gap: 1.5vmin;
       opacity: 0.8;
       transform: translateY(-3vmin);
-      /* Чуть приглушить, но не 0.5 */
     }
 
     .archive-empty .empty-icon {
@@ -533,7 +530,7 @@
       border-color: var(--neon-blue);
     }
 
-    /* ===== МОДАЛЬНОЕ ОКНО ===== */
+    /* ===== МОДАЛЬНЫЕ ОКНА ===== */
     .modal-overlay {
       position: fixed;
       inset: 0;
@@ -606,6 +603,47 @@
       color: #ff4d4d;
     }
 
+    .modal-actions {
+      display: flex;
+      gap: 1.5vmin;
+      margin-top: 2.5vmin;
+      justify-content: flex-end;
+    }
+
+    .modal-btn {
+      padding: 1vmin 2.5vmin;
+      border-radius: 0.5vmin;
+      font-size: 1.2vmin;
+      font-weight: 600;
+      letter-spacing: 0.1vmin;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .modal-btn.primary {
+      background: linear-gradient(135deg, #1e5fbf, #4da6ff);
+      border: none;
+      color: white;
+      box-shadow: 0 0 1.5vmin rgba(77, 166, 255, 0.4);
+    }
+
+    .modal-btn.primary:hover {
+      box-shadow: 0 0 2.5vmin rgba(77, 166, 255, 0.7);
+      transform: translateY(-0.2vmin);
+    }
+
+    .modal-btn.secondary {
+      background: transparent;
+      border: 0.1vmin solid rgba(77, 166, 255, 0.4);
+      color: var(--neon-blue);
+    }
+
+    .modal-btn.secondary:hover {
+      background: rgba(77, 166, 255, 0.1);
+    }
+
+    /* Стили для текстового ввода (оставлены как fallback, если понадобится) */
     .modal-body label {
       display: block;
       font-size: 1.2vmin;
@@ -646,46 +684,6 @@
       font-size: 1vmin;
       color: var(--text-dim);
       font-style: italic;
-    }
-
-    .modal-actions {
-      display: flex;
-      gap: 1.5vmin;
-      margin-top: 2.5vmin;
-      justify-content: flex-end;
-    }
-
-    .modal-btn {
-      padding: 1vmin 2.5vmin;
-      border-radius: 0.5vmin;
-      font-size: 1.2vmin;
-      font-weight: 600;
-      letter-spacing: 0.1vmin;
-      text-transform: uppercase;
-      cursor: pointer;
-      transition: all 0.3s ease;
-    }
-
-    .modal-btn.primary {
-      background: linear-gradient(135deg, #1e5fbf, #4da6ff);
-      border: none;
-      color: white;
-      box-shadow: 0 0 1.5vmin rgba(77, 166, 255, 0.4);
-    }
-
-    .modal-btn.primary:hover {
-      box-shadow: 0 0 2.5vmin rgba(77, 166, 255, 0.7);
-      transform: translateY(-0.2vmin);
-    }
-
-    .modal-btn.secondary {
-      background: transparent;
-      border: 0.1vmin solid rgba(77, 166, 255, 0.4);
-      color: var(--neon-blue);
-    }
-
-    .modal-btn.secondary:hover {
-      background: rgba(77, 166, 255, 0.1);
     }
 
     /* ===== УГЛОВЫЕ КНОПКИ ===== */
@@ -761,6 +759,8 @@
     .top-right .corner-label {
       color: #2ecc71 !important;
       text-shadow: 0 0 0.8vmin rgba(46, 204, 113, 0.5) !important;
+      margin-top: 0vmin !important;
+      /* Подтягиваем текст ближе к иконке */
     }
 
     .info-tooltip {
@@ -914,79 +914,247 @@
       animation: pulse 1.5s ease-in-out infinite;
     }
 
-    /* ===== БОКОВЫЕ КРУГИ СКАНЕРА ===== */
-    .scan-side-circles {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 0 2vmin;
-      margin-bottom: 1vmin;
+    /* ===== МОДАЛКА ВЫБОРА ПЛАНЕТ ===== */
+    .planet-selector-modal {
+      min-width: 80vmin;
+      max-width: 90vmin;
+      max-height: 90vh !important;
+      /* Увеличили высоту (было 70vh) */
+      padding: 2vmin 2.5vmin !important;
+      /* Поджали отступы (было 3vmin) */
+      overflow-y: auto;
     }
 
-    .side-circle {
-      width: 12vmin;
-      height: 12vmin;
+    .planet-selector-modal .modal-header {
+      margin-bottom: 1.5vmin !important;
+      /* Уменьшили (было 2.5vmin) */
+      padding-bottom: 1vmin !important;
+      /* Уменьшили (было 1.5vmin) */
+    }
+
+    .planet-selector-modal .modal-header h3 {
+      font-size: 1.8vmin;
+    }
+
+    .planet-section {
+      margin-bottom: 2vmin;
+      padding-bottom: 1.5vmin;
+      /* Добавили отступ снизу */
+      border-bottom: 0.1vmin solid rgba(77, 166, 255, 0.3);
+      /* Переместили линию сюда */
+    }
+
+    .section-title {
+      font-size: 1.5vmin;
+      font-weight: 700;
+      color: var(--neon-blue);
+      text-transform: uppercase;
+      letter-spacing: 0.2vmin;
+      margin-bottom: 1.5vmin;
+      /* Убрали border-bottom и padding-bottom отсюда */
+    }
+
+    .planet-grid {
+      display: flex;
+      flex-direction: row;
+      gap: 2vmin;
+      /* Чуть уменьшили (было 2.5vmin) */
+      justify-content: flex-start;
+      flex-wrap: wrap;
+    }
+
+    .planet-card {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1vmin;
+      /* Уменьшили (было 1.5vmin) */
+      cursor: pointer;
+      transition: transform 0.3s ease;
+    }
+
+    .planet-card:hover {
+      transform: translateY(-0.5vmin);
+    }
+
+    .planet-circle {
+      width: var(--corner-btn-size);
+      height: var(--corner-btn-size);
       border-radius: 50%;
-      position: relative;
+      border: var(--corner-btn-border) solid rgba(77, 166, 255, 0.6);
+      background: rgba(10, 15, 40, 0.7);
+      backdrop-filter: blur(1vmin);
       display: flex;
       align-items: center;
       justify-content: center;
       overflow: hidden;
-      background: radial-gradient(circle at 30% 30%, rgba(77, 166, 255, 0.1), rgba(5, 8, 22, 0.8));
-      border: 2px solid rgba(77, 166, 255, 0.4);
-      box-shadow: 0 0 15px rgba(77, 166, 255, 0.3), inset 0 0 15px rgba(77, 166, 255, 0.1);
+      z-index: 5;
+      box-shadow: 0 0 0.5vmin rgba(77, 166, 255, 0.3), inset 0 0 0.5vmin rgba(77, 166, 255, 0.2), 0 0 1.5vmin rgba(77, 166, 255, 0.4);
       transition: all 0.3s ease;
     }
 
-    .side-circle:hover {
-      transform: scale(1.05);
-      box-shadow: 0 0 25px rgba(77, 166, 255, 0.5), inset 0 0 20px rgba(77, 166, 255, 0.2);
+    .planet-circle.small {
+      width: calc(var(--corner-btn-size) / 2);
+      height: calc(var(--corner-btn-size) / 2);
     }
 
-    .side-circle img {
+    .planet-circle:hover {
+      border-color: rgba(77, 166, 255, 1);
+      box-shadow: 0 0 1vmin rgba(77, 166, 255, 0.6), inset 0 0 1vmin rgba(77, 166, 255, 0.4), 0 0 3vmin rgba(77, 166, 255, 0.8);
+      transform: scale(1.15);
+    }
+
+    .planet-image {
       width: 100%;
       height: 100%;
       object-fit: cover;
       border-radius: 50%;
       opacity: 0.9;
-      display: none;
-      /* Скрыто по умолчанию, показывается если есть src */
+      transition: opacity 0.3s ease;
     }
 
-    .side-circle img.active {
-      display: block;
+    .planet-circle:hover .planet-image {
+      opacity: 1;
     }
 
-    .side-circle .planet-emoji {
-      font-size: 6vmin;
-      line-height: 1;
-      filter: drop-shadow(0 0 1vmin rgba(77, 166, 255, 0.5));
-    }
-
-    .side-circle .circle-label {
-      position: absolute;
-      bottom: -2.5vmin;
-      left: 50%;
-      transform: translateX(-50%);
+    .planet-name-label {
       font-size: 1vmin;
+      /* Чуть компактнее (было 1.1vmin) */
+      font-weight: 600;
+      color: var(--text-main);
+      text-transform: uppercase;
+      letter-spacing: 0.1vmin;
+      text-align: center;
+      text-shadow: 0 0 0.5vmin rgba(77, 166, 255, 0.3);
+    }
+
+    .planet-card:hover .planet-name-label {
+      color: var(--neon-blue);
+      text-shadow: 0 0 1vmin rgba(77, 166, 255, 0.6);
+    }
+
+    .planet-selector-modal .modal-actions {
+      margin-top: 1.5vmin !important;
+      /* Уменьшили (было 2.5vmin) */
+    }
+
+    /* ===== МОДАЛКА SCAN INFO ===== */
+    /* ===== МОДАЛКА SCAN INFO ===== */
+    .scan-info-modal {
+      min-width: 75vmin;
+      max-width: 85vmin;
+      max-height: 90vh !important;
+      /* Ещё выше подняли */
+      padding: 1.5vmin 2vmin !important;
+      /* Убрали большие отступы сверху/снизу (было 3vmin) */
+      overflow-y: auto;
+    }
+
+    .scan-info-modal .modal-header {
+      margin-bottom: 1.5vmin !important;
+      /* Уменьшили отступ под заголовком (было 2.5vmin) */
+      padding-bottom: 1vmin !important;
+      /* Уменьшили (было 1.5vmin) */
+    }
+
+    .scan-info-modal .modal-header h3 {
+      font-size: 2vmin;
+      /* Чуть компактнее заголовок */
+    }
+
+    .scan-info-list {
+      display: flex;
+      flex-direction: column;
+      gap: 1.2vmin;
+      /* Ещё уменьшили (было 1.5vmin) */
+    }
+
+    .info-item {
+      padding: 1vmin 1.3vmin;
+      /* Ещё компактнее (было 1.2vmin 1.5vmin) */
+      background: rgba(77, 166, 255, 0.05);
+      border-left: 0.3vmin solid var(--neon-blue);
+      border-radius: 0.3vmin;
+    }
+
+    .info-label {
+      font-size: 1.4vmin;
+      font-weight: 700;
       color: var(--neon-blue);
       text-transform: uppercase;
       letter-spacing: 0.1vmin;
-      white-space: nowrap;
-      text-shadow: 0 0 0.5vmin rgba(77, 166, 255, 0.5);
+      margin-bottom: 0.4vmin;
+      /* Ещё уменьшили (было 0.6vmin) */
     }
 
-    /* Правый круг — заглушка (пульсация) */
-    .side-circle.placeholder {
-      border-style: dashed;
-      opacity: 0.5;
+    .info-desc {
+      font-size: 1.3vmin;
+      color: var(--text-main);
+      line-height: 1.45;
+      /* Чуть компактнее строки */
+      opacity: 0.9;
     }
 
-    .side-circle.placeholder::after {
-      content: '?';
-      font-size: 5vmin;
+    .scan-info-footer {
+      margin-top: 1.5vmin !important;
+      /* Уменьшили (было 2.5vmin) */
+      padding-top: 1vmin !important;
+      /* Уменьшили (было 1.5vmin) */
+    }
+
+    .accuracy-note {
+      font-size: 1.2vmin;
       color: var(--neon-blue);
-      animation: pulse 2s ease-in-out infinite;
+      line-height: 1.4;
+      text-align: center;
+    }
+
+    .accuracy-note strong {
+      color: #fff;
+    }
+
+    .scan-info-modal .modal-actions {
+      margin-top: 1.5vmin !important;
+      /* Уменьшили (было 2.5vmin) */
+    }
+
+    /* ===== TOAST УВЕДОМЛЕНИЕ ===== */
+    /* ===== TOAST УВЕДОМЛЕНИЕ ===== */
+    .toast-notification {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translateX(-50%) translateY(calc(-50% - 15vmin));
+      background: rgba(40, 10, 10, 0.95);
+      border: 0.15vmin solid #ff4d4d;
+      border-radius: 0.5vmin;
+      padding: 1.5vmin 2.5vmin;
+      display: flex;
+      align-items: center;
+      gap: 1vmin;
+      z-index: 2000;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.4s ease;
+      box-shadow: 0 0 2vmin rgba(255, 77, 77, 0.5);
+      backdrop-filter: blur(1vmin);
+    }
+
+    .toast-notification.active {
+      opacity: 1;
+      visibility: visible;
+      transform: translateX(-50%) translateY(-50%);
+    }
+
+    .toast-icon {
+      font-size: 1.8vmin;
+    }
+
+    .toast-message {
+      font-size: 1.3vmin;
+      color: #ff6b6b;
+      font-weight: 600;
+      letter-spacing: 0.05vmin;
     }
   </style>
 
@@ -1000,7 +1168,8 @@
   <div class="main-content">
     <div class="page-header">
       <div class="page-title">
-        <span class="white">CASSANDRA </span><span class="blue">DEEP SCAN TERMINAL</span>
+        <span class="white">🧬 CASSAN</span><span class="blue">DRA</span>
+        <span class="white"> INDEX </span><span class="blue">OF SUITABILITY</span>
       </div>
     </div>
 
@@ -1011,7 +1180,6 @@
         <div class="title">DEEP SCAN TERMINAL READY</div>
         <div class="hint">Click "ADD TARGET" to initiate planetary analysis</div>
       </div>
-
       <div class="scanner-active" id="scanner-active">
 
         <div class="scan-header">
@@ -1029,7 +1197,7 @@
       </div>
     </div>
 
-    <!-- ===== КОНТЕЙНЕР С КНОПКАМИ (между таблицами) ===== -->
+    <!-- ===== КОНТРОЛЫ (КНОПКИ) ===== -->
     <div class="table-controls">
       <button class="ctrl-btn" id="btn-add">
         <span class="icon">📜</span> ADD
@@ -1039,6 +1207,9 @@
       </button>
       <button class="ctrl-btn" id="btn-clear" disabled>
         <span class="icon">🗑️</span> CLEAR
+      </button>
+      <button class="ctrl-btn" id="btn-scan-info">
+        <span class="icon">ℹ️️</span> INDEX INFO
       </button>
     </div>
 
@@ -1054,91 +1225,262 @@
           <div class="empty-text">NO SCANS IN ARCHIVE</div>
         </div>
       </div>
-
-      <!-- ===== МОДАЛКА ===== -->
-      <div class="modal-overlay" id="modal-overlay">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h3>ADD SCAN TARGET</h3>
-            <button class="modal-close" id="btn-close-modal">&times;</button>
-          </div>
-          <div class="modal-body">
-            <label for="planet-input">Planet Name:</label>
-            <input type="text" id="planet-input" placeholder="e.g., Mars, TRAPPIST-1 e" autocomplete="off">
-            <div class="modal-hint">Demo: Type any name to see the UI animation</div>
-          </div>
-          <div class="modal-actions">
-            <button class="modal-btn primary" id="btn-confirm">ADD</button>
-            <button class="modal-btn secondary" id="btn-cancel">CANCEL</button>
-          </div>
-        </div>
-      </div>
-
-      <!-- ===== УГЛОВЫЕ КНОПКИ ===== -->
-      <div class="corner-circle-btn top-left" data-wm-id="info-panel-role">
-        <span class="corner-icon" data-wm-id="role-icon">🛰️</span>
-        <span class="corner-label" data-wm-id="role-label">STANDBY</span>
-        <div class="info-tooltip">
-          <div class="tooltip-title">SYSTEM ROLE</div>
-          <div>Function: Comms & Diagnostics</div>
-          <div>Access: Level 2</div>
-          <div>Status: Active</div>
-        </div>
-      </div>
-
-      <div class="corner-circle-btn top-right" data-wm-id="info-panel-user">
-        <span class="corner-icon" data-wm-id="user-icon">👨‍🚀</span>
-        <span class="corner-label" data-wm-id="user-label">UNKNOWN</span>
-        <div class="info-tooltip">
-          <div class="tooltip-title">CREW MEMBER</div>
-          <div>Registered Callsign: UNKNOWN</div>
-          <div>ID: ---</div>
-          <div>Status: Online</div>
-        </div>
-      </div>
-
-      <button class="corner-circle-btn bottom-left" data-wm-id="nav-dashboard-btn"
-        onclick="window.location.href='dashboard.html'">
-        <span class="corner-icon">🕹️</span>
-        <span class="corner-label">DASHBOARD</span>
-      </button>
-
-      <button class="corner-circle-btn bottom-right" data-wm-id="nav-cis-index-table-btn"
-        onclick="window.location.href='cis-index-table.html'">
-        <span class="corner-icon">🚀</span>
-        <div class="corner-label">MISSION CONTROL</div>
-      </button>
-
-      <footer class="login-footer">
-        <div class="telemetry" id="dashboard-telemetry" data-wm-id="system-telemetry"></div>
-        <div class="copyright">Evknopia © 2026</div>
-      </footer>
     </div>
+    <!-- Конец .archive-zone -->
+
+  </div>
+  <!-- Конец .main-content -->
+
+  <!-- ===== МОДАЛКА SCAN INFO ===== -->
+  <div class="modal-overlay" id="scan-info-overlay">
+    <div class="modal-content scan-info-modal">
+      <div class="modal-header">
+        <h3>CIS SCAN PARAMETERS</h3>
+        <button class="modal-close" id="btn-close-scan-info">&times;</button>
+      </div>
+
+      <div class="modal-body">
+        <div class="scan-info-list">
+          <div class="info-item">
+            <div class="info-label">HABITABLE ZONE</div>
+            <div class="info-desc">Planetary position relative to the star. Determines if liquid water can exist on the
+              surface.</div>
+          </div>
+          <div class="info-item">
+            <div class="info-label">SURFACE</div>
+            <div class="info-desc">Terrain stability and composition. Assesses suitability for landing and base
+              construction.</div>
+          </div>
+          <div class="info-item">
+            <div class="info-label">HYDROSPHERE</div>
+            <div class="info-desc">Presence of water in all forms: oceans, rivers, ice caps, and subsurface reserves.
+            </div>
+          </div>
+          <div class="info-item">
+            <div class="info-label">ATMOSPHERE</div>
+            <div class="info-desc">Atmospheric density and composition. Critical for pressure regulation and radiation
+              shielding.</div>
+          </div>
+          <div class="info-item">
+            <div class="info-label">BREATHABILITY</div>
+            <div class="info-desc">Oxygen content and air toxicity. Determines if humans can breathe without life
+              support systems.</div>
+          </div>
+          <div class="info-item">
+            <div class="info-label">CLIMATE</div>
+            <div class="info-desc">Temperature stability and weather patterns. Evaluates long-term habitability
+              conditions.</div>
+          </div>
+          <div class="info-item">
+            <div class="info-label">GRAVITY</div>
+            <div class="info-desc">Surface gravitational pull. Affects human health, construction, and equipment
+              operation.</div>
+          </div>
+          <div class="info-item">
+            <div class="info-label">MAGNETIC</div>
+            <div class="info-desc">Magnetosphere strength. Protects the surface from solar wind and cosmic radiation.
+            </div>
+          </div>
+          <div class="info-item">
+            <div class="info-label">STELLAR FLARES</div>
+            <div class="info-desc">Frequency and intensity of stellar eruptions. High levels pose radiation hazards to
+              colonists.</div>
+          </div>
+          <div class="info-item">
+            <div class="info-label">ALIEN ACTIVITY 👽</div>
+            <div class="info-desc">Detected signs of extraterrestrial life or technological civilization. Triggers first
+              contact protocols.</div>
+          </div>
+        </div>
+
+        <div class="scan-info-footer">
+          <div class="accuracy-note">
+            <strong>Accuracy:</strong> ~70–80% for rough estimation. Actual conditions may vary by 30–50% depending on
+            seasonal cycles and geological activity.
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-actions">
+        <button class="modal-btn secondary" id="btn-cancel-info">CLOSE</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== МОДАЛКА ВЫБОРА ПЛАНЕТЫ (ВНЕ main-content) ===== -->
+  <div class="modal-overlay" id="modal-overlay">
+    <div class="modal-content planet-selector-modal">
+      <div class="modal-header">
+        <h3>SELECT SCAN TARGET</h3>
+        <button class="modal-close" id="btn-close-modal">&times;</button>
+      </div>
+
+      <div class="modal-body">
+        <!-- Контейнер для секций — сюда JS будет рендерить все системы -->
+        <div class="planet-sections-container" id="planet-sections-container">
+          <!-- Секции генерируются через JS -->
+        </div>
+      </div>
+
+      <div class="modal-actions">
+        <button class="modal-btn secondary" id="btn-cancel">CANCEL</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== УГЛОВЫЕ КНОПКИ ===== -->
+  <div class="corner-circle-btn top-left" data-wm-id="info-panel-role">
+    <span class="corner-icon" data-wm-id="role-icon">🛰️</span>
+    <span class="corner-label" data-wm-id="role-label">STANDBY</span>
+    <div class="info-tooltip">
+      <div class="tooltip-title">SYSTEM ROLE</div>
+      <div>Function: Comms & Diagnostics</div>
+      <div>Access: Level 2</div>
+      <div>Status: Active</div>
+    </div>
+  </div>
+
+  <div class="corner-circle-btn top-right" data-wm-id="info-panel-user">
+    <span class="corner-icon" data-wm-id="user-icon">👨‍🚀</span>
+    <span class="corner-label" data-wm-id="user-label">UNKNOWN</span>
+    <div class="info-tooltip">
+      <div class="tooltip-title">CREW MEMBER</div>
+      <div>Registered Callsign: UNKNOWN</div>
+      <div>ID: ---</div>
+      <div>Status: Online</div>
+    </div>
+  </div>
+
+  <button class="corner-circle-btn bottom-left" data-wm-id="nav-dashboard-btn"
+    onclick="window.location.href='dashboard.html'">
+    <span class="corner-icon">🕹️</span>
+    <span class="corner-label">DASHBOARD</span>
+  </button>
+
+  <button class="corner-circle-btn bottom-right" data-wm-id="nav-cis-index-table-btn"
+    onclick="window.location.href='cis-index-table.html'">
+    <span class="corner-icon">🚀</span>
+    <div class="corner-label">MISSION CONTROL</div>
+  </button>
+
+  <footer class="login-footer">
+    <div class="telemetry" id="dashboard-telemetry" data-wm-id="system-telemetry"></div>
+    <div class="copyright">Evknopia © 2026</div>
+  </footer>
+
+  <!-- ===== TOAST УВЕДОМЛЕНИЕ ===== -->
+  <div class="toast-notification" id="toast-notification">
+    <span class="toast-icon">⚠️</span>
+    <span class="toast-message" id="toast-message">Scan result already in archive. Please select another planet.</span>
+  </div>
 
 </body>
 
 <!-- Данные остаются, они нам нужны для следующей итерации -->
 <script src="data.js"></script>
-
 <script>
-  // ===== ПРОВЕРКА АВТОРИЗАЦИИ И ИНИЦИАЛИЗАЦИЯ =====
+  // ===== 1. ГЕНЕРАЦИЯ МОДАЛКИ ВЫБОРА ПЛАНЕТЫ =====
+  function renderPlanetSelector() {
+    const container = document.getElementById('planet-sections-container');
+    if (!container || !window.CisPlanet) return;
+
+    container.innerHTML = '';
+
+    const systemsMap = {};
+    window.CisPlanet.forEach(p => {
+      const star = p.star || 'Unknown System';
+      if (!systemsMap[star]) systemsMap[star] = [];
+      systemsMap[star].push(p);
+    });
+
+    const systemOrder = [
+      'Sol',                    // 1. Солнце
+      'Proxima Centauri',       // 2. Альфа Центавра (Проксима)
+      'Tau Ceti',               // 3. Тау Кита
+      'Epsilon Eridani',        // 4. Эпсилон Эридана
+      "Teegarden's Star",       // 5. Звезда Тигардена
+      'TRAPPIST-1'              // 6. Траппист-1
+    ];
+
+    const sortedSystems = Object.keys(systemsMap).sort((a, b) => {
+      const idxA = systemOrder.findIndex(s => a.toLowerCase().includes(s.toLowerCase()));
+      const idxB = systemOrder.findIndex(s => b.toLowerCase().includes(s.toLowerCase()));
+      return (idxA === -1 ? 999 : idxA) - (idxB === -1 ? 999 : idxB);
+    });
+
+    sortedSystems.forEach(star => {
+      const planets = systemsMap[star];
+      const section = document.createElement('div');
+      section.className = 'planet-section';
+
+      const title = document.createElement('div');
+      title.className = 'section-title';
+      title.textContent = `${star.toUpperCase()} SYSTEM`;
+
+      const grid = document.createElement('div');
+      grid.className = 'planet-grid';
+
+      planets.forEach(p => {
+        const card = document.createElement('div');
+        card.className = 'planet-card';
+        card.dataset.planet = p.planet;
+
+        const circle = document.createElement('div');
+        circle.className = 'planet-circle small';
+
+        if (p.img) {
+          const img = document.createElement('img');
+          img.src = p.img;
+          img.alt = p.name || p.planet;
+          img.className = 'planet-image';
+          img.onerror = function () {
+            this.style.display = 'none';
+            circle.classList.add('placeholder');
+            circle.textContent = '🪐';
+          };
+          circle.appendChild(img);
+        } else {
+          circle.classList.add('placeholder');
+          circle.textContent = '🪐';
+        }
+
+        const label = document.createElement('div');
+        label.className = 'planet-name-label';
+        label.textContent = (p.name || p.planet).toUpperCase();
+
+        card.appendChild(circle);
+        card.appendChild(label);
+        grid.appendChild(card);
+      });
+
+      section.appendChild(title);
+      section.appendChild(grid);
+      container.appendChild(section);
+    });
+  }
+
+  // ===== 2. ПРОВЕРКА АВТОРИЗАЦИИ И ИНИЦИАЛИЗАЦИЯ =====
   function initDashboard() {
     const userDataStr = sessionStorage.getItem('currentUser');
 
     if (!userDataStr) {
       const telemetry = document.getElementById('dashboard-telemetry');
       if (telemetry) {
-        telemetry.innerHTML = `> <span class="telemetry-cassan">CASSAN</span><span class="telemetry-dra">DRA</span>: <span style="color: #e74c3c;">ACCESS DENIED. REDIRECTING...</span>`;
+        telemetry.innerHTML = `> <span class="telemetry-cassan">CASSAN</span><span class="telemetry-dra">DRA</span>: <span data-wm-id="telemetry-message" style="color: #e74c3c;">ACCESS DENIED. REDIRECTING...</span>`;
+      } else {
+        console.warn('Element #dashboard-telemetry not found. Showing alert instead.');
+        alert('ACCESS DENIED. Redirecting to login...');
       }
       setTimeout(() => { window.location.href = 'login.html'; }, 1500);
-      return;
+      return false;
     }
 
     let user = {};
-    try { user = JSON.parse(userDataStr); } catch (e) {
+    try { user = JSON.parse(userDataStr); }
+    catch (e) {
       sessionStorage.removeItem('currentUser');
       window.location.href = 'login.html';
-      return;
+      return false;
     }
 
     const callsign = user.callsign ? user.callsign.toUpperCase() : 'UNKNOWN';
@@ -1163,17 +1505,18 @@
 
     const telemetry = document.getElementById('dashboard-telemetry');
     if (telemetry) {
-      telemetry.innerHTML = `> <span class="telemetry-cassan">CASSAN</span><span class="telemetry-dra">DRA</span>: <span style="color: #2ecc71;">${callsign}, DEEP SCAN TERMINAL ONLINE.</span>`;
+      telemetry.innerHTML = `> <span class="telemetry-cassan">CASSAN</span><span class="telemetry-dra">DRA</span>: <span data-wm-id="telemetry-message" style="color: #2ecc71;">${callsign}, DEEP SCAN TERMINAL ONLINE.</span>`;
     }
+
+    return true;
   }
 
-  // ===== ПЕРЕМЕННЫЕ И DOM ЭЛЕМЕНТЫ =====
+  // ===== 3. ПЕРЕМЕННЫЕ И DOM ЭЛЕМЕНТЫ =====
   let currentTargetName = "";
-  let currentPlanetData = null; // Храним данные текущей найденной планеты
+  let currentPlanetData = null;
   let archiveCount = 0;
 
   const modalOverlay = document.getElementById('modal-overlay');
-  const planetInput = document.getElementById('planet-input');
   const scannerEmpty = document.getElementById('scanner-empty');
   const scannerActive = document.getElementById('scanner-active');
   const scanPlanetName = document.getElementById('scan-planet-name');
@@ -1184,125 +1527,186 @@
   const cisStatusBadge = document.getElementById('cis-status-badge');
   const archiveList = document.getElementById('archive-list');
   const archiveCountEl = document.getElementById('archive-count');
+  const containerSections = document.getElementById('planet-sections-container');
 
   const btnAdd = document.getElementById('btn-add');
   const btnScan = document.getElementById('btn-scan');
   const btnClear = document.getElementById('btn-clear');
-  const btnConfirm = document.getElementById('btn-confirm');
   const btnCancel = document.getElementById('btn-cancel');
   const btnCloseModal = document.getElementById('btn-close-modal');
 
-  // ===== ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ ДЛЯ ДАННЫХ =====
+  const planetInput = document.getElementById('planet-input');
+  const btnConfirm = document.getElementById('btn-confirm');
 
-  // Поиск планеты в data.js
+  const btnScanInfo = document.getElementById('btn-scan-info');
+  const scanInfoOverlay = document.getElementById('scan-info-overlay');
+  const btnCloseScanInfo = document.getElementById('btn-close-scan-info');
+  const btnCancelInfo = document.getElementById('btn-cancel-info');
+
+  // ===== 4. ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ =====
   function findPlanetData(name) {
     if (!window.CisPlanet) return null;
     return window.CisPlanet.find(p => p.planet.toUpperCase() === name.toUpperCase());
   }
 
-  // Получение статуса по CIS из data.js
   function getStatusByCIS(score) {
     if (!window.CIS_THRESHOLDS) return { label: "UNKNOWN", color: "#7f8c8d" };
     return window.CIS_THRESHOLDS.find(t => score >= t.min && score <= t.max) || window.CIS_THRESHOLDS[window.CIS_THRESHOLDS.length - 1];
   }
 
-  // ===== РАСЧЁТ CIS ПО ВЗВЕШЕННОЙ ФОРМУЛЕ =====
   function calculateCIS(params) {
     const weights = {
-      habitable_zone: 0.15,
-      surface: 0.15,
-      hydrosphere: 0.20,
-      atmosphere: 0.10,
-      breathability: 0.05,
-      climate: 0.10,
-      gravity: 0.05,
-      magnetic: 0.10,
-      stellar_flares: 0.10
+      habitable_zone: 0.15, surface: 0.15, hydrosphere: 0.20, atmosphere: 0.10,
+      breathability: 0.05, climate: 0.10, gravity: 0.05, magnetic: 0.10, stellar_flares: 0.10
     };
-
     let cis = 0;
     for (const key in weights) {
-      const value = params[key] || 0; // Если параметр отсутствует — считаем как 0
+      const value = params[key] || 0;
       cis += value * weights[key];
     }
-
     return cis.toFixed(1);
   }
 
-  // Словарь для красивых названий параметров
   const PARAM_LABELS = {
-    habitable_zone: 'HABITABLE ZONE',
-    hydrosphere: 'HYDROSPHERE',
-    breathability: 'BREATHABILITY',
-    gravity: 'GRAVITY',
-    stellar_flares: 'STELLAR FLARES',
-    surface: 'SURFACE',
-    atmosphere: 'ATMOSPHERE',
-    climate: 'CLIMATE',
-    magnetic: 'MAGNETIC'
+    habitable_zone: 'HABITABLE ZONE 🌍', hydrosphere: 'HYDROSPHERE 💧', breathability: 'BREATHABILITY 🌬️',
+    gravity: 'GRAVITY ⬇️', stellar_flares: 'STELLAR FLARES ☀️', surface: 'SURFACE 🏔️',
+    atmosphere: 'ATMOSPHERE 💨', climate: 'CLIMATE 🌦️', magnetic: 'MAGNETIC 🧲'
   };
 
+  // ===== ЕДИНЫЙ ИСТОЧНИК ПРАВДЫ ДЛЯ ЦВЕТОВ =====
   function getParamColor(value) {
-    if (value >= 70) return '#2ecc71';
-    if (value >= 50) return '#f1c40f';
-    if (value >= 35) return '#e74c3c';
-    return '#7f8c8d';
+    // Если thresholds не загрузились, используем безопасный фоллбэк
+    if (!window.CIS_THRESHOLDS || !Array.isArray(window.CIS_THRESHOLDS)) {
+      if (value >= 76) return '#2ecc71';
+      if (value >= 51) return '#f1c40f';
+      if (value >= 26) return '#e74c3c';
+      return '#7f8c8d';
+    }
+
+    // Ищем подходящий диапазон в CIS_THRESHOLDS
+    const threshold = window.CIS_THRESHOLDS.find(t => value >= t.min && value <= t.max);
+
+    // Возвращаем цвет из thresholds, или серый по умолчанию
+    return threshold ? threshold.color : '#7f8c8d';
   }
 
-  // ===== ЛОГИКА МОДАЛЬНОГО ОКНА =====
-  btnAdd.addEventListener('click', () => {
-    modalOverlay.classList.add('active');
-    planetInput.value = '';
-    planetInput.classList.remove('error');
-    planetInput.placeholder = 'e.g., Mercury, Mars, TRAPPIST-1 e';
-    setTimeout(() => planetInput.focus(), 100);
-  });
+  function generateAlienActivity() {
+    return Math.floor(Math.random() * 20) + 1;
+  }
 
+  // ===== 5. ЛОГИКА МОДАЛЬНЫХ ОКОН =====
   function closeModal() {
-    modalOverlay.classList.remove('active');
-    planetInput.classList.remove('error');
+    if (modalOverlay) modalOverlay.classList.remove('active');
+    if (planetInput) planetInput.classList.remove('error');
   }
-  btnCloseModal.addEventListener('click', closeModal);
-  btnCancel.addEventListener('click', closeModal);
-  modalOverlay.addEventListener('click', (e) => { if (e.target === modalOverlay) closeModal(); });
-  planetInput.addEventListener('keydown', (e) => { if (e.key === 'Enter') btnConfirm.click(); });
 
-  btnConfirm.addEventListener('click', () => {
-    const name = planetInput.value.trim();
-    if (!name) {
-      planetInput.classList.add('error');
-      return;
+  if (btnCloseModal) btnCloseModal.addEventListener('click', closeModal);
+  if (btnCancel) btnCancel.addEventListener('click', closeModal);
+  if (modalOverlay) {
+    modalOverlay.addEventListener('click', (e) => { if (e.target === modalOverlay) closeModal(); });
+  }
+
+  if (btnAdd) {
+    btnAdd.addEventListener('click', () => {
+      renderPlanetSelector();
+      if (modalOverlay) modalOverlay.classList.add('active');
+    });
+  }
+
+  // Функция показа toast-уведомления
+  function showToast(message, duration = 3000) {
+    const toast = document.getElementById('toast-notification');
+    const toastMessage = document.getElementById('toast-message');
+    if (toast && toastMessage) {
+      toastMessage.textContent = message;
+      toast.classList.add('active');
+      setTimeout(() => {
+        toast.classList.remove('active');
+      }, duration);
     }
+  }
 
-    currentTargetName = name.toUpperCase();
-    const foundPlanet = findPlanetData(currentTargetName);
-
-    // ЕСЛИ ПЛАНЕТА НЕ НАЙДЕНА — ПОКАЗЫВАЕМ ОШИБКУ В МОДАЛКЕ
-    if (!foundPlanet) {
-      planetInput.classList.add('error');
-      planetInput.value = ''; // Очищаем поле
-      planetInput.placeholder = 'Planet not found in database. Try again.'; // Меняем подсказку
-      setTimeout(() => planetInput.focus(), 100);
-      return; // Прерываем выполнение, модалка не закрывается
+  // Функция проверки, есть ли планета в архиве
+  function isPlanetInArchive(planetName) {
+    const existingRows = archiveList.querySelectorAll('.archive-row');
+    for (const row of existingRows) {
+      if (row.querySelector('.planet-name').textContent === planetName) {
+        return true;
+      }
     }
+    return false;
+  }
 
-    // Если найдена — сохраняем и продолжаем
-    currentPlanetData = foundPlanet;
-    closeModal();
-    prepareScannerUI();
-  });
+  if (containerSections) {
+    containerSections.addEventListener('click', (e) => {
+      const card = e.target.closest('.planet-card');
+      if (!card) return;
 
-  // ===== ПОДГОТОВКА СКАНЕРА =====
+      const planetName = card.dataset.planet;
+      const foundPlanet = findPlanetData(planetName);
+
+      if (foundPlanet) {
+        // Проверяем, есть ли планета уже в архиве
+        if (isPlanetInArchive(foundPlanet.planet)) {
+          showToast(`Scan result for ${foundPlanet.planet.toUpperCase()} already in archive. Please select another planet.`);
+          return; // Не закрываем модалку, не сканируем
+        }
+
+        currentTargetName = planetName.toUpperCase();
+        currentPlanetData = foundPlanet;
+        closeModal();
+        prepareScannerUI();
+      }
+    });
+  }
+
+  if (planetInput && btnConfirm) {
+    planetInput.addEventListener('keydown', (e) => { if (e.key === 'Enter') btnConfirm.click(); });
+    btnConfirm.addEventListener('click', () => {
+      const name = planetInput.value.trim();
+      if (!name) { planetInput.classList.add('error'); return; }
+      currentTargetName = name.toUpperCase();
+      const foundPlanet = findPlanetData(currentTargetName);
+      if (!foundPlanet) {
+        planetInput.classList.add('error');
+        planetInput.value = '';
+        planetInput.placeholder = 'Planet not found in database. Try again.';
+        setTimeout(() => planetInput.focus(), 100);
+        return;
+      }
+      currentPlanetData = foundPlanet;
+      closeModal();
+      prepareScannerUI();
+    });
+  }
+
+  function closeScanInfoModal() {
+    if (scanInfoOverlay) scanInfoOverlay.classList.remove('active');
+  }
+
+  if (btnScanInfo) {
+    btnScanInfo.addEventListener('click', () => {
+      if (scanInfoOverlay) scanInfoOverlay.classList.add('active');
+    });
+  }
+
+  if (btnCloseScanInfo) btnCloseScanInfo.addEventListener('click', closeScanInfoModal);
+  if (btnCancelInfo) btnCancelInfo.addEventListener('click', closeScanInfoModal);
+  if (scanInfoOverlay) {
+    scanInfoOverlay.addEventListener('click', (e) => {
+      if (e.target === scanInfoOverlay) closeScanInfoModal();
+    });
+  }
+
+  // ===== 6. ПОДГОТОВКА СКАНЕРА =====
   function prepareScannerUI() {
     scannerEmpty.style.display = 'none';
     scannerActive.classList.add('active');
     scanPlanetName.textContent = `TARGET: ${currentPlanetData.planet.toUpperCase()}`;
     scanStatusLine.textContent = 'AWAITING SCAN INITIATION';
     cisResult.classList.remove('visible');
-
     scanParams.innerHTML = '';
 
-    // 1. Добавляем параметры из cis_params
     const paramKeys = Object.keys(currentPlanetData.cis_params);
     paramKeys.forEach(key => {
       const label = PARAM_LABELS[key] || key.toUpperCase().replace('_', ' ');
@@ -1317,7 +1721,6 @@
       scanParams.appendChild(row);
     });
 
-    // 2. Добавляем строку Alien Activity в конец
     const alienRow = document.createElement('div');
     alienRow.className = 'param-row pending';
     alienRow.dataset.paramKey = 'alien_activity';
@@ -1332,7 +1735,7 @@
     updateTelemetry(`TARGET ACQUIRED: ${currentPlanetData.planet}. DATA LOADED. READY FOR SCAN.`);
   }
 
-  // ===== АНИМАЦИЯ СКАНИРОВАНИЯ =====
+  // ===== 7. АНИМАЦИЯ СКАНИРОВАНИЯ =====
   btnScan.addEventListener('click', async () => {
     btnScan.disabled = true;
     btnAdd.disabled = true;
@@ -1355,15 +1758,15 @@
       let displayValue = "0";
 
       if (paramKey === 'alien_activity') {
-        displayValue = window.GLOBAL_ALIEN_ACTIVITY || "0 👽";
-        realValue = 0;
+        realValue = generateAlienActivity();
+        displayValue = `${realValue}`;
       } else {
         realValue = currentPlanetData.cis_params[paramKey];
         displayValue = realValue.toString();
       }
 
+      // Цвет теперь берется из единого источника (CIS_THRESHOLDS)
       const color = getParamColor(realValue);
-
       await animateValue(valueEl, 0, realValue, 500);
 
       if (paramKey === 'alien_activity') {
@@ -1383,7 +1786,6 @@
     scanStatusLine.textContent = 'CALCULATING CASSANDRA INDEX';
     await sleep(800);
 
-    // Расчет реального CIS и получение статуса из data.js
     const finalCIS = calculateCIS(currentPlanetData.cis_params);
     const statusInfo = getStatusByCIS(parseFloat(finalCIS));
 
@@ -1404,14 +1806,7 @@
 
     updateTelemetry(`SCAN COMPLETE: ${currentPlanetData.planet} — CIS ${finalCIS}%`);
 
-    // Добавляем в архив с реальными данными
-    addToArchiveUI(
-      currentPlanetData.planet,
-      currentPlanetData.star,
-      finalCIS,
-      statusInfo.label,
-      statusInfo.color
-    );
+    addToArchiveUI(currentPlanetData.planet, currentPlanetData.star, finalCIS, statusInfo.label, statusInfo.color);
 
     setTimeout(() => {
       btnAdd.disabled = false;
@@ -1419,13 +1814,155 @@
     }, 1500);
   });
 
-  // ===== РАБОТА С АРХИВОМ =====
-  function addToArchiveUI(planet, star, cis, status, color) {
-    // Принудительно удаляем empty state если он есть
-    const emptyState = archiveList.querySelector('.archive-empty');
-    if (emptyState) {
-      emptyState.remove();
+  // ===== 8. РАБОТА С АРХИВОМ И СОХРАНЕНИЕМ СОСТОЯНИЯ =====
+
+  // Сохранение архива в sessionStorage
+  function saveArchiveToStorage() {
+    const archiveData = { count: archiveCount, records: [] };
+    const rows = archiveList.querySelectorAll('.archive-row');
+    rows.forEach(row => {
+      archiveData.records.push({
+        planet: row.querySelector('.planet-name').textContent,
+        star: row.querySelector('.star-name').textContent,
+        cis: row.querySelector('.cis-value').textContent,
+        status: row.querySelector('.status-badge').textContent,
+        color: row.querySelector('.status-dot').style.color
+      });
+    });
+    sessionStorage.setItem('cisArchive', JSON.stringify(archiveData));
+  }
+
+  // Сохранение состояния сканера в sessionStorage
+  function saveScannerState() {
+    let alienVal = 0;
+    const alienRow = scanParams.querySelector('[data-param-key="alien_activity"] .param-value');
+    if (alienRow) alienVal = parseInt(alienRow.textContent) || 0;
+
+    const scannerState = {
+      targetName: currentTargetName,
+      planetData: currentPlanetData,
+      isActive: scannerActive.classList.contains('active'),
+      alienValue: alienVal,
+      cisResult: {
+        score: cisScore.textContent,
+        scoreColor: cisScore.style.color,
+        status: cisStatusBadge.textContent,
+        statusColor: cisStatusBadge.style.color,
+        statusBorderColor: cisStatusBadge.style.borderColor,
+        statusBackground: cisStatusBadge.style.background,
+        isVisible: cisResult.classList.contains('visible')
+      },
+      statusLine: scanStatusLine.textContent
+    };
+    sessionStorage.setItem('cisScannerState', JSON.stringify(scannerState));
+  }
+
+  // Восстановление архива из sessionStorage
+  function restoreArchiveFromStorage() {
+    const savedData = sessionStorage.getItem('cisArchive');
+    if (!savedData) return false;
+
+    try {
+      const archiveData = JSON.parse(savedData);
+      archiveList.innerHTML = '';
+      archiveCount = 0;
+
+      archiveData.records.forEach(record => {
+        archiveCount++;
+        const row = document.createElement('div');
+        row.className = 'archive-row';
+        row.innerHTML = `
+          <div class="status-dot" style="color: ${record.color}; background: ${record.color};"></div>
+          <div class="planet-name">${record.planet}</div>
+          <div class="star-name">${record.star}</div>
+          <div class="cis-value" style="color: ${record.color};">${record.cis}</div>
+          <div class="status-badge" style="color: ${record.color}; border-color: ${record.color}; background: ${record.color}15;">${record.status}</div>
+          <button class="action-btn">DETAILS</button>
+        `;
+        archiveList.appendChild(row);
+      });
+
+      archiveCountEl.textContent = `${archiveCount} record${archiveCount !== 1 ? 's' : ''}`;
+      return true;
+    } catch (e) {
+      console.warn('Failed to restore archive:', e);
+      return false;
     }
+  }
+
+  // Восстановление состояния сканера из sessionStorage
+  function restoreScannerState() {
+    const savedState = sessionStorage.getItem('cisScannerState');
+    if (!savedState) return false;
+
+    try {
+      const state = JSON.parse(savedState);
+      if (state.isActive && state.planetData) {
+        currentTargetName = state.targetName;
+        currentPlanetData = state.planetData;
+
+        scannerEmpty.style.display = 'none';
+        scannerActive.classList.add('active');
+        scanPlanetName.textContent = `TARGET: ${state.planetData.planet.toUpperCase()}`;
+        scanStatusLine.textContent = state.statusLine || 'SCAN COMPLETE';
+
+        scanParams.innerHTML = '';
+        const paramKeys = Object.keys(state.planetData.cis_params);
+        paramKeys.forEach(key => {
+          const label = PARAM_LABELS[key] || key.toUpperCase().replace('_', ' ');
+          const value = state.planetData.cis_params[key];
+          const color = getParamColor(value);
+
+          const row = document.createElement('div');
+          row.className = 'param-row filled';
+          row.dataset.paramKey = key;
+          row.innerHTML = `
+            <div class="param-label">${label}</div>
+            <div class="param-bar-container"><div class="param-bar" style="width: ${value}%; background: linear-gradient(90deg, ${color}, ${color}dd); color: ${color};"></div></div>
+            <div class="param-value" style="color: ${color};">${value}</div>
+          `;
+          scanParams.appendChild(row);
+        });
+
+        const alienValue = state.alienValue !== undefined ? state.alienValue : generateAlienActivity();
+        const alienColor = getParamColor(alienValue); // Используем единую функцию для цвета
+
+        const alienRow = document.createElement('div');
+        alienRow.className = 'param-row filled';
+        alienRow.dataset.paramKey = 'alien_activity';
+        alienRow.innerHTML = `
+          <div class="param-label">ALIEN ACTIVITY 👽</div>
+          <div class="param-bar-container"><div class="param-bar" style="width: ${alienValue}%; background: linear-gradient(90deg, ${alienColor}, ${alienColor}dd); color: ${alienColor};"></div></div>
+          <div class="param-value" style="color: ${alienColor};">${alienValue}</div>
+        `;
+        scanParams.appendChild(alienRow);
+
+        if (state.cisResult && state.cisResult.isVisible) {
+          cisResult.classList.add('visible');
+          cisScore.textContent = state.cisResult.score;
+          cisScore.style.color = state.cisResult.scoreColor || '#7f8c8d';
+          cisStatusBadge.textContent = state.cisResult.status;
+          cisStatusBadge.style.color = state.cisResult.statusColor;
+          cisStatusBadge.style.borderColor = state.cisResult.statusBorderColor || state.cisResult.statusColor;
+          cisStatusBadge.style.background = state.cisResult.statusBackground || `${state.cisResult.statusColor}20`;
+        }
+
+        if (btnScan) btnScan.disabled = false;
+        if (btnAdd) btnAdd.disabled = false;
+        if (btnClear) btnClear.disabled = false;
+
+        return true;
+      }
+      return false;
+    } catch (e) {
+      console.warn('Failed to restore scanner state:', e);
+      return false;
+    }
+  }
+
+  function addToArchiveUI(planet, star, cis, status, color) {
+    const emptyState = archiveList.querySelector('.archive-empty');
+    if (emptyState) emptyState.remove();
 
     archiveCount++;
     archiveCountEl.textContent = `${archiveCount} record${archiveCount !== 1 ? 's' : ''}`;
@@ -1441,9 +1978,12 @@
       <button class="action-btn">DETAILS</button>
     `;
     archiveList.appendChild(row);
+
+    saveArchiveToStorage();
+    saveScannerState();
   }
 
-  // ===== УТИЛИТЫ АНИМАЦИИ =====
+  // ===== 9. УТИЛИТЫ АНИМАЦИИ =====
   function sleep(ms) { return new Promise(resolve => setTimeout(resolve, ms)); }
 
   async function animateValue(el, from, to, duration) {
@@ -1479,37 +2019,78 @@
 
   function updateTelemetry(msg) {
     const tel = document.getElementById('dashboard-telemetry');
-    tel.innerHTML = `> <span class="telemetry-cassan">CASSAN</span><span class="telemetry-dra">DRA</span>: <span style="color: #2ecc71;">${msg}</span>`;
+    if (tel) {
+      tel.innerHTML = `> <span class="telemetry-cassan">CASSAN</span><span class="telemetry-dra">DRA</span>: <span style="color: #2ecc71;">${msg}</span>`;
+    }
   }
 
-  // ===== ИНИЦИАЛИЗАЦИЯ ПРИ ЗАГРУЗКЕ =====
+  // ===== 10. ИНИЦИАЛИЗАЦИЯ ПРИ ЗАГРУЗКЕ =====
   function initArchive() {
-    scannerEmpty.style.display = 'block';
-    scannerActive.classList.remove('active');
-    cisResult.classList.remove('visible');
+    const restoredArchive = restoreArchiveFromStorage();
+    const restoredScanner = restoreScannerState();
 
-    archiveList.innerHTML = `
-      <div class="archive-empty">
-        <div class="empty-icon">📂</div>
-        <div class="empty-text">NO SCANS IN ARCHIVE</div>
-      </div>
-    `;
-    archiveCount = 0;
-    archiveCountEl.textContent = '0 records';
+    if (!restoredArchive || archiveCount === 0) {
+      archiveList.innerHTML = `
+        <div class="archive-empty">
+          <div class="empty-icon">📂</div>
+          <div class="empty-text">NO SCANS IN ARCHIVE</div>
+        </div>
+      `;
+      archiveCount = 0;
+      archiveCountEl.textContent = '0 records';
+      if (btnClear) btnClear.disabled = true;
+    } else {
+      if (btnClear) btnClear.disabled = false;
+    }
 
-    btnScan.disabled = true;
-    btnAdd.disabled = false;
-    btnClear.disabled = true;
+    if (!restoredScanner) {
+      scannerEmpty.style.display = 'block';
+      scannerActive.classList.remove('active');
+      cisResult.classList.remove('visible');
+      btnScan.disabled = true;
+      btnAdd.disabled = false;
+    }
 
     updateTelemetry('SYSTEM READY. ADD TARGET TO BEGIN.');
   }
 
+  // Обработчик кнопки CLEAR
+  if (btnClear) {
+    btnClear.addEventListener('click', () => {
+      archiveList.innerHTML = `
+        <div class="archive-empty">
+          <div class="empty-icon">📂</div>
+          <div class="empty-text">NO SCANS IN ARCHIVE</div>
+        </div>
+      `;
+      archiveCount = 0;
+      archiveCountEl.textContent = '0 records';
+
+      scannerEmpty.style.display = 'block';
+      scannerActive.classList.remove('active');
+      cisResult.classList.remove('visible');
+      scanParams.innerHTML = '';
+      currentTargetName = "";
+      currentPlanetData = null;
+
+      btnClear.disabled = true;
+      btnScan.disabled = true;
+      btnAdd.disabled = false;
+
+      sessionStorage.removeItem('cisArchive');
+      sessionStorage.removeItem('cisScannerState');
+
+      updateTelemetry('ARCHIVE CLEARED. SYSTEM READY.');
+    });
+  }
+
   document.addEventListener('DOMContentLoaded', () => {
-    initDashboard();
-    initArchive();
+    const isAuthorized = initDashboard();
+    if (isAuthorized) {
+      initArchive();
+    }
   });
 </script>
-
 </body>
 
 </html>
