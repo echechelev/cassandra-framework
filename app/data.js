@@ -829,49 +829,47 @@ window.FlightCalculator = {
 // ========================================================================
 
 window.CIS_THRESHOLDS = [
-  { min: 70, max: 100, label: "HIGHLY HABITABLE", class: "status-habitable", color: "#2ecc71", desc: "Идеальна для колонизации, жизнь вероятна" },
-  { min: 50, max: 69, label: "CONDITIONALLY HABITABLE", class: "status-limited", color: "#f1c40f", desc: "Условно пригодна, требуются рекомендации" },
-  { min: 35, max: 49, label: "MARGINALLY HABITABLE", class: "status-uninhabitable", color: "#e74c3c", desc: "Мало пригодна, требуется разведка зонда" },
-  { min: 0, max: 34, label: "UNINHABITABLE", class: "status-dead", color: "#7f8c8d", desc: "Непригодна, безнадёжна для земной жизни" }
+  { min: 75, max: 100, label: "HIGHLY HABITABLE", class: "status-habitable", color: "#2ecc71", desc: "Идеальна для колонизации, жизнь вероятна" },
+  { min: 60, max: 74, label: "CONDITIONALLY HABITABLE", class: "status-limited", color: "#f1c40f", desc: "Условно пригодна, требуются рекомендации" },
+  { min: 40, max: 59, label: "MARGINALLY HABITABLE", class: "status-uninhabitable", color: "#e74c3c", desc: "Мало пригодна, требуется разведка зонда" },
+  { min: 0, max: 39, label: "UNINHABITABLE", class: "status-dead", color: "#7f8c8d", desc: "Непригодна, безнадёжна для земной жизни" }
 ];
-
-const GLOBAL_ALIEN_ACTIVITY = "0 👽"; 
 
 window.CisPlanet = [
   // --- SOL SYSTEM ---
   {
     planet: "Mercury", name: "Mercury", star: "Sol", type: "Terrestrial", img: "assets/sun/mercury-max.jpg",
-    cis_params: { habitable_zone: 10, surface: 100, hydrosphere: 0, atmosphere: 0, breathability: 0, climate: 5, gravity: 38, magnetic: 5, stellar_flares: 80 },
+    cis_params: { habitable_zone: 10, surface: 100, hydrosphere: 0, atmosphere: 0, breathability: 0, climate: 5, gravity: 38, magnetic: 5, star_radiation: 100 },
     description: "Planet is unsuitable for colonization. Lack of atmosphere and magnetic field makes the surface lethal due to solar radiation and extreme temperature swings. Solid surface and low gravity are favorable for landings, but survival requires full isolation.",
     warning: "CRITICAL: Extreme thermal variations, vacuum conditions, high solar radiation."
   },
   {
     planet: "Venus", name: "Venus", star: "Sol", type: "Terrestrial", img: 'assets/sun/venus-max.jpg',
-    cis_params: { habitable_zone: 60, surface: 10, hydrosphere: 0, atmosphere: 0, breathability: 0, climate: 0, gravity: 90, magnetic: 0, stellar_flares: 70 },
+    cis_params: { habitable_zone: 60, surface: 10, hydrosphere: 0, atmosphere: 0, breathability: 0, climate: 0, gravity: 90, magnetic: 0, star_radiation: 85 },
     description: "Planet is unsuitable for colonization. Despite favorable gravity (90) and location in the habitable zone (60), complete lack of atmosphere, water, and magnetic field makes the surface hostile. Extreme climate and uninhabitable surface preclude survival without full isolation.",
     warning: "CRITICAL: No protective atmosphere or magnetic field. Surface is uninhabitable."
   },
   {
     planet: "Earth", name: "Earth", star: "Sol", type: "Terrestrial", img: 'assets/sun/earth-max.jpg',
-    cis_params: { habitable_zone: 100, surface: 100, hydrosphere: 100, atmosphere: 100, breathability: 100, climate: 100, gravity: 100, magnetic: 100, stellar_flares: 100 }, // stellar_flares = 100 для идеального эталона
+    cis_params: { habitable_zone: 100, surface: 100, hydrosphere: 100, atmosphere: 100, breathability: 100, climate: 100, gravity: 100, magnetic: 100, star_radiation: 65 }, // stellar_flares = 100 для идеального эталона
     description: "Perfect planet for colonization. All parameters at maximum: full habitable zone suitability, abundant water, breathable atmosphere, optimal climate, stable gravity, and strong magnetic field. The only known planet with a developed biosphere.",
     warning: "NO WARNINGS. Planet is fully habitable."
   },
   {
     planet: "Mars", name: "Mars", star: "Sol", type: "Terrestrial", img: 'assets/sun/mars-max.jpg',
-    cis_params: { habitable_zone: 85, surface: 100, hydrosphere: 10, atmosphere: 20, breathability: 0, climate: 30, gravity: 38, magnetic: 10, stellar_flares: 60 },
+    cis_params: { habitable_zone: 85, surface: 100, hydrosphere: 10, atmosphere: 20, breathability: 0, climate: 30, gravity: 38, magnetic: 10, star_radiation: 45 },
     description: "Planet is marginally suitable for colonization. Located in the habitable zone (85) with solid surface (100), but critically lacks water (10), breathable atmosphere (0), and magnetic field (10). Low gravity (38) and moderate climate (30) require construction of enclosed dome settlements with artificial atmosphere and life support systems.",
     warning: "WARNING: No breathable atmosphere and weak magnetic field. Colonization possible only in sealed domes with life support systems."
   },
   {
     planet: "Uranus", name: "Uranus", star: "Sol", type: "Ice Giant", img: 'assets/sun/uranus-max.jpg',
-    cis_params: { habitable_zone: 10, surface: 0, hydrosphere: 80, atmosphere: 10, breathability: 0, climate: 0, gravity: 89, magnetic: 40, stellar_flares: 10 },
+    cis_params: { habitable_zone: 10, surface: 0, hydrosphere: 80, atmosphere: 10, breathability: 0, climate: 0, gravity: 89, magnetic: 45, star_radiation: 15 },
     description: "Planet is unsuitable for colonization. Ice gas giant with no solid surface (0), making landing impossible. Despite high water content as ice (80) and strong magnetic field (40), extreme climate (0), lack of breathable atmosphere (0), and high gravity (89) make the planet hostile to life.",
     warning: "CRITICAL: No solid surface. Gas giant with extreme pressure and temperature."
   },
   {
     planet: "Neptune", name: "Neptune", star: "Sol", type: "Ice Giant", img: 'assets/sun/neptune-max.jpg',
-    cis_params: { habitable_zone: 5, surface: 0, hydrosphere: 80, atmosphere: 10, breathability: 0, climate: 0, gravity: 100, magnetic: 40, stellar_flares: 5 },
+    cis_params: { habitable_zone: 5, surface: 0, hydrosphere: 80, atmosphere: 10, breathability: 0, climate: 0, gravity: 100, magnetic: 45, star_radiation: 10 },
     description: "Planet is unsuitable for colonization. It is an ice gas giant with no solid surface (0), making landing impossible. Despite high water content (80) and a strong magnetic field (40), extreme climate (0), lack of breathable atmosphere (0), and supersonic winds preclude any human presence.",
     warning: "CRITICAL: No solid surface. Extreme winds and ultra-high atmospheric pressure."
   },
@@ -879,19 +877,19 @@ window.CisPlanet = [
   // --- ALPHA CENTAURI / PROXIMA SYSTEM ---
   {
     planet: "Proxima-b", name: "Proxima Centauri b", star: "Proxima Centauri", type: "Terrestrial", img: 'assets/alpha-centauri-a/proxima-b-max.jpg',
-    cis_params: { habitable_zone: 75, surface: 100, hydrosphere: 40, atmosphere: 30, breathability: 0, climate: 35, gravity: 95, magnetic: 20, stellar_flares: 10 },
+    cis_params: { habitable_zone: 75, surface: 100, hydrosphere: 40, atmosphere: 30, breathability: 0, climate: 35, gravity: 95, magnetic: 20, star_radiation: 85 },
     description: "Planet is marginally suitable for colonization. Located in the habitable zone (75) with excellent solid surface (100) and near-Earth gravity (95). Presence of water (40) and low stellar activity (10) are positive factors. However, lack of breathable atmosphere (0), weak magnetic shield (20), and extreme climate (35) require construction of sealed settlements with life support systems and radiation protection.",
     warning: "WARNING: No breathable atmosphere and weak magnetic field. Colonization possible only in sealed domes with radiation protection."
   },
   {
     planet: "Proxima-c", name: "Proxima Centauri c", star: "Proxima Centauri", type: "Super-Earth", img: 'assets/alpha-centauri-a/proxima-c-max.jpg',
-    cis_params: { habitable_zone: 20, surface: 30, hydrosphere: 60, atmosphere: 50, breathability: 0, climate: 10, gravity: 60, magnetic: 30, stellar_flares: 30 },
+    cis_params: { habitable_zone: 20, surface: 30, hydrosphere: 60, atmosphere: 50, breathability: 0, climate: 10, gravity: 60, magnetic: 30, star_radiation: 45 },
     description: "Planet is unsuitable for colonization. Located at the outer edge of the habitable zone (20), making it extremely cold. Despite the presence of water (60) and an atmosphere (50), extreme climate (10), lack of breathable air (0), and weak magnetosphere (30) preclude survival without complex thermal regulation and life support systems.",
     warning: "WARNING: Extremely low temperatures and lack of breathable atmosphere. Full sealing and constant habitat heating are required."
   },
   {
     planet: "Proxima-d", name: "Proxima Centauri d", star: "Proxima Centauri", type: "Sub-Earth", img: 'assets/alpha-centauri-a/proxima-d-max.jpg',
-    cis_params: { habitable_zone: 50, surface: 100, hydrosphere: 10, atmosphere: 10, breathability: 0, climate: 20, gravity: 25, magnetic: 10, stellar_flares: 5 },
+    cis_params: { habitable_zone: 50, surface: 100, hydrosphere: 10, atmosphere: 10, breathability: 0, climate: 20, gravity: 25, magnetic: 10, star_radiation: 95 },
     description: "Planet is unsuitable for colonization. Despite perfect solid surface (100) and location at the edge of the habitable zone (50), it critically lacks water (10), atmosphere (10), and breathable air (0). Very low gravity (25) and weak magnetic field (10) make the planet hostile to life and complicate any landing operations.",
     warning: "CRITICAL: No atmosphere or water. Extremely low gravity complicates long-term presence."
   },
@@ -899,7 +897,7 @@ window.CisPlanet = [
   // --- EPSILON ERIDANI SYSTEM ---
   {
     planet: "Epsilon-eridani-c", name: "Epsilon Eridani c", star: "Epsilon Eridani", type: "Gas Giant", img: 'assets/epsilon-eridani/epsilon-eridani-c-max.jpg',
-    cis_params: { habitable_zone: 5, surface: 0, hydrosphere: 10, atmosphere: 10, breathability: 0, climate: 0, gravity: 80, magnetic: 60, stellar_flares: 50 },
+    cis_params: { habitable_zone: 5, surface: 0, hydrosphere: 10, atmosphere: 10, breathability: 0, climate: 0, gravity: 80, magnetic: 60, star_radiation: 25 },
     description: "Planet is completely unsuitable for colonization. Lack of a solid surface (0) makes landing impossible. Located far outside the habitable zone (5), resulting in an extremely cold climate (0). High gravity (80) and lack of breathable atmosphere (0) completely preclude human presence.",
     warning: "CRITICAL: No solid surface and extremely low temperatures. High gravity makes any operations impossible."
   },
@@ -907,25 +905,25 @@ window.CisPlanet = [
   // --- TAU CETI SYSTEM ---
   {
     planet: "Tau-ceti-e", name: "Tau Ceti e", star: "Tau Ceti", type: "Super-Earth", img: 'assets/tau-ceti/tau-ceti-e-max.jpg',
-    cis_params: { habitable_zone: 70, surface: 80, hydrosphere: 60, atmosphere: 70, breathability: 10, climate: 40, gravity: 60, magnetic: 60, stellar_flares: 15 },
+    cis_params: { habitable_zone: 70, surface: 80, hydrosphere: 60, atmosphere: 70, breathability: 10, climate: 40, gravity: 60, magnetic: 60, star_radiation: 15 },
     description: "Planet is conditionally suitable for colonization. Located in the habitable zone (70) with solid surface (80), presence of water (60), and atmosphere (70). Low stellar activity (15) is a favorable factor. However, atmosphere is not breathable (10), climate is extreme (40), and gravity and magnetic field are only at moderate levels (60). Colonization requires construction of sealed settlements with air purification and climate control systems.",
     warning: "WARNING: Atmosphere is not breathable, climate is extreme. Colonization possible only in sealed domes with life support systems."
   },
   {
     planet: "Tau-ceti-f", name: "Tau Ceti f", star: "Tau Ceti", type: "Super-Earth", img: 'assets/tau-ceti/tau-ceti-f-max.jpg',
-    cis_params: { habitable_zone: 90, surface: 90, hydrosphere: 80, atmosphere: 80, breathability: 15, climate: 70, gravity: 60, magnetic: 70, stellar_flares: 15 },
+    cis_params: { habitable_zone: 90, surface: 90, hydrosphere: 80, atmosphere: 80, breathability: 15, climate: 70, gravity: 60, magnetic: 70, star_radiation: 15 },
     description: "Planet is highly suitable for colonization. Located in the habitable zone (90) with excellent solid surface (90), abundant water (80), and dense atmosphere (80). Climate is favorable (70), magnetic field is stable (70), and stellar activity is low (15). However, atmospheric composition is not breathable without apparatus (breathability 15) — likely high CO₂ or other gas content. Colonization requires the use of breathing apparatus or creation of sealed zones with artificial atmosphere, but otherwise the planet is ready for development.",
     warning: "WARNING: Atmosphere is dense, but composition is not breathable. Use of breathing apparatus is required."
   },
   {
     planet: "Tau-ceti-g", name: "Tau Ceti g", star: "Tau Ceti", type: "Super-Earth", img: 'assets/tau-ceti/tau-ceti-g-max.jpg',
-    cis_params: { habitable_zone: 50, surface: 90, hydrosphere: 20, atmosphere: 60, breathability: 0, climate: 20, gravity: 70, magnetic: 50, stellar_flares: 15 },
+    cis_params: { habitable_zone: 50, surface: 90, hydrosphere: 20, atmosphere: 60, breathability: 0, climate: 20, gravity: 70, magnetic: 50, star_radiation: 15 },
     description: "Planet is marginally suitable for colonization. Located at the edge of the habitable zone (50) with excellent solid surface (90) and moderate gravity (70). Atmosphere is present (60) but not breathable (0). Critically low water (20), extreme climate (20), and weak magnetic field (50) require construction of sealed settlements with life support, water supply, and radiation protection systems.",
     warning: "WARNING: Atmosphere is not breathable, climate is extreme, and water is scarce. Colonization possible only in sealed domes with full life support cycle."
   },
   {
     planet: "Tau-ceti-h", name: "Tau Ceti h", star: "Tau Ceti", type: "Super-Earth", img: 'assets/tau-ceti/tau-ceti-h-max.jpg',
-    cis_params: { habitable_zone: 60, surface: 80, hydrosphere: 70, atmosphere: 50, breathability: 0, climate: 30, gravity: 75, magnetic: 60, stellar_flares: 15 },
+    cis_params: { habitable_zone: 60, surface: 80, hydrosphere: 70, atmosphere: 50, breathability: 0, climate: 30, gravity: 75, magnetic: 60, star_radiation: 15 },
     description: "Planet is conditionally suitable for colonization. Features excellent solid surface (80), abundant water (70), and comfortable gravity (75). Located in the habitable zone (60) with low stellar activity (15) and moderate magnetic field (60). However, atmosphere is not breathable (0) and climate is extreme (30). Colonization requires construction of sealed settlements with air purification and climate control systems, but baseline conditions for development are favorable.",
     warning: "WARNING: Atmosphere is not breathable, climate is extreme. Full sealing of habitats with life support systems is required."
   },
@@ -933,13 +931,13 @@ window.CisPlanet = [
   // --- TEEGARDEN'S STAR SYSTEM ---
   {
     planet: "Teegarden-b", name: "Teegarden's Star b", star: "Teegarden's Star", type: "Terrestrial", img: 'assets/teegarden/teegarden-b-max.jpg',
-    cis_params: { habitable_zone: 85, surface: 90, hydrosphere: 40, atmosphere: 30, breathability: 0, climate: 40, gravity: 95, magnetic: 20, stellar_flares: 40 },
+    cis_params: { habitable_zone: 85, surface: 90, hydrosphere: 40, atmosphere: 30, breathability: 0, climate: 40, gravity: 95, magnetic: 20, star_radiation: 40 },
     description: "Planet is conditionally suitable for colonization. Features excellent solid surface (90), near-Earth gravity (95), and location in the habitable zone (85). However, water is scarce (40), atmosphere is thin (30) and not breathable (0). High stellar activity (40) combined with weak magnetic field (20) creates elevated radiation levels. Extreme climate (40) requires construction of sealed settlements with life support, water supply, and radiation protection systems.",
     warning: "WARNING: High stellar activity and weak magnetic field create radiation hazard. Atmosphere is not breathable, water is scarce. Colonization possible only in protected sealed domes."
   },
   {
     planet: "Teegarden-c", name: "Teegarden's Star c", star: "Teegarden's Star", type: "Terrestrial", img: 'assets/teegarden/teegarden-c-max.jpg',
-    cis_params: { habitable_zone: 60, surface: 90, hydrosphere: 30, atmosphere: 20, breathability: 0, climate: 20, gravity: 90, magnetic: 20, stellar_flares: 40 },
+    cis_params: { habitable_zone: 60, surface: 90, hydrosphere: 30, atmosphere: 20, breathability: 0, climate: 20, gravity: 90, magnetic: 20, star_radiation: 40 },
     description: "Planet is marginally suitable for colonization. Features excellent solid surface (90) and near-Earth gravity (90), favorable for settlement construction. Located in the habitable zone (60), but critically lacks water (30), atmosphere is extremely thin (20) and not breathable (0). High stellar activity (40) combined with weak magnetic field (20) creates lethal radiation levels. Extreme climate (20) requires construction of deeply buried or fully shielded sealed settlements with life support, water supply, and powerful radiation protection systems.",
     warning: "CRITICAL: High stellar activity and weak magnetic field create lethal radiation hazard. Atmosphere is virtually absent. Colonization possible only in deeply buried or fully shielded shelters."
   },
@@ -947,43 +945,43 @@ window.CisPlanet = [
   // --- TRAPPIST-1 SYSTEM ---
   {
     planet: "Trappist-1b", name: "TRAPPIST-1 b", star: "TRAPPIST-1", type: "Terrestrial", img: 'assets/trappist-1/trappist-1b-max.jpg',
-    cis_params: { habitable_zone: 30, surface: 90, hydrosphere: 10, atmosphere: 20, breathability: 0, climate: 10, gravity: 95, magnetic: 30, stellar_flares: 60 },
+    cis_params: { habitable_zone: 30, surface: 90, hydrosphere: 10, atmosphere: 20, breathability: 0, climate: 10, gravity: 95, magnetic: 30, star_radiation: 65 },
     description: "Planet is marginally suitable for colonization. Features excellent solid surface (90) and near-Earth gravity (95), favorable for settlement construction. However, the planet is likely tidally locked — one side permanently faces the star, the other is in eternal night. Critically low water (10), atmosphere is extremely thin (20) and not breathable (0). High stellar activity of TRAPPIST-1 (60) combined with weak magnetic field (30) creates elevated radiation levels. Extreme climate (10) requires construction of sealed settlements in the terminator zone (between day and night sides) with life support, water supply, and radiation protection systems.",
     warning: "WARNING: Planet is tidally locked. High stellar activity of red dwarf TRAPPIST-1 creates constant radiation threat. Colonization possible only in sealed settlements in the terminator zone with powerful radiation shielding."
   },
   {
     planet: "Trappist-1c", name: "TRAPPIST-1 c", star: "TRAPPIST-1", type: "Terrestrial", img: 'assets/trappist-1/trappist-1c-max.jpg',
-    cis_params: { habitable_zone: 40, surface: 90, hydrosphere: 20, atmosphere: 30, breathability: 0, climate: 15, gravity: 100, magnetic: 30, stellar_flares: 60 },
+    cis_params: { habitable_zone: 40, surface: 90, hydrosphere: 20, atmosphere: 30, breathability: 0, climate: 15, gravity: 100, magnetic: 30, star_radiation: 60 },
     description: "Planet is marginally suitable for colonization. Features perfect gravity (100) and excellent solid surface (90), ideal for construction. However, the planet is located too close to the star (habitable zone 40), making the climate extreme (15). Atmosphere is extremely thin (30) and not breathable (0), water is virtually absent (20). High activity of the red dwarf (60) combined with a weak magnetic field (30) creates a hazardous radiation background. Colonization requires construction of deeply shielded underground or sealed settlements with a full life support cycle.",
     warning: "WARNING: Extreme climate due to proximity to the star and high radiation from red dwarf flares. Atmosphere is not breathable. Colonization possible only in shielded underground bunkers."
   },
   {
     planet: "trappist-1d", name: "TRAPPIST-1 d", star: "TRAPPIST-1", type: "Terrestrial", img: 'assets/trappist-1/trappist-1d-max.jpg',
-    cis_params: { habitable_zone: 70, surface: 90, hydrosphere: 50, atmosphere: 50, breathability: 5, climate: 40, gravity: 35, magnetic: 40, stellar_flares: 50 },
+    cis_params: { habitable_zone: 70, surface: 90, hydrosphere: 50, atmosphere: 50, breathability: 5, climate: 40, gravity: 35, magnetic: 40, star_radiation: 50 },
     description: "Planet is conditionally suitable for colonization. Located in the habitable zone (70) with excellent solid surface (90) and moderate water reserves (50). Atmosphere is present (50) but virtually unbreathable (5). Low gravity (35) and weak magnetic field (40) combined with high stellar activity (50) create a serious radiation threat. Extreme climate (40) requires construction of sealed settlements with life support systems, medical monitoring due to low gravity, and powerful radiation shielding.",
     warning: "WARNING: High stellar activity and weak magnetic field create a radiation hazard. Atmosphere is unbreathable, gravity is low. Colonization possible only in sealed shielded domes."
   },
   {
     planet: "Trappist-1e", name: "TRAPPIST-1 e", star: "TRAPPIST-1", type: "Terrestrial", img: 'assets/trappist-1/trappist-1e-max.jpg',
-    cis_params: { habitable_zone: 85, surface: 95, hydrosphere: 80, atmosphere: 70, breathability: 10, climate: 60, gravity: 90, magnetic: 60, stellar_flares: 40 },
+    cis_params: { habitable_zone: 85, surface: 95, hydrosphere: 80, atmosphere: 70, breathability: 10, climate: 60, gravity: 90, magnetic: 60, star_radiation: 40 },
     description: "Planet is highly suitable for colonization — the best candidate in the TRAPPIST-1 system. Located in the habitable zone (85) with nearly perfect solid surface (95), abundant water (80), and dense atmosphere (70). Gravity is comfortable, near-Earth (90), climate is moderate (60). However, atmospheric composition is not breathable without apparatus (10) — likely high CO₂ or other gas content. Moderate magnetic field (60) partially protects from red dwarf flares (40), but requires additional radiation shielding for settlements. Colonization requires use of breathing apparatus and construction of shielded living modules, but otherwise the planet is ready for large-scale development.",
     warning: "WARNING: Atmosphere is not breathable. High activity of star TRAPPIST-1 requires radiation shielding for settlements. Use of breathing apparatus is mandatory."
   },
   {
     planet: "Trappist-1f", name: "TRAPPIST-1 f", star: "TRAPPIST-1", type: "Terrestrial", img: 'assets/trappist-1/trappist-1f-max.jpg',
-    cis_params: { habitable_zone: 80, surface: 90, hydrosphere: 70, atmosphere: 60, breathability: 5, climate: 50, gravity: 95, magnetic: 50, stellar_flares: 40 },
+    cis_params: { habitable_zone: 80, surface: 90, hydrosphere: 70, atmosphere: 60, breathability: 5, climate: 50, gravity: 95, magnetic: 50, star_radiation: 35 },
     description: "Planet is conditionally suitable for colonization. Excellent gravity (95), solid surface (90), and abundant water (70) make it an attractive candidate for development. Located in the habitable zone (80) with moderate climate (50). However, the atmosphere is completely unbreathable (5), and high stellar activity (40) combined with a moderate magnetic field (50) creates a constant radiation threat. Colonization requires construction of sealed settlements with air purification systems and powerful radiation shielding.",
     warning: "WARNING: Atmosphere is unbreathable. High stellar activity requires mandatory radiation shielding for living modules."
   },
   {
     planet: "Trappist-1g", name: "TRAPPIST-1 g", star: "TRAPPIST-1", type: "Terrestrial", img: 'assets/trappist-1/trappist-1g-max.jpg',
-    cis_params: { habitable_zone: 70, surface: 90, hydrosphere: 60, atmosphere: 50, breathability: 0, climate: 30, gravity: 90, magnetic: 50, stellar_flares: 40 },
+    cis_params: { habitable_zone: 70, surface: 90, hydrosphere: 60, atmosphere: 50, breathability: 0, climate: 30, gravity: 90, magnetic: 40, star_radiation: 25 },
     description: "Planet is conditionally suitable for colonization. Excellent gravity (90), solid surface (90), and moderate water reserves (60) make it a promising candidate. Located in the habitable zone (70) with moderate atmosphere (50). However, atmosphere is completely unbreathable (0), climate is extreme (30), and high stellar activity (40) combined with moderate magnetic field (50) creates a radiation threat. Colonization requires construction of sealed settlements with life support systems, air purification, and radiation shielding.",
     warning: "WARNING: Atmosphere is unbreathable, climate is extreme. High stellar activity requires radiation shielding. Colonization possible only in sealed shielded domes."
   },
   {
     planet: "Trappist-1h", name: "TRAPPIST-1 h", star: "TRAPPIST-1", type: "Terrestrial", img: 'assets/trappist-1/trappist-1h-max.jpg',
-    cis_params: { habitable_zone: 40, surface: 90, hydrosphere: 20, atmosphere: 20, breathability: 0, climate: 5, gravity: 75, magnetic: 40, stellar_flares: 40 },
+    cis_params: { habitable_zone: 40, surface: 90, hydrosphere: 20, atmosphere: 20, breathability: 0, climate: 5, gravity: 75, magnetic: 40, star_radiation: 40 },
     description: "Planet is marginally suitable for colonization. Features excellent solid surface (90) and comfortable gravity (75), favorable for construction. However, the planet is located at the outer edge of the habitable zone (40), making the climate extremely cold (5). Atmosphere is extremely thin (20) and unbreathable (0), water is virtually absent (20). High activity of the red dwarf (40) combined with a weak magnetic field (40) creates a hazardous radiation background. Colonization requires construction of deeply shielded sealed settlements with powerful heating, life support, and radiation protection systems.",
     warning: "CRITICAL: Extremely low temperatures due to distance from the star. Atmosphere is unbreathable, high radiation threat. Colonization possible only in deeply shielded heated bunkers."
   }
