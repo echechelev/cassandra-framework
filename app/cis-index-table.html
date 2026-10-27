@@ -515,9 +515,11 @@
     }
 
     .archive-row .action-btn {
-      background: transparent;
-      border: 0.1vmin solid rgba(77, 166, 255, 0.3);
-      color: var(--neon-blue);
+      background: #4da6ff;
+      /* Синий фон */
+      border: 0.1vmin solid #4da6ff;
+      color: white;
+      /* Белый текст */
       padding: 0.4vmin 0.8vmin;
       border-radius: 0.2vmin;
       font-size: 0.9vmin;
@@ -527,15 +529,24 @@
     }
 
     .archive-row .action-btn:hover {
-      background: rgba(77, 166, 255, 0.1);
-      border-color: var(--neon-blue);
+      background: transparent;
+      /* Прозрачный фон при наведении */
+      border-color: #4da6ff;
+      /* Синяя рамка */
+      color: #4da6ff;
+      /* Синий текст */
+      box-shadow: 0 0 0.8vmin rgba(77, 166, 255, 0.6);
+      transform: translateY(-0.1vmin);
     }
 
     /* Кнопка DELETE */
+    /* Кнопка DELETE — как на скрине */
     .archive-row .delete-btn {
-      background: transparent;
+      background: #e74c3c;
+      /* Красный фон */
       border: 0.1vmin solid #e74c3c;
-      color: #e74c3c;
+      color: white;
+      /* Белый текст */
       padding: 0.4vmin 0.8vmin;
       border-radius: 0.2vmin;
       font-size: 0.9vmin;
@@ -545,10 +556,14 @@
     }
 
     .archive-row .delete-btn:hover {
-      background: #e74c3c;
-      color: white;
+      background: transparent;
+      /* Прозрачный фон при наведении */
       border-color: #e74c3c;
-      box-shadow: 0 0 0.8vmin rgba(231, 76, 60, 0.4);
+      /* Красная рамка */
+      color: #e74c3c;
+      /* Красный текст */
+      box-shadow: 0 0 0.8vmin rgba(231, 76, 60, 0.6);
+      transform: translateY(-0.1vmin);
     }
 
     /* ===== МОДАЛЬНЫЕ ОКНА ===== */
@@ -1315,8 +1330,7 @@
   <div class="main-content">
     <div class="page-header">
       <div class="page-title">
-        <span class="white">🧬 CASSAN</span><span class="blue">DRA</span>
-        <span class="white"> INDEX </span><span class="blue">OF SUITABILITY</span>
+        <span class="white">🧬 CASSANDRA </span><span class="blue">ANALYSIS MODULE</span>
       </div>
     </div>
 
@@ -1429,14 +1443,9 @@
             </div>
           </div>
           <div class="info-item">
-            <div class="info-label">STELLAR FLARES</div>
+            <div class="info-label">STAR RADIATION</div>
             <div class="info-desc">Frequency and intensity of stellar eruptions. High levels pose radiation hazards to
               colonists.</div>
-          </div>
-          <div class="info-item">
-            <div class="info-label">ALIEN ACTIVITY 👽</div>
-            <div class="info-desc">Detected signs of extraterrestrial life or technological civilization. Triggers first
-              contact protocols.</div>
           </div>
         </div>
 
@@ -1748,23 +1757,58 @@
   function calculateCIS(params) {
     const weights = {
       habitable_zone: 0.15, surface: 0.15, hydrosphere: 0.20, atmosphere: 0.10,
-      breathability: 0.05, climate: 0.10, gravity: 0.05, magnetic: 0.10, stellar_flares: 0.10
+      breathability: 0.05, climate: 0.10, gravity: 0.05, magnetic: 0.10, star_radiation: 0.10
     };
+
     let cis = 0;
+
+    // 1. МЕХАНИКА ЩИТА: Вычисляем реальную радиацию на поверхности
+    const rawRadiation = params.star_radiation || 0;
+    const magneticShield = params.magnetic || 0;
+
+    // Магнитное поле блокирует 80% радиации (коэффициент баланса)
+    const blockedRadiation = magneticShield * 0.8;
+
+    let effectiveRadiation = rawRadiation - blockedRadiation;
+
+    // Радиация не может быть отрицательной (если щит мощнее потока, угроза = 0)
+    if (effectiveRadiation < 0) {
+      effectiveRadiation = 0;
+    }
+
+    // 2. Расчет итогового CIS
     for (const key in weights) {
-      const value = params[key] || 0;
+      let value = params[key] || 0;
+
+      // Если это радиация, мы берем не сырое значение, а "очищенное" щитом.
+      // И инвертируем его (100 - value), потому что для CIS чем МЕНЬШЕ радиации, тем ЛУЧШЕ (ближе к 100).
+      if (key === 'star_radiation') {
+        value = 100 - effectiveRadiation;
+      }
+
       cis += value * weights[key];
     }
+
+    // Страховка: ограничиваем итоговый CIS строго от 0 до 100
+    cis = Math.max(0, Math.min(100, cis));
+
     return cis.toFixed(1);
   }
 
   const PARAM_LABELS = {
     habitable_zone: 'HABITABLE ZONE 🌍', hydrosphere: 'HYDROSPHERE 💧', breathability: 'BREATHABILITY 🌬️',
-    gravity: 'GRAVITY ⬇️', stellar_flares: 'STELLAR FLARES ☀️', surface: 'SURFACE 🏔️',
-    atmosphere: 'ATMOSPHERE 💨', climate: 'CLIMATE 🌦️', magnetic: 'MAGNETIC 🧲'
+    gravity: 'GRAVITY ⬇️', star_radiation: 'STAR RADIATION ☢️', surface: 'SURFACE 🏔️',
+    atmosphere: 'ATMOSPHERE 💨', climate: 'CLIMATE 🌦️', magnetic: 'MAGNETIC 🧲',
+    cassandra: 'CASSANDRA 🌌'
   };
 
-  function getParamColor(value) {
+  function getParamColor(value, paramName = '') {
+    // СПЕЦИАЛЬНО ДЛЯ ВСПЫШЕК: Всегда красный текст (радиация)
+    if (paramName === 'star_radiation') {
+      return '#e74c3c';
+    }
+
+    // ДЛЯ ВСЕХ ОСТАЛЬНЫХ ПАРАМЕТРОВ
     if (!window.CIS_THRESHOLDS || !Array.isArray(window.CIS_THRESHOLDS)) {
       if (value >= 76) return '#2ecc71';
       if (value >= 51) return '#f1c40f';
@@ -1775,8 +1819,20 @@
     return threshold ? threshold.color : '#7f8c8d';
   }
 
-  function generateAlienActivity() {
-    return Math.floor(Math.random() * 20) + 1;
+  function getParamBackground(value, paramName = '') {
+    // Для STELLAR FLARES — желто-черные полосы как знак радиации ☢️
+    if (paramName === 'star_radiation') {
+      return 'repeating-linear-gradient(45deg, #f1c40f, #f1c40f 6px, #1a1a1a 6px, #1a1a1a 12px)';
+    }
+
+    // Для CASSANDRA CORE — приглушенные бело-синие полосы (заглушка)
+    if (paramName === 'cassandra') {
+      return 'linear-gradient(90deg, #ffffff 0%, #ffffff 50%, #4da6ff 50%, #4da6ff 100%)';
+    }
+
+    // Для всех остальных — обычный градиент
+    const color = getParamColor(value, paramName);
+    return `linear-gradient(90deg, ${color}, ${color}dd)`;
   }
 
   // ===== 5. ЛОГИКА МОДАЛЬНЫХ ОКОН =====
@@ -1917,11 +1973,19 @@
       scanParams.appendChild(row);
     });
 
-    const alienRow = document.createElement('div');
-    alienRow.className = 'param-row pending';
-    alienRow.dataset.paramKey = 'alien_activity';
-    alienRow.innerHTML = `<div class="param-label">ALIEN ACTIVITY 👽</div><div class="param-bar-container"><div class="param-bar"></div></div><div class="param-value">—</div>`;
-    scanParams.appendChild(alienRow);
+    // Создаем статичную полосу CASSANDRA CORE (всегда 100%, приглушенная)
+    const cassandraRow = document.createElement('div');
+    cassandraRow.className = 'param-row filled';
+    cassandraRow.dataset.paramKey = 'cassandra';
+    const cassandraBg = getParamBackground(100, 'cassandra');
+    cassandraRow.innerHTML = `
+      <div class="param-label">${PARAM_LABELS.cassandra}</div>
+      <div class="param-bar-container">
+        <div class="param-bar" style="width: 100%; background: ${cassandraBg};"></div>
+      </div>
+      <div class="param-value" style="color: #ffffff;">100</div>
+    `;
+    scanParams.appendChild(cassandraRow);
 
     btnScan.disabled = false;
     updateTelemetry(`TARGET ACQUIRED: ${currentPlanetData.planet}. DATA LOADED. READY FOR SCAN.`);
@@ -1946,29 +2010,19 @@
       const valueEl = row.querySelector('.param-value');
       const paramKey = row.dataset.paramKey;
 
-      let realValue = 0;
-      let displayValue = "0";
-
-      if (paramKey === 'alien_activity') {
-        realValue = generateAlienActivity();
-        displayValue = `${realValue}`;
-      } else {
-        realValue = currentPlanetData.cis_params[paramKey];
-        displayValue = realValue.toString();
+      // Пропускаем заглушку CASSANDRA, она уже на 100% и не анимируется
+      if (paramKey === 'cassandra') {
+        row.classList.remove('pending');
+        row.classList.add('filled');
+        continue;
       }
 
-      const color = getParamColor(realValue);
-      await animateValue(valueEl, 0, realValue, 500);
+      let realValue = currentPlanetData.cis_params[paramKey];
 
-      if (paramKey === 'alien_activity') valueEl.textContent = displayValue;
+      await animateParamBar(bar, valueEl, realValue, 600, paramKey);
 
-      bar.style.width = `${realValue}%`;
-      bar.style.background = `linear-gradient(90deg, ${color}, ${color}dd)`;
-      bar.style.color = color;
-      valueEl.style.color = color;
       row.classList.remove('pending');
       row.classList.add('filled');
-
       await sleep(150);
     }
 
@@ -1979,7 +2033,7 @@
     const statusInfo = getStatusByCIS(parseFloat(finalCIS));
 
     cisResult.classList.add('visible');
-    await animateCIS(cisScore, parseFloat(finalCIS));
+    await animateCIS(cisScore, cisStatusBadge, parseFloat(finalCIS));
 
     cisScore.style.color = statusInfo.color;
     cisStatusBadge.textContent = statusInfo.label;
@@ -2022,15 +2076,10 @@
   }
 
   function saveScannerState() {
-    let alienVal = 0;
-    const alienRow = scanParams.querySelector('[data-param-key="alien_activity"] .param-value');
-    if (alienRow) alienVal = parseInt(alienRow.textContent) || 0;
-
     const scannerState = {
       targetName: currentTargetName,
       planetData: currentPlanetData,
       isActive: scannerActive.classList.contains('active'),
-      alienValue: alienVal,
       cisResult: {
         score: cisScore.textContent,
         scoreColor: cisScore.style.color,
@@ -2098,21 +2147,28 @@
         paramKeys.forEach(key => {
           const label = PARAM_LABELS[key] || key.toUpperCase().replace('_', ' ');
           const value = state.planetData.cis_params[key];
-          const color = getParamColor(value);
+          const color = getParamColor(value, key);
           const row = document.createElement('div');
           row.className = 'param-row filled';
           row.dataset.paramKey = key;
-          row.innerHTML = `<div class="param-label">${label}</div><div class="param-bar-container"><div class="param-bar" style="width: ${value}%; background: linear-gradient(90deg, ${color}, ${color}dd); color: ${color};"></div></div><div class="param-value" style="color: ${color};">${value}</div>`;
+          const barBg = getParamBackground(value, key);
+          row.innerHTML = `<div class="param-label">${label}</div><div class="param-bar-container"><div class="param-bar" style="width: ${value}%; background: ${barBg}; color: ${color};"></div></div><div class="param-value" style="color: ${color};">${value}</div>`;
           scanParams.appendChild(row);
         });
 
-        const alienValue = state.alienValue !== undefined ? state.alienValue : generateAlienActivity();
-        const alienColor = getParamColor(alienValue);
-        const alienRow = document.createElement('div');
-        alienRow.className = 'param-row filled';
-        alienRow.dataset.paramKey = 'alien_activity';
-        alienRow.innerHTML = `<div class="param-label">ALIEN ACTIVITY 👽</div><div class="param-bar-container"><div class="param-bar" style="width: ${alienValue}%; background: linear-gradient(90deg, ${alienColor}, ${alienColor}dd); color: ${alienColor};"></div></div><div class="param-value" style="color: ${alienColor};">${alienValue}</div>`;
-        scanParams.appendChild(alienRow);
+        // Восстанавливаем статичную полосу CASSANDRA CORE
+        const cassandraRow = document.createElement('div');
+        cassandraRow.className = 'param-row filled';
+        cassandraRow.dataset.paramKey = 'cassandra';
+        const cassandraBg = getParamBackground(100, 'cassandra');
+        cassandraRow.innerHTML = `
+          <div class="param-label">${PARAM_LABELS.cassandra}</div>
+          <div class="param-bar-container">
+            <div class="param-bar" style="width: 100%; background: ${cassandraBg};"></div>
+          </div>
+          <div class="param-value" style="color: rgba(255, 255, 255, 0.4);">100</div>
+        `;
+        scanParams.appendChild(cassandraRow);
 
         if (state.cisResult && state.cisResult.isVisible) {
           cisResult.classList.add('visible');
@@ -2167,22 +2223,41 @@
   // ===== 9. УТИЛИТЫ АНИМАЦИИ =====
   function sleep(ms) { return new Promise(resolve => setTimeout(resolve, ms)); }
 
-  async function animateValue(el, from, to, duration) {
+  async function animateParamBar(barEl, valueEl, targetValue, duration, paramName) {
     const start = performance.now();
     return new Promise(resolve => {
       function update(now) {
         const elapsed = now - start;
         const progress = Math.min(elapsed / duration, 1);
-        const current = Math.round(from + (to - from) * progress);
-        el.textContent = current;
-        if (progress < 1) requestAnimationFrame(update);
-        else { el.textContent = to; resolve(); }
+        const currentValue = Math.round(targetValue * progress);
+
+        const currentColor = getParamColor(currentValue, paramName);
+        const currentBg = getParamBackground(currentValue, paramName);
+
+        valueEl.textContent = currentValue;
+        valueEl.style.color = currentColor;
+        barEl.style.width = `${currentValue}%`;
+        barEl.style.background = currentBg;
+        barEl.style.boxShadow = `0 0 0.5vmin ${currentColor}`;
+
+        if (progress < 1) {
+          requestAnimationFrame(update);
+        } else {
+          valueEl.textContent = targetValue;
+          const finalColor = getParamColor(targetValue, paramName);
+          const finalBg = getParamBackground(targetValue, paramName);
+          valueEl.style.color = finalColor;
+          barEl.style.width = `${targetValue}%`;
+          barEl.style.background = finalBg;
+          barEl.style.boxShadow = `0 0 0.5vmin ${finalColor}`;
+          resolve();
+        }
       }
       requestAnimationFrame(update);
     });
   }
 
-  async function animateCIS(el, target) {
+  async function animateCIS(el, badgeEl, target) {
     const duration = 1200;
     const start = performance.now();
     return new Promise(resolve => {
@@ -2190,9 +2265,21 @@
         const elapsed = now - start;
         const progress = Math.min(elapsed / duration, 1);
         const eased = 1 - Math.pow(1 - progress, 3);
-        el.textContent = `${(target * eased).toFixed(1)}%`;
-        if (progress < 1) requestAnimationFrame(update);
-        else { el.textContent = `${target.toFixed(1)}%`; resolve(); }
+
+        const currentValue = target * eased;
+        const currentColor = getParamColor(currentValue);
+
+        el.textContent = `${currentValue.toFixed(1)}%`;
+        el.style.color = currentColor;
+
+        if (progress < 1) {
+          requestAnimationFrame(update);
+        } else {
+          el.textContent = `${target.toFixed(1)}%`;
+          const finalColor = getParamColor(target);
+          el.style.color = finalColor;
+          resolve();
+        }
       }
       requestAnimationFrame(update);
     });
@@ -2241,7 +2328,7 @@
 
   let pendingDeleteRow = null;
   let pendingDeletePlanet = null;
-  let deleteMode = 'single'; // 'single' или 'all'
+  let deleteMode = 'single';
 
   function openConfirmDeleteModal(planetName, row) {
     if (!confirmDeleteOverlay) return;
@@ -2284,7 +2371,6 @@
   if (btnConfirmDelete) {
     btnConfirmDelete.addEventListener('click', () => {
       if (deleteMode === 'single' && pendingDeleteRow) {
-        // Удаление одной записи
         pendingDeleteRow.remove();
         archiveCount--;
         archiveCountEl.textContent = `${archiveCount} record${archiveCount !== 1 ? 's' : ''}`;
@@ -2297,7 +2383,6 @@
         saveArchiveToStorage();
         updateTelemetry(`RECORD DELETED: ${pendingDeletePlanet.toUpperCase()}`);
       } else if (deleteMode === 'all') {
-        // Очистка всего архива
         archiveList.innerHTML = `<div class="archive-empty"><div class="empty-icon">📂</div><div class="empty-text">NO SCANS IN ARCHIVE</div></div>`;
         archiveCount = 0;
         archiveCountEl.textContent = '0 records';
@@ -2320,7 +2405,6 @@
     });
   }
 
-  // Обработчик кнопки DELETE в архиве (открывает модалку для одной записи)
   archiveList.addEventListener('click', (e) => {
     const deleteBtn = e.target.closest('.delete-btn');
     if (!deleteBtn) return;
@@ -2329,7 +2413,6 @@
     openConfirmDeleteModal(planetName, row);
   });
 
-  // Обработчик кнопки CLEAR ALL (открывает модалку для всего архива)
   if (btnClear) {
     btnClear.addEventListener('click', () => {
       if (archiveCount > 0) {
@@ -2338,7 +2421,6 @@
     });
   }
 
-  // Запуск при загрузке
   document.addEventListener('DOMContentLoaded', () => {
     const isAuthorized = initDashboard();
     if (isAuthorized) {
@@ -2346,6 +2428,9 @@
     }
   });
 </script>
+</body>
+
+</html>
 </body>
 
 </html>
