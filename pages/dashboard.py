@@ -127,8 +127,7 @@ class DashboardPage(CorePage):
             self.cis_index_table_btn.click()
             self.wait_for_url(data.CIS_INDEX_TABLE_URL)
 
-            # Временно: клик по заглушке "Back to Dashboard" для возврата
-            self.back_btn.click()
+            self.click_dashboard()
             self.wait_for_url(data.DASHBOARD_URL)
     
             return self
