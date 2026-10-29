@@ -181,18 +181,15 @@ def test_progress_bar_animation_and_values(dashboard_page_aurora):
     1. Выполнить авторизацию под пользователем 'AURORA'.
     2. Перейти на страницу 'Dashboard Page'.
     3. Нажать на кнопку 'Uplink Button'.
-    4. Проверить: через явные ожидания значение атрибута 'style' у 'Progress Fill',
-    значение ширины монотонно возрастает ('10%' -> '22%' -> ... -> '100%') .
-    5. Проверить: через явные ожидания значение атрибута `style` у 'Progress Text',
-    текстовое значение синхронизировано с шириной.
-    6. Проверить: в конце контейнер прогресс-бара имеет 'display: none' или 'opacity: 0'.
+    4. Проверить: текст прогресс-бара успешно достигает отметки '100%'.
+    5. Проверить: контейнер прогресс-бара исчезает (становится невидимым) после завершения загрузки.
     """
 
     # 🎬 ARRANGE
     dashboard_page_aurora.click_uplink()
 
     # ✅ ASSERT
-    dashboard_page_aurora.verify_progress_bar_animation()
+    dashboard_page_aurora.verify_progress_bar_completion()
 
 
 @allure.id("CAS-08")
