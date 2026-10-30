@@ -6,6 +6,7 @@ from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 
 from pages.access_restoration import AccessRestorationPage
+from pages.cis_index_table import CisIndexTablePage
 from pages.dashboard import DashboardPage
 from pages.flight_calc import FlightCalcPage
 from pages.galaxy_map import GalaxyMapPage
@@ -116,21 +117,6 @@ def dashboard_page():
     page.clear_all_storages()
 
 @pytest.fixture(scope="function")
-def flight_calc_page(dashboard_page_aurora):
-    """🔓 Открывает страницу без ожидания аплинка и очищает Storage после теста."""
-
-    dashboard_page_aurora.fast_forward_uplink()
-    dashboard_page_aurora.click_refresh_page()
-    dashboard_page_aurora.flight_calc_btn.should(be.visible)
-    
-    page = FlightCalcPage()
-
-    page.open()
-    yield page
-
-    page.clear_all_storages()
-
-@pytest.fixture(scope="function")
 def galaxy_map_page(dashboard_page_aurora):
     """🔓 Открывает страницу без ожидания аплинка и очищает Storage после теста."""
 
@@ -143,6 +129,34 @@ def galaxy_map_page(dashboard_page_aurora):
     dashboard_page_aurora.wait_for_url(expected_url_part=data.GALAXY_MAP_URL)
 
     page = GalaxyMapPage()
+    yield page
+
+    page.clear_all_storages()
+
+@pytest.fixture(scope="function")
+def flight_calc_page(dashboard_page_aurora):
+    """🔓 Открывает страницу без ожидания аплинка и очищает Storage после теста."""
+
+    dashboard_page_aurora.fast_forward_uplink()
+    dashboard_page_aurora.click_refresh_page()
+   
+    page = FlightCalcPage()
+
+    page.open()
+    yield page
+
+    page.clear_all_storages()
+
+@pytest.fixture(scope="function")
+def cis_index(dashboard_page_aurora):
+    """🔓 Открывает страницу без ожидания аплинка и очищает Storage после теста."""
+
+    dashboard_page_aurora.fast_forward_uplink()
+    dashboard_page_aurora.click_refresh_page()
+   
+    page = CisIndexTablePage()
+
+    page.open()
     yield page
 
     page.clear_all_storages()

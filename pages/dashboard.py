@@ -1,6 +1,3 @@
-import re
-import time
-
 import allure
 from selene import be, browser, have
 from selenium.common.exceptions import (
@@ -19,12 +16,6 @@ class DashboardPage(CorePage):
 
     # URL
     PATH = data.DASHBOARD_URL
-
-    galaxy_map_btn = browser.element('[data-wm-id="galaxy-map-btn"]')
-    flight_calc_btn = browser.element('[data-wm-id="flight-calc-btn"]')
-    cis_index_table_btn = browser.element('[data-wm-id="cis-index-table-btn"]')
-    mission_control_btn = browser.element('[data-wm-id="mission-control-btn"]')
-    settings_btn = browser.element('[data-wm-id="settings-btn"]')
 
     # Временный локатор кнопка "Назад", на страницах заглушках для планет бара
     back_btn = browser.element(".back-btn")
@@ -152,8 +143,8 @@ class DashboardPage(CorePage):
             """
             Кликает по кнопке 'Settings', проверяет URL и возвращается на Dashboard.
             """
-            self.settings_btn.should(be.clickable)
-            self.settings_btn.click()
+            self.cassandra_settings_btn.should(be.clickable)
+            self.cassandra_settings_btn.click()
             self.wait_for_url(data.CASSANDRA_SEETTINGS_URL)
     
             # Временно: клик по заглушке "Back to Dashboard" для возврата
@@ -249,8 +240,8 @@ class DashboardPage(CorePage):
         """Нажимает кнопку перехода к настройкам Cassandra."""
         with allure.step("Кликаем по кнопке Settings"):
             try:
-                self.settings_btn.should(be.visible).should(be.enabled)
-                self.settings_btn.click()
+                self.cassandra_settings_btn.should(be.visible).should(be.enabled)
+                self.cassandra_settings_btn.click()
             except TimeoutException:
                 raise AssertionError(
                     "❌ Settings button not found or not clickable!\n"
@@ -472,7 +463,7 @@ class DashboardPage(CorePage):
                     ("Flight Calc", self.flight_calc_btn),
                     ("CIS Index Table", self.cis_index_table_btn),
                     ("Mission Control", self.mission_control_btn),
-                    ("Cassandra Settings", self.settings_btn),
+                    ("Cassandra Settings", self.cassandra_settings_btn),
                 ]
 
                 errors = []
@@ -535,11 +526,11 @@ class DashboardPage(CorePage):
             timeout_per_button: Максимальное время ожидания появления каждой кнопки
         """
         planet_bar_buttons = [
-            ("Galaxy Map", self.galaxy_map_btn, "galaxy-map-btn"),
-            ("Flight Calc", self.flight_calc_btn, "flight-calc-btn"),
-            ("CIS Index Table", self.cis_index_table_btn, "cis-index-table-btn"),
-            ("Mission Control", self.mission_control_btn, "mission-control-btn"),
-            ("Nav Settings", self.settings_btn, "settings-btn"),
+            ("Galaxy Map", self.galaxy_map_btn, "nav-galaxy-map-btn"),
+            ("Flight Calc", self.flight_calc_btn, "nav-flight-calc-btn"),
+            ("CIS Index Table", self.cis_index_table_btn, "nav-cis-index-table-btn"),
+            ("Mission Control", self.mission_control_btn, "nav-mission-control-btn"),
+            ("Nav Settings", self.cassandra_settings_btn, "nav-cassandra-settings-btn"),
         ]
 
         for btn_name, btn_element, btn_id in planet_bar_buttons:
@@ -569,11 +560,11 @@ class DashboardPage(CorePage):
         with allure.step("Проверяем pointer-events: none для всех кнопок Planet Bar"):
             script = """
                 const selectors = [
-                    '[data-wm-id="galaxy-map-btn"]',
-                    '[data-wm-id="flight-calc-btn"]',
-                    '[data-wm-id="cis-index-table-btn"]',
-                    '[data-wm-id="mission-control-btn"]',
-                    '[data-wm-id="settings-btn"]'
+                    '[data-wm-id="nav-galaxy-map-btn"]',
+                    '[data-wm-id="nav-flight-calc-btn"]',
+                    '[data-wm-id="nav-cis-index-table-btn"]',
+                    '[data-wm-id="nav-mission-control-btn"]',
+                    '[data-wm-id="nav-cassandra-settings-btn"]'
                 ];
                 return selectors.map(sel => {
                     const btn = document.querySelector(sel);

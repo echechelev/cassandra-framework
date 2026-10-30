@@ -622,31 +622,31 @@
 
     <div class="planet-bar">
 
-      <button class="planet-btn uplink-hidden" data-wm-id="galaxy-map-btn"
+      <button class="planet-btn uplink-hidden" data-wm-id="nav-galaxy-map-btn"
         onclick="window.location.href='galaxy-map.html'">
         <span class="planet-icon">🌌</span>
         <span class="planet-label">Galaxy<br>Map</span>
       </button>
 
-      <button class="planet-btn uplink-hidden" data-wm-id="flight-calc-btn"
+      <button class="planet-btn uplink-hidden" data-wm-id="nav-flight-calc-btn"
         onclick="window.location.href='flight-calc.html'">
         <span class="planet-icon">💫</span>
         <span class="planet-label">FLIGHT<br>CALC</span>
       </button>
 
-      <button class="planet-btn uplink-hidden" data-wm-id="cis-index-table-btn"
+      <button class="planet-btn uplink-hidden" data-wm-id="nav-cis-index-table-btn"
         onclick="window.location.href='cis-index-table.html'">
         <span class="planet-icon">🧬</span>
         <span class="planet-label">CIS INDEX<br>TABLE</span>
       </button>
 
-      <button class="planet-btn uplink-hidden" data-wm-id="mission-control-btn"
+      <button class="planet-btn uplink-hidden" data-wm-id="nav-mission-control-btn"
         onclick="window.location.href='mission-control.html'">
         <span class="planet-icon">🚀</span>
         <span class="planet-label">MISSION<br>CONTROL</span>
       </button>
 
-      <button class="planet-btn uplink-hidden" data-wm-id="settings-btn" onclick="window.location.href='settings.html'">
+      <button class="planet-btn uplink-hidden" data-wm-id="nav-cassandra-settings-btn" onclick="window.location.href='settings.html'">
         <span class="planet-icon">⚙️</span>
         <span class="planet-label">Cassandra<br>Settings</span>
       </button>
@@ -898,32 +898,32 @@
 
         progressFill.style.width = '36%';
         progressText.textContent = '36%';
-        document.querySelector('[data-wm-id="galaxy-map-btn"]').classList.remove('uplink-hidden');
-        document.querySelector('[data-wm-id="galaxy-map-btn"]').classList.add('uplink-visible', 'panel-offline');
+        document.querySelector('[data-wm-id="nav-galaxy-map-btn"]').classList.remove('uplink-hidden');
+        document.querySelector('[data-wm-id="nav-galaxy-map-btn"]').classList.add('uplink-visible', 'panel-offline');
         await sleep(2000);
 
         progressFill.style.width = '50%';
         progressText.textContent = '50%';
-        document.querySelector('[data-wm-id="flight-calc-btn"]').classList.remove('uplink-hidden');
-        document.querySelector('[data-wm-id="flight-calc-btn"]').classList.add('uplink-visible', 'panel-offline');
+        document.querySelector('[data-wm-id="nav-flight-calc-btn"]').classList.remove('uplink-hidden');
+        document.querySelector('[data-wm-id="nav-flight-calc-btn"]').classList.add('uplink-visible', 'panel-offline');
         await sleep(2000);
 
         progressFill.style.width = '65%';
         progressText.textContent = '65%';
-        document.querySelector('[data-wm-id="cis-index-table-btn"]').classList.remove('uplink-hidden');
-        document.querySelector('[data-wm-id="cis-index-table-btn"]').classList.add('uplink-visible', 'panel-offline');
+        document.querySelector('[data-wm-id="nav-cis-index-table-btn"]').classList.remove('uplink-hidden');
+        document.querySelector('[data-wm-id="nav-cis-index-table-btn"]').classList.add('uplink-visible', 'panel-offline');
         await sleep(2000);
 
         progressFill.style.width = '80%';
         progressText.textContent = '80%';
-        document.querySelector('[data-wm-id="mission-control-btn"]').classList.remove('uplink-hidden');
-        document.querySelector('[data-wm-id="mission-control-btn"]').classList.add('uplink-visible', 'panel-offline');
+        document.querySelector('[data-wm-id="nav-mission-control-btn"]').classList.remove('uplink-hidden');
+        document.querySelector('[data-wm-id="nav-mission-control-btn"]').classList.add('uplink-visible', 'panel-offline');
         await sleep(2000);
 
         progressFill.style.width = '95%';
         progressText.textContent = '95%';
-        document.querySelector('[data-wm-id="settings-btn"]').classList.remove('uplink-hidden');
-        document.querySelector('[data-wm-id="settings-btn"]').classList.add('uplink-visible', 'panel-offline');
+        document.querySelector('[data-wm-id="nav-cassandra-settings-btn"]').classList.remove('uplink-hidden');
+        document.querySelector('[data-wm-id="nav-cassandra-settings-btn"]').classList.add('uplink-visible', 'panel-offline');
         await sleep(2000);
 
         progressFill.style.width = '99%';

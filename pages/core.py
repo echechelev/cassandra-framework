@@ -1,5 +1,8 @@
 import json
+import logging
 import re
+
+logger = logging.getLogger(__name__)
 
 import allure
 from selene import be, browser, have, query
@@ -14,13 +17,18 @@ from selenium.webdriver.support.ui import WebDriverWait
 class CorePage:
     """Общие методы и локаторы."""
 
-    # Кнопки навигации
+    # Общие кнопки дашборда и угловые кнопки навигации
+    galaxy_map_btn = browser.element('[data-wm-id="nav-galaxy-map-btn"]')
+    flight_calc_btn = browser.element('[data-wm-id="nav-flight-calc-btn"]')
+    cis_index_table_btn = browser.element('[data-wm-id="nav-cis-index-table-btn"]')
+    mission_control_btn = browser.element('[data-wm-id="nav-mission-control-btn"]')
+    cassandra_settings_btn = browser.element('[data-wm-id="nav-cassandra-settings-btn"]')
+
+    # Угловые кнопки навигации
     log_in_btn = browser.element('[data-wm-id="nav-login-btn"]')
     sign_up_btn = browser.element('[data-wm-id="nav-signup-btn"]')
     restore_btn = browser.element('[data-wm-id="nav-restore-btn"]')
     dashboard_btn = browser.element('[data-wm-id="nav-dashboard-btn"]')
-    cis_index_table_btn = browser.element('[data-wm-id="nav-cis-index-table-btn"]')
-    galaxy_map_btn = browser.element('[data-wm-id="nav-galaxy-map-btn"]')
     star_system_btn = browser.element('[data-wm-id="nav-star-system-btn"]')
 
     # Служебные элементы 
@@ -133,6 +141,101 @@ class CorePage:
     # region 2️⃣ 🖱️ Методы для кнопок 
     # ========================================================================
 
+    @allure.step("Нажатие кнопки Galaxy Map")
+    def click_galaxy_map(self):
+        """Нажимает кнопку карта галактики."""
+        with allure.step("Кликаем по кнопке Galaxy Map"):
+            try:
+                self.galaxy_map_btn.should(be.visible).should(be.enabled)
+                self.galaxy_map_btn.click()
+            except TimeoutException:
+                raise AssertionError(
+                    "❌ Galaxy Map button not found or not clickable!\n"
+                    "   Timeout: button did not appear in time"
+                )
+            except Exception as e:
+                raise AssertionError(
+                    f"❌ Unexpected error while clicking Galaxy map!\n"
+                    f"   Error: {e}"
+                ) from e
+        return self
+
+    @allure.step("Нажатие кнопки Flight Calc")
+    def click_flight_calc(self):
+        """Нажимает кнопку Flight Calc."""
+        with allure.step("Кликаем по кнопке Flight Calc"):
+            try:
+                self.flight_calc_btn.should(be.visible).should(be.enabled)
+                self.flight_calc_btn.click()
+            except TimeoutException:
+                raise AssertionError(
+                    "❌ Flight Calc button not found or not clickable!\n"
+                    "   Timeout: button did not appear in time"
+                )
+            except Exception as e:
+                raise AssertionError(
+                    f"❌ Unexpected error while clicking Flight Calc!\n"
+                    f"   Error: {e}"
+                ) from e
+        return self 
+
+    @allure.step("Нажатие кнопки CIS Index Table")
+    def click_cis_index_table(self):
+        """Нажимает кнопку перехода к CIS Index Table."""
+        with allure.step("Кликаем по кнопке CIS Index Table"):
+            try:
+                self.cis_index_table_btn.should(be.visible).should(be.enabled)
+                self.cis_index_table_btn.click()
+            except TimeoutException:
+                raise AssertionError(
+                    "❌ CIS Index button not found or not clickable!\n"
+                    "   Timeout: button did not appear in time"
+                )
+            except Exception as e:
+                raise AssertionError(
+                    f"❌ Unexpected error while clicking CIS Index!\n"
+                    f"   Error: {e}"
+                ) from e
+        return self
+
+    @allure.step("Нажатие кнопки Mission Control")
+    def click_mission_control(self):
+        """Нажимает кнопку Mission Control."""
+        with allure.step("Кликаем по кнопке Mission Control"):
+            try:
+                self.mission_control_btn.should(be.visible).should(be.enabled)
+                self.mission_control_btn.click()
+            except TimeoutException:
+                raise AssertionError(
+                    "❌ Mission Control button not found or not clickable!\n"
+                    "   Timeout: button did not appear in time"
+                )
+            except Exception as e:
+                raise AssertionError(
+                    f"❌ Unexpected error while clicking Mission Control!\n"
+                    f"   Error: {e}"
+                ) from e
+        return self
+    
+    @allure.step("Нажатие кнопки Cassandra Settings")
+    def click_cassandra_settings(self):
+        """Нажимает кнопку Cassandra Settings."""
+        with allure.step("Кликаем по кнопке Cassandra Settings"):
+            try:
+                self.cassandra_settings_btn.should(be.visible).should(be.enabled)
+                self.cassandra_settings_btn.click()
+            except TimeoutException:
+                raise AssertionError(
+                    "❌ Cassandra Settings button not found or not clickable!\n"
+                    "   Timeout: button did not appear in time"
+                )
+            except Exception as e:
+                raise AssertionError(
+                    f"❌ Unexpected error while clicking Cassandra Settings!\n"
+                    f"   Error: {e}"
+                ) from e
+        return self
+
     @allure.step("Нажатие кнопки Log In")
     def click_log_in(self):
         """Нажимает кнопку входа в систему."""
@@ -209,44 +312,6 @@ class CorePage:
                 ) from e
         return self
 
-    @allure.step("Нажатие кнопки CIS Index Table")
-    def click_cis_index_table(self):
-        """Нажимает кнопку перехода к CIS Index Table."""
-        with allure.step("Кликаем по кнопке CIS Index Table"):
-            try:
-                self.cis_index_table_btn.should(be.visible).should(be.enabled)
-                self.cis_index_table_btn.click()
-            except TimeoutException:
-                raise AssertionError(
-                    "❌ CIS Index button not found or not clickable!\n"
-                    "   Timeout: button did not appear in time"
-                )
-            except Exception as e:
-                raise AssertionError(
-                    f"❌ Unexpected error while clicking CIS Index!\n"
-                    f"   Error: {e}"
-                ) from e
-        return self
-
-    @allure.step("Нажатие кнопки Galaxy Map")
-    def click_galaxy_map(self):
-        """Нажимает кнопку карта галактики."""
-        with allure.step("Кликаем по кнопке Galaxy Map"):
-            try:
-                self.galaxy_map_btn.should(be.visible).should(be.enabled)
-                self.galaxy_map_btn.click()
-            except TimeoutException:
-                raise AssertionError(
-                    "❌ Galaxy Map button not found or not clickable!\n"
-                    "   Timeout: button did not appear in time"
-                )
-            except Exception as e:
-                raise AssertionError(
-                    f"❌ Unexpected error while clicking Restore!\n"
-                    f"   Error: {e}"
-                ) from e
-        return self
-
     @allure.step("Нажатие кнопки Star-System")
     def click_star_system(self):
         """Нажимает кнопку звездная система."""
@@ -289,6 +354,32 @@ class CorePage:
             ) from e
         return self
 
+    @allure.step("Попытка клика по неактивной кнопке")
+    def try_click_disabled_button(self, button_element):
+        """
+        Проверяет, что кнопка неактивна, и пытается по ней кликнуть.
+        Если клик блокируется (ожидаемо) — тест идет дальше.
+        Если клик всё же проходит (баг) — тест падает.
+        """
+        # Автоматически получаем описание элемента из его локатора Selene
+        element_desc = str(button_element)
+
+        with allure.step(f"Проверяем, что кнопка {element_desc} неактивна (disabled)"):
+            button_element.should(be.disabled)
+
+        with allure.step(f"Пытаемся кликнуть по кнопке {element_desc}"):
+            try:
+                button_element.click()
+                
+                raise AssertionError(
+                    f"❌ Click on {element_desc} succeeded, although it should be disabled!\n"
+                    f"   Bug: the button does not have the 'disabled' attribute or JS does not block the click."
+                )
+            except Exception as e:  # noqa: BLE001
+                logger.info(f"Click on {element_desc} was blocked as expected: {e}")
+
+        return self
+   
     #endregion
 
     # ========================================================================
