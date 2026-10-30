@@ -39,7 +39,6 @@
       background-color: #050816;
     }
 
-    /* ===== ФОН ===== */
     .stars {
       position: fixed;
       inset: 0;
@@ -73,7 +72,6 @@
       filter: blur(1.5vmin);
     }
 
-    /* ===== ОСНОВНОЙ КОНТЕНТ ===== */
     .main-content {
       padding: 7vmin 8vmin 8vmin;
       min-height: 100vh;
@@ -112,7 +110,6 @@
       color: var(--neon-blue);
     }
 
-    /* ===== ЗОНА СКАНЕРА ===== */
     .scanner-zone {
       height: 40vmin;
       width: 100vmin;
@@ -326,7 +323,6 @@
       border: 0.1vmin solid;
     }
 
-    /* ===== КОНТРОЛЫ ТАБЛИЦЫ ===== */
     .table-controls {
       display: flex;
       justify-content: center;
@@ -379,7 +375,6 @@
       line-height: 1;
     }
 
-    /* ===== ЗОНА АРХИВА ===== */
     .archive-zone {
       width: 100vmin;
       margin: 0 auto;
@@ -475,7 +470,6 @@
       transition: all 0.3s ease;
       animation: slideIn 0.4s ease;
       width: 100%;
-      /* ← ДОБАВИЛИ ЭТО */
     }
 
     .archive-row:hover {
@@ -516,10 +510,8 @@
 
     .archive-row .action-btn {
       background: #4da6ff;
-      /* Синий фон */
       border: 0.1vmin solid #4da6ff;
       color: white;
-      /* Белый текст */
       padding: 0.4vmin 0.8vmin;
       border-radius: 0.2vmin;
       font-size: 0.9vmin;
@@ -530,23 +522,16 @@
 
     .archive-row .action-btn:hover {
       background: transparent;
-      /* Прозрачный фон при наведении */
       border-color: #4da6ff;
-      /* Синяя рамка */
       color: #4da6ff;
-      /* Синий текст */
       box-shadow: 0 0 0.8vmin rgba(77, 166, 255, 0.6);
       transform: translateY(-0.1vmin);
     }
 
-    /* Кнопка DELETE */
-    /* Кнопка DELETE — как на скрине */
     .archive-row .delete-btn {
       background: #e74c3c;
-      /* Красный фон */
       border: 0.1vmin solid #e74c3c;
       color: white;
-      /* Белый текст */
       padding: 0.4vmin 0.8vmin;
       border-radius: 0.2vmin;
       font-size: 0.9vmin;
@@ -557,16 +542,12 @@
 
     .archive-row .delete-btn:hover {
       background: transparent;
-      /* Прозрачный фон при наведении */
       border-color: #e74c3c;
-      /* Красная рамка */
       color: #e74c3c;
-      /* Красный текст */
       box-shadow: 0 0 0.8vmin rgba(231, 76, 60, 0.6);
       transform: translateY(-0.1vmin);
     }
 
-    /* ===== МОДАЛЬНЫЕ ОКНА ===== */
     .modal-overlay {
       position: fixed;
       inset: 0;
@@ -679,7 +660,6 @@
       background: rgba(77, 166, 255, 0.1);
     }
 
-    /* Стили для текстового ввода (оставлены как fallback, если понадобится) */
     .modal-body label {
       display: block;
       font-size: 1.2vmin;
@@ -722,7 +702,6 @@
       font-style: italic;
     }
 
-    /* ===== УГЛОВЫЕ КНОПКИ ===== */
     .corner-circle-btn {
       position: fixed;
       width: var(--corner-btn-size);
@@ -796,7 +775,6 @@
       color: #2ecc71 !important;
       text-shadow: 0 0 0.8vmin rgba(46, 204, 113, 0.5) !important;
       margin-top: 0vmin !important;
-      /* Подтягиваем текст ближе к иконке */
     }
 
     .info-tooltip {
@@ -856,7 +834,6 @@
       letter-spacing: 0.1vmin;
     }
 
-    /* ===== ФУТЕР И ТЕЛЕМЕТРИЯ ===== */
     .login-footer {
       position: absolute;
       bottom: 0;
@@ -903,7 +880,6 @@
       margin-left: 0.4vmin;
     }
 
-    /* ===== АНИМАЦИИ ===== */
     @keyframes blink {
       50% {
         opacity: 0;
@@ -950,22 +926,17 @@
       animation: pulse 1.5s ease-in-out infinite;
     }
 
-    /* ===== МОДАЛКА ВЫБОРА ПЛАНЕТ ===== */
     .planet-selector-modal {
       min-width: 80vmin;
       max-width: 90vmin;
       max-height: 90vh !important;
-      /* Увеличили высоту (было 70vh) */
       padding: 2vmin 2.5vmin !important;
-      /* Поджали отступы (было 3vmin) */
       overflow-y: auto;
     }
 
     .planet-selector-modal .modal-header {
       margin-bottom: 1.5vmin !important;
-      /* Уменьшили (было 2.5vmin) */
       padding-bottom: 1vmin !important;
-      /* Уменьшили (было 1.5vmin) */
     }
 
     .planet-selector-modal .modal-header h3 {
@@ -975,9 +946,7 @@
     .planet-section {
       margin-bottom: 2vmin;
       padding-bottom: 1.5vmin;
-      /* Добавили отступ снизу */
       border-bottom: 0.1vmin solid rgba(77, 166, 255, 0.3);
-      /* Переместили линию сюда */
     }
 
     .section-title {
@@ -987,14 +956,12 @@
       text-transform: uppercase;
       letter-spacing: 0.2vmin;
       margin-bottom: 1.5vmin;
-      /* Убрали border-bottom и padding-bottom отсюда */
     }
 
     .planet-grid {
       display: flex;
       flex-direction: row;
       gap: 2vmin;
-      /* Чуть уменьшили (было 2.5vmin) */
       justify-content: flex-start;
       flex-wrap: wrap;
     }
@@ -1004,7 +971,6 @@
       flex-direction: column;
       align-items: center;
       gap: 1vmin;
-      /* Уменьшили (было 1.5vmin) */
       cursor: pointer;
       transition: transform 0.3s ease;
     }
@@ -1055,7 +1021,6 @@
 
     .planet-name-label {
       font-size: 1vmin;
-      /* Чуть компактнее (было 1.1vmin) */
       font-weight: 600;
       color: var(--text-main);
       text-transform: uppercase;
@@ -1071,43 +1036,33 @@
 
     .planet-selector-modal .modal-actions {
       margin-top: 1.5vmin !important;
-      /* Уменьшили (было 2.5vmin) */
     }
 
-    /* ===== МОДАЛКА SCAN INFO ===== */
-    /* ===== МОДАЛКА SCAN INFO ===== */
     .scan-info-modal {
       min-width: 75vmin;
       max-width: 85vmin;
       max-height: 90vh !important;
-      /* Ещё выше подняли */
       padding: 1.5vmin 2vmin !important;
-      /* Убрали большие отступы сверху/снизу (было 3vmin) */
       overflow-y: auto;
     }
 
     .scan-info-modal .modal-header {
       margin-bottom: 1.5vmin !important;
-      /* Уменьшили отступ под заголовком (было 2.5vmin) */
       padding-bottom: 1vmin !important;
-      /* Уменьшили (было 1.5vmin) */
     }
 
     .scan-info-modal .modal-header h3 {
       font-size: 2vmin;
-      /* Чуть компактнее заголовок */
     }
 
     .scan-info-list {
       display: flex;
       flex-direction: column;
       gap: 1.2vmin;
-      /* Ещё уменьшили (было 1.5vmin) */
     }
 
     .info-item {
       padding: 1vmin 1.3vmin;
-      /* Ещё компактнее (было 1.2vmin 1.5vmin) */
       background: rgba(77, 166, 255, 0.05);
       border-left: 0.3vmin solid var(--neon-blue);
       border-radius: 0.3vmin;
@@ -1120,22 +1075,18 @@
       text-transform: uppercase;
       letter-spacing: 0.1vmin;
       margin-bottom: 0.4vmin;
-      /* Ещё уменьшили (было 0.6vmin) */
     }
 
     .info-desc {
       font-size: 1.3vmin;
       color: var(--text-main);
       line-height: 1.45;
-      /* Чуть компактнее строки */
       opacity: 0.9;
     }
 
     .scan-info-footer {
       margin-top: 1.5vmin !important;
-      /* Уменьшили (было 2.5vmin) */
       padding-top: 1vmin !important;
-      /* Уменьшили (было 1.5vmin) */
     }
 
     .accuracy-note {
@@ -1151,11 +1102,8 @@
 
     .scan-info-modal .modal-actions {
       margin-top: 1.5vmin !important;
-      /* Уменьшили (было 2.5vmin) */
     }
 
-    /* ===== TOAST УВЕДОМЛЕНИЕ ===== */
-    /* ===== TOAST УВЕДОМЛЕНИЕ ===== */
     .toast-notification {
       position: fixed;
       top: 50%;
@@ -1193,7 +1141,6 @@
       letter-spacing: 0.05vmin;
     }
 
-    /* ===== МОДАЛКА DETAILS ===== */
     .details-modal {
       min-width: 70vmin;
       max-width: 80vmin;
@@ -1234,7 +1181,6 @@
       opacity: 0.9;
     }
 
-    /* ===== МОДАЛКА ПОДТВЕРЖДЕНИЯ УДАЛЕНИЯ ===== */
     .confirm-delete-modal {
       min-width: 50vmin;
       max-width: 60vmin;
@@ -1274,7 +1220,6 @@
       transform: translateY(-0.2vmin);
     }
 
-    /* ===== ЗАГЛУШКА CASSANDRA (вместо MISSION CONTROL) ===== */
     .cassandra-logo {
       cursor: default !important;
       pointer-events: none !important;
@@ -1314,7 +1259,6 @@
       text-shadow: 0 0 0.8vmin rgba(77, 166, 255, 0.8);
     }
 
-    /* Отключаем hover-эффект scale для этой кнопки */
     .bottom-right.cassandra-logo:hover {
       transform: none !important;
     }
@@ -1330,74 +1274,68 @@
   <div class="main-content">
     <div class="page-header">
       <div class="page-title">
-        <span class="white">🧬 CASSANDRA </span><span class="blue">ANALYSIS MODULE</span>
+        <span class="white"> CASSANDRA </span><span class="blue">ANALYSIS MODULE</span>
       </div>
     </div>
 
-    <!-- ===== ЗОНА СКАНЕРА ===== -->
-    <div class="scanner-zone" id="scanner-zone">
-      <div class="scanner-empty" id="scanner-empty">
+    <div class="scanner-zone" id="scanner-zone" data-wm-id="scanner-zone">
+      <div class="scanner-empty" id="scanner-empty" data-wm-id="scanner-empty">
         <div class="icon">🪐</div>
         <div class="title">DEEP SCAN TERMINAL READY</div>
         <div class="hint">Click "ADD TARGET" to initiate planetary analysis</div>
       </div>
-      <div class="scanner-active" id="scanner-active">
+      <div class="scanner-active" id="scanner-active" data-wm-id="scanner-active">
 
         <div class="scan-header">
-          <div class="scan-planet-name" id="scan-planet-name">—</div>
-          <div class="scan-status-line" id="scan-status-line">INITIALIZING SCAN SEQUENCE</div>
+          <div class="scan-planet-name" id="scan-planet-name" data-wm-id="scan-planet-name">—</div>
+          <div class="scan-status-line" id="scan-status-line" data-wm-id="scan-status-line">INITIALIZING SCAN SEQUENCE
+          </div>
         </div>
-        <div class="scan-params" id="scan-params"></div>
-        <div class="cis-result" id="cis-result">
+        <div class="scan-params" id="scan-params" data-wm-id="scan-params"></div>
+        <div class="cis-result" id="cis-result" data-wm-id="cis-result">
           <div class="cis-label">
             <span class="cis-label-white">CASSANDRA INDEX</span> <span class="cis-label-blue">OF SUITABILITY</span>
           </div>
-          <div class="cis-score" id="cis-score">0.0%</div>
-          <div class="cis-status-badge" id="cis-status-badge">—</div>
+          <div class="cis-score" id="cis-score" data-wm-id="cis-score">0.0%</div>
+          <div class="cis-status-badge" id="cis-status-badge" data-wm-id="cis-status-badge">—</div>
         </div>
       </div>
     </div>
 
-    <!-- ===== КОНТРОЛЫ (КНОПКИ) ===== -->
-    <div class="table-controls">
-      <button class="ctrl-btn" id="btn-add">
-        <span class="icon">📜</span> ADD
+    <div class="table-controls" data-wm-id="table-controls">
+      <button class="ctrl-btn" id="btn-add" data-wm-id="btn-add">
+        <span class="icon">📜</span> ADD PLANET
       </button>
-      <button class="ctrl-btn" id="btn-scan" disabled>
-        <span class="icon">🌍</span> SCAN
+      <button class="ctrl-btn" id="btn-scan" disabled data-wm-id="btn-scan">
+        <span class="icon">⚛️</span> ANALYZE CIS
       </button>
-      <button class="ctrl-btn" id="btn-clear" disabled>
+      <button class="ctrl-btn" id="btn-clear" disabled data-wm-id="btn-clear">
         <span class="icon">🗑️</span> CLEAR ALL
       </button>
-      <button class="ctrl-btn" id="btn-scan-info">
+      <button class="ctrl-btn" id="btn-scan-info" data-wm-id="btn-scan-info">
         <span class="icon">ℹ️️</span> INDEX INFO
       </button>
     </div>
 
-    <!-- ===== ЗОНА АРХИВА ===== -->
-    <div class="archive-zone">
+    <div class="archive-zone" data-wm-id="archive-zone">
       <div class="archive-header">
         <div class="archive-title">💾 SCAN ARCHIVE</div>
-        <div class="archive-count" id="archive-count">0 records</div>
+        <div class="archive-count" id="archive-count" data-wm-id="archive-count">0 records</div>
       </div>
-      <div class="archive-list" id="archive-list">
-        <div class="archive-empty">
+      <div class="archive-list" id="archive-list" data-wm-id="archive-list">
+        <div class="archive-empty" data-wm-id="archive-empty">
           <div class="empty-icon">📂</div>
           <div class="empty-text">NO SCANS IN ARCHIVE</div>
         </div>
       </div>
     </div>
-    <!-- Конец .archive-zone -->
-
   </div>
-  <!-- Конец .main-content -->
 
-  <!-- ===== МОДАЛКА SCAN INFO ===== -->
-  <div class="modal-overlay" id="scan-info-overlay">
-    <div class="modal-content scan-info-modal">
+  <div class="modal-overlay" id="scan-info-overlay" data-wm-id="scan-info-overlay">
+    <div class="modal-content scan-info-modal" data-wm-id="scan-info-modal">
       <div class="modal-header">
         <h3>CIS SCAN PARAMETERS</h3>
-        <button class="modal-close" id="btn-close-scan-info">&times;</button>
+        <button class="modal-close" id="btn-close-scan-info" data-wm-id="btn-close-scan-info">&times;</button>
       </div>
 
       <div class="modal-body">
@@ -1458,33 +1396,29 @@
       </div>
 
       <div class="modal-actions">
-        <button class="modal-btn secondary" id="btn-cancel-info">CLOSE</button>
+        <button class="modal-btn secondary" id="btn-cancel-info" data-wm-id="btn-cancel-info">CANCEL</button>
       </div>
     </div>
   </div>
 
-  <!-- ===== МОДАЛКА ВЫБОРА ПЛАНЕТЫ (ВНЕ main-content) ===== -->
-  <div class="modal-overlay" id="modal-overlay">
-    <div class="modal-content planet-selector-modal">
+  <div class="modal-overlay" id="modal-overlay" data-wm-id="modal-overlay">
+    <div class="modal-content planet-selector-modal" data-wm-id="planet-selector-modal">
       <div class="modal-header">
         <h3>SELECT SCAN TARGET</h3>
-        <button class="modal-close" id="btn-close-modal">&times;</button>
+        <button class="modal-close" id="btn-close-modal" data-wm-id="btn-close-modal">&times;</button>
       </div>
 
       <div class="modal-body">
-        <!-- Контейнер для секций — сюда JS будет рендерить все системы -->
-        <div class="planet-sections-container" id="planet-sections-container">
-          <!-- Секции генерируются через JS -->
+        <div class="planet-sections-container" id="planet-sections-container" data-wm-id="planet-sections-container">
         </div>
       </div>
 
       <div class="modal-actions">
-        <button class="modal-btn secondary" id="btn-cancel">CANCEL</button>
+        <button class="modal-btn secondary" id="btn-cancel" data-wm-id="btn-cancel">CANCEL</button>
       </div>
     </div>
   </div>
 
-  <!-- ===== УГЛОВЫЕ КНОПКИ ===== -->
   <div class="corner-circle-btn top-left" data-wm-id="info-panel-role">
     <span class="corner-icon" data-wm-id="role-icon">🛰️</span>
     <span class="corner-label" data-wm-id="role-label">STANDBY</span>
@@ -1525,66 +1459,63 @@
     <div class="copyright">Evknopia © 2026</div>
   </footer>
 
-  <!-- ===== TOAST УВЕДОМЛЕНИЕ ===== -->
-  <div class="toast-notification" id="toast-notification">
+  <div class="toast-notification" id="toast-notification" data-wm-id="toast-notification">
     <span class="toast-icon">⚠️</span>
-    <span class="toast-message" id="toast-message">Scan result already in archive. Please select another planet.</span>
+    <span class="toast-message" id="toast-message" data-wm-id="toast-message">Scan result already in archive. Please
+      select another planet.</span>
   </div>
 
-  <!-- ===== МОДАЛКА DETAILS ===== -->
-  <div class="modal-overlay" id="details-overlay">
-    <div class="modal-content details-modal">
+  <div class="modal-overlay" id="details-overlay" data-wm-id="details-overlay">
+    <div class="modal-content details-modal" data-wm-id="details-modal">
       <div class="modal-header">
-        <h3 id="details-planet-name">PLANET DETAILS</h3>
-        <button class="modal-close" id="btn-close-details">&times;</button>
+        <h3 id="details-planet-name" data-wm-id="details-planet-name">PLANET DETAILS</h3>
+        <button class="modal-close" id="btn-close-details" data-wm-id="btn-close-details">&times;</button>
       </div>
 
       <div class="modal-body">
         <div class="details-section">
           <div class="details-label">📋 DESCRIPTION</div>
-          <div class="details-text" id="details-description">—</div>
+          <div class="details-text" id="details-description" data-wm-id="details-description">—</div>
         </div>
 
         <div class="details-section warning-section">
           <div class="details-label">⚠️ WARNING</div>
-          <div class="details-text" id="details-warning">—</div>
+          <div class="details-text" id="details-warning" data-wm-id="details-warning">—</div>
         </div>
       </div>
 
       <div class="modal-actions">
-        <button class="modal-btn secondary" id="btn-cancel-details">CLOSE</button>
+        <button class="modal-btn secondary" id="btn-cancel-details" data-wm-id="btn-cancel-details">CANCEL</button>
       </div>
     </div>
   </div>
 
-  <!-- ===== МОДАЛКА ПОДТВЕРЖДЕНИЯ УДАЛЕНИЯ ===== -->
-  <!-- ===== МОДАЛКА ПОДТВЕРЖДЕНИЯ УДАЛЕНИЯ ===== -->
-  <div class="modal-overlay" id="confirm-delete-overlay">
-    <div class="modal-content confirm-delete-modal">
+  <div class="modal-overlay" id="confirm-delete-overlay" data-wm-id="confirm-delete-overlay">
+    <div class="modal-content confirm-delete-modal" data-wm-id="confirm-delete-modal">
       <div class="modal-header">
-        <h3 id="confirm-delete-title">⚠️ CONFIRM DELETION</h3>
-        <button class="modal-close" id="btn-close-confirm-delete">&times;</button>
+        <h3 id="confirm-delete-title" data-wm-id="confirm-delete-title">️ CONFIRM DELETION</h3>
+        <button class="modal-close" id="btn-close-confirm-delete" data-wm-id="btn-close-confirm-delete">&times;</button>
       </div>
 
       <div class="modal-body">
-        <p class="confirm-text" id="confirm-delete-text">Are you sure you want to delete scan record for <span
-            id="confirm-planet-name" class="planet-highlight">—</span>?</p>
+        <p class="confirm-text" id="confirm-delete-text" data-wm-id="confirm-delete-text">Are you sure you want to
+          delete scan record for <span id="confirm-planet-name" class="planet-highlight">—</span>?</p>
         <p class="confirm-subtext">This action cannot be undone.</p>
       </div>
 
       <div class="modal-actions">
-        <button class="modal-btn secondary" id="btn-cancel-delete">CANCEL</button>
-        <button class="modal-btn danger" id="btn-confirm-delete">DELETE</button>
+        <button class="modal-btn secondary" id="btn-cancel-delete" data-wm-id="btn-cancel-delete">CANCEL</button>
+        <button class="modal-btn danger" id="btn-confirm-delete" data-wm-id="btn-confirm-delete">DELETE</button>
       </div>
     </div>
   </div>
 
 </body>
 
-<!-- Данные остаются, они нам нужны для следующей итерации -->
 <script src="data.js"></script>
+
 <script>
-  // ===== 1. ГЕНЕРАЦИЯ МОДАЛКИ ВЫБОРА ПЛАНЕТЫ =====
+
   function renderPlanetSelector() {
     const container = document.getElementById('planet-sections-container');
     if (!container || !window.CisPlanet) return;
@@ -1599,7 +1530,7 @@
     });
 
     const systemOrder = [
-      'Sol', 'Proxima Centauri', 'Tau Ceti', 'Epsilon Eridani', "Teegarden's Star", 'TRAPPIST-1'
+      'Epsilon Eridani', "Teegarden's Star", 'Proxima Centauri', 'Tau Ceti', 'Sol', 'TRAPPIST-1'
     ];
 
     const sortedSystems = Object.keys(systemsMap).sort((a, b) => {
@@ -1659,7 +1590,6 @@
     });
   }
 
-  // ===== 2. ПРОВЕРКА АВТОРИЗАЦИИ И ИНИЦИАЛИЗАЦИЯ =====
   function initDashboard() {
     const userDataStr = sessionStorage.getItem('currentUser');
 
@@ -1711,7 +1641,6 @@
     return true;
   }
 
-  // ===== 3. ПЕРЕМЕННЫЕ И DOM ЭЛЕМЕНТЫ =====
   let currentTargetName = "";
   let currentPlanetData = null;
   let archiveCount = 0;
@@ -1743,7 +1672,6 @@
   const btnCloseScanInfo = document.getElementById('btn-close-scan-info');
   const btnCancelInfo = document.getElementById('btn-cancel-info');
 
-  // ===== 4. ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ =====
   function findPlanetData(name) {
     if (!window.CisPlanet) return null;
     return window.CisPlanet.find(p => p.planet.toUpperCase() === name.toUpperCase());
@@ -1762,26 +1690,19 @@
 
     let cis = 0;
 
-    // 1. МЕХАНИКА ЩИТА: Вычисляем реальную радиацию на поверхности
     const rawRadiation = params.star_radiation || 0;
     const magneticShield = params.magnetic || 0;
-
-    // Магнитное поле блокирует 80% радиации (коэффициент баланса)
     const blockedRadiation = magneticShield * 0.8;
 
     let effectiveRadiation = rawRadiation - blockedRadiation;
 
-    // Радиация не может быть отрицательной (если щит мощнее потока, угроза = 0)
     if (effectiveRadiation < 0) {
       effectiveRadiation = 0;
     }
 
-    // 2. Расчет итогового CIS
     for (const key in weights) {
       let value = params[key] || 0;
 
-      // Если это радиация, мы берем не сырое значение, а "очищенное" щитом.
-      // И инвертируем его (100 - value), потому что для CIS чем МЕНЬШЕ радиации, тем ЛУЧШЕ (ближе к 100).
       if (key === 'star_radiation') {
         value = 100 - effectiveRadiation;
       }
@@ -1789,7 +1710,6 @@
       cis += value * weights[key];
     }
 
-    // Страховка: ограничиваем итоговый CIS строго от 0 до 100
     cis = Math.max(0, Math.min(100, cis));
 
     return cis.toFixed(1);
@@ -1803,12 +1723,11 @@
   };
 
   function getParamColor(value, paramName = '') {
-    // СПЕЦИАЛЬНО ДЛЯ ВСПЫШЕК: Всегда красный текст (радиация)
+
     if (paramName === 'star_radiation') {
       return '#e74c3c';
     }
 
-    // ДЛЯ ВСЕХ ОСТАЛЬНЫХ ПАРАМЕТРОВ
     if (!window.CIS_THRESHOLDS || !Array.isArray(window.CIS_THRESHOLDS)) {
       if (value >= 76) return '#2ecc71';
       if (value >= 51) return '#f1c40f';
@@ -1820,22 +1739,19 @@
   }
 
   function getParamBackground(value, paramName = '') {
-    // Для STELLAR FLARES — желто-черные полосы как знак радиации ☢️
+
     if (paramName === 'star_radiation') {
       return 'repeating-linear-gradient(45deg, #f1c40f, #f1c40f 6px, #1a1a1a 6px, #1a1a1a 12px)';
     }
 
-    // Для CASSANDRA CORE — приглушенные бело-синие полосы (заглушка)
     if (paramName === 'cassandra') {
       return 'linear-gradient(90deg, #ffffff 0%, #ffffff 50%, #4da6ff 50%, #4da6ff 100%)';
     }
 
-    // Для всех остальных — обычный градиент
     const color = getParamColor(value, paramName);
     return `linear-gradient(90deg, ${color}, ${color}dd)`;
   }
 
-  // ===== 5. ЛОГИКА МОДАЛЬНЫХ ОКОН =====
   function closeModal() {
     if (modalOverlay) modalOverlay.classList.remove('active');
     if (planetInput) planetInput.classList.remove('error');
@@ -1867,7 +1783,7 @@
   function isPlanetInArchive(planetName) {
     const existingRows = archiveList.querySelectorAll('.archive-row');
     for (const row of existingRows) {
-      if (row.querySelector('.planet-name').textContent === planetName) return true;
+      if (row.querySelector('.planet-name').textContent.toUpperCase() === planetName.toUpperCase()) return true;
     }
     return false;
   }
@@ -1924,7 +1840,6 @@
     scanInfoOverlay.addEventListener('click', (e) => { if (e.target === scanInfoOverlay) closeScanInfoModal(); });
   }
 
-  // ===== ЛОГИКА МОДАЛКИ DETAILS =====
   const detailsOverlay = document.getElementById('details-overlay');
   const btnCloseDetails = document.getElementById('btn-close-details');
   const btnCancelDetails = document.getElementById('btn-cancel-details');
@@ -1947,14 +1862,12 @@
     detailsOverlay.addEventListener('click', (e) => { if (e.target === detailsOverlay) closeDetailsModal(); });
   }
 
-  // Делегирование клика на кнопки DETAILS в архиве
   archiveList.addEventListener('click', (e) => {
     const btn = e.target.closest('.action-btn');
     if (!btn) return;
     openDetailsModal(btn.dataset.planet, btn.dataset.description, btn.dataset.warning);
   });
 
-  // ===== 6. ПОДГОТОВКА СКАНЕРА =====
   function prepareScannerUI() {
     scannerEmpty.style.display = 'none';
     scannerActive.classList.add('active');
@@ -1973,7 +1886,6 @@
       scanParams.appendChild(row);
     });
 
-    // Создаем статичную полосу CASSANDRA CORE (всегда 100%, приглушенная)
     const cassandraRow = document.createElement('div');
     cassandraRow.className = 'param-row filled';
     cassandraRow.dataset.paramKey = 'cassandra';
@@ -1991,10 +1903,13 @@
     updateTelemetry(`TARGET ACQUIRED: ${currentPlanetData.planet}. DATA LOADED. READY FOR SCAN.`);
   }
 
-  // ===== 7. АНИМАЦИЯ СКАНИРОВАНИЯ =====
   btnScan.addEventListener('click', async () => {
+
     btnScan.disabled = true;
     btnAdd.disabled = true;
+    btnClear.disabled = true;
+    btnScanInfo.disabled = true;
+
     scanStatusLine.textContent = 'DEEP SCAN IN PROGRESS';
     scanStatusLine.classList.add('scanning-pulse');
 
@@ -2010,7 +1925,6 @@
       const valueEl = row.querySelector('.param-value');
       const paramKey = row.dataset.paramKey;
 
-      // Пропускаем заглушку CASSANDRA, она уже на 100% и не анимируется
       if (paramKey === 'cassandra') {
         row.classList.remove('pending');
         row.classList.add('filled');
@@ -2018,7 +1932,6 @@
       }
 
       let realValue = currentPlanetData.cis_params[paramKey];
-
       await animateParamBar(bar, valueEl, realValue, 600, paramKey);
 
       row.classList.remove('pending');
@@ -2053,10 +1966,10 @@
     setTimeout(() => {
       btnAdd.disabled = false;
       btnClear.disabled = false;
+      btnScanInfo.disabled = false;
     }, 1500);
   });
 
-  // ===== 8. РАБОТА С АРХИВОМ И СОХРАНЕНИЕМ СОСТОЯНИЯ =====
   function saveArchiveToStorage() {
     const archiveData = { count: archiveCount, records: [] };
     const rows = archiveList.querySelectorAll('.archive-row');
@@ -2119,6 +2032,9 @@
         archiveList.appendChild(row);
       });
 
+      // ✅ ИСПРАВЛЕНИЕ: Сортируем DOM ПОСЛЕ того, как все строки добавлены, но ДО return
+      sortArchiveByCIS();
+
       archiveCountEl.textContent = `${archiveCount} record${archiveCount !== 1 ? 's' : ''}`;
       return true;
     } catch (e) {
@@ -2156,7 +2072,6 @@
           scanParams.appendChild(row);
         });
 
-        // Восстанавливаем статичную полосу CASSANDRA CORE
         const cassandraRow = document.createElement('div');
         cassandraRow.className = 'param-row filled';
         cassandraRow.dataset.paramKey = 'cassandra';
@@ -2180,9 +2095,15 @@
           cisStatusBadge.style.background = state.cisResult.statusBackground || `${state.cisResult.statusColor}20`;
         }
 
-        if (btnScan) btnScan.disabled = false;
+        if (isPlanetInArchive(state.planetData.planet)) {
+          if (btnScan) btnScan.disabled = true;
+        } else {
+          if (btnScan) btnScan.disabled = false;
+        }
+
         if (btnAdd) btnAdd.disabled = false;
         if (btnClear) btnClear.disabled = false;
+
         return true;
       }
       return false;
@@ -2190,6 +2111,19 @@
       console.warn('Failed to restore scanner state:', e);
       return false;
     }
+  }
+
+  function sortArchiveByCIS() {
+    const rows = Array.from(archiveList.querySelectorAll('.archive-row'));
+    if (rows.length <= 1) return;
+
+    rows.sort((a, b) => {
+      const cisA = parseFloat(a.querySelector('.cis-value').textContent);
+      const cisB = parseFloat(b.querySelector('.cis-value').textContent);
+      return cisB - cisA;
+    });
+
+    rows.forEach(row => archiveList.appendChild(row));
   }
 
   function addToArchiveUI(planet, star, cis, status, color) {
@@ -2207,8 +2141,8 @@
     row.className = 'archive-row';
     row.innerHTML = `
       <div class="status-dot" style="color: ${color}; background: ${color};"></div>
-      <div class="planet-name">${planet}</div>
-      <div class="star-name">${star}</div>
+      <div class="planet-name">${planet.toUpperCase()}</div>
+      <div class="star-name">${star.toUpperCase()}</div>
       <div class="cis-value" style="color: ${color};">${cis}%</div>
       <div class="status-badge" style="color: ${color}; border-color: ${color}; background: ${color}15;">${status}</div>
       <button class="action-btn" data-planet="${planet}" data-description="${description.replace(/"/g, '&quot;')}" data-warning="${warning.replace(/"/g, '&quot;')}">DETAILS</button>
@@ -2216,11 +2150,14 @@
     `;
     archiveList.appendChild(row);
 
+    // ✅ ИСПРАВЛЕНИЕ: Сначала сортируем DOM, потом сохраняем его в память!
+    sortArchiveByCIS();
     saveArchiveToStorage();
     saveScannerState();
+
+    if (btnScan) btnScan.disabled = true;
   }
 
-  // ===== 9. УТИЛИТЫ АНИМАЦИИ =====
   function sleep(ms) { return new Promise(resolve => setTimeout(resolve, ms)); }
 
   async function animateParamBar(barEl, valueEl, targetValue, duration, paramName) {
@@ -2292,7 +2229,6 @@
     }
   }
 
-  // ===== 10. ИНИЦИАЛИЗАЦИЯ ПРИ ЗАГРУЗКЕ =====
   function initArchive() {
     const restoredArchive = restoreArchiveFromStorage();
     const restoredScanner = restoreScannerState();
@@ -2317,7 +2253,6 @@
     updateTelemetry('SYSTEM READY. ADD TARGET TO BEGIN.');
   }
 
-  // ===== 11. ЛОГИКА МОДАЛКИ ПОДТВЕРЖДЕНИЯ УДАЛЕНИЯ =====
   const confirmDeleteOverlay = document.getElementById('confirm-delete-overlay');
   const btnCloseConfirmDelete = document.getElementById('btn-close-confirm-delete');
   const btnCancelDelete = document.getElementById('btn-cancel-delete');
