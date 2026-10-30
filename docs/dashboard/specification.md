@@ -453,11 +453,11 @@ Teardown: Удалить пользователя 'NOVA'.
 | Индикатор статуса| `status-dot`|
 | Кнопка Uplink| `uplink-btn`|
 | Кнопка Logout| `logout-btn`|
-| Кнопка Galaxy Map| `galaxy-map-btn`|
-| Кнопка Flight Calc| `flight-calc-btn`|
-| Кнопка CIS Index Table| `cis-index-table-btn`|
-| Кнопка Mission Control| `mission-control-btn`|
-| Кнопка Cassandra Settings| `settings-btn`|
+| Кнопка Galaxy Map| `nav-galaxy-map-btn`|
+| Кнопка Flight Calc| `-nav-flight-calc-btn`|
+| Кнопка CIS Index Table| `nav-cis-index-table-btn`|
+| Кнопка Mission Control| `nav-mission-control-btn`|
+| Кнопка Cassandra Settings| `nav-cassandra-settings-btn`|
 | Строка телеметрии| `system-telemetry`|
 
  ## 9. 🌐 URL и маршрутизация
