@@ -1679,7 +1679,8 @@
 
   function getStatusByCIS(score) {
     if (!window.CIS_THRESHOLDS) return { label: "UNKNOWN", color: "#7f8c8d" };
-    return window.CIS_THRESHOLDS.find(t => score >= t.min && score <= t.max) || window.CIS_THRESHOLDS[window.CIS_THRESHOLDS.length - 1];
+
+    return window.CIS_THRESHOLDS.find(t => score >= t.min) || window.CIS_THRESHOLDS[window.CIS_THRESHOLDS.length - 1];
   }
 
   function calculateCIS(params) {
@@ -1723,7 +1724,6 @@
   };
 
   function getParamColor(value, paramName = '') {
-
     if (paramName === 'star_radiation') {
       return '#e74c3c';
     }
@@ -1734,7 +1734,8 @@
       if (value >= 26) return '#e74c3c';
       return '#7f8c8d';
     }
-    const threshold = window.CIS_THRESHOLDS.find(t => value >= t.min && value <= t.max);
+
+    const threshold = window.CIS_THRESHOLDS.find(t => value >= t.min);
     return threshold ? threshold.color : '#7f8c8d';
   }
 
@@ -2032,7 +2033,6 @@
         archiveList.appendChild(row);
       });
 
-      // ✅ ИСПРАВЛЕНИЕ: Сортируем DOM ПОСЛЕ того, как все строки добавлены, но ДО return
       sortArchiveByCIS();
 
       archiveCountEl.textContent = `${archiveCount} record${archiveCount !== 1 ? 's' : ''}`;
@@ -2150,7 +2150,6 @@
     `;
     archiveList.appendChild(row);
 
-    // ✅ ИСПРАВЛЕНИЕ: Сначала сортируем DOM, потом сохраняем его в память!
     sortArchiveByCIS();
     saveArchiveToStorage();
     saveScannerState();
@@ -2315,8 +2314,29 @@
           if (btnClear) btnClear.disabled = true;
         }
 
+        if (currentPlanetData && currentPlanetData.planet.toUpperCase() === pendingDeletePlanet.toUpperCase()) {
+     
+          scannerEmpty.style.display = 'block';
+          scannerActive.classList.remove('active');
+          cisResult.classList.remove('visible');
+          scanParams.innerHTML = '';
+
+          currentTargetName = "";
+          currentPlanetData = null;
+
+          if (btnScan) btnScan.disabled = true;
+          if (btnAdd) btnAdd.disabled = false;
+          if (btnScanInfo) btnScanInfo.disabled = false;
+
+          sessionStorage.removeItem('cisScannerState');
+
+          updateTelemetry(`RECORD DELETED: ${pendingDeletePlanet.toUpperCase()}. SCANNER RESET.`);
+        } else {
+          updateTelemetry(`RECORD DELETED: ${pendingDeletePlanet.toUpperCase()}`);
+        }
+
         saveArchiveToStorage();
-        updateTelemetry(`RECORD DELETED: ${pendingDeletePlanet.toUpperCase()}`);
+
       } else if (deleteMode === 'all') {
         archiveList.innerHTML = `<div class="archive-empty"><div class="empty-icon">📂</div><div class="empty-text">NO SCANS IN ARCHIVE</div></div>`;
         archiveCount = 0;
@@ -2327,15 +2347,20 @@
         scannerActive.classList.remove('active');
         cisResult.classList.remove('visible');
         scanParams.innerHTML = '';
+
         currentTargetName = "";
         currentPlanetData = null;
-        btnScan.disabled = true;
-        btnAdd.disabled = false;
+
+        if (btnScan) btnScan.disabled = true;
+        if (btnAdd) btnAdd.disabled = false;
+        if (btnScanInfo) btnScanInfo.disabled = false;
 
         sessionStorage.removeItem('cisArchive');
         sessionStorage.removeItem('cisScannerState');
-        updateTelemetry('ARCHIVE CLEARED. SYSTEM READY.');
+
+        updateTelemetry('ARCHIVE CLEARED. ALL STATES RESET. SYSTEM READY.');
       }
+
       closeConfirmDeleteModal();
     });
   }
