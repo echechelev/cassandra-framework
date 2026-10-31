@@ -193,9 +193,7 @@ def test_сlose_confirm_delete_modal_via_all_triggers(cis_index):
     """
 
     # 🎬 ARRANGE
-    cis_index.click_add_planet()
-    cis_index.select_planet(data.MARS_NAME)
-    cis_index.click_analyze_cis()
+    cis_index.add_and_scan_planets([data.MARS_NAME])
 
     # ⚡ ACT
     cis_index.click_clear_all()
@@ -235,10 +233,8 @@ def test_сlose_details_modal_via_all_triggers(cis_index):
     """
 
     # 🎬 ARRANGE
-    cis_index.click_add_planet()
-    cis_index.select_planet(data.TAU_CETI_F_NAME)
-    cis_index.click_analyze_cis()
-
+    cis_index.add_and_scan_planets([data.TAU_CETI_F_NAME])
+    
     # ⚡ ACT
     cis_index.click_details_for_planet(data.TAU_CETI_F_NAME)
     cis_index.close_details_modal(click_cross=True)
@@ -275,10 +271,8 @@ def test_open_planet_details_from_archive(cis_index):
     """
 
     # 🎬 ARRANGE
-    cis_index.click_add_planet()
-    cis_index.select_planet(data.VENUS_NAME)
-    cis_index.click_analyze_cis()
-
+    cis_index.add_and_scan_planets([data.VENUS_NAME])
+   
     # ⚡ ACT
     cis_index.click_details_for_planet(data.VENUS_NAME)
 
@@ -359,13 +353,11 @@ def test_verify_telemetry_updates_after_deletion_process(cis_index):
     10. Нажать на кнопку "Analyze cis" и дождаться результатов сканирования.
     11. Нажать на кнопку "DELETE" в зоне добавленной архивной записи сканирования TRAPPIST-1H.
     12. В модальном окне "Подтверждение удаления", нажать на кнопку "DELETE".
-    13. Проверить: текст телеметрии "> CASSANDRA: RECORD DELETED: TRAPPIST-1H".
+    13. Проверить: текст телеметрии "> CASSANDRA: RECORD DELETED: TRAPPIST-1H". SCANNER RESET. 
     """
 
     # 🎬 ARRANGE
-    cis_index.click_add_planet()
-    cis_index.select_planet(data.TRAPPIST_1H_NAME)
-    cis_index.click_analyze_cis()
+    cis_index.add_and_scan_planets([data.TRAPPIST_1H_NAME])
     cis_index.click_clear_all()
 
     # ⚡ ACT
@@ -378,9 +370,7 @@ def test_verify_telemetry_updates_after_deletion_process(cis_index):
     )
 
     # ⚡ ACT
-    cis_index.click_add_planet()
-    cis_index.select_planet(data.TRAPPIST_1H_NAME)
-    cis_index.click_analyze_cis()
+    cis_index.add_and_scan_planets([data.TRAPPIST_1H_NAME])
     cis_index.click_delete_for_planet(data.TRAPPIST_1H_NAME)
     cis_index.click_confirm_delete(delete_modal=True)
 

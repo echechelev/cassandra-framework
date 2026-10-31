@@ -1,6 +1,5 @@
 import allure
 import pytest
-from selene import be
 
 from pages.cis_index_table import CisIndexTablePage
 from tests import data
@@ -75,9 +74,7 @@ def test_attempt_to_add_duplicate_planet_to_archive(cis_index):
     """
 
     # ⚡ ACT
-    cis_index.click_add_planet()
-    cis_index.select_planet(data.EARTH_NAME)
-    cis_index.click_analyze_cis()
+    cis_index.add_and_scan_planets([data.EARTH_NAME])
 
     # ✅ ASSERT
     cis_index.verify_planet_in_archive(data.EARTH_NAME)

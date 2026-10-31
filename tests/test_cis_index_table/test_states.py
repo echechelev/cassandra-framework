@@ -32,9 +32,7 @@ def test_cis_calculation_earth_reference(cis_index):
     """
 
     # ⚡ ACT
-    cis_index.click_add_planet()
-    cis_index.select_planet(data.EARTH_NAME)
-    cis_index.click_analyze_cis()
+    cis_index.add_and_scan_planets([data.EARTH_NAME])
 
     # ✅ ASSERT
     cis_index.validate_complete_cis_calculation(
@@ -82,9 +80,7 @@ def test_cis_calculation_green_zone(cis_index):
     """
 
     # ⚡ ACT
-    cis_index.click_add_planet()
-    cis_index.select_planet(data.TRAPPIST_1E_NAME)
-    cis_index.click_analyze_cis()
+    cis_index.add_and_scan_planets([data.TRAPPIST_1E_NAME])
 
     # ✅ ASSERT
     cis_index.validate_complete_cis_calculation(
@@ -132,9 +128,7 @@ def test_cis_calculation_yellow_zone(cis_index):
     """
 
     # ⚡ ACT
-    cis_index.click_add_planet()
-    cis_index.select_planet(data.TRAPPIST_1F_NAME)
-    cis_index.click_analyze_cis()
+    cis_index.add_and_scan_planets([data.TRAPPIST_1F_NAME])
 
     # ✅ ASSERT
     cis_index.validate_complete_cis_calculation(
@@ -182,9 +176,7 @@ def test_cis_calculation_red_zone(cis_index):
     """
 
     # ⚡ ACT
-    cis_index.click_add_planet()
-    cis_index.select_planet(data.PROXIMA_B_NAME)
-    cis_index.click_analyze_cis()
+    cis_index.add_and_scan_planets([data.PROXIMA_B_NAME])
 
     # ✅ ASSERT
     cis_index.validate_complete_cis_calculation(
@@ -216,42 +208,47 @@ def test_cis_calculation_gray_zone(cis_index):
     Сценарий:
     1. Перейти на страницу 'Cis index table page'.
     2. Нажать на кнопку 'Add planet'.
-    3. Выбрать планету "MERCURY".
+    3. Выбрать планету "PROXIMA_C".
     4. Нажать на кнопку "ANALYZE CIS" и дождаться окончания сканирования.
-    5. Проверить % результата сканирования - 19.8%.
+    5. Проверить % результата сканирования - 39.4%.
     6. Проверить результат статуса сканирования - "UNINHABITABLE".
-    7. Проверить параметр "HABITABLE ZONE" - 10%.
-    8. Проверить параметр "HYDROSPHERE" - 0%.
+    7. Проверить параметр "HABITABLE ZONE" - 20%.
+    8. Проверить параметр "HYDROSPHERE" - 60%.
     9. Проверить параметр "BREATHABILITY" - 0%.
-    10. Проверить параметр "GRAVITY" - 38%.
-    11. Проверить параметр "STAR RADIATION" - 100%.
-    12. Проверить параметр "SURFACE" - 100%.
-    13. Проверить параметр "ATMOSPHERE" - 0%.
-    14. Проверить параметр "CLIMATE" - 5%.
-    15. Проверить параметр "MAGNETIC" - 5%.
+    10. Проверить параметр "GRAVITY" - 60%.
+    11. Проверить параметр "STAR RADIATION" - 45%.
+    12. Проверить параметр "SURFACE" - 30%.
+    13. Проверить параметр "ATMOSPHERE" - 50%.
+    14. Проверить параметр "CLIMATE" - 10%.
+    15. Проверить параметр "MAGNETIC" - 30%.
+    16. Проверить результат цвет бейджа статуса: Серый (#7f8c8d / rgb(127, 140, 141)).
     """
 
+    # Проверка граничного значения.
+    # CIS PROXIMA_C = 39.4%.
+    # Граничный диапзон в window.CIS_THRESHOLDS. 
+    # min: 0 "UNINHABITABLE" и min: 40, label: "MARGINALLY HABITABLE".
+
     # ⚡ ACT
-    cis_index.click_add_planet()
-    cis_index.select_planet(data.MERCURY_NAME)
-    cis_index.click_analyze_cis()
+    cis_index.add_and_scan_planets([data.PROXIMA_C_NAME])
 
     # ✅ ASSERT
     cis_index.validate_complete_cis_calculation(
-        expected_score="19.8%",
+        expected_score="39.4%",
         expected_status="UNINHABITABLE",
         expected_params={
-            "HABITABLE ZONE": "10",
-            "HYDROSPHERE": "0",
+            "HABITABLE ZONE": "20",
+            "HYDROSPHERE": "60",
             "BREATHABILITY": "0",
-            "GRAVITY": "38",
-            "STAR RADIATION": "100",
-            "SURFACE": "100",
-            "ATMOSPHERE": "0",
-            "CLIMATE": "5",
-            "MAGNETIC": "5",
+            "GRAVITY": "60",
+            "STAR RADIATION": "45",
+            "SURFACE": "30",
+            "ATMOSPHERE": "50",
+            "CLIMATE": "10",
+            "MAGNETIC": "30",
         },
     )
+    cis_index.verify_cis_status_badge_color("gray")
 
 
 @allure.id("CAS-06")
@@ -304,9 +301,7 @@ def test_color_coding(cis_index):
     """
 
     # ⚡ ACT
-    cis_index.click_add_planet()
-    cis_index.select_planet(data.TAU_CETI_H_NAME)
-    cis_index.click_analyze_cis()
+    cis_index.add_and_scan_planets([data.TAU_CETI_H_NAME])
 
     # ✅ ASSERT
     cis_index.verify_param_bar_color("SURFACE", "rgb(46, 204, 113)")
@@ -335,23 +330,67 @@ def test_archive_sort_by_cis_desc(cis_index):
     """
 
     # ⚡ ACT
-    cis_index.click_add_planet()
-    cis_index.select_planet(data.VENUS_NAME)
-    cis_index.click_analyze_cis()
-
-    cis_index.click_add_planet()
-    cis_index.select_planet(data.MARS_NAME)
-    cis_index.click_analyze_cis()
-
-    cis_index.click_add_planet()
-    cis_index.select_planet(data.EARTH_NAME)
-    cis_index.click_analyze_cis()
+    cis_index.add_and_scan_planets([data.VENUS_NAME, data.MARS_NAME, data.EARTH_NAME])
 
     # ✅ ASSERT
     cis_index.verify_archive_sorted_by_score_descending()
 
 
 @allure.id("CAS-09")
+@allure.title("💾 Сохранение сортировки CIS при перезагрузке и навигации")
+@allure.label("owner", "Evgeniy Chechelev")
+@allure.label("feature", "cis-index-table")
+@pytest.mark.regress
+@pytest.mark.cis_index_table
+@pytest.mark.states
+def test_sort_persistence_during_navigation(cis_index):
+    """
+    Сценарий:
+    1. Перейти на страницу 'Cis index table page'.
+    2. Нажать кнопку "Add planet".
+    3. Выбрать планету "MERCURY".
+    4. Нажать на кнопку ANALYZE CIS, дождаться завершения сканирования.
+    5. Повторить шаги 1-4, добавить и отсканировать планеты "VENUS" и "MARS".
+    6. Нажать на кнопку "F5".
+    7. Проверить: сортировку результатов по % - MARS-MERCYRY-VENUS.
+    8. Нажать кнопку "Назад в браузере".
+    9. Нажать кнопку "CIS INDEX TABLE".
+    10. Проверить: сортировку результатов по % - MARS-MERCYRY-VENUS.
+    11. Нажать на кнопку "DASHBOARD".
+    12. Нажать на кнопку "CIS OIINDEX TABLE".
+    13. Проверить: сортировку результатов по % - MARS-MERCYRY-VENUS.
+    """
+
+    # 🎬 ARRANGE
+    cis_index.add_and_scan_planets([data.MERCURY_NAME, data.VENUS_NAME, data.MARS_NAME])
+
+    # ⚡ ACT
+    cis_index.click_refresh_page()
+
+    # ✅ ASSERT
+    cis_index.wait_for_data_sync(1)
+    cis_index.verify_archive_sorted_by_score_descending()
+
+    # ⚡ ACT
+    cis_index.click_browser_back()
+    cis_index.wait_for_data_sync(1)
+    cis_index.click_cis_index_table()
+    cis_index.wait_for_data_sync(1)
+
+    # ✅ ASSERT
+    cis_index.verify_archive_sorted_by_score_descending()
+
+    # ⚡ ACT
+    cis_index.click_dashboard()
+    cis_index.wait_for_data_sync(1)
+    cis_index.click_cis_index_table()
+    cis_index.wait_for_data_sync(1)
+
+    # ✅ ASSERT
+    cis_index.verify_archive_sorted_by_score_descending()
+
+
+@allure.id("CAS-10")
 @allure.title("🔄 Восстановление состояния сканера после перезагрузки страницы (F5)")
 @allure.label("owner", "Evgeniy Chechelev")
 @allure.label("feature", "cis-index-table")
@@ -373,9 +412,7 @@ def test_state_persistence_on_f5(cis_index):
     """
 
     # 🎬 ARRANGE
-    cis_index.click_add_planet()
-    cis_index.select_planet(data.MERCURY_NAME)
-    cis_index.click_analyze_cis()
+    cis_index.add_and_scan_planets([data.MERCURY_NAME])
 
     # ⚡ ACT
     cis_index.click_refresh_page()
@@ -387,7 +424,7 @@ def test_state_persistence_on_f5(cis_index):
     cis_index.verify_planet_in_archive(data.MERCURY_NAME)
 
 
-@allure.id("CAS-10")
+@allure.id("CAS-11")
 @allure.title(
     "⏪ Восстановление состояния сканера после нажатия кнопки 'Назад' в браузере"
 )
@@ -412,13 +449,11 @@ def test_state_persistence_on_back(cis_index):
     """
 
     # 🎬 ARRANGE
-    cis_index.click_add_planet()
-    cis_index.select_planet(data.MARS_NAME)
-    cis_index.click_analyze_cis()
+    cis_index.add_and_scan_planets([data.MARS_NAME])
 
     # ⚡ ACT
     cis_index.click_browser_back()
-    cis_index.pause(1)
+    cis_index.wait_for_data_sync(1)
     cis_index.click_cis_index_table()
 
     # ✅ ASSERT
@@ -428,7 +463,7 @@ def test_state_persistence_on_back(cis_index):
     cis_index.verify_planet_in_archive(data.MARS_NAME)
 
 
-@allure.id("CAS-11")
+@allure.id("CAS-12")
 @allure.title("🧭 Восстановление состояния сканера после перехода на Дашборд и возврат")
 @allure.label("owner", "Evgeniy Chechelev")
 @allure.label("feature", "cis-index-table")
@@ -451,13 +486,11 @@ def test_state_persistence_on_nav(cis_index):
     """
 
     # 🎬 ARRANGE
-    cis_index.click_add_planet()
-    cis_index.select_planet(data.NEPTUNE_NAME)
-    cis_index.click_analyze_cis()
+    cis_index.add_and_scan_planets([data.NEPTUNE_NAME])
 
     # ⚡ ACT
     cis_index.click_dashboard()
-    cis_index.pause(1)
+    cis_index.wait_for_data_sync(1)
     cis_index.click_cis_index_table()
 
     # ✅ ASSERT
@@ -467,7 +500,7 @@ def test_state_persistence_on_nav(cis_index):
     cis_index.verify_planet_in_archive(data.NEPTUNE_NAME)
 
 
-@allure.id("CAS-12")
+@allure.id("CAS-13")
 @allure.title("🗑️ Корректная работа кнопки CLEAR ALL")
 @allure.label("owner", "Evgeniy Chechelev")
 @allure.label("feature", "cis-index-table")
@@ -491,12 +524,7 @@ def test_archive_clear_all(cis_index):
     """
 
     # 🎬 ARRANGE
-    cis_index.click_add_planet()
-    cis_index.select_planet(data.TRAPPIST_1F_NAME)
-    cis_index.click_analyze_cis()
-    cis_index.click_add_planet()
-    cis_index.select_planet(data.TRAPPIST_1G_NAME)
-    cis_index.click_analyze_cis()
+    cis_index.add_and_scan_planets([data.TRAPPIST_1F_NAME, data.TRAPPIST_1G_NAME])
 
     # ⚡ ACT
     cis_index.click_clear_all()
@@ -510,7 +538,7 @@ def test_archive_clear_all(cis_index):
     )
 
 
-@allure.id("CAS-13")
+@allure.id("CAS-14")
 @allure.title("🗑️ Корректная работа кнопки DELETE для одной записи")
 @allure.label("owner", "Evgeniy Chechelev")
 @allure.label("feature", "cis-index-table")
@@ -524,16 +552,14 @@ def test_archive_delete_single(cis_index):
     2. Нажать кнопку "Add planet".
     3. Выбрать планету "TRAPPIST-1C".
     4. Нажать на кнопку ANALYZE CIS, дождаться завершения сканирования.
-    5. Нажать кнопку "DELETE" в зоне архива. 
+    5. Нажать кнопку "DELETE" в зоне архива.
     6. Нажать кнопку "DELETE" в модальном окне.
     7. Проверить: архив очищается, нет записи о сканировании "TRAPPIST-1C".
     8. Проверить: в зоне архива появляется надпись "NO SCANS IN ARCHIVE".
     """
 
     # 🎬 ARRANGE
-    cis_index.click_add_planet()
-    cis_index.select_planet(data.TRAPPIST_1C_NAME)
-    cis_index.click_analyze_cis()
+    cis_index.add_and_scan_planets([data.TRAPPIST_1C_NAME])
 
     # ⚡ ACT
     cis_index.click_delete_for_planet(data.TRAPPIST_1C_NAME)
@@ -544,4 +570,3 @@ def test_archive_delete_single(cis_index):
     cis_index.verify_text(
         element=cis_index.archive_list, expected_text=data.CIS_NO_SCAN_ARCHIVE
     )
-

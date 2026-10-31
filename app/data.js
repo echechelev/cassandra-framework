@@ -829,10 +829,10 @@ window.FlightCalculator = {
 // ========================================================================
 
 window.CIS_THRESHOLDS = [
-  { min: 75, max: 100, label: "HIGHLY HABITABLE", class: "status-habitable", color: "#2ecc71", desc: "Идеальна для колонизации, жизнь вероятна" },
-  { min: 60, max: 74, label: "CONDITIONALLY HABITABLE", class: "status-limited", color: "#f1c40f", desc: "Условно пригодна, требуются рекомендации" },
-  { min: 40, max: 59, label: "MARGINALLY HABITABLE", class: "status-uninhabitable", color: "#e74c3c", desc: "Мало пригодна, требуется разведка зонда" },
-  { min: 0, max: 39, label: "UNINHABITABLE", class: "status-dead", color: "#7f8c8d", desc: "Непригодна, безнадёжна для земной жизни" }
+  { min: 75, label: "HIGHLY HABITABLE", class: "status-habitable", color: "#2ecc71", desc: "Идеальна для колонизации, жизнь вероятна" },
+  { min: 60, label: "CONDITIONALLY HABITABLE", class: "status-limited", color: "#f1c40f", desc: "Условно пригодна, требуются рекомендации" },
+  { min: 40, label: "MARGINALLY HABITABLE", class: "status-uninhabitable", color: "#e74c3c", desc: "Мало пригодна, требуется разведка зонда" },
+  { min: 0, label: "UNINHABITABLE", class: "status-dead", color: "#7f8c8d", desc: "Непригодна, безнадёжна для земной жизни" }
 ];
 
 window.CisPlanet = [
