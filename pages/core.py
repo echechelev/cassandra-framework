@@ -1,6 +1,7 @@
 import json
 import logging
 import re
+import time
 
 logger = logging.getLogger(__name__)
 
@@ -748,6 +749,15 @@ class CorePage:
         """
         browser.driver.execute_script("sessionStorage.setItem('uplinkCompleted', 'true');")
         
+        return self
+
+    @allure.step("Ожидание синхронизации данных ({seconds} сек.)")
+    def wait_for_data_sync(self, seconds: float = 1.0):
+        """
+        Ожидание синхронизации данных и отрисовки UI.
+        Используется для стабилизации состояния перед проверками.
+        """
+        time.sleep(seconds)
         return self
 
 
