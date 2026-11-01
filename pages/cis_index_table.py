@@ -19,6 +19,7 @@ class CisIndexTablePage(CorePage):
     analyze_cis_btn = browser.element('[data-wm-id="btn-scan"]')
     clear_all_btn = browser.element('[data-wm-id="btn-clear"]')
     index_info_btn = browser.element('[data-wm-id="btn-scan-info"]')
+    cis_formula_btn = browser.element('[data-wm-id="cis-formula-btn"]')
 
     # Общие локаторы
     toast_message = browser.element('[data-wm-id="toast-message"]')
@@ -33,6 +34,12 @@ class CisIndexTablePage(CorePage):
     scanner_empty = browser.element('[data-wm-id="scanner-empty"]')
     scanner_active = browser.element('[data-wm-id="scanner-active"]')
     scan_planet_name = browser.element('[data-wm-id="scan-planet-name"]')
+
+    # Модалка форммулы расчетов CIS
+    cis_formula_modal = browser.element('[data-wm-id="cis-formula-modal"]')
+    cis_formula_list = browser.element('[data-wm-id="scan-info-list"]')
+    cis_close_modal_formula_btn = browser.element('[data-wm-id="btn-close-cis-formula"]')
+    cis_cancel_modal_formula_btn = browser.element('[data-wm-id="btn-cancel-cis-formula"]')
 
     # Модалка подтверждения удаления
     confirm_delete_modal = browser.element('[data-wm-id="confirm-delete-title"]')
@@ -500,6 +507,71 @@ class CisIndexTablePage(CorePage):
         elif clear_all_modal:
             with allure.step("Ожидаем закрытие модалки подтверждения удаления записи"):
                 self.delete_confirm_clear_all_modal.should(be.hidden)
+
+        return self
+
+    @allure.step("📐 Нажатие кнопки CIS FORMULA и ожидание модалки")
+    def click_cis_formula(self):
+        """
+        Нажимает кнопку открытия модального окна методологии расчета CIS
+        и ожидает появления модалки CIS Formula.
+        """
+        with allure.step("🖱️ Кликаем по кнопке CIS FORMULA"):
+            try:
+                self.cis_formula_btn.should(be.visible).should(be.enabled)
+                self.cis_formula_btn.click()
+            except TimeoutException:
+                raise AssertionError(
+                    "❌ CIS FORMULA button not found or not clickable!\n"
+                    "   Timeout: button did not appear in time"
+                )
+            except Exception as e:
+                raise AssertionError(
+                    f"❌ Unexpected error while clicking CIS FORMULA!\n" f"   Error: {e}"
+                ) from e
+
+        with allure.step("⏳ Ожидаем появление модального окна CIS Formula"):
+            self.cis_formula_modal.should(be.visible)
+
+        return self
+
+    @allure.step("Закрытие модалки CIS Formula")
+    def close_cis_formula_modal(
+        self,
+        click_cross: bool = False,
+        click_cancel: bool = False,
+    ):
+        """
+        Закрывает модалку формулы CIS одним из доступных способов.
+
+        Args:
+            click_cross: Клик по крестику (cis_close_modal_formula_btn).
+            click_cancel: Клик по кнопке отмены (cis_cancel_modal_formula_btn).
+        """
+        if sum([click_cross, click_cancel]) != 1:
+            raise ValueError(
+                "❌ Необходимо указать ровно один способ закрытия (крестик или отмена)."
+            )
+
+        if click_cross:
+            with allure.step("Закрываем модалку кликом по крестику"):
+                try:
+                    self.cis_close_modal_formula_btn.click()
+                except Exception as e:
+                    raise AssertionError(
+                        f"❌ Failed to click the cross button (cis_close_modal_formula_btn)!\n"
+                        f"   Error: {e}"
+                    ) from e
+
+        elif click_cancel:
+            with allure.step("Закрываем модалку кликом по кнопке Cancel"):
+                try:
+                    self.cis_cancel_modal_formula_btn.click()
+                except Exception as e:
+                    raise AssertionError(
+                        f"❌ Failed to click the Cancel button (cis_cancel_modal_formula_btn)!\n"
+                        f"   Error: {e}"
+                    ) from e
 
         return self
 
