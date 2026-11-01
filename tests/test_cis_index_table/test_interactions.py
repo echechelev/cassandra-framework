@@ -200,14 +200,18 @@ def test_сlose_confirm_delete_modal_via_all_triggers(cis_index):
     cis_index.close_delete_confirmation_modal(click_cross=True)
 
     # ✅ ASSERT
-    cis_index.verify_window_state(cis_index.delete_confirm_clear_all_modal, is_visible=False)
+    cis_index.verify_window_state(
+        cis_index.delete_confirm_clear_all_modal, is_visible=False
+    )
 
     # ⚡ ACT
     cis_index.click_clear_all()
     cis_index.close_delete_confirmation_modal(click_cancel=True)
 
     # ✅ ASSERT
-    cis_index.verify_window_state(cis_index.delete_confirm_clear_all_modal, is_visible=False)
+    cis_index.verify_window_state(
+        cis_index.delete_confirm_clear_all_modal, is_visible=False
+    )
 
 
 @allure.id("CAS-07")
@@ -234,7 +238,7 @@ def test_сlose_details_modal_via_all_triggers(cis_index):
 
     # 🎬 ARRANGE
     cis_index.add_and_scan_planets([data.TAU_CETI_F_NAME])
-    
+
     # ⚡ ACT
     cis_index.click_details_for_planet(data.TAU_CETI_F_NAME)
     cis_index.close_details_modal(click_cross=True)
@@ -272,7 +276,7 @@ def test_open_planet_details_from_archive(cis_index):
 
     # 🎬 ARRANGE
     cis_index.add_and_scan_planets([data.VENUS_NAME])
-   
+
     # ⚡ ACT
     cis_index.click_details_for_planet(data.VENUS_NAME)
 
@@ -353,7 +357,7 @@ def test_verify_telemetry_updates_after_deletion_process(cis_index):
     10. Нажать на кнопку "Analyze cis" и дождаться результатов сканирования.
     11. Нажать на кнопку "DELETE" в зоне добавленной архивной записи сканирования TRAPPIST-1H.
     12. В модальном окне "Подтверждение удаления", нажать на кнопку "DELETE".
-    13. Проверить: текст телеметрии "> CASSANDRA: RECORD DELETED: TRAPPIST-1H". SCANNER RESET. 
+    13. Проверить: текст телеметрии "> CASSANDRA: RECORD DELETED: TRAPPIST-1H". SCANNER RESET.
     """
 
     # 🎬 ARRANGE
@@ -379,3 +383,83 @@ def test_verify_telemetry_updates_after_deletion_process(cis_index):
         element=cis_index.system_telemetry,
         expected_text=data.GREEN_TELEMETRY_CIS_SCAN_RECORD_DELETED_TRAPPIST_1H,
     )
+
+
+@allure.id("CAS-11")
+@allure.title("📐 Открытие и проверка содержимого модального окна CIS FORMULA")
+@allure.label("owner", "Evgeniy Chechelev")
+@allure.label("feature", "cis-index-table")
+@pytest.mark.regress
+@pytest.mark.cis_index_table
+@pytest.mark.interactions
+def test_cis_formula_modal_content(cis_index):
+    """
+    Сценарий:
+    1. Перейти на страницу 'Cis index table page'.
+    2. Нажать на кнопку 'CIS FORMULA'.
+    3. Проверить: заголовок модального окна "CIS CALCULATION METHODOLOGY".
+    4. Проверить: наличие заголовка "METHODOLOGY: EARTH = 100%"
+    5. Проверить: наличие заголовка "WEIGHTED FORMULA"
+    6. Проверить: наличие заголовка "MAGNETIC SHIELD MECHANIC"
+    7. Проверить: наличие заголовка "CALCULATION EXAMPLE: MARS"
+    """
+
+    # ⚡ ACT
+    cis_index.click_cis_formula()
+
+    # ✅ ASSERT
+    cis_index.verify_text(
+        element=cis_index.cis_formula_modal,
+        expected_text=data.CIS_FORMULA_MODAL_TEXT,
+    )
+    cis_index.verify_text(
+        element=cis_index.cis_formula_modal,
+        expected_text=data.CIS_FORMULA_METHODOLOGY_TEXT,
+    )
+    cis_index.verify_text(
+        element=cis_index.cis_formula_modal,
+        expected_text=data.CIS_FORMULA_WEIGHTED_TEXT,
+    )
+    cis_index.verify_text(
+        element=cis_index.cis_formula_modal,
+        expected_text=data.CIS_FORMULA_MAGNETIC_TEXT,
+    )
+    cis_index.verify_text(
+        element=cis_index.cis_formula_modal,
+        expected_text=data.CIS_FORMULA_EXAMPLE_TEXT,
+    )
+
+
+@allure.id("CAS-13")
+@allure.title("❌ Закрытие модалки 'CIS Formula'")
+@allure.label("owner", "Evgeniy Chechelev")
+@allure.label("feature", "cis-index-table")
+@pytest.mark.regress
+@pytest.mark.cis_index_table
+@pytest.mark.interactions
+def test_close_cis_formula_modal(cis_index):
+    """
+    Сценарий:
+    1. Перейти на страницу 'Cis index table page'.
+    2. Нажать на кнопку 'CIS FORMULA'.
+    3. Нажать на кнопку крестик закрытия модалки.
+    4. Проверить: модалка "CIS FORMULA" закрылась.
+    5. Нажать на кнопку 'CIS FORMULA'.
+    6. Нажать на кнопку 'CANCEL'.
+    7. Проверить: модалка "CIS FORMULA" закрылась.
+    """
+
+    # ⚡ ACT
+    cis_index.click_cis_formula()
+    cis_index.close_cis_formula_modal(click_cross=True)
+
+    # ✅ ASSERT
+    cis_index.verify_window_state(cis_index.cis_formula_modal, is_visible=False)
+
+    # ⚡ ACT
+    cis_index.click_cis_formula()
+    cis_index.close_cis_formula_modal(click_cancel=True)
+    
+    # ✅ ASSERT
+    cis_index.verify_window_state(cis_index.cis_formula_modal, is_visible=False)
+   
