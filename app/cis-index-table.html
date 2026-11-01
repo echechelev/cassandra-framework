@@ -1262,6 +1262,18 @@
     .bottom-right.cassandra-logo:hover {
       transform: none !important;
     }
+
+    /* Возвращаем интерактивность правой нижней кнопке */
+    #btn-cis-formula {
+      pointer-events: auto !important;
+      cursor: pointer !important;
+      opacity: 1 !important;
+      filter: none !important;
+    }
+
+    #btn-cis-formula:hover {
+      transform: scale(1.15) !important;
+    }
   </style>
 
 <body>
@@ -1401,6 +1413,57 @@
     </div>
   </div>
 
+  <div class="modal-overlay" id="cis-formula-overlay" data-wm-id="cis-formula-overlay">
+    <div class="modal-content scan-info-modal" data-wm-id="cis-formula-modal">
+      <div class="modal-header">
+        <h3>CIS CALCULATION METHODOLOGY</h3>
+        <button class="modal-close" id="btn-close-cis-formula" data-wm-id="btn-close-cis-formula">&times;</button>
+      </div>
+
+      <div class="modal-body">
+        <div class="scan-info-list">
+
+          <div class="info-item">
+            <div class="info-label">1. METHODOLOGY: EARTH = 100%</div>
+            <div class="info-desc">All 9 parameters are normalized relative to Earth as the ideal standard.
+              <br><br><b>Example:</b> Earth Gravity (9.8 m/s²) = 100%. Mars Gravity (3.7 m/s²) = 38%.
+            </div>
+          </div>
+
+          <div class="info-item">
+            <div class="info-label">2. WEIGHTED FORMULA</div>
+            <div class="info-desc">The final index is the sum of products: <b>CIS = Σ (Parameter × Weight)</b>.
+              <br><br>Critical factors have higher weights: Hydrosphere (20%), Habitable Zone & Surface (15% each). Less
+              critical factors like Gravity & Breathability have 5%.
+            </div>
+          </div>
+
+          <div class="info-item">
+            <div class="info-label">3. MAGNETIC SHIELD MECHANIC</div>
+            <div class="info-desc">Magnetic field actively filters radiation. It blocks 80% of its value.
+              <br><br><i>Effective Radiation = Raw Radiation - (Magnetic Field × 0.8)</i>.
+              <br>This prevents "perfect" scores on planets with weak fields.
+            </div>
+          </div>
+
+          <div class="info-item">
+            <div class="info-label">4. CALCULATION EXAMPLE: MARS</div>
+            <div class="info-desc">
+              (85×0.15) + (100×0.15) + (10×0.20) + (20×0.10) + (0×0.05) + (30×0.10) + (38×0.05) + (10×0.10) + (45×0.10)
+              <br><br><b>Total ≈ 44.0% (Marginally Habitable)</b>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="modal-actions">
+        <button class="modal-btn secondary" id="btn-cancel-cis-formula"
+          data-wm-id="btn-cancel-cis-formula">CANCEL</button>
+      </div>
+    </div>
+  </div>
+
   <div class="modal-overlay" id="modal-overlay" data-wm-id="modal-overlay">
     <div class="modal-content planet-selector-modal" data-wm-id="planet-selector-modal">
       <div class="modal-header">
@@ -1447,17 +1510,10 @@
     <span class="corner-label">DASHBOARD</span>
   </button>
 
-  <button class="corner-circle-btn bottom-right cassandra-logo" data-wm-id="cassandra-btn">
-    <span class="corner-icon"></span>
-    <div class="corner-label cassandra-label">
-      <span class="cassan">CASSAN</span><span class="dra">DRA</span>
-    </div>
+  <button class="corner-circle-btn bottom-right" id="btn-cis-formula" data-wm-id="cis-formula-btn">
+    <span class="corner-icon">📐</span>
+    <div class="corner-label">CIS FORMULA</div>
   </button>
-
-  <footer class="login-footer">
-    <div class="telemetry" id="dashboard-telemetry" data-wm-id="system-telemetry"></div>
-    <div class="copyright">Evknopia © 2026</div>
-  </footer>
 
   <div class="toast-notification" id="toast-notification" data-wm-id="toast-notification">
     <span class="toast-icon">⚠️</span>
@@ -1510,12 +1566,16 @@
     </div>
   </div>
 
+  <footer class="login-footer">
+    <div class="telemetry" id="dashboard-telemetry" data-wm-id="system-telemetry"></div>
+    <div class="copyright">Evknopia © 2026</div>
+  </footer>
+
 </body>
 
 <script src="data.js"></script>
 
 <script>
-
   function renderPlanetSelector() {
     const container = document.getElementById('planet-sections-container');
     if (!container || !window.CisPlanet) return;
@@ -1679,7 +1739,6 @@
 
   function getStatusByCIS(score) {
     if (!window.CIS_THRESHOLDS) return { label: "UNKNOWN", color: "#7f8c8d" };
-
     return window.CIS_THRESHOLDS.find(t => score >= t.min) || window.CIS_THRESHOLDS[window.CIS_THRESHOLDS.length - 1];
   }
 
@@ -1690,11 +1749,9 @@
     };
 
     let cis = 0;
-
     const rawRadiation = params.star_radiation || 0;
     const magneticShield = params.magnetic || 0;
     const blockedRadiation = magneticShield * 0.8;
-
     let effectiveRadiation = rawRadiation - blockedRadiation;
 
     if (effectiveRadiation < 0) {
@@ -1703,16 +1760,13 @@
 
     for (const key in weights) {
       let value = params[key] || 0;
-
       if (key === 'star_radiation') {
         value = 100 - effectiveRadiation;
       }
-
       cis += value * weights[key];
     }
 
     cis = Math.max(0, Math.min(100, cis));
-
     return cis.toFixed(1);
   }
 
@@ -1720,35 +1774,30 @@
     habitable_zone: 'HABITABLE ZONE 🌍', hydrosphere: 'HYDROSPHERE 💧', breathability: 'BREATHABILITY 🌬️',
     gravity: 'GRAVITY ⬇️', star_radiation: 'STAR RADIATION ☢️', surface: 'SURFACE 🏔️',
     atmosphere: 'ATMOSPHERE 💨', climate: 'CLIMATE 🌦️', magnetic: 'MAGNETIC 🧲',
-    cassandra: 'CASSANDRA 🌌'
+    cassandra: 'CASSANDRA 📐'
   };
 
   function getParamColor(value, paramName = '') {
     if (paramName === 'star_radiation') {
       return '#e74c3c';
     }
-
     if (!window.CIS_THRESHOLDS || !Array.isArray(window.CIS_THRESHOLDS)) {
       if (value >= 76) return '#2ecc71';
       if (value >= 51) return '#f1c40f';
       if (value >= 26) return '#e74c3c';
       return '#7f8c8d';
     }
-
     const threshold = window.CIS_THRESHOLDS.find(t => value >= t.min);
     return threshold ? threshold.color : '#7f8c8d';
   }
 
   function getParamBackground(value, paramName = '') {
-
     if (paramName === 'star_radiation') {
       return 'repeating-linear-gradient(45deg, #f1c40f, #f1c40f 6px, #1a1a1a 6px, #1a1a1a 12px)';
     }
-
     if (paramName === 'cassandra') {
       return 'linear-gradient(90deg, #ffffff 0%, #ffffff 50%, #4da6ff 50%, #4da6ff 100%)';
     }
-
     const color = getParamColor(value, paramName);
     return `linear-gradient(90deg, ${color}, ${color}dd)`;
   }
@@ -1888,15 +1937,12 @@
     });
 
     const cassandraRow = document.createElement('div');
-    cassandraRow.className = 'param-row filled';
+    cassandraRow.className = 'param-row pending';
     cassandraRow.dataset.paramKey = 'cassandra';
-    const cassandraBg = getParamBackground(100, 'cassandra');
     cassandraRow.innerHTML = `
       <div class="param-label">${PARAM_LABELS.cassandra}</div>
-      <div class="param-bar-container">
-        <div class="param-bar" style="width: 100%; background: ${cassandraBg};"></div>
-      </div>
-      <div class="param-value" style="color: #ffffff;">100</div>
+      <div class="param-bar-container"><div class="param-bar"></div></div>
+      <div class="param-value">—</div>
     `;
     scanParams.appendChild(cassandraRow);
 
@@ -1905,7 +1951,6 @@
   }
 
   btnScan.addEventListener('click', async () => {
-
     btnScan.disabled = true;
     btnAdd.disabled = true;
     btnClear.disabled = true;
@@ -1927,8 +1972,6 @@
       const paramKey = row.dataset.paramKey;
 
       if (paramKey === 'cassandra') {
-        row.classList.remove('pending');
-        row.classList.add('filled');
         continue;
       }
 
@@ -1940,14 +1983,49 @@
       await sleep(150);
     }
 
-    scanStatusLine.textContent = 'CALCULATING CASSANDRA INDEX';
-    await sleep(800);
-
     const finalCIS = calculateCIS(currentPlanetData.cis_params);
-    const statusInfo = getStatusByCIS(parseFloat(finalCIS));
+    const finalCISFloat = parseFloat(finalCIS);
+    const statusInfo = getStatusByCIS(finalCISFloat);
+
+    const allRows = scanParams.querySelectorAll('.param-row');
+    const cassandraRow = allRows[allRows.length - 1];
+
+    if (cassandraRow) {
+      const cisBar = cassandraRow.querySelector('.param-bar');
+      const cisValueEl = cassandraRow.querySelector('.param-value');
+
+      const duration = 1200;
+      const start = performance.now();
+
+      await new Promise(resolve => {
+        function update(now) {
+          const elapsed = now - start;
+          const progress = Math.min(elapsed / duration, 1);
+          const currentValue = Math.round(finalCISFloat * progress);
+
+          cisValueEl.textContent = currentValue;
+          cisValueEl.style.color = statusInfo.color;
+          cisBar.style.width = `${currentValue}%`;
+          cisBar.style.background = `linear-gradient(90deg, ${statusInfo.color}, ${statusInfo.color}dd)`;
+          cisBar.style.boxShadow = `0 0 0.5vmin ${statusInfo.color}`;
+
+          if (progress < 1) {
+            requestAnimationFrame(update);
+          } else {
+            cisValueEl.textContent = finalCISFloat + '%'; 
+            cisBar.style.width = `${finalCISFloat}%`;
+            resolve();
+          }
+        }
+        requestAnimationFrame(update);
+      });
+
+      cassandraRow.classList.remove('pending');
+      cassandraRow.classList.add('filled');
+    }
 
     cisResult.classList.add('visible');
-    await animateCIS(cisScore, cisStatusBadge, parseFloat(finalCIS));
+    await animateCIS(cisScore, cisStatusBadge, finalCISFloat);
 
     cisScore.style.color = statusInfo.color;
     cisStatusBadge.textContent = statusInfo.label;
@@ -2072,20 +2150,23 @@
           scanParams.appendChild(row);
         });
 
-        const cassandraRow = document.createElement('div');
-        cassandraRow.className = 'param-row filled';
-        cassandraRow.dataset.paramKey = 'cassandra';
-        const cassandraBg = getParamBackground(100, 'cassandra');
-        cassandraRow.innerHTML = `
-          <div class="param-label">${PARAM_LABELS.cassandra}</div>
-          <div class="param-bar-container">
-            <div class="param-bar" style="width: 100%; background: ${cassandraBg};"></div>
-          </div>
-          <div class="param-value" style="color: rgba(255, 255, 255, 0.4);">100</div>
-        `;
-        scanParams.appendChild(cassandraRow);
-
         if (state.cisResult && state.cisResult.isVisible) {
+          const cisValue = parseFloat(state.cisResult.score);
+          const cisColor = state.cisResult.scoreColor || '#7f8c8d';
+          const cisBg = cisColor;
+
+          const cisRow = document.createElement('div');
+          cisRow.className = 'param-row filled';
+          cisRow.dataset.paramKey = 'cassandra';
+          cisRow.innerHTML = `
+            <div class="param-label">${PARAM_LABELS.cassandra}</div>
+            <div class="param-bar-container">
+              <div class="param-bar" style="width: ${cisValue}%; background: ${cisBg}; box-shadow: 0 0 0.5vmin ${cisColor};"></div>
+            </div>
+            <div class="param-value" style="color: ${cisColor};">${cisValue}%</div>
+          `;
+          scanParams.appendChild(cisRow);
+
           cisResult.classList.add('visible');
           cisScore.textContent = state.cisResult.score;
           cisScore.style.color = state.cisResult.scoreColor || '#7f8c8d';
@@ -2093,6 +2174,16 @@
           cisStatusBadge.style.color = state.cisResult.statusColor;
           cisStatusBadge.style.borderColor = state.cisResult.statusBorderColor || state.cisResult.statusColor;
           cisStatusBadge.style.background = state.cisResult.statusBackground || `${state.cisResult.statusColor}20`;
+        } else {
+          const cisRow = document.createElement('div');
+          cisRow.className = 'param-row pending';
+          cisRow.dataset.paramKey = 'cassandra';
+          cisRow.innerHTML = `
+            <div class="param-label">${PARAM_LABELS.cassandra}</div>
+            <div class="param-bar-container"><div class="param-bar"></div></div>
+            <div class="param-value">—</div>
+          `;
+          scanParams.appendChild(cisRow);
         }
 
         if (isPlanetInArchive(state.planetData.planet)) {
@@ -2315,7 +2406,6 @@
         }
 
         if (currentPlanetData && currentPlanetData.planet.toUpperCase() === pendingDeletePlanet.toUpperCase()) {
-     
           scannerEmpty.style.display = 'block';
           scannerActive.classList.remove('active');
           cisResult.classList.remove('visible');
@@ -2378,6 +2468,29 @@
       if (archiveCount > 0) {
         openConfirmClearAllModal();
       }
+    });
+  }
+
+  const cisFormulaOverlay = document.getElementById('cis-formula-overlay');
+  const btnCisFormula = document.getElementById('btn-cis-formula');
+  const btnCloseCisFormula = document.getElementById('btn-close-cis-formula');
+  const btnCancelCisFormula = document.getElementById('btn-cancel-cis-formula');
+
+  function openCisFormulaModal() {
+    if (cisFormulaOverlay) cisFormulaOverlay.classList.add('active');
+  }
+
+  function closeCisFormulaModal() {
+    if (cisFormulaOverlay) cisFormulaOverlay.classList.remove('active');
+  }
+
+  if (btnCisFormula) btnCisFormula.addEventListener('click', openCisFormulaModal);
+  if (btnCloseCisFormula) btnCloseCisFormula.addEventListener('click', closeCisFormulaModal);
+  if (btnCancelCisFormula) btnCancelCisFormula.addEventListener('click', closeCisFormulaModal);
+
+  if (cisFormulaOverlay) {
+    cisFormulaOverlay.addEventListener('click', (e) => {
+      if (e.target === cisFormulaOverlay) closeCisFormulaModal();
     });
   }
 
