@@ -5,141 +5,1525 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="icon" type="image/svg+xml" href="favicon.svg">
-  <title>404 — Cassandra Framework</title>
+  <title>Cassandra — Mission Control</title>
   <style>
+    :root {
+      --corner-btn-size: 10vmin;
+      --corner-btn-border: 0.2vmin;
+      --corner-btn-gap: 0.35vmin;
+      --corner-icon-size: 3vmin;
+      --corner-label-size: 1.1vmin;
+      --corner-btn-offset-v: 4vh;
+      --corner-btn-offset-h: 2vw;
+      --neon-blue: #4da6ff;
+      --neon-glow: rgba(77, 166, 255, 0.6);
+      --bg-dark: rgba(10, 15, 40, 0.85);
+      --text-main: #e8ecff;
+      --text-dim: #8a94b8;
+    }
+
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
-      font-family: 'Segoe UI', sans-serif;
+      font-family: 'Segoe UI', 'Roboto', sans-serif;
     }
 
     body {
       color: #e8ecff;
       min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
+      position: relative;
+      overflow-x: hidden;
       background-color: #050816;
-      overflow: hidden;
     }
 
     .stars {
       position: fixed;
       inset: 0;
       z-index: -2;
-      background: radial-gradient(1px 1px at 10% 10%, #fff, transparent 50%),
-        radial-gradient(2px 2px at 40% 20%, #fff, transparent 50%),
-        radial-gradient(1px 1px at 70% 40%, #fff, transparent 50%),
+      background:
+        radial-gradient(1px 1px at 10% 10%, rgba(255, 255, 255, .9), transparent 50%),
+        radial-gradient(1.5px 1.5px at 20% 30%, rgba(255, 255, 255, .7), transparent 50%),
+        radial-gradient(1px 1px at 30% 70%, rgba(255, 255, 255, .8), transparent 50%),
+        radial-gradient(2px 2px at 40% 20%, rgba(255, 255, 255, .6), transparent 50%),
+        radial-gradient(1px 1px at 50% 50%, rgba(255, 255, 255, .9), transparent 50%),
+        radial-gradient(1.5px 1.5px at 60% 80%, rgba(255, 255, 255, .7), transparent 50%),
+        radial-gradient(1px 1px at 70% 40%, rgba(255, 255, 255, .8), transparent 50%),
+        radial-gradient(2px 2px at 80% 90%, rgba(255, 255, 255, .5), transparent 50%),
+        radial-gradient(1px 1px at 90% 15%, rgba(255, 255, 255, .9), transparent 50%),
         linear-gradient(180deg, #050816 0%, #0a0e27 50%, #131b3a 100%);
+      background-size: 15vmin 15vmin, 20vmin 20vmin, 18vmin 18vmin, 25vmin 25vmin,
+        16vmin 16vmin, 22vmin 22vmin, 19vmin 19vmin, 28vmin 28vmin,
+        17vmin 17vmin, 100% 100%;
     }
 
     .milkyway {
       position: fixed;
       inset: 0;
       z-index: -1;
-      background: linear-gradient(180deg, transparent, rgba(120, 160, 255, .1) 50%, transparent);
-      transform: rotate(-28deg);
-      filter: blur(2vmin);
+      overflow: hidden;
+      pointer-events: none;
     }
 
-    .logo {
-      font-size: 8vmin;
-      font-weight: 800;
-      letter-spacing: 1vmin;
-      margin-bottom: 6vmin;
+    .milkyway .band {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 280vmax;
+      height: 25vmin;
+      transform: translate(-50%, -50%) rotate(-28deg);
+      background: linear-gradient(180deg,
+          transparent,
+          rgba(120, 160, 255, .08) 15%,
+          rgba(190, 215, 255, .18) 35%,
+          rgba(255, 255, 255, .25) 50%,
+          rgba(190, 215, 255, .18) 65%,
+          rgba(120, 160, 255, .08) 85%,
+          transparent);
+      filter: blur(1.5vmin);
     }
 
-    .logo .w {
-      color: #fff;
-    }
-
-    .logo .b {
-      color: #4da6ff;
-      text-shadow: 0 0 2vmin rgba(77, 166, 255, 0.6);
-    }
-
-    /* Блок 404 */
-    .error-box {
+    .login-footer {
+      position: absolute;
+      bottom: 0;
+      width: 100%;
       text-align: center;
-      padding: 4vmin 8vmin;
-      border: 0.2vmin solid rgba(231, 76, 60, 0.5);
-      border-radius: 1.5vmin;
-      background: rgba(10, 15, 40, 0.6);
+      color: #4a5480;
+      font-size: 1.2vmin;
+      letter-spacing: 0.1vmin;
+      padding-bottom: 2vmin;
+    }
+
+    .copyright {
+      margin-top: 4vmin;
+      font-size: 1.4vmin;
+      letter-spacing: 0.15vmin;
+      color: #5a6488;
+    }
+
+    .telemetry {
+      color: #4da6ff;
+      font-family: 'Courier New', monospace;
+      margin-bottom: 0.8vmin;
+      font-size: 1.3vmin;
+      text-transform: uppercase;
+      letter-spacing: 0.1vmin;
+      text-shadow: 0 0 0.8vmin rgba(77, 166, 255, 0.4);
+      min-height: 2vmin;
+    }
+
+    .telemetry-cassan {
+      color: #ffffff !important;
+    }
+
+    .telemetry-dra {
+      color: #4da6ff !important;
+      text-shadow: 0 0 0.6vmin rgba(77, 166, 255, 0.6) !important;
+    }
+
+    .telemetry::after {
+      content: "█";
+      animation: blink 1s step-end infinite;
+      margin-left: 0.4vmin;
+    }
+
+    @keyframes blink {
+      50% {
+        opacity: 0;
+      }
+    }
+
+    .corner-circle-btn {
+      position: fixed;
+      width: var(--corner-btn-size);
+      height: var(--corner-btn-size);
+      border-radius: 50%;
+      border: var(--corner-btn-border) solid rgba(77, 166, 255, 0.6);
+      background: rgba(10, 15, 40, 0.7);
       backdrop-filter: blur(1vmin);
-      box-shadow: 0 0 3vmin rgba(231, 76, 60, 0.3);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: var(--corner-btn-gap);
+      z-index: 10;
+      box-shadow:
+        0 0 0.5vmin rgba(77, 166, 255, 0.3),
+        inset 0 0 0.5vmin rgba(77, 166, 255, 0.2),
+        0 0 1.5vmin rgba(77, 166, 255, 0.4);
+      transition: all 0.3s ease;
+      cursor: pointer;
+      padding: 0;
+      text-align: center;
+      text-decoration: none;
     }
 
-    .code {
-      font-size: 10vmin;
-      font-weight: 900;
-      color: #e74c3c;
-      text-shadow: 0 0 2vmin #e74c3c;
+    .corner-circle-btn:hover {
+      border-color: rgba(77, 166, 255, 1);
+      box-shadow:
+        0 0 1vmin rgba(77, 166, 255, 0.6),
+        inset 0 0 1vmin rgba(77, 166, 255, 0.4),
+        0 0 3vmin rgba(77, 166, 255, 0.8);
+    }
+
+    .corner-circle-btn.bottom-left {
+      bottom: var(--corner-btn-offset-v);
+      left: var(--corner-btn-offset-h);
+    }
+
+    .corner-circle-btn.bottom-right {
+      bottom: var(--corner-btn-offset-v);
+      right: var(--corner-btn-offset-h);
+    }
+
+    .corner-circle-btn.top-left {
+      top: var(--corner-btn-offset-v);
+      left: var(--corner-btn-offset-h);
+    }
+
+    .corner-circle-btn.top-right {
+      top: var(--corner-btn-offset-v);
+      right: var(--corner-btn-offset-h);
+    }
+
+    .corner-icon {
+      font-size: var(--corner-icon-size);
       line-height: 1;
+      filter: drop-shadow(0 0 0.8vmin rgba(77, 166, 255, 0.5));
+      margin-top: -1.3vmin;
+      margin-bottom: 0.4vmin;
     }
 
-    .title {
-      font-size: 2.5vmin;
-      font-weight: 700;
+    .corner-label {
+      font-size: var(--corner-label-size);
+      font-weight: 600;
+      text-align: center;
+      line-height: 1.2;
       color: #e8ecff;
       text-transform: uppercase;
-      margin: 2vmin 0 1vmin;
+      letter-spacing: 0.05vmin;
+      margin-top: 0.4vmin;
+    }
+
+    .top-right .corner-label {
+      color: #2ecc71 !important;
+      text-shadow: 0 0 0.8vmin rgba(46, 204, 113, 0.5) !important;
+      margin-top: 0vmin !important;
+      /* <-- ДОБАВИТЬ ЭТУ СТРОКУ */
+    }
+
+    .top-left .corner-label,
+    .bottom-left .corner-label,
+    .bottom-right .corner-label {
+      color: #ffffff !important;
+      text-shadow: none !important;
+    }
+
+    .top-left,
+    .top-right {
+      cursor: default;
+    }
+
+    .info-tooltip {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(10, 15, 30, 0.95);
+      border: 0.1vmin solid #4da6ff;
+      border-radius: 0.5vmin;
+      padding: 1.2vmin 1.8vmin;
+      font-size: 1.2vmin;
+      color: #e8ecff;
+      min-width: 14vw;
+      max-width: 18vw;
+      white-space: normal;
+      word-wrap: break-word;
+      overflow-wrap: break-word;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s ease;
+      pointer-events: none;
+      z-index: 100;
+      box-shadow: 0 0 1.5vmin rgba(77, 166, 255, 0.5);
+      text-align: left;
+      line-height: 1.6;
+    }
+
+    .top-left .info-tooltip {
+      left: 115%;
+    }
+
+    .top-right .info-tooltip {
+      right: 115%;
+      left: auto;
+      text-align: right;
+    }
+
+    .top-left:hover .info-tooltip,
+    .top-right:hover .info-tooltip {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .info-tooltip .tooltip-title {
+      color: #4da6ff;
+      font-weight: bold;
+      margin-bottom: 0.5vmin;
+      border-bottom: 0.1vmin solid rgba(77, 166, 255, 0.3);
+      padding-bottom: 0.3vmin;
       letter-spacing: 0.1vmin;
     }
 
-    .desc {
-      font-size: 1.5vmin;
-      color: #7a86b8;
-      margin-bottom: 4vmin;
-    }
-
-    /* Кнопка назад */
-    .back-btn {
-      display: inline-block;
-      padding: 1.2vmin 3vmin;
-      border: 0.15vmin solid rgba(77, 166, 255, 0.6);
-      border-radius: 0.6vmin;
-      background: rgba(10, 15, 40, 0.8);
-      color: #4da6ff;
-      font-size: 1.4vmin;
-      font-weight: 600;
-      text-decoration: none;
-      text-transform: uppercase;
-      transition: all 0.3s;
-    }
-
-    .back-btn:hover {
-      background: rgba(77, 166, 255, 0.2);
-      box-shadow: 0 0 2vmin rgba(77, 166, 255, 0.5);
-      transform: translateY(-0.2vmin);
-    }
-
-    .footer {
+    .page-header {
       position: absolute;
-      bottom: 3vmin;
-      color: #5a6488;
+      top: 6vh;
+      left: 50%;
+      transform: translateX(-50%);
+      text-align: center;
+      z-index: 5;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .page-logo-main {
+      font-size: 5.5vmin;
+      font-weight: 800;
+      letter-spacing: 1.3vmin;
+      margin-bottom: 2vmin;
+      user-select: none;
+      line-height: 1;
+    }
+
+    .page-logo-main .white-part {
+      color: #ffffff;
+    }
+
+    .page-logo-main .blue-part {
+      color: #4da6ff;
+      text-shadow: 0 0 3.8vmin rgba(77, 166, 255, 0.6);
+    }
+
+    .page-logo-sub {
+      font-size: 2.2vmin;
+      font-weight: 600;
+      letter-spacing: 1.5vmin;
+      color: #4da6ff;
+      text-transform: uppercase;
+      text-shadow: 0 0 1.5vmin rgba(77, 166, 255, 0.4);
+      user-select: none;
+    }
+
+    .mission-container {
+      position: absolute;
+      top: 62%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10vmin;
+      z-index: 5;
+      transition: opacity 0.3s ease, visibility 0.3s ease;
+    }
+
+    .mission-welcome-text {
+      font-size: 2.8vmin;
+      color: #e8ecff;
+      text-align: center;
+      line-height: 1.6;
+      max-width: 40vw;
+      text-shadow: 0 0 1vmin rgba(77, 166, 255, 0.3);
+    }
+
+    .mission-welcome-text .highlight {
+      color: #4da6ff;
+      font-weight: 700;
+      text-shadow: 0 0 1.5vmin rgba(77, 166, 255, 0.6);
+    }
+
+    .mission-start-btn {
+      width: var(--corner-btn-size);
+      height: var(--corner-btn-size);
+      border-radius: 50%;
+      border: var(--corner-btn-border) solid rgba(77, 166, 255, 0.6);
+      background: rgba(10, 15, 40, 0.7);
+      backdrop-filter: blur(1vmin);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: var(--corner-btn-gap);
+      box-shadow:
+        0 0 0.5vmin rgba(77, 166, 255, 0.3),
+        inset 0 0 0.5vmin rgba(77, 166, 255, 0.2),
+        0 0 1.5vmin rgba(77, 166, 255, 0.4);
+      transition: all 0.3s ease;
+      cursor: pointer;
+      padding: 0;
+      text-align: center;
+    }
+
+    .mission-start-btn:hover {
+      border-color: rgba(77, 166, 255, 1);
+      box-shadow:
+        0 0 1vmin rgba(77, 166, 255, 0.6),
+        inset 0 0 1vmin rgba(77, 166, 255, 0.4),
+        0 0 3vmin rgba(77, 166, 255, 0.8);
+      transform: scale(1.15);
+    }
+
+    .mission-start-btn:active {
+      transform: scale(1.1);
+    }
+
+    .mission-start-icon {
+      font-size: var(--corner-icon-size);
+      line-height: 1;
+      filter: drop-shadow(0 0 0.8vmin rgba(77, 166, 255, 0.5));
+      margin-top: -1.3vmin;
+      margin-bottom: 0.4vmin;
+    }
+
+    .mission-start-label {
+      font-size: var(--corner-label-size);
+      font-weight: 600;
+      text-align: center;
+      line-height: 1.2;
+      color: #e8ecff;
+      text-transform: uppercase;
+      letter-spacing: 0.05vmin;
+      margin-top: 0.4vmin;
+    }
+
+    .cassandra-logo {
+      cursor: default !important;
+      pointer-events: none !important;
+      transform: none !important;
+      opacity: 0.55 !important;
+      filter: brightness(0.7) !important;
+    }
+
+    .cassandra-logo:hover,
+    .cassandra-logo:active {
+      transform: none !important;
+      opacity: 0.7 !important;
+      filter: brightness(0.7) !important;
+      border-color: rgba(77, 166, 255, 0.3) !important;
+      box-shadow:
+        0 0 0.3vmin rgba(77, 166, 255, 0.15),
+        inset 0 0 0.3vmin rgba(77, 166, 255, 0.1) !important;
+    }
+
+    .cassandra-label {
+      font-size: 1.3vmin !important;
+      letter-spacing: 0.05vmin;
+      display: flex;
+      gap: 0.1vmin;
+    }
+
+    .cassandra-label .cassan {
+      color: #ffffff !important;
+      text-shadow: 0 0 0.5vmin rgba(255, 255, 255, 0.5);
+    }
+
+    .cassandra-label .dra {
+      color: #4da6ff !important;
+      text-shadow: 0 0 0.8vmin rgba(77, 166, 255, 0.8);
+    }
+
+    /* --- UNIVERSAL MODAL STYLES --- */
+    .universal-modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(5, 8, 22, 0.05);
+      backdrop-filter: blur(0.3vmin);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.3s ease, visibility 0.3s ease;
+    }
+
+    .universal-modal-overlay.active {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .universal-modal-content {
+      background: rgba(10, 15, 40, 0.95);
+      border: 0.15vmin solid rgba(77, 166, 255, 0.5);
+      border-radius: 1vmin;
+      padding: 3vmin;
+      width: 70vw;
+      max-width: 80vmin;
+      min-height: 50vmin;
+      box-shadow: 0 0 4vmin rgba(77, 166, 255, 0.3);
+      animation: modalAppear 0.3s ease-out;
+      display: flex;
+      flex-direction: column;
+    }
+
+    @keyframes modalAppear {
+      from {
+        opacity: 0;
+        transform: scale(0.95) translateY(-2vmin);
+      }
+
+      to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+      }
+    }
+
+    .universal-modal-header {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-bottom: 2.5vmin;
+      padding-bottom: 1.5vmin;
+      border-bottom: 0.1vmin solid rgba(77, 166, 255, 0.3);
+    }
+
+    .universal-modal-header h3 {
+      font-size: 1.8vmin;
+      color: #4da6ff;
+      letter-spacing: 0.15vmin;
+      text-transform: uppercase;
+      margin: 0;
+    }
+
+    /* --- НОВАЯ ЦЕНТРИРОВАННАЯ РАСКЛАДКА --- */
+    .universal-modal-body {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 3vmin;
+      padding: 2vmin 0;
+    }
+
+    /* Контейнер для двух колонок под кругом */
+    .mission-bottom-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4vmin;
+      width: 100%;
+      align-items: stretch;
+    }
+
+    /* Левая колонка - селекты */
+    .mission-selects-column {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5vmin;
+    }
+
+    .mission-input-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5vmin;
+    }
+
+    .mission-input-group label {
       font-size: 1.2vmin;
+      color: var(--text-dim);
+      text-transform: uppercase;
+      letter-spacing: 0.05vmin;
+    }
+
+    .cosmic-select {
+      background: rgba(10, 15, 40, 0.8);
+      border: 1px solid rgba(77, 166, 255, 0.3);
+      border-radius: 0.7vmin;
+      padding: 0.9vmin 1vmin;
+      color: var(--text-main);
+      font-size: 1.3vmin;
+      outline: none;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      appearance: none;
+      background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%234da6ff%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.3L148.8%20218.7%2023.4%2064.1a17.6%2017.6%200%200%200-26.1%2023.6l138.5%20170.3a17.6%2017.6%200%200%200%2026.1%200L299.7%2088.1a17.6%2017.6%200%200%200-12.7-18.7z%22%2F%3E%3C%2Fsvg%3E");
+      background-repeat: no-repeat;
+      background-position: right 1vmin center;
+      background-size: 1.2vmin;
+    }
+
+    .cosmic-select:focus {
+      border-color: var(--neon-blue);
+      box-shadow: 0 0 1vmin rgba(77, 166, 255, 0.3);
+    }
+
+    .cosmic-select option {
+      background: #0a0f28;
+      color: #e8ecff;
+    }
+
+    .cosmic-select:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    /* Правая колонка - инфо блок */
+    .mission-info-block {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 2vmin;
+      padding: 1.5vmin;
+      background: rgba(5, 8, 22, 0.6);
+      border: 1px solid rgba(77, 166, 255, 0.2);
+      border-radius: 0.8vmin;
+      height: auto;
+      box-sizing: border-box;
+      margin-top: 2vmin;
+    }
+
+    .info-row {
+      display: flex;
+      flex-direction: column;
+      gap: 2.5vmin;
+      flex: 1;
+      align-items: center;
+      text-align: center;
+    }
+
+    .info-label {
+      color: var(--text-dim);
+      text-transform: uppercase;
+      letter-spacing: 0.05vmin;
+      font-size: 1.1vmin;
+    }
+
+    .info-value {
+      color: var(--text-main);
+      font-weight: 600;
+      font-family: 'Courier New', monospace;
+      font-size: 1.4vmin;
+    }
+
+    .cis-value {
+      color: #4da6ff;
+      text-shadow: 0 0 0.8vmin rgba(77, 166, 255, 0.5);
+    }
+
+    /* --- КНОПКИ ДЕЙСТВИЙ --- */
+    .universal-modal-actions {
+      display: flex;
+      gap: 2vmin;
+      margin-top: 2.5vmin;
+      justify-content: center;
+    }
+
+    .universal-modal-btn {
+      padding: 1vmin 3vmin;
+      border-radius: 0.5vmin;
+      font-size: 1.2vmin;
+      font-weight: 600;
+      letter-spacing: 0.1vmin;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .universal-modal-btn.primary {
+      background: transparent;
+      border: 0.1vmin solid rgba(77, 166, 255, 0.4);
+      color: white;
+      box-shadow: none;
+    }
+
+    .universal-modal-btn.primary:hover:not(:disabled) {
+      background: rgba(77, 166, 255, 0.9);
+      border-color: rgba(77, 166, 255, 1);
+      color: white;
+      box-shadow: 0 0 2vmin rgba(77, 166, 255, 0.6);
+    }
+
+    .universal-modal-btn.primary:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+      border-color: rgba(77, 166, 255, 0.2);
+      color: #8a94b8;
+    }
+
+    .universal-modal-btn.secondary {
+      background: transparent;
+      border: 0.1vmin solid rgba(77, 166, 255, 0.4);
+      color: white;
+    }
+
+    .universal-modal-btn.secondary:hover {
+      background: rgba(255, 77, 77, 0.9);
+      border-color: rgba(255, 77, 77, 1);
+      color: white;
+      box-shadow: 0 0 2vmin rgba(255, 77, 77, 0.6);
+    }
+
+    /* Схема маршрута */
+    .mission-route-schema {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 2vmin;
+      margin: 2vmin 0 3vmin;
+    }
+
+    .route-point {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.8vmin;
+    }
+
+    .route-circle {
+      width: 12vmin;
+      height: 12vmin;
+      border-radius: 50%;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      background: radial-gradient(circle at 30% 30%, rgba(77, 166, 255, 0.1), rgba(5, 8, 22, 0.8));
+      border: 2px solid rgba(77, 166, 255, 0.4);
+      box-shadow: 0 0 15px rgba(77, 166, 255, 0.3), inset 0 0 15px rgba(77, 166, 255, 0.1);
+      transition: all 0.3s ease;
+    }
+
+    .route-circle:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 25px rgba(77, 166, 255, 0.5), inset 0 0 20px rgba(77, 166, 255, 0.2);
+    }
+
+    .route-circle img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 50%;
+      opacity: 0.9;
+      display: block;
+    }
+
+    /* Земля - зелёная рамка */
+    .earth-circle {
+      border-color: rgba(0, 255, 136, 0.4);
+      box-shadow: 0 0 15px rgba(0, 255, 136, 0.3), inset 0 0 15px rgba(0, 255, 136, 0.1);
+      background: radial-gradient(circle at 30% 30%, rgba(0, 255, 136, 0.1), rgba(5, 8, 22, 0.8));
+    }
+
+    .earth-circle:hover {
+      box-shadow: 0 0 25px rgba(0, 255, 136, 0.5), inset 0 0 20px rgba(0, 255, 136, 0.2);
+    }
+
+    .route-label {
+      font-size: 1.1vmin;
+      color: var(--text-dim);
+      text-transform: uppercase;
+      letter-spacing: 0.1vmin;
+      font-weight: 600;
+    }
+
+    .route-arrow {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0.7;
+    }
+
+    /* Модалка ошибок */
+    .error-modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(5, 8, 22, 0.85);
+      backdrop-filter: blur(0.5vmin);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 2000;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.3s ease, visibility 0.3s ease;
+    }
+
+    .error-modal-overlay.active {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .error-modal-content {
+      background: rgba(40, 10, 10, 0.95);
+      border: 0.2vmin solid rgba(255, 77, 77, 0.8);
+      border-radius: 1vmin;
+      padding: 4vmin 5vmin;
+      text-align: center;
+      box-shadow: 0 0 5vmin rgba(255, 77, 77, 0.6), inset 0 0 3vmin rgba(255, 77, 77, 0.2);
+      animation: errorModalAppear 0.3s ease-out;
+      position: relative;
+    }
+
+    @keyframes errorModalAppear {
+      from {
+        opacity: 0;
+        transform: scale(0.9) translateY(-2vmin);
+      }
+
+      to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+      }
+    }
+
+    .error-icon {
+      font-size: 5vmin;
+      margin-bottom: 2vmin;
+      filter: drop-shadow(0 0 1.5vmin rgba(255, 77, 77, 0.9));
+    }
+
+    .error-message {
+      font-size: 1.6vmin;
+      color: #ff6b6b;
+      line-height: 1.6;
+      font-weight: 600;
+      text-shadow: 0 0 1vmin rgba(255, 77, 77, 0.5);
+    }
+
+    .error-close-btn {
+      position: absolute;
+      top: 1vmin;
+      right: 1.5vmin;
+      background: transparent;
+      border: none;
+      color: #8a94b8;
+      font-size: 3vmin;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      line-height: 1;
+    }
+
+    .error-close-btn:hover {
+      color: #ff4d4d;
+      transform: scale(1.2);
+    }
+
+    /* Карточка подтверждения миссии */
+    /* Карточка подтверждения миссии */
+    .mission-card {
+      position: absolute;
+      top: 50%;
+      left: 20%;
+      transform: translate(-50%, -50%);
+      background: rgba(10, 15, 40, 0.95);
+      border: 0.15vmin solid rgba(77, 166, 255, 0.5);
+      border-radius: 1vmin;
+      padding: 3.2vmin 4vmin;
+      /* было 4vmin 5vmin */
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1.6vmin;
+      /* было 2vmin */
+      box-shadow: 0 0 4vmin rgba(77, 166, 255, 0.3);
+      animation: cardAppear 0.5s ease-out;
+      z-index: 5;
+    }
+
+    .mission-card-planet-circle {
+      width: 7.5vmin;
+      /* было 15vmin, уменьшено на 50% */
+      height: 7.5vmin;
+      border-radius: 50%;
+      overflow: hidden;
+      border: 0.2vmin solid rgba(77, 166, 255, 0.4);
+      box-shadow: 0 0 2vmin rgba(77, 166, 255, 0.3), inset 0 0 1vmin rgba(77, 166, 255, 0.2);
+    }
+
+    .mission-card-planet-name {
+      font-size: 2vmin;
+      /* было 2.5vmin, уменьшено на 20% */
+      font-weight: 700;
+      color: #ffffff;
+      text-transform: uppercase;
+      letter-spacing: 0.16vmin;
+      /* было 0.2vmin */
+      text-shadow: 0 0 1vmin rgba(77, 166, 255, 0.5);
+    }
+
+    .mission-card-star-name {
+      font-size: 1.2vmin;
+      /* было 1.5vmin */
+      color: var(--text-dim);
+      text-transform: uppercase;
+      letter-spacing: 0.08vmin;
+      margin-top: -0.8vmin;
+    }
+
+    .mission-card-stats {
+      display: flex;
+      gap: 3.2vmin;
+      /* было 4vmin */
+      margin-top: 0.8vmin;
+    }
+
+    .mission-card-stat {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.4vmin;
+    }
+
+    .mission-card-stat-label {
+      font-size: 0.9vmin;
+      /* было 1.1vmin */
+      color: var(--text-dim);
+      text-transform: uppercase;
+      letter-spacing: 0.08vmin;
+    }
+
+    .mission-card-stat-value {
+      font-size: 1.3vmin;
+      /* было 1.6vmin */
+      font-weight: 600;
+      color: var(--text-main);
+      font-family: 'Courier New', monospace;
+    }
+
+    .mission-card-status {
+      font-size: 1.1vmin;
+      /* было 1.4vmin */
+      font-weight: 700;
+      color: #2ecc71;
+      text-transform: uppercase;
+      letter-spacing: 0.12vmin;
+      text-shadow: 0 0 1vmin rgba(46, 204, 113, 0.6);
+      margin-top: 0.8vmin;
+    }
+
+    .mission-card-planet-circle img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      /* <-- ЭТО ОБРЕЗАЕТ КАРТИНКУ */
     }
   </style>
 </head>
 
 <body>
+
+  <!-- Фон -->
   <div class="stars"></div>
-  <div class="milkyway"></div>
-
-  <div class="logo">
-    <span class="w">CASSAN</span><span class="b">DRA</span>
+  <div class="milkyway">
+    <div class="band"></div>
   </div>
 
-  <div class="error-box">
-    <div class="code">404</div>
-    <div class="title">Module Under Construction</div>
-    <div class="desc">This page is currently in development.<br>Please return to dashboard.</div>
-    <a href="dashboard.html" class="back-btn">← Back to Dashboard</a>
+  <!-- Шапка страницы -->
+  <div class="page-header">
+    <div class="page-logo-main">
+      <span class="white-part">CASSAN</span><span class="blue-part">DRA</span>
+    </div>
+    <div class="page-logo-sub">MISSION CONTROL</div>
   </div>
 
-  <div class="footer">Evknopia © 2026</div>
+  <!-- Контейнер с приветствием и кнопкой -->
+  <div class="mission-container" id="mission-container">
+    <div class="mission-welcome-text">
+      Welcome to Mission Control.<br>
+      To begin planning your mission, press the <span class="highlight">"Start Mission"</span> button.
+    </div>
+
+    <!-- Кнопка START MISSION -->
+    <!-- Кнопка START MISSION -->
+    <button class="mission-start-btn start-mission" onclick="startMissionPlanning()">
+      <span class="mission-start-icon">🚀</span>
+      <span class="mission-start-label">Start<br>Mission</span>
+    </button>
+
+    <!-- Кнопка MISSION PROFILE -->
+    <button class="mission-start-btn mission-profile" onclick="openProfileModal()" style="display: none;">
+      <span class="mission-start-icon">🎯</span>
+      <span class="mission-start-label">Mission<br>Profile</span>
+    </button>
+  </div>
+
+  <!-- Универсальная модалка -->
+  <div class="universal-modal-overlay" id="universal-modal-overlay">
+    <div class="universal-modal-content">
+
+      <div class="universal-modal-header">
+        <h3 id="modal-title">Select Mission Destination</h3>
+      </div>
+
+      <div class="universal-modal-body" id="modal-body">
+
+        <!-- Схема маршрута: Земля → Корабль → Планета -->
+        <div class="mission-route-schema">
+
+          <!-- Земля (отправление) -->
+          <div class="route-point departure-point">
+            <div class="route-circle earth-circle">
+              <img src="assets/sun/earth-max.jpg" alt="Earth" class="planet-img">
+            </div>
+            <div class="route-label">EARTH</div>
+          </div>
+
+          <!-- Стрелка -->
+          <div class="route-arrow">
+            <svg width="8vmin" height="3vmin" viewBox="0 0 60 20">
+              <line x1="0" y1="10" x2="50" y2="10" stroke="#4da6ff" stroke-width="2" stroke-dasharray="4,2" />
+              <polygon points="50,5 60,10 50,15" fill="#4da6ff" />
+            </svg>
+          </div>
+
+          <!-- Корабль (центр) -->
+          <div class="route-point ship-point">
+            <div class="route-circle ship-circle">
+              <img src="assets/vessel/vessel_planet.jpg" alt="Vessel" class="planet-img">
+            </div>
+            <div class="route-label">VESSEL</div>
+          </div>
+
+          <!-- Стрелка -->
+          <div class="route-arrow">
+            <svg width="8vmin" height="3vmin" viewBox="0 0 60 20">
+              <line x1="0" y1="10" x2="50" y2="10" stroke="#4da6ff" stroke-width="2" stroke-dasharray="4,2" />
+              <polygon points="50,5 60,10 50,15" fill="#4da6ff" />
+            </svg>
+          </div>
+
+          <!-- Планета назначения -->
+          <div class="route-point arrival-point">
+            <div class="route-circle arrival-circle" id="mission-arr-circle">
+              <img src="" alt="Target Planet" id="mission-arr-img" style="display: none;" class="planet-img">
+            </div>
+            <div class="route-label" id="mission-arr-label">TARGET</div>
+          </div>
+
+        </div>
+
+        <!-- Две колонки под схемой маршрута -->
+        <div class="mission-bottom-row">
+
+          <!-- Левая колонка: селекты -->
+          <div class="mission-selects-column">
+            <div class="mission-input-group">
+              <label for="mission-sys-select">Arrival System</label>
+              <select class="cosmic-select" id="mission-sys-select">
+                <option value="">-- Select System --</option>
+              </select>
+            </div>
+
+            <div class="mission-input-group">
+              <label for="mission-planet-select">Arrival Planet</label>
+              <select class="cosmic-select" id="mission-planet-select" disabled>
+                <option value="">-- Select Planet --</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Правая колонка: инфо-блок -->
+          <div class="mission-info-block">
+            <div class="info-row">
+              <span class="info-label">CIS Index:</span>
+              <span class="info-value cis-value" id="mission-cis">--</span>
+            </div>
+            <div class="info-row">
+              <span class="info-label">Distance:</span>
+              <span class="info-value" id="mission-distance">--</span>
+            </div>
+            <div class="info-row">
+              <span class="info-label">Flight Time:</span>
+              <span class="info-value" id="mission-flight-time">--</span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="universal-modal-actions">
+        <button class="universal-modal-btn secondary" onclick="closeUniversalModal()">Cancel</button>
+        <button class="universal-modal-btn primary" id="modal-accept-btn" onclick="handleAccept()">Accept</button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Модалка для ошибок (ОТДЕЛЬНЫЙ элемент, не вложенный!) -->
+  <div class="error-modal-overlay" id="error-modal-overlay">
+    <div class="error-modal-content">
+      <button class="error-close-btn" onclick="closeErrorModal()">&times;</button>
+      <div class="error-icon">⚠️</div>
+      <div class="error-message" id="error-message">Error</div>
+    </div>
+  </div>
+
+  <!-- Верхние инфо-панели (Тултипы) -->
+  <div class="corner-circle-btn top-left" data-wm-id="info-panel-role">
+    <span class="corner-icon" data-wm-id="role-icon">🛰️</span>
+    <span class="corner-label" data-wm-id="role-label">STANDBY</span>
+    <div class="info-tooltip">
+      <div class="tooltip-title">SYSTEM ROLE</div>
+      <div>Function: Comms & Diagnostics</div>
+      <div>Access: Level 2</div>
+      <div>Status: Active</div>
+    </div>
+  </div>
+
+  <div class="corner-circle-btn top-right" data-wm-id="info-panel-user">
+    <span class="corner-icon" data-wm-id="user-icon">👨‍🚀</span>
+    <span class="corner-label" data-wm-id="user-label">UNKNOWN</span>
+    <div class="info-tooltip">
+      <div class="tooltip-title">CREW MEMBER</div>
+      <div>Registered Callsign: AURORA</div>
+      <div>ID: 884-2A</div>
+      <div>Status: Online</div>
+    </div>
+  </div>
+
+  <!-- Нижние угловые кнопки -->
+  <button class="corner-circle-btn bottom-left" data-wm-id="nav-dashboard-btn"
+    onclick="window.location.href='dashboard.html'">
+    <span class="corner-icon">🕹️</span>
+    <span class="corner-label">DASHBOARD</span>
+  </button>
+
+  <!-- Кнопка-заглушка CASSANDRA (правый нижний угол) -->
+  <button class="corner-circle-btn bottom-right cassandra-logo" data-wm-id="cassandra-btn">
+    <span class="corner-icon"></span>
+    <div class="corner-label cassandra-label">
+      <span class="cassan">CASSAN</span><span class="dra">DRA</span>
+    </div>
+  </button>
+
+  <!-- Карточка подтверждения миссии -->
+  <div class="mission-card" id="mission-card" style="display: none;">
+    <div class="mission-card-planet-circle">
+      <img src="" alt="Target Planet" id="mission-card-img">
+    </div>
+    <div class="mission-card-planet-name" id="mission-card-planet-name">—</div>
+    <div class="mission-card-star-name" id="mission-card-star-name">—</div>
+    <div class="mission-card-stats">
+      <div class="mission-card-stat">
+        <div class="mission-card-stat-label">Distance</div>
+        <div class="mission-card-stat-value" id="mission-card-distance">—</div>
+      </div>
+      <div class="mission-card-stat">
+        <div class="mission-card-stat-label">Flight Time</div>
+        <div class="mission-card-stat-value" id="mission-card-flight-time">—</div>
+      </div>
+    </div>
+    <div class="mission-card-status">✅ TARGET ACQUIRED</div>
+  </div>
+
+  <!-- Футер -->
+  <footer class="login-footer">
+    <div class="telemetry" id="dashboard-telemetry" data-wm-id="system-telemetry"></div>
+    <div class="copyright">Evknopia © 2026</div>
+  </footer>
+
+  <script src="data.js"></script>
+  <script>
+    let editingMissionData = null;
+    let modalMode = 'destination'; // 'destination' или 'profile'
+
+    // === 1. ЛОГИКА АВТОРИЗАЦИИ И ПЕРЕАДРЕСАЦИИ ===
+    function initDashboard() {
+      let userDataStr = sessionStorage.getItem('currentUser');
+      if (!userDataStr) {
+        const telemetry = document.getElementById('dashboard-telemetry');
+        if (telemetry) {
+          telemetry.innerHTML = `> <span class="telemetry-cassan">CASSAN</span><span class="telemetry-dra">DRA</span>: <span style="color: #e74c3c;">ACCESS DENIED. REDIRECTING...</span>`;
+        }
+        setTimeout(() => { window.location.href = 'login.html'; }, 2000);
+        return;
+      }
+
+      let user = {};
+      try { user = JSON.parse(userDataStr); }
+      catch (e) {
+        const telemetry = document.getElementById('dashboard-telemetry');
+        if (telemetry) {
+          telemetry.innerHTML = `> <span class="telemetry-cassan">CASSAN</span><span class="telemetry-dra">DRA</span>: <span style="color: #e74c3c;">DATA CORRUPTED. REDIRECTING...</span>`;
+        }
+        setTimeout(() => {
+          sessionStorage.removeItem('currentUser');
+          window.location.href = 'login.html';
+        }, 2000);
+        return;
+      }
+
+      // === 2. ЗАПОЛНЕНИЕ ВЕРХНИХ ТУЛТИПОВ ===
+      const callsign = user.callsign ? user.callsign.toUpperCase() : 'UNKNOWN';
+      const fullName = user.fullName || 'Unknown Operator';
+      const role = user.role || 'OPERATOR';
+      const roleIcon = user.roleIcon || '👤';
+      const accessLevel = user.accessLevel || '?';
+      const func = user.function || 'General Duties';
+      const userId = user.id || 'UNKNOWN';
+
+      const roleIconEl = document.querySelector('.top-left .corner-icon');
+      const roleLabelEl = document.querySelector('.top-left .corner-label');
+      const roleTooltipEl = document.querySelector('.top-left .info-tooltip');
+      if (roleIconEl) roleIconEl.textContent = roleIcon;
+      if (roleLabelEl) roleLabelEl.textContent = role;
+      if (roleTooltipEl) {
+        roleTooltipEl.innerHTML = `<div class="tooltip-title">SYSTEM ROLE</div><div>Function: ${func}</div><div>Access: Level ${accessLevel}</div><div>Status: Active</div>`;
+      }
+
+      const userLabelEl = document.querySelector('.top-right .corner-label');
+      const userTooltipEl = document.querySelector('.top-right .info-tooltip');
+      if (userLabelEl) userLabelEl.textContent = fullName.toUpperCase();
+      if (userTooltipEl) {
+        userTooltipEl.innerHTML = `<div class="tooltip-title">CREW MEMBER</div><div>Registered Callsign: ${callsign}</div><div>ID: ${userId}</div><div>Status: Online</div>`;
+      }
+
+      const telemetry = document.getElementById('dashboard-telemetry');
+      if (telemetry) {
+        telemetry.innerHTML = `> <span class="telemetry-cassan">CASSAN</span><span class="telemetry-dra">DRA</span>: <span style="color: #2ecc71;">${callsign}, SELECT MISSION DESTINATION.</span>`;
+      }
+    }
+
+    // === ФУНКЦИЯ КОНВЕРТАЦИИ ВРЕМЕНИ ===
+    function convertToCompactTime(longFormat) {
+      if (!longFormat || longFormat === '--') return '--';
+      const match = longFormat.match(/(\d+)\s*years?\s+(\d+)\s*months?\s+and\s+(\d+)\s*days?/i);
+      if (match) {
+        return `${match[1]}y ${match[2]}m ${match[3]}d`;
+      }
+      return longFormat;
+    }
+
+    // === ФУНКЦИЯ ПОЛУЧЕНИЯ ЦВЕТА CIS ===
+    function getCISColor(cisValue) {
+      if (!window.CIS_THRESHOLDS) return '#4da6ff';
+      for (const threshold of window.CIS_THRESHOLDS) {
+        if (cisValue >= threshold.min) {
+          return threshold.color;
+        }
+      }
+      return '#7f8c8d';
+    }
+
+    // === 3. ЛОГИКА МОДАЛКИ И СЕЛЕКТОВ ===
+    function initMissionModal() {
+      const sysSelect = document.getElementById('mission-sys-select');
+      const plSelect = document.getElementById('mission-planet-select');
+      const arrImg = document.getElementById('mission-arr-img');
+      const cisEl = document.getElementById('mission-cis');
+      const distEl = document.getElementById('mission-distance');
+      const timeEl = document.getElementById('mission-flight-time');
+      const acceptBtn = document.getElementById('modal-accept-btn');
+
+      function resetPlanetInfo() {
+        arrImg.src = '';
+        arrImg.style.display = 'none';
+        cisEl.textContent = '--';
+        distEl.textContent = '--';
+        timeEl.textContent = '--';
+      }
+
+      // 1. Заполняем селект систем уникальными значениями
+      if (window.MissionSelectPlanet) {
+        const uniqueSystems = [...new Set(window.MissionSelectPlanet.map(p => p.star))];
+        sysSelect.innerHTML = '<option value="">-- Select System --</option>';
+        uniqueSystems.forEach(sys => {
+          // Для симметрии с калькулятором: Proxima Centauri → Alpha Centauri A
+          const displayName = sys === 'Proxima Centauri' ? 'Alpha Centauri A' : sys;
+          sysSelect.add(new Option(displayName, sys)); // displayName для текста, sys для value
+        });
+      }
+
+      sysSelect.addEventListener('change', function () {
+        const selectedStar = this.value;
+        plSelect.innerHTML = '<option value="">-- Select Planet --</option>';
+        plSelect.disabled = true;
+        resetPlanetInfo();
+
+        if (selectedStar && window.MissionSelectPlanet) {
+          const planetsInSystem = window.MissionSelectPlanet.filter(p => p.star === selectedStar);
+          planetsInSystem.forEach(p => {
+            plSelect.add(new Option(p.planet, p.planet));
+          });
+          plSelect.disabled = false;
+        }
+      });
+
+      plSelect.addEventListener('change', function () {
+        const selectedPlanetName = this.value;
+        resetPlanetInfo();
+
+        if (selectedPlanetName && window.MissionSelectPlanet) {
+          const planetData = window.MissionSelectPlanet.find(p => p.planet === selectedPlanetName);
+          if (planetData) {
+            arrImg.src = planetData.img;
+            arrImg.style.display = 'block';
+            cisEl.textContent = planetData.cis;
+            cisEl.style.color = getCISColor(planetData.cisValue);
+            distEl.textContent = planetData.distance || '--';
+            timeEl.textContent = convertToCompactTime(planetData.flightTime);
+            document.getElementById('mission-arr-label').textContent = planetData.planet;
+            acceptBtn.disabled = false;
+          }
+        }
+      });
+    }
+
+    // === 4. УПРАВЛЕНИЕ МОДАЛКОЙ ===
+    function openModal(title) {
+      const missionContainer = document.getElementById('mission-container');
+      const modal = document.getElementById('universal-modal-overlay');
+      const modalTitle = document.getElementById('modal-title');
+
+      if (modalTitle) modalTitle.textContent = title;
+      if (missionContainer) {
+        missionContainer.style.opacity = '0';
+        missionContainer.style.visibility = 'hidden';
+      }
+      if (modal) modal.classList.add('active');
+    }
+
+    function closeUniversalModal() {
+
+      const modalBody = document.getElementById('modal-body');
+      if (modalBody) modalBody.style.display = 'flex';
+
+      // Возвращаем заголовок по умолчанию
+      const modalTitle = document.getElementById('modal-title');
+      if (modalTitle && modalMode === 'profile') {
+        modalTitle.textContent = 'Select Mission Destination';
+      }
+      modalMode = 'destination';
+      const missionContainer = document.getElementById('mission-container');
+      const modal = document.getElementById('universal-modal-overlay');
+
+      if (modal) modal.classList.remove('active');
+      if (missionContainer) {
+        missionContainer.style.opacity = '1';
+        missionContainer.style.visibility = 'visible';
+      }
+
+      document.getElementById('mission-sys-select').value = "";
+      document.getElementById('mission-planet-select').value = "";
+      document.getElementById('mission-planet-select').disabled = true;
+      document.getElementById('mission-arr-img').style.display = 'none';
+      document.getElementById('mission-arr-img').src = "";
+      document.getElementById('mission-cis').textContent = "--";
+      document.getElementById('mission-distance').textContent = "--";
+      document.getElementById('mission-flight-time').textContent = "--";
+      document.getElementById('mission-arr-label').textContent = "TARGET";
+
+      const acceptBtn = document.getElementById('modal-accept-btn');
+      if (acceptBtn && acceptBtn.textContent === 'SAVE') {
+        acceptBtn.textContent = 'ACCEPT';
+        editingMissionData = null;
+      }
+    }
+
+    function startMissionPlanning() {
+      openModal('Select Mission Destination');
+    }
+
+    // === 5. ИНИЦИАЛИЗАЦИЯ ===
+    document.addEventListener('DOMContentLoaded', () => {
+      initDashboard();
+      initMissionModal();
+      restoreMissionCard();
+    });
+
+    window.addEventListener('pageshow', function (event) {
+      if (event.persisted) {
+        console.warn('⚠️ Страница восстановлена из bfcache — принудительная проверка');
+        initDashboard();
+      }
+    });
+
+    // === УПРАВЛЕНИЕ МОДАЛКОЙ ОШИБОК ===
+    function showError(message) {
+      const errorModal = document.getElementById('error-modal-overlay');
+      const errorMessage = document.getElementById('error-message');
+      if (errorMessage) errorMessage.textContent = message;
+      if (errorModal) errorModal.classList.add('active');
+    }
+
+    function closeErrorModal() {
+      const errorModal = document.getElementById('error-modal-overlay');
+      if (errorModal) errorModal.classList.remove('active');
+    }
+
+    document.getElementById('error-modal-overlay')?.addEventListener('click', function (e) {
+      if (e.target === this) closeErrorModal();
+    });
+
+
+
+    function showMissionCard(planetData) {
+      // Сохраняем в sessionStorage
+      sessionStorage.setItem('acceptedMission', JSON.stringify({
+        planet: planetData.planet,
+        star: planetData.star,
+        distance: planetData.distance,
+        flightTime: planetData.flightTime,
+        img: planetData.img
+      }));
+
+      // Заполняем данные карточки
+      document.getElementById('mission-card-img').src = planetData.img;
+      document.getElementById('mission-card-planet-name').textContent = planetData.planet;
+      document.getElementById('mission-card-star-name').textContent = planetData.star;
+      document.getElementById('mission-card-distance').textContent = planetData.distance;
+      document.getElementById('mission-card-flight-time').textContent = convertToCompactTime(planetData.flightTime);
+
+      // Скрываем приветствие и кнопку Start Mission
+      const welcomeText = document.querySelector('.mission-welcome-text');
+      const startBtn = document.querySelector('.start-mission');
+      if (welcomeText) welcomeText.style.visibility = 'hidden';
+      if (startBtn) startBtn.style.display = 'none';
+
+      // Показываем карточку
+      const missionCard = document.getElementById('mission-card');
+      missionCard.style.display = 'flex';
+
+      // Добавляем обработчик клика для редактирования (только один раз)
+      if (!missionCard.dataset.clickBound) {
+        missionCard.style.cursor = 'pointer';
+        missionCard.title = 'Click to edit mission';
+        missionCard.addEventListener('click', openEditMission);
+        missionCard.dataset.clickBound = 'true';
+      }
+
+      // Показываем кнопку MISSION PROFILE
+      const profileBtn = document.querySelector('.mission-profile');
+      if (profileBtn) profileBtn.style.display = 'flex';
+    }
+
+    function restoreMissionCard() {
+      const savedMission = sessionStorage.getItem('acceptedMission');
+      if (!savedMission) return;
+
+      try {
+        const missionData = JSON.parse(savedMission);
+        showMissionCard(missionData);
+      } catch (e) {
+        console.warn('Failed to restore mission card:', e);
+      }
+    }
+
+    function openEditMission() {
+
+      modalMode = 'destination';
+
+      const savedMission = sessionStorage.getItem('acceptedMission');
+      if (!savedMission) return;
+
+      // Сохраняем "старые" данные для отмены
+      editingMissionData = JSON.parse(savedMission);
+
+      // Заполняем селекты в модалке
+      const sysSelect = document.getElementById('mission-sys-select');
+      const plSelect = document.getElementById('mission-planet-select');
+
+      sysSelect.value = editingMissionData.star;
+
+      // Триггерим change, чтобы заполнились планеты
+      sysSelect.dispatchEvent(new Event('change'));
+
+      // Ждём заполнения списка планет, затем выбираем нужную
+      setTimeout(() => {
+        plSelect.value = editingMissionData.planet;
+        plSelect.dispatchEvent(new Event('change'));
+      }, 50);
+
+      // Меняем текст кнопки на SAVE
+      document.getElementById('modal-accept-btn').textContent = 'SAVE';
+
+      // Открываем модалку
+      openModal('Edit Mission Destination');
+    }
+
+    function updateMissionCard(planetData) {
+      document.getElementById('mission-card-img').src = planetData.img;
+      document.getElementById('mission-card-planet-name').textContent = planetData.planet;
+      document.getElementById('mission-card-star-name').textContent = planetData.star;
+      document.getElementById('mission-card-distance').textContent = planetData.distance;
+      document.getElementById('mission-card-flight-time').textContent = convertToCompactTime(planetData.flightTime);
+    }
+
+    function handleAccept() {
+      const selectedPlanet = document.getElementById('mission-planet-select').value;
+      const selectedSystem = document.getElementById('mission-sys-select').value;
+      const acceptBtn = document.getElementById('modal-accept-btn');
+      const isEditMode = acceptBtn.textContent === 'SAVE';
+
+      if (!selectedPlanet || !selectedSystem) {
+        showError('Mission parameters incomplete. Please select a destination planet.');
+        return;
+      }
+
+      if (window.MissionSelectPlanet) {
+        const planetData = window.MissionSelectPlanet.find(p => p.planet === selectedPlanet);
+        if (planetData) {
+          const missionData = {
+            planet: planetData.planet,
+            star: planetData.star,
+            distance: planetData.distance,
+            flightTime: planetData.flightTime,
+            img: planetData.img
+          };
+
+          // Сохраняем в sessionStorage
+          sessionStorage.setItem('acceptedMission', JSON.stringify(missionData));
+
+          console.log(isEditMode ? '✅ Mission updated:' : '✅ Mission accepted:', planetData.planet);
+
+          // Если это режим редактирования — обновляем карточку на экране
+          if (isEditMode) {
+            updateMissionCard(missionData);
+            acceptBtn.textContent = 'ACCEPT'; // Возвращаем текст
+            editingMissionData = null;
+          } else {
+            // Первый раз — показываем карточку
+            showMissionCard(planetData);
+          }
+
+          closeUniversalModal();
+        }
+      }
+
+      // Переменная для хранения режима модалки
+      let modalMode = 'destination'; // 'destination' или 'profile'
+
+      function openProfileModal() {
+        modalMode = 'profile';
+
+        // Скрываем содержимое body модалки
+        const modalBody = document.getElementById('modal-body');
+        if (modalBody) modalBody.style.display = 'none';
+
+        // Меняем заголовок
+        const modalTitle = document.getElementById('modal-title');
+        if (modalTitle) modalTitle.textContent = 'MISSION PROFILE';
+
+        // Открываем модалку
+        openModal('MISSION PROFILE');
+      }
+
+      // Обнови функцию openModal, чтобы она учитывала режим:
+      function openModal(title) {
+        const missionContainer = document.getElementById('mission-container');
+        const modal = document.getElementById('universal-modal-overlay');
+        const modalTitle = document.getElementById('modal-title');
+
+        if (modalTitle) modalTitle.textContent = title;
+        if (missionContainer) {
+          missionContainer.style.opacity = '0';
+          missionContainer.style.visibility = 'hidden';
+        }
+        if (modal) modal.classList.add('active');
+      }
+    }
+  </script>
 </body>
 
 </html>
