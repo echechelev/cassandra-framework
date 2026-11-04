@@ -226,7 +226,7 @@ def test_cis_calculation_gray_zone(cis_index):
 
     # Проверка граничного значения.
     # CIS PROXIMA_C = 39.4%.
-    # Граничный диапзон в window.CIS_THRESHOLDS. 
+    # Граничный диапзон в window.CIS_THRESHOLDS.
     # min: 0 "UNINHABITABLE" и min: 40, label: "MARGINALLY HABITABLE".
 
     # ⚡ ACT
@@ -570,3 +570,4 @@ def test_archive_delete_single(cis_index):
     cis_index.verify_text(
         element=cis_index.archive_list, expected_text=data.CIS_NO_SCAN_ARCHIVE
     )
+
