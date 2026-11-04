@@ -573,16 +573,237 @@
     .panel-online .info-tooltip {
       display: block !important;
     }
+
+    /* Оверлей с размытием фона */
+    .settings-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(5, 8, 22, 0.6);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.4s ease, visibility 0.4s ease;
+    }
+
+    .settings-overlay.active {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    /* Сама модалка ~40% экрана */
+    /* Сама модалка: сделали шире и выше для комфортного размещения настроек */
+    .settings-modal {
+      width: 65vmin;
+      /* Было 40vmin, стало шире */
+      height: 70vmin;
+      /* Было 40vmin, стало выше */
+      max-width: 90vw;
+      max-height: 90vh;
+      background: rgba(10, 15, 40, 0.95);
+      border: 0.15vmin solid rgba(77, 166, 255, 0.5);
+      border-radius: 1vmin;
+      box-shadow: 0 0 4vmin rgba(77, 166, 255, 0.3), inset 0 0 2vmin rgba(77, 166, 255, 0.1);
+      padding: 3vmin;
+      /* Чуть больше внутренних отступов для воздуха */
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      transform: scale(0.9);
+      transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    .settings-overlay.active .settings-modal {
+      transform: scale(1);
+    }
+
+    /* Заголовок модалки */
+    .settings-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-bottom: 1.5vmin;
+      border-bottom: 0.1vmin solid rgba(77, 166, 255, 0.3);
+      margin-bottom: 1.5vmin;
+    }
+
+    .settings-header h3 {
+      font-size: 1.8vmin;
+      color: #4da6ff;
+      letter-spacing: 0.15vmin;
+      text-transform: uppercase;
+      text-shadow: 0 0 1vmin rgba(77, 166, 255, 0.5);
+    }
+
+    .settings-close {
+      background: transparent;
+      border: none;
+      color: #8a94b8;
+      font-size: 2.5vmin;
+      cursor: pointer;
+      transition: color 0.2s ease, transform 0.2s ease;
+      line-height: 1;
+      padding: 0;
+    }
+
+    .settings-close:hover {
+      color: #ff4d4d;
+      transform: scale(1.2);
+    }
+
+    /* Тело модалки со скроллом */
+    .settings-body {
+      flex: 1;
+      overflow-y: auto;
+      padding-right: 0.5vmin;
+    }
+
+    .settings-body::-webkit-scrollbar {
+      width: 0.4vmin;
+    }
+
+    .settings-body::-webkit-scrollbar-track {
+      background: rgba(77, 166, 255, 0.05);
+    }
+
+    .settings-body::-webkit-scrollbar-thumb {
+      background: rgba(77, 166, 255, 0.3);
+      border-radius: 0.2vmin;
+    }
+
+    /* Секции внутри модалки */
+    .settings-section {
+      margin-bottom: 1.5vmin;
+      padding: 1.2vmin 1.5vmin;
+      background: rgba(77, 166, 255, 0.03);
+      border: 0.1vmin solid rgba(77, 166, 255, 0.2);
+      border-radius: 0.4vmin;
+      transition: all 0.3s ease;
+    }
+
+    .settings-section:hover {
+      background: rgba(77, 166, 255, 0.06);
+      border-color: rgba(77, 166, 255, 0.4);
+    }
+
+    .section-title {
+      font-size: 1.2vmin;
+      font-weight: 700;
+      color: #4da6ff;
+      text-transform: uppercase;
+      letter-spacing: 0.1vmin;
+      margin-bottom: 1vmin;
+      padding-bottom: 0.6vmin;
+      border-bottom: 0.1vmin solid rgba(77, 166, 255, 0.2);
+    }
+
+    .section-placeholder {
+      color: #8a94b8;
+      font-size: 1.1vmin;
+      font-style: italic;
+    }
+
+    /* Кнопки внизу модалки */
+    .settings-actions {
+      display: flex;
+      gap: 1vmin;
+      justify-content: flex-end;
+      padding-top: 1.5vmin;
+      border-top: 0.1vmin solid rgba(77, 166, 255, 0.3);
+      margin-top: 1vmin;
+    }
+
+    .settings-btn {
+      padding: 0.8vmin 2vmin;
+      border-radius: 0.4vmin;
+      font-size: 1.1vmin;
+      font-weight: 600;
+      letter-spacing: 0.1vmin;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .settings-btn.primary {
+      background: linear-gradient(135deg, #1e5fbf, #4da6ff);
+      border: none;
+      color: white;
+      box-shadow: 0 0 1vmin rgba(77, 166, 255, 0.4);
+    }
+
+    .settings-btn.primary:hover {
+      box-shadow: 0 0 2vmin rgba(77, 166, 255, 0.7);
+      transform: translateY(-0.1vmin);
+    }
+
+    .settings-btn.secondary {
+      background: transparent;
+      border: 0.1vmin solid rgba(77, 166, 255, 0.4);
+      color: #4da6ff;
+    }
+
+    .settings-btn.secondary:hover {
+      background: rgba(77, 166, 255, 0.1);
+    }
+
+    /* Контейнер для кнопок языка */
+    .lang-toggle-container {
+      display: flex;
+      gap: 1.5vmin;
+    }
+
+    /* Базовый стиль кнопки языка */
+    /* Базовый стиль кнопки языка (сделали компактнее по ширине) */
+    .lang-btn {
+      flex: none;
+      /* Отменяем растягивание на всю ширину */
+      width: 6vmin;
+      /* Задаем фиксированную ширину */
+      padding: 0.8vmin 0;
+      background: rgba(5, 8, 22, 0.6);
+      border: 0.1vmin solid rgba(77, 166, 255, 0.3);
+      border-radius: 0.4vmin;
+      color: #8a94b8;
+      font-size: 1.1vmin;
+      font-weight: 700;
+      letter-spacing: 0.1vmin;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-align: center;
+    }
+
+    /* Эффект при наведении на неактивную кнопку */
+    .lang-btn:hover:not(.active) {
+      border-color: rgba(77, 166, 255, 0.7);
+      color: #e8ecff;
+      background: rgba(77, 166, 255, 0.1);
+    }
+
+    /* Активная (выбранная) кнопка */
+    .lang-btn.active {
+      background: linear-gradient(135deg, #1e5fbf, #4da6ff);
+      border-color: #4da6ff;
+      color: #ffffff;
+      box-shadow: 0 0 1.5vmin rgba(77, 166, 255, 0.5);
+      text-shadow: 0 0 0.5vmin rgba(255, 255, 255, 0.5);
+    }
   </style>
 </head>
 
 <body>
 
+  <!-- Фон -->
   <div class="stars"></div>
   <div class="milkyway">
     <div class="band"></div>
   </div>
 
+  <!-- Основной контейнер дашборда -->
   <div class="dashboard-container">
     <div class="dashboard-logo">
       <span class="white-part">CASSAN</span><span class="blue-part">DRA</span>
@@ -621,7 +842,6 @@
     </button>
 
     <div class="planet-bar">
-
       <button class="planet-btn uplink-hidden" data-wm-id="nav-galaxy-map-btn"
         onclick="window.location.href='galaxy-map.html'">
         <span class="planet-icon">🌌</span>
@@ -646,348 +866,443 @@
         <span class="planet-label">MISSION<br>CONTROL</span>
       </button>
 
-      <button class="planet-btn uplink-hidden" data-wm-id="nav-cassandra-settings-btn" onclick="window.location.href='settings.html'">
+      <button class="planet-btn uplink-hidden" data-wm-id="nav-cassandra-settings-btn" onclick="openSettingsModal()">
         <span class="planet-icon">⚙️</span>
         <span class="planet-label">Cassandra<br>Settings</span>
       </button>
-
     </div>
+  </div> <!-- Конец dashboard-container -->
 
-    <footer class="login-footer">
+  <!-- Модалка настроек (вынесена отдельно, чтобы не ломать flex-верстку) -->
+  <div class="settings-overlay" id="settings-overlay" data-wm-id="settings-overlay">
+    <div class="settings-modal" data-wm-id="settings-modal">
 
-      <div id="uplink-progress-container">
-        <div class="progress-track">
-          <div class="progress-fill" id="progress-fill" data-wm-id="uplink-progress-fill"></div>
-        </div>
-        <div class="progress-text" id="progress-text" data-wm-id="uplink-progress-text">0%</div>
+      <div class="settings-header">
+        <h3>⚙️ SYSTEM SETTINGS</h3>
+        <button class="settings-close" id="btn-close-settings" data-wm-id="btn-close-settings">&times;</button>
       </div>
 
-      <div class="telemetry" id="dashboard-telemetry" data-wm-id="system-telemetry"></div>
-      <div class="copyright">Evknopia © 2026</div>
-    </footer>
+      <div class="settings-body">
+        <!-- Секция 1: Язык -->
+        <div class="settings-section">
+          <div class="section-title">🌐 INTERFACE LANGUAGE</div>
+          <div class="lang-toggle-container">
+            <button class="lang-btn active" data-lang="ru">RU</button>
+            <button class="lang-btn" data-lang="en">EN</button>
+          </div>
+        </div>
 
-    <script>
+        <!-- Секция 2: Дисплей -->
+        <div class="settings-section">
+          <div class="section-title">🎨 DISPLAY</div>
+          <div class="section-placeholder">[ Placeholder for Display ]</div>
+        </div>
 
-      function initDashboard() {
+        <!-- Секция 3: Данные -->
+        <div class="settings-section">
+          <div class="section-title">🔄 DATA MANAGEMENT</div>
+          <div class="section-placeholder">[ Placeholder for Data ]</div>
+        </div>
+      </div> <!-- Конец settings-body -->
 
-        let userDataStr = sessionStorage.getItem('currentUser');
+      <!-- Кнопки действий (теперь они ВНУТРИ модалки, где им и место) -->
+      <div class="settings-actions">
+        <button class="settings-btn secondary" id="btn-cancel-settings" data-wm-id="btn-cancel-settings">CANCEL</button>
+        <button class="settings-btn primary" id="btn-save-settings" data-wm-id="btn-save-settings">SAVE
+          SETTINGS</button>
+      </div>
+
+    </div> <!-- Конец settings-modal -->
+  </div> <!-- Конец settings-overlay -->
+
+  <!-- Футер -->
+  <footer class="login-footer">
+    <div id="uplink-progress-container">
+      <div class="progress-track">
+        <div class="progress-fill" id="progress-fill" data-wm-id="uplink-progress-fill"></div>
+      </div>
+      <div class="progress-text" id="progress-text" data-wm-id="uplink-progress-text">0%</div>
+    </div>
+
+    <div class="telemetry" id="dashboard-telemetry" data-wm-id="system-telemetry"></div>
+    <div class="copyright">Evknopia © 2026</div>
+  </footer>
+
+</body>
+
+<script>
+
+  function initDashboard() {
+
+    let userDataStr = sessionStorage.getItem('currentUser');
 
 
-        const freshLogin = sessionStorage.getItem('freshLogin');
-        const uplinkCompleted = sessionStorage.getItem('uplinkCompleted');
+    const freshLogin = sessionStorage.getItem('freshLogin');
+    const uplinkCompleted = sessionStorage.getItem('uplinkCompleted');
 
-        if (!userDataStr) {
-          const telemetry = document.getElementById('dashboard-telemetry');
-          if (telemetry) {
-            telemetry.innerHTML = `> <span class="telemetry-cassan">CASSAN</span><span class="telemetry-dra">DRA</span>: <span data-wm-id="telemetry-message" style="color: #e74c3c;">ACCESS DENIED. REDIRECTING...</span>`;
-          }
-          setTimeout(() => { window.location.href = 'login.html'; }, 2000);
-          return;
-        }
+    if (!userDataStr) {
+      const telemetry = document.getElementById('dashboard-telemetry');
+      if (telemetry) {
+        telemetry.innerHTML = `> <span class="telemetry-cassan">CASSAN</span><span class="telemetry-dra">DRA</span>: <span data-wm-id="telemetry-message" style="color: #e74c3c;">ACCESS DENIED. REDIRECTING...</span>`;
+      }
+      setTimeout(() => { window.location.href = 'login.html'; }, 2000);
+      return;
+    }
 
-        let user = {};
-        try {
-          user = JSON.parse(userDataStr);
-        } catch (e) {
-          const telemetry = document.getElementById('dashboard-telemetry');
-          if (telemetry) {
-            telemetry.innerHTML = `> <span class="telemetry-cassan">CASSAN</span><span class="telemetry-dra">DRA</span>: <span data-wm-id="telemetry-message" style="color: #e74c3c;">DATA CORRUPTED. REDIRECTING...</span>`;
-          }
-          setTimeout(() => {
-            sessionStorage.removeItem('currentUser');
-            window.location.href = 'login.html';
-          }, 2000);
-          return;
-        }
+    let user = {};
+    try {
+      user = JSON.parse(userDataStr);
+    } catch (e) {
+      const telemetry = document.getElementById('dashboard-telemetry');
+      if (telemetry) {
+        telemetry.innerHTML = `> <span class="telemetry-cassan">CASSAN</span><span class="telemetry-dra">DRA</span>: <span data-wm-id="telemetry-message" style="color: #e74c3c;">DATA CORRUPTED. REDIRECTING...</span>`;
+      }
+      setTimeout(() => {
+        sessionStorage.removeItem('currentUser');
+        window.location.href = 'login.html';
+      }, 2000);
+      return;
+    }
 
-        const callsign = user.callsign ? user.callsign.toUpperCase() : 'UNKNOWN';
-        const fullName = user.fullName || 'Unknown Operator';
-        const role = user.role || 'OPERATOR';
-        const roleIcon = user.roleIcon || '👤';
-        const accessLevel = user.accessLevel || '?';
-        const func = user.function || 'General Duties';
-        const userId = user.id || 'UNKNOWN';
+    const callsign = user.callsign ? user.callsign.toUpperCase() : 'UNKNOWN';
+    const fullName = user.fullName || 'Unknown Operator';
+    const role = user.role || 'OPERATOR';
+    const roleIcon = user.roleIcon || '👤';
+    const accessLevel = user.accessLevel || '?';
+    const func = user.function || 'General Duties';
+    const userId = user.id || 'UNKNOWN';
 
-        const topPanels = document.querySelectorAll('.top-left, .top-right');
-        topPanels.forEach(panel => {
-          panel.classList.remove('panel-online', 'uplink-visible');
-          panel.classList.add('panel-offline');
-        });
+    const topPanels = document.querySelectorAll('.top-left, .top-right');
+    topPanels.forEach(panel => {
+      panel.classList.remove('panel-online', 'uplink-visible');
+      panel.classList.add('panel-offline');
+    });
 
-        const hiddenPanels = document.querySelectorAll('.bottom-left, .planet-btn');
-        hiddenPanels.forEach(panel => {
-          panel.classList.remove('panel-online', 'uplink-visible');
-          panel.classList.add('panel-offline', 'uplink-hidden');
-        });
+    const hiddenPanels = document.querySelectorAll('.bottom-left, .planet-btn');
+    hiddenPanels.forEach(panel => {
+      panel.classList.remove('panel-online', 'uplink-visible');
+      panel.classList.add('panel-offline', 'uplink-hidden');
+    });
 
-        const uplinkBtn = document.querySelector('[data-wm-id="uplink-btn"]');
-        if (uplinkBtn) {
-          uplinkBtn.classList.remove('uplink-inactive');
-          uplinkBtn.classList.add('uplink-active');
-          uplinkBtn.style.pointerEvents = 'auto';
-          uplinkBtn.style.opacity = '1';
-        }
+    const uplinkBtn = document.querySelector('[data-wm-id="uplink-btn"]');
+    if (uplinkBtn) {
+      uplinkBtn.classList.remove('uplink-inactive');
+      uplinkBtn.classList.add('uplink-active');
+      uplinkBtn.style.pointerEvents = 'auto';
+      uplinkBtn.style.opacity = '1';
+    }
 
-        const progressContainer = document.getElementById('uplink-progress-container');
-        if (progressContainer) progressContainer.style.display = 'none';
+    const progressContainer = document.getElementById('uplink-progress-container');
+    if (progressContainer) progressContainer.style.display = 'none';
 
-        const roleIconEl = document.querySelector('.top-left .corner-icon');
-        const roleLabelEl = document.querySelector('.top-left .corner-label');
-        const roleTooltipEl = document.querySelector('.top-left .info-tooltip');
+    const roleIconEl = document.querySelector('.top-left .corner-icon');
+    const roleLabelEl = document.querySelector('.top-left .corner-label');
+    const roleTooltipEl = document.querySelector('.top-left .info-tooltip');
 
-        if (roleIconEl) roleIconEl.textContent = roleIcon;
-        if (roleLabelEl) roleLabelEl.textContent = role;
-        if (roleTooltipEl) {
-          roleTooltipEl.innerHTML = `<div class="tooltip-title">SYSTEM ROLE</div><div>Function: ${func}</div><div>Access: Level ${accessLevel}</div><div>Status: Active</div>`;
-        }
+    if (roleIconEl) roleIconEl.textContent = roleIcon;
+    if (roleLabelEl) roleLabelEl.textContent = role;
+    if (roleTooltipEl) {
+      roleTooltipEl.innerHTML = `<div class="tooltip-title">SYSTEM ROLE</div><div>Function: ${func}</div><div>Access: Level ${accessLevel}</div><div>Status: Active</div>`;
+    }
 
-        const userLabelEl = document.querySelector('.top-right .corner-label');
-        const userTooltipEl = document.querySelector('.top-right .info-tooltip');
+    const userLabelEl = document.querySelector('.top-right .corner-label');
+    const userTooltipEl = document.querySelector('.top-right .info-tooltip');
 
-        if (userLabelEl) userLabelEl.textContent = fullName.toUpperCase();
-        if (userTooltipEl) {
-          userTooltipEl.innerHTML = `
+    if (userLabelEl) userLabelEl.textContent = fullName.toUpperCase();
+    if (userTooltipEl) {
+      userTooltipEl.innerHTML = `
             <div class="tooltip-title">CREW MEMBER</div>
             <div>Registered Callsign: ${callsign}</div>
             <div>ID: ${userId}</div>
             <div>Status: Online</div>
           `;
-        }
+    }
 
-        if (freshLogin === 'true') {
-          sessionStorage.removeItem('freshLogin');
-          const telemetry = document.getElementById('dashboard-telemetry');
-          if (telemetry) {
-            telemetry.innerHTML = `> <span class="telemetry-cassan">CASSAN</span><span class="telemetry-dra">DRA</span>: <span id="typing-target" data-wm-id="telemetry-message" style="color: #4da6ff;"></span>`;
-            const target = document.getElementById('typing-target');
-
-            typeWriter(`${callsign}, SERVER CONNECTION REQUIRED. INITIALIZE UPLINK PROCEDURE.`, target, 3000);
-          }
-          return;
-        }
-
-        if (uplinkCompleted === 'true') {
-          showReadyDashboard(callsign);
-          return;
-        }
-
-        const telemetry = document.getElementById('dashboard-telemetry');
-        if (telemetry) {
-          telemetry.innerHTML = `> <span class="telemetry-cassan">CASSAN</span><span class="telemetry-dra">DRA</span>: <span data-wm-id="telemetry-message" style="color: #4da6ff;">${callsign}, SERVER CONNECTION REQUIRED. INITIALIZE UPLINK PROCEDURE.</span>`;
-        }
-      }
-
-      function showReadyDashboard(dynamicCallsign) {
-        const telemetry = document.getElementById('dashboard-telemetry');
-        if (telemetry) {
-
-          telemetry.innerHTML = `> <span class="telemetry-cassan">CASSAN</span><span class="telemetry-dra">DRA</span>: <span data-wm-id="telemetry-message" style="color: #2ecc71;">${dynamicCallsign}, SYSTEM READY FOR WORK. AWAITING COMMANDS.</span>`;
-        }
-
-        const panelsToActivate = document.querySelectorAll('.top-left, .top-right, .bottom-left, .planet-btn');
-        panelsToActivate.forEach(panel => {
-          panel.classList.remove('panel-offline', 'uplink-hidden');
-          panel.classList.add('panel-online', 'uplink-visible');
-        });
-
-        const uplinkBtn = document.querySelector('[data-wm-id="uplink-btn"]');
-        if (uplinkBtn) {
-          uplinkBtn.classList.remove('uplink-active');
-          uplinkBtn.classList.add('uplink-inactive');
-        }
-
-        const progressContainer = document.getElementById('uplink-progress-container');
-        if (progressContainer) progressContainer.style.display = 'none';
-      }
-
-      function typeWriter(text, element, duration) {
-        const chars = text.split('');
-        const interval = duration / chars.length;
-        let i = 0;
-        const timer = setInterval(() => {
-          if (i < chars.length) {
-            element.textContent += chars[i];
-            i++;
-          } else {
-            clearInterval(timer);
-          }
-        }, interval);
-      }
-
-      const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
-
-      async function typeWriterAsync(text, element, speedMs = 40) {
-        element.textContent = '';
-        const chars = text.split('');
-        for (let char of chars) {
-          element.textContent += char;
-          await sleep(speedMs);
-        }
-      }
-
-      function preloadAllAssetsInBackground() {
-        const assetsConfig = {
-          'stars': ['g-dwarf', 'k-dwarf', 'm-dwarf'],
-          'sun': ['mercury', 'venus', 'earth', 'mars', 'uranus', 'neptune'],
-          'alpha-centauri-a': ['proxima-b', 'proxima-c', 'proxima-d'],
-          'tau-ceti': ['tau-ceti-e', 'tau-ceti-f', 'tau-ceti-g', 'tau-ceti-h'],
-          'epsilon-eridani': ['epsilon-eridani-c'],
-          'teegarden': ['teegarden-b', 'teegarden-c'],
-          'trappist-1': ['trappist-1b', 'trappist-1c', 'trappist-1d', 'trappist-1e', 'trappist-1f', 'trappist-1g', 'trappist-1h']
-        };
-
-        const suffixes = ['-icon.jpg', '-max.jpg'];
-        const allAssets = [];
-
-        for (const [folder, names] of Object.entries(assetsConfig)) {
-          for (const name of names) {
-            for (const suffix of suffixes) {
-              allAssets.push(`assets/${folder}/${name}${suffix}`);
-            }
-          }
-        }
-
-        console.log(`🚀 Запуск фонового прелоада ${allAssets.length} ассетов...`);
-
-        allAssets.forEach(url => {
-          const img = new Image();
-          img.src = url;
-        });
-      }
-
-      async function startUplink() {
-        const telemetry = document.getElementById('dashboard-telemetry');
-        const progressContainer = document.getElementById('uplink-progress-container');
-        const progressFill = document.getElementById('progress-fill');
-        const progressText = document.getElementById('progress-text');
-        const uplinkBtn = document.querySelector('[data-wm-id="uplink-btn"]');
-        const rolePanel = document.querySelector('.top-left');
-        const userPanel = document.querySelector('.top-right');
-
-        preloadAllAssetsInBackground();
-
-        rolePanel.classList.add('panel-offline');
-        rolePanel.classList.remove('panel-online');
-        userPanel.classList.add('panel-offline');
-        userPanel.classList.remove('panel-online');
-
-        uplinkBtn.classList.remove('uplink-active');
-        uplinkBtn.classList.add('uplink-inactive');
-        uplinkBtn.style.pointerEvents = 'none';
-        uplinkBtn.style.opacity = '0.5';
-
-        telemetry.innerHTML = `> <span class="telemetry-cassan">CASSAN</span><span class="telemetry-dra">DRA</span>: <span id="typing-target" style="color: #4da6ff;"></span>`;
+    if (freshLogin === 'true') {
+      sessionStorage.removeItem('freshLogin');
+      const telemetry = document.getElementById('dashboard-telemetry');
+      if (telemetry) {
+        telemetry.innerHTML = `> <span class="telemetry-cassan">CASSAN</span><span class="telemetry-dra">DRA</span>: <span id="typing-target" data-wm-id="telemetry-message" style="color: #4da6ff;"></span>`;
         const target = document.getElementById('typing-target');
 
-        progressContainer.style.display = 'flex';
-        await sleep(500);
-        await typeWriterAsync("DATA TRANSFER PROTOCOL ACTIVATED", target, 40);
-        await sleep(3000);
-
-        progressFill.style.width = '10%';
-        progressText.textContent = '10%';
-        document.querySelector('[data-wm-id="logout-btn"]').classList.remove('uplink-hidden');
-        document.querySelector('[data-wm-id="logout-btn"]').classList.add('uplink-visible', 'panel-offline');
-        await sleep(3000);
-
-        progressFill.style.width = '22%';
-        progressText.textContent = '22%';
-        target.textContent = '';
-        await typeWriterAsync("LOADING CENTRAL MENU CONTROL", target, 40);
-        await sleep(3000);
-
-        progressFill.style.width = '36%';
-        progressText.textContent = '36%';
-        document.querySelector('[data-wm-id="nav-galaxy-map-btn"]').classList.remove('uplink-hidden');
-        document.querySelector('[data-wm-id="nav-galaxy-map-btn"]').classList.add('uplink-visible', 'panel-offline');
-        await sleep(2000);
-
-        progressFill.style.width = '50%';
-        progressText.textContent = '50%';
-        document.querySelector('[data-wm-id="nav-flight-calc-btn"]').classList.remove('uplink-hidden');
-        document.querySelector('[data-wm-id="nav-flight-calc-btn"]').classList.add('uplink-visible', 'panel-offline');
-        await sleep(2000);
-
-        progressFill.style.width = '65%';
-        progressText.textContent = '65%';
-        document.querySelector('[data-wm-id="nav-cis-index-table-btn"]').classList.remove('uplink-hidden');
-        document.querySelector('[data-wm-id="nav-cis-index-table-btn"]').classList.add('uplink-visible', 'panel-offline');
-        await sleep(2000);
-
-        progressFill.style.width = '80%';
-        progressText.textContent = '80%';
-        document.querySelector('[data-wm-id="nav-mission-control-btn"]').classList.remove('uplink-hidden');
-        document.querySelector('[data-wm-id="nav-mission-control-btn"]').classList.add('uplink-visible', 'panel-offline');
-        await sleep(2000);
-
-        progressFill.style.width = '95%';
-        progressText.textContent = '95%';
-        document.querySelector('[data-wm-id="nav-cassandra-settings-btn"]').classList.remove('uplink-hidden');
-        document.querySelector('[data-wm-id="nav-cassandra-settings-btn"]').classList.add('uplink-visible', 'panel-offline');
-        await sleep(2000);
-
-        progressFill.style.width = '99%';
-        progressText.textContent = '99%';
-        target.textContent = '';
-        await typeWriterAsync("SYNCHRONIZING WITH CORE", target, 40);
-        await sleep(3000);
-
-        progressFill.style.width = '100%';
-        progressText.textContent = '100%';
-        await sleep(2000);
-
-        target.style.color = '#2ecc71';
-        target.style.textShadow = '0 0 0.8vmin rgba(46, 204, 113, 0.4)';
-        target.textContent = '';
-
-        let userName = "OPERATOR";
-        try {
-          const ud = sessionStorage.getItem('currentUser');
-          if (ud) {
-            const u = JSON.parse(ud);
-            if (u.callsign) userName = u.callsign.toUpperCase();
-          }
-        } catch (e) { console.warn("Не удалось прочитать данные пользователя:", e); }
-
-        await typeWriterAsync(`${userName}, SYSTEM READY FOR WORK. AWAITING COMMANDS.`, target, 40);
-        await sleep(3000);
-
-        rolePanel.classList.remove('panel-offline');
-        rolePanel.classList.add('panel-online');
-        userPanel.classList.remove('panel-offline');
-        userPanel.classList.add('panel-online');
-
-        document.querySelectorAll('.planet-btn, .bottom-left').forEach(btn => {
-          btn.classList.remove('panel-offline');
-          btn.classList.add('panel-online');
-        });
-
-        progressContainer.style.transition = 'opacity 1s ease';
-        progressContainer.style.opacity = '0';
-        await sleep(1000);
-        progressContainer.style.display = 'none';
-
-        sessionStorage.setItem('uplinkCompleted', 'true');
+        typeWriter(`${callsign}, SERVER CONNECTION REQUIRED. INITIALIZE UPLINK PROCEDURE.`, target, 3000);
       }
+      return;
+    }
 
-      function handleLogout() {
+    if (uplinkCompleted === 'true') {
+      showReadyDashboard(callsign);
+      return;
+    }
 
-        sessionStorage.removeItem('currentUser');
-        sessionStorage.removeItem('uplinkCompleted');
-        sessionStorage.removeItem('freshLogin');
+    const telemetry = document.getElementById('dashboard-telemetry');
+    if (telemetry) {
+      telemetry.innerHTML = `> <span class="telemetry-cassan">CASSAN</span><span class="telemetry-dra">DRA</span>: <span data-wm-id="telemetry-message" style="color: #4da6ff;">${callsign}, SERVER CONNECTION REQUIRED. INITIALIZE UPLINK PROCEDURE.</span>`;
+    }
+  }
 
-        window.location.href = 'login.html';
+  function showReadyDashboard(dynamicCallsign) {
+    const telemetry = document.getElementById('dashboard-telemetry');
+    if (telemetry) {
+
+      telemetry.innerHTML = `> <span class="telemetry-cassan">CASSAN</span><span class="telemetry-dra">DRA</span>: <span data-wm-id="telemetry-message" style="color: #2ecc71;">${dynamicCallsign}, SYSTEM READY FOR WORK. AWAITING COMMANDS.</span>`;
+    }
+
+    const panelsToActivate = document.querySelectorAll('.top-left, .top-right, .bottom-left, .planet-btn');
+    panelsToActivate.forEach(panel => {
+      panel.classList.remove('panel-offline', 'uplink-hidden');
+      panel.classList.add('panel-online', 'uplink-visible');
+    });
+
+    const uplinkBtn = document.querySelector('[data-wm-id="uplink-btn"]');
+    if (uplinkBtn) {
+      uplinkBtn.classList.remove('uplink-active');
+      uplinkBtn.classList.add('uplink-inactive');
+    }
+
+    const progressContainer = document.getElementById('uplink-progress-container');
+    if (progressContainer) progressContainer.style.display = 'none';
+  }
+
+  function typeWriter(text, element, duration) {
+    const chars = text.split('');
+    const interval = duration / chars.length;
+    let i = 0;
+    const timer = setInterval(() => {
+      if (i < chars.length) {
+        element.textContent += chars[i];
+        i++;
+      } else {
+        clearInterval(timer);
       }
+    }, interval);
+  }
 
-      initDashboard();
+  const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 
-      window.addEventListener('pageshow', function (event) {
-        if (event.persisted) {
-          console.warn('⚠️ Страница восстановлена из bfcache — принудительная проверка');
-          initDashboard();
+  async function typeWriterAsync(text, element, speedMs = 40) {
+    element.textContent = '';
+    const chars = text.split('');
+    for (let char of chars) {
+      element.textContent += char;
+      await sleep(speedMs);
+    }
+  }
+
+  function preloadAllAssetsInBackground() {
+    const assetsConfig = {
+      'stars': ['g-dwarf', 'k-dwarf', 'm-dwarf'],
+      'sun': ['mercury', 'venus', 'earth', 'mars', 'uranus', 'neptune'],
+      'alpha-centauri-a': ['proxima-b', 'proxima-c', 'proxima-d'],
+      'tau-ceti': ['tau-ceti-e', 'tau-ceti-f', 'tau-ceti-g', 'tau-ceti-h'],
+      'epsilon-eridani': ['epsilon-eridani-c'],
+      'teegarden': ['teegarden-b', 'teegarden-c'],
+      'trappist-1': ['trappist-1b', 'trappist-1c', 'trappist-1d', 'trappist-1e', 'trappist-1f', 'trappist-1g', 'trappist-1h']
+    };
+
+    const suffixes = ['-icon.jpg', '-max.jpg'];
+    const allAssets = [];
+
+    for (const [folder, names] of Object.entries(assetsConfig)) {
+      for (const name of names) {
+        for (const suffix of suffixes) {
+          allAssets.push(`assets/${folder}/${name}${suffix}`);
         }
-      });
-    </script>
+      }
+    }
+
+    console.log(`🚀 Запуск фонового прелоада ${allAssets.length} ассетов...`);
+
+    allAssets.forEach(url => {
+      const img = new Image();
+      img.src = url;
+    });
+  }
+
+  async function startUplink() {
+    const telemetry = document.getElementById('dashboard-telemetry');
+    const progressContainer = document.getElementById('uplink-progress-container');
+    const progressFill = document.getElementById('progress-fill');
+    const progressText = document.getElementById('progress-text');
+    const uplinkBtn = document.querySelector('[data-wm-id="uplink-btn"]');
+    const rolePanel = document.querySelector('.top-left');
+    const userPanel = document.querySelector('.top-right');
+
+    preloadAllAssetsInBackground();
+
+    rolePanel.classList.add('panel-offline');
+    rolePanel.classList.remove('panel-online');
+    userPanel.classList.add('panel-offline');
+    userPanel.classList.remove('panel-online');
+
+    uplinkBtn.classList.remove('uplink-active');
+    uplinkBtn.classList.add('uplink-inactive');
+    uplinkBtn.style.pointerEvents = 'none';
+    uplinkBtn.style.opacity = '0.5';
+
+    telemetry.innerHTML = `> <span class="telemetry-cassan">CASSAN</span><span class="telemetry-dra">DRA</span>: <span id="typing-target" style="color: #4da6ff;"></span>`;
+    const target = document.getElementById('typing-target');
+
+    progressContainer.style.display = 'flex';
+    await sleep(500);
+    await typeWriterAsync("DATA TRANSFER PROTOCOL ACTIVATED", target, 40);
+    await sleep(3000);
+
+    progressFill.style.width = '10%';
+    progressText.textContent = '10%';
+    document.querySelector('[data-wm-id="logout-btn"]').classList.remove('uplink-hidden');
+    document.querySelector('[data-wm-id="logout-btn"]').classList.add('uplink-visible', 'panel-offline');
+    await sleep(3000);
+
+    progressFill.style.width = '22%';
+    progressText.textContent = '22%';
+    target.textContent = '';
+    await typeWriterAsync("LOADING CENTRAL MENU CONTROL", target, 40);
+    await sleep(3000);
+
+    progressFill.style.width = '36%';
+    progressText.textContent = '36%';
+    document.querySelector('[data-wm-id="nav-galaxy-map-btn"]').classList.remove('uplink-hidden');
+    document.querySelector('[data-wm-id="nav-galaxy-map-btn"]').classList.add('uplink-visible', 'panel-offline');
+    await sleep(2000);
+
+    progressFill.style.width = '50%';
+    progressText.textContent = '50%';
+    document.querySelector('[data-wm-id="nav-flight-calc-btn"]').classList.remove('uplink-hidden');
+    document.querySelector('[data-wm-id="nav-flight-calc-btn"]').classList.add('uplink-visible', 'panel-offline');
+    await sleep(2000);
+
+    progressFill.style.width = '65%';
+    progressText.textContent = '65%';
+    document.querySelector('[data-wm-id="nav-cis-index-table-btn"]').classList.remove('uplink-hidden');
+    document.querySelector('[data-wm-id="nav-cis-index-table-btn"]').classList.add('uplink-visible', 'panel-offline');
+    await sleep(2000);
+
+    progressFill.style.width = '80%';
+    progressText.textContent = '80%';
+    document.querySelector('[data-wm-id="nav-mission-control-btn"]').classList.remove('uplink-hidden');
+    document.querySelector('[data-wm-id="nav-mission-control-btn"]').classList.add('uplink-visible', 'panel-offline');
+    await sleep(2000);
+
+    progressFill.style.width = '95%';
+    progressText.textContent = '95%';
+    document.querySelector('[data-wm-id="nav-cassandra-settings-btn"]').classList.remove('uplink-hidden');
+    document.querySelector('[data-wm-id="nav-cassandra-settings-btn"]').classList.add('uplink-visible', 'panel-offline');
+    await sleep(2000);
+
+    progressFill.style.width = '99%';
+    progressText.textContent = '99%';
+    target.textContent = '';
+    await typeWriterAsync("SYNCHRONIZING WITH CORE", target, 40);
+    await sleep(3000);
+
+    progressFill.style.width = '100%';
+    progressText.textContent = '100%';
+    await sleep(2000);
+
+    target.style.color = '#2ecc71';
+    target.style.textShadow = '0 0 0.8vmin rgba(46, 204, 113, 0.4)';
+    target.textContent = '';
+
+    let userName = "OPERATOR";
+    try {
+      const ud = sessionStorage.getItem('currentUser');
+      if (ud) {
+        const u = JSON.parse(ud);
+        if (u.callsign) userName = u.callsign.toUpperCase();
+      }
+    } catch (e) { console.warn("Не удалось прочитать данные пользователя:", e); }
+
+    await typeWriterAsync(`${userName}, SYSTEM READY FOR WORK. AWAITING COMMANDS.`, target, 40);
+    await sleep(3000);
+
+    rolePanel.classList.remove('panel-offline');
+    rolePanel.classList.add('panel-online');
+    userPanel.classList.remove('panel-offline');
+    userPanel.classList.add('panel-online');
+
+    document.querySelectorAll('.planet-btn, .bottom-left').forEach(btn => {
+      btn.classList.remove('panel-offline');
+      btn.classList.add('panel-online');
+    });
+
+    progressContainer.style.transition = 'opacity 1s ease';
+    progressContainer.style.opacity = '0';
+    await sleep(1000);
+    progressContainer.style.display = 'none';
+
+    sessionStorage.setItem('uplinkCompleted', 'true');
+  }
+
+  function handleLogout() {
+
+    sessionStorage.removeItem('currentUser');
+    sessionStorage.removeItem('uplinkCompleted');
+    sessionStorage.removeItem('freshLogin');
+
+    window.location.href = 'login.html';
+  }
+
+  initDashboard();
+
+  window.addEventListener('pageshow', function (event) {
+    if (event.persisted) {
+      console.warn('⚠️ Страница восстановлена из bfcache — принудительная проверка');
+      initDashboard();
+    }
+  });
+
+  // Логика модалки настроек
+  const settingsOverlay = document.getElementById('settings-overlay');
+  const btnCloseSettings = document.getElementById('btn-close-settings');
+  const btnCancelSettings = document.getElementById('btn-cancel-settings');
+
+  function openSettingsModal() {
+    if (settingsOverlay) settingsOverlay.classList.add('active');
+  }
+
+  function closeSettingsModal() {
+    if (settingsOverlay) settingsOverlay.classList.remove('active');
+  }
+
+  if (btnCloseSettings) btnCloseSettings.addEventListener('click', closeSettingsModal);
+  if (btnCancelSettings) btnCancelSettings.addEventListener('click', closeSettingsModal);
+
+  if (settingsOverlay) {
+    settingsOverlay.addEventListener('click', (e) => {
+      if (e.target === settingsOverlay) closeSettingsModal();
+    });
+  }
+
+  // Логика переключения языка
+  const langButtons = document.querySelectorAll('.lang-btn');
+
+  // 1. При загрузке проверяем, что сохранено в памяти браузера (по умолчанию 'ru')
+  const savedLang = localStorage.getItem('cassandra_lang') || 'ru';
+  langButtons.forEach(btn => {
+    if (btn.dataset.lang === savedLang) {
+      btn.classList.add('active');
+    } else {
+      btn.classList.remove('active');
+    }
+  });
+
+  // 2. Обработка клика по кнопке
+  langButtons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      // Убираем класс active у всех кнопок
+      langButtons.forEach(b => b.classList.remove('active'));
+      // Добавляем класс active нажатой кнопке
+      btn.classList.add('active');
+
+      // Сохраняем выбор в память браузера
+      localStorage.setItem('cassandra_lang', btn.dataset.lang);
+
+      console.log(`[Settings] Language switched to: ${btn.dataset.lang.toUpperCase()}`);
+      // Позже здесь мы добавим реальную функцию смены текстов на странице
+    });
+  });
+</script>
 
 </body>
 
