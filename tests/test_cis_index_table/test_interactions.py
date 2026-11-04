@@ -269,9 +269,9 @@ def test_open_planet_details_from_archive(cis_index):
     3. Выбрать планету 'Venus'
     4. Нажать на кнопку "Analyze cis" и дождаться результатов сканирования.
     5. Нажать на кнопку "Details", в зоне добавленной архивной записи сканирования Venus.  .
-    7. Проверить: заголовок модалки содержит имя планеты "Venus".
-    8. Проверить: поле "description" содержит описание 'Planet is unsuitable for colonization.'.
-    9. Проверить: поле "warning" содержит описание 'CRITICAL: Zero magnetic shielding leaves surface'.
+    6. Проверить: заголовок модалки содержит имя планеты "Venus".
+    7. Проверить: поле "description" содержит описание 'Planet is unsuitable for colonization.'.
+    8. Проверить: поле "warning" содержит описание 'CRITICAL: Zero magnetic shielding leaves surface'.
     """
 
     # 🎬 ARRANGE

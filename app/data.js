@@ -851,7 +851,7 @@ window.CisPlanet = [
   },
   {
     planet: "EARTH", name: "EARTH", star: "Sol", type: "Terrestrial", img: 'assets/sun/earth-max.jpg',
-    cis_params: { habitable_zone: 100, surface: 100, hydrosphere: 100, atmosphere: 100, breathability: 100, climate: 100, gravity: 100, magnetic: 100, star_radiation: 65 }, 
+    cis_params: { habitable_zone: 100, surface: 100, hydrosphere: 100, atmosphere: 100, breathability: 100, climate: 100, gravity: 100, magnetic: 100, star_radiation: 65 },
     description: "Optimal candidate for colonization. All life-support parameters at maximum (100): stable atmosphere, abundant hydrosphere, full breathability, and ideal climate. Magnetic field at full strength (100) completely neutralizes stellar radiation (effective exposure: 0/100). Surface integrity and gravity are perfect for long-term human habitation without technological assistance.",
     warning: "MINIMAL RISK: Raw stellar radiation at moderate level (65/100), but magnetic shield provides full protection (effective exposure: 0/100). No critical threats detected. Standard planetary safety protocols sufficient. Ideal for unrestricted colonization."
   },
@@ -987,14 +987,190 @@ window.CisPlanet = [
   }
 ];
 
+// ========================================================================
+//#region 7️⃣ 🚀 ДАННЫЕ ДЛЯ MISSION CONTROL
+// ========================================================================
 
+window.MissionSelectPlanet = [
 
-// Формула для расчетов
-//CIS = (habitable_zone × 0.15) +
-//     (surface × 0.15) +
-//      (hydrosphere × 0.15) +
-//      (atmosphere × 0.10) +
-//      (breathability × 0.10) +
-//      (climate × 0.10) +
-//      (gravity × 0.10) +
-//      (magnetic × 0.15) 
+  // --- PROXIMA CENTAURI SYSTEM ---
+  {
+    planet: "PROXIMA B",
+    star: "Proxima Centauri",
+    cis: "50.6%",
+    cisValue: 50.6,
+    distance: "4.24 ly",
+    flightTime: "50 years 5 months and 14 days",
+    img: "assets/alpha-centauri-a/proxima-b-max.jpg",
+    scanned: false
+  },
+  {
+    planet: "PROXIMA C",
+    star: "Proxima Centauri",
+    cis: "39.4%",
+    cisValue: 39.4,
+    distance: "4.24 ly",
+    flightTime: "50 years 5 months and 14 days",
+    img: "assets/alpha-centauri-a/proxima-c-max.jpg",
+    scanned: false
+  },
+  {
+    planet: "PROXIMA D",
+    star: "Proxima Centauri",
+    cis: "31.1%",
+    cisValue: 31.1,
+    distance: "4.24 ly",
+    flightTime: "50 years 5 months and 14 days",
+    img: "assets/alpha-centauri-a/proxima-d-max.jpg",
+    scanned: false
+  },
+
+  // --- EPSILON ERIDANI SYSTEM ---
+  {
+    planet: "EPSILON ERIDANI C",
+    star: "Epsilon Eridani",
+    cis: "23.8%",
+    cisValue: 23.8,
+    distance: "10.5 ly",
+    flightTime: "120 years 4 months and 1 day",
+    img: "assets/epsilon-eridani/epsilon-eridani-c-max.jpg",
+    scanned: false
+  },
+
+  // --- TAU CETI SYSTEM ---
+  {
+    planet: "TAU CETI E",
+    star: "Tau Ceti",
+    cis: "65.0%",
+    cisValue: 65.0,
+    distance: "11.9 ly",
+    flightTime: "137 years 4 months and 23 days",
+    img: "assets/tau-ceti/tau-ceti-e-max.jpg",
+    scanned: false
+  },
+  {
+    planet: "TAU CETI F",
+    star: "Tau Ceti",
+    cis: "78.8%",
+    cisValue: 78.8,
+    distance: "11.9 ly",
+    flightTime: "137 years 4 months and 23 days",
+    img: "assets/tau-ceti/tau-ceti-f-max.jpg",
+    scanned: false
+  },
+  {
+    planet: "TAU CETI G",
+    star: "Tau Ceti",
+    cis: "51.5%",
+    cisValue: 51.5,
+    distance: "11.9 ly",
+    flightTime: "137 years 4 months and 23 days",
+    img: "assets/tau-ceti/tau-ceti-g-max.jpg",
+    scanned: false
+  },
+  {
+    planet: "TAU CETI H",
+    star: "Tau Ceti",
+    cis: "62.8%",
+    cisValue: 62.8,
+    distance: "11.9 ly",
+    flightTime: "137 years 4 months and 23 days",
+    img: "assets/tau-ceti/tau-ceti-h-max.jpg",
+    scanned: false
+  },
+
+  // --- TEEGARDEN'S STAR SYSTEM ---
+  {
+    planet: "TEEGARDEN B",
+    star: "Teegarden's Star",
+    cis: "55.6%",
+    cisValue: 55.6,
+    distance: "12.5 ly",
+    flightTime: "143 years 4 months and 25 days",
+    img: "assets/teegarden/teegarden-b-max.jpg",
+    scanned: false
+  },
+  {
+    planet: "TEEGARDEN C",
+    star: "Teegarden's Star",
+    cis: "46.6%",
+    cisValue: 46.6,
+    distance: "12.5 ly",
+    flightTime: "143 years 4 months and 25 days",
+    img: "assets/teegarden/teegarden-c-max.jpg",
+    scanned: false
+  },
+
+  // --- TRAPPIST-1 SYSTEM ---
+  {
+    planet: "TRAPPIST-1 B",
+    star: "TRAPPIST-1",
+    cis: "36.6%",
+    cisValue: 36.6,
+    distance: "39.5 ly",
+    flightTime: "459 years 1 month and 19 days",
+    img: "assets/trappist-1/trappist-1b-max.jpg",
+    scanned: false
+  },
+  {
+    planet: "TRAPPIST-1 C",
+    star: "TRAPPIST-1",
+    cis: "42.4%",
+    cisValue: 42.4,
+    distance: "39.5 ly",
+    flightTime: "459 years 1 month and 19 days",
+    img: "assets/trappist-1/trappist-1c-max.jpg",
+    scanned: false
+  },
+  {
+    planet: "TRAPPIST-1 D",
+    star: "TRAPPIST-1",
+    cis: "57.2%",
+    cisValue: 57.2,
+    distance: "39.5 ly",
+    flightTime: "459 years 1 month and 19 days",
+    img: "assets/trappist-1/trappist-1d-max.jpg",
+    scanned: false
+  },
+  {
+    planet: "TRAPPIST-1 E",
+    star: "TRAPPIST-1",
+    cis: "77.0%",
+    cisValue: 77.0,
+    distance: "39.5 ly",
+    flightTime: "459 years 1 month and 19 days",
+    img: "assets/trappist-1/trappist-1e-max.jpg",
+    scanned: false
+  },
+  {
+    planet: "TRAPPIST-1 F",
+    star: "TRAPPIST-1",
+    cis: "70.5%",
+    cisValue: 70.5,
+    distance: "39.5 ly",
+    flightTime: "459 years 1 month and 19 days",
+    img: "assets/trappist-1/trappist-1f-max.jpg",
+    scanned: false
+  },
+  {
+    planet: "TRAPPIST-1 G",
+    star: "TRAPPIST-1",
+    cis: "62.5%",
+    cisValue: 62.5,
+    distance: "39.5 ly",
+    flightTime: "459 years 1 month and 19 days",
+    img: "assets/trappist-1/trappist-1g-max.jpg",
+    scanned: false
+  },
+  {
+    planet: "TRAPPIST-1 H",
+    star: "TRAPPIST-1",
+    cis: "43.0%",
+    cisValue: 43.0,
+    distance: "39.5 ly",
+    flightTime: "459 years 1 month and 19 days",
+    img: "assets/trappist-1/trappist-1h-max.jpg",
+    scanned: false
+  }
+];
+
