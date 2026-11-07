@@ -557,8 +557,17 @@
     }
 
     .wizard-card.placeholder {
-      pointer-events: none;
-      cursor: default;
+      cursor: pointer;
+      /* Курсор-рука */
+      /* pointer-events: none; <-- УДАЛИЛИ ЭТУ СТРОКУ */
+    }
+
+    /* Отменяем анимацию при наведении на заблокированные карты */
+    .wizard-card.placeholder:hover {
+      transform: none !important;
+      /* Запрещаем карте приподниматься */
+      box-shadow: 0 0 4vmin rgba(77, 166, 255, 0.3) !important;
+      /* Возвращаем обычную тень, убираем свечение */
     }
 
     /* === УНИВЕРСАЛЬНАЯ МОДАЛКА === */
@@ -905,53 +914,6 @@
       opacity: 0.7;
     }
 
-    /* === СОСТОЯНИЕ CARD 1 ПОСЛЕ ВЫБОРА ПЛАНЕТЫ === */
-    .wizard-card.card-destination.active {
-      cursor: default;
-    }
-
-    .wizard-card.card-destination.active .card-title {
-      font-size: 1.6vmin;
-      letter-spacing: 0.15vmin;
-    }
-
-    .wizard-card.card-destination.active .planet-name {
-      font-size: 1.3vmin;
-      font-weight: 700;
-      color: #ffffff;
-      text-transform: uppercase;
-      letter-spacing: 0.1vmin;
-      text-shadow: 0 0 1vmin rgba(77, 166, 255, 0.5);
-      margin-top: 1vmin;
-    }
-
-    .wizard-card.card-destination.active .star-name {
-      font-size: 1vmin;
-      color: var(--text-dim);
-      text-transform: uppercase;
-      letter-spacing: 0.08vmin;
-      margin-top: 0.3vmin;
-    }
-
-    .wizard-card.card-destination.active .target-status {
-      font-size: 1.1vmin;
-      /* Было 0.9vmin, увеличил */
-      font-weight: 700;
-      color: #2ecc71;
-      text-transform: uppercase;
-      letter-spacing: 0.1vmin;
-      text-shadow: 0 0 0.8vmin rgba(46, 204, 113, 0.6);
-      margin-top: 1.5vmin;
-      display: flex;
-      align-items: center;
-      gap: 0.5vmin;
-    }
-
-    .wizard-card.card-destination.active .card-hint {
-      display: none;
-      /* Скрываем подсказку после выбора */
-    }
-
     /* === МОДАЛКА ОШИБОК (из старого кода) === */
     .error-modal-overlay {
       position: fixed;
@@ -1042,8 +1004,112 @@
       display: none !important;
     }
 
-    .wizard-card.card-2-unlocked .card-hint {
-      display: flex !important;
+    /* СТИЛИ ДЛЯ КАРТЫ 2 */
+    .directive-label {
+      margin-top: 5vmin !important;
+      font-size: 1.6vmin !important;
+      letter-spacing: 0.15vmin;
+      color: #e8ecff !important;
+      text-shadow: 0 0 0.8vmin rgba(77, 166, 255, 0.4);
+    }
+
+    .mission-modal-container.no-close-btn-card-2 .mission-modal-close {
+      display: none !important;
+    }
+
+    /* Flex-структура для схемы директив (карта 2) */
+    .directive-schema-flex {
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      gap: 2vmin;
+      margin: 2vmin 0 0 0;
+    }
+
+    .directive-schema-flex .directive-point {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2vmin;
+    }
+
+    .directive-schema-flex .directive-arrow {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: 4vmin;
+    }
+
+    .directive-schema-flex .directive-label {
+      font-size: 1.6vmin !important;
+      letter-spacing: 0.15vmin;
+      color: #e8ecff !important;
+      text-shadow: 0 0 0.8vmin rgba(77, 166, 255, 0.4);
+      text-align: center;
+      font-weight: 600;
+    }
+
+    /* Выбранный шар в модалке карты 2 — синий неон */
+    .directive-schema-flex .route-circle-card-1.directive-selected {
+      border-color: rgba(77, 166, 255, 1) !important;
+      box-shadow:
+        0 0 25px rgba(77, 166, 255, 0.8),
+        inset 0 0 20px rgba(77, 166, 255, 0.4) !important;
+      transform: scale(1.08);
+      transition: all 0.3s ease;
+    }
+
+    /* === СОСТОЯНИЕ КАРТ 1 и 2 ПОСЛЕ ЗАПОЛНЕНИЯ (ОБЩИЕ СТИЛИ) === */
+    .wizard-card.card-destination.active,
+    .wizard-card[data-step="2"].active {
+      cursor: pointer;
+      /* Меняем на руку */
+    }
+
+    .wizard-card.card-destination.active .card-title,
+    .wizard-card[data-step="2"].active .card-title {
+      font-size: 1.6vmin;
+      letter-spacing: 0.15vmin;
+    }
+
+    .wizard-card.card-destination.active .planet-name,
+    .wizard-card[data-step="2"].active .planet-name {
+      font-size: 1.3vmin;
+      font-weight: 700;
+      color: #ffffff;
+      text-transform: uppercase;
+      letter-spacing: 0.1vmin;
+      text-shadow: 0 0 1vmin rgba(77, 166, 255, 0.5);
+      margin-top: 1vmin;
+    }
+
+    .wizard-card.card-destination.active .star-name,
+    .wizard-card[data-step="2"].active .directive-subtitle {
+      font-size: 1vmin;
+      color: var(--text-dim);
+      text-transform: uppercase;
+      letter-spacing: 0.08vmin;
+      margin-top: 0.3vmin;
+      text-align: center;
+    }
+
+    .wizard-card.card-destination.active .target-status,
+    .wizard-card[data-step="2"].active .target-status {
+      font-size: 1.1vmin;
+      font-weight: 700;
+      color: #2ecc71;
+      text-transform: uppercase;
+      letter-spacing: 0.1vmin;
+      text-shadow: 0 0 0.8vmin rgba(46, 204, 113, 0.6);
+      margin-top: 1.5vmin;
+      display: flex;
+      align-items: center;
+      gap: 0.5vmin;
+    }
+
+    .wizard-card.card-destination.active .card-hint,
+    .wizard-card[data-step="2"].active .card-hint {
+      display: none !important;
     }
   </style>
 </head>
@@ -1096,18 +1162,27 @@
       </div>
       <div class="card-hint" id="card-1-hint">👆 Tap to begin</div>
     </div>
+
     <div class="wizard-card placeholder" data-step="2">
-      <div class="card-title">Card 2</div>
-      <div class="card-content">
-        <div class="planet-sphere">
-          <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'/%3E" alt="Planet placeholder">
+      <div class="card-title" id="card-2-title">CLASSIFIED</div>
+      <div class="card-content" id="card-2-content">
+        <div class="planet-sphere" id="card-2-sphere">
+          <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'/%3E" alt="Planet placeholder"
+            id="card-2-planet-img">
+        </div>
+        <div class="planet-name" id="card-2-planet-name" style="display: none;"></div>
+        <div class="directive-subtitle" id="card-2-directive-subtitle" style="display: none;"></div>
+        <div class="target-status" id="card-2-status" style="display: none;">
+          <span>✅</span>
+          <span>TARGET ACQUIRED</span>
         </div>
       </div>
       <div class="card-lock-icon">🔒</div>
+      <div class="card-hint" style="display: none;">Locked</div>
     </div>
 
     <div class="wizard-card placeholder" data-step="3">
-      <div class="card-title">Card 3</div>
+      <div class="card-title">CLASSIFIED</div>
       <div class="card-content">
         <div class="planet-sphere">
           <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'/%3E" alt="Planet placeholder">
@@ -1117,7 +1192,7 @@
     </div>
 
     <div class="wizard-card placeholder" data-step="4">
-      <div class="card-title">Card 4</div>
+      <div class="card-title">CLASSIFIED</div>
       <div class="card-content">
         <div class="planet-sphere">
           <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'/%3E" alt="Planet placeholder">
@@ -1127,7 +1202,7 @@
     </div>
 
     <div class="wizard-card placeholder" data-step="5">
-      <div class="card-title">Card 5</div>
+      <div class="card-title">CLASSIFIED</div>
       <div class="card-content">
         <div class="planet-sphere">
           <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'/%3E" alt="Planet placeholder">
@@ -1217,11 +1292,41 @@
             </svg>
           </div>
 
-          <div class="route-point-card-1 ship-point">
-            <div class="route-circle-card-1 ship-circle-card-1">
-              <img src="assets/vessel/vessel_planet.jpg" alt="Vessel" class="planet-img">
+          <div class="route-point-card-1 cassandra-point">
+            <div class="route-circle-card-1 cassandra-circle-card-1"
+              style="display: flex; align-items: center; justify-content: center; overflow: hidden;">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="100%" height="100%">
+                <!-- Звёзды на фоне -->
+                <circle cx="12" cy="15" r="0.6" fill="#ffffff" opacity="0.8">
+                  <animate attributeName="opacity" values="0.8;0.3;0.8" dur="2s" repeatCount="indefinite" />
+                </circle>
+                <circle cx="48" cy="12" r="0.5" fill="#ffffff" opacity="0.6">
+                  <animate attributeName="opacity" values="0.6;0.2;0.6" dur="2.5s" repeatCount="indefinite" />
+                </circle>
+                <circle cx="52" cy="38" r="0.7" fill="#ffffff" opacity="0.7">
+                  <animate attributeName="opacity" values="0.7;0.3;0.7" dur="1.8s" repeatCount="indefinite" />
+                </circle>
+                <circle cx="15" cy="48" r="0.5" fill="#ffffff" opacity="0.5">
+                  <animate attributeName="opacity" values="0.5;0.2;0.5" dur="2.2s" repeatCount="indefinite" />
+                </circle>
+                <circle cx="32" cy="8" r="0.6" fill="#ffffff" opacity="0.9">
+                  <animate attributeName="opacity" values="0.9;0.4;0.9" dur="1.5s" repeatCount="indefinite" />
+                </circle>
+                <circle cx="8" cy="32" r="0.4" fill="#ffffff" opacity="0.6" />
+                <circle cx="56" cy="25" r="0.5" fill="#ffffff" opacity="0.7" />
+                <circle cx="28" cy="55" r="0.6" fill="#ffffff" opacity="0.8">
+                  <animate attributeName="opacity" values="0.8;0.3;0.8" dur="2.3s" repeatCount="indefinite" />
+                </circle>
+
+                <!-- Текст CASSANDRA -->
+                <text x="32" y="36" text-anchor="middle" font-family="'Segoe UI', 'Roboto', sans-serif" font-size="7"
+                  font-weight="800" letter-spacing="0.5">
+                  <tspan fill="#ffffff">CASSAN</tspan>
+                  <tspan fill="#4da6ff">DRA</tspan>
+                </text>
+              </svg>
             </div>
-            <div class="route-label-card-1">VESSEL</div>
+            <div class="route-label-card-1">CASSANDRA</div>
           </div>
 
           <div class="route-arrow-card-1">
@@ -1238,7 +1343,6 @@
             <div class="route-label-card-1" id="mission-arr-label">TARGET</div>
           </div>
         </div>
-
         <!-- Две колонки: селекты и инфо -->
         <div class="mission-bottom-row-card-1">
           <div class="mission-selects-column-card-1">
@@ -1296,7 +1400,11 @@
 
 <script src="data.js"></script>
 <script>
-  let editModeBackup = null;
+
+  let editModeBackupCard1 = null;
+  let editModeBackupCard2 = null;
+  let originalModalBodyHTML = null;
+
   // === ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ ===
   function convertToCompactTime(longFormat) {
     if (!longFormat || longFormat === '--') return '--';
@@ -1317,7 +1425,72 @@
     return '#7f8c8d';
   }
 
+  // === ФУНКЦИЯ ДЛЯ ПРИВЯЗКИ ОБРАБОТЧИКОВ (можно вызывать многократно) ===
+  function attachSelectHandlers() {
+    const sysSelect = document.getElementById('mission-sys-select');
+    const planetSelect = document.getElementById('mission-planet-select');
+    const cisEl = document.getElementById('mission-cis');
+    const distEl = document.getElementById('mission-distance');
+    const timeEl = document.getElementById('mission-flight-time');
+    const arrImg = document.getElementById('mission-arr-img');
+    const arrLabel = document.getElementById('mission-arr-label');
+
+    if (sysSelect) {
+      sysSelect.onchange = function () {
+        const selectedStar = this.value;
+        if (planetSelect) {
+          planetSelect.innerHTML = '<option value="">-- Select Planet --</option>';
+          planetSelect.disabled = true;
+        }
+        if (cisEl) { cisEl.textContent = '--'; cisEl.style.color = '#4da6ff'; }
+        if (distEl) distEl.textContent = '--';
+        if (timeEl) timeEl.textContent = '--';
+        if (arrImg) { arrImg.style.display = 'none'; arrImg.src = ''; }
+        if (arrLabel) arrLabel.textContent = 'TARGET';
+
+        if (selectedStar && window.MissionSelectPlanet && planetSelect) {
+          const planetsInSystem = window.MissionSelectPlanet.filter(p => p.star === selectedStar);
+          planetsInSystem.forEach(p => {
+            planetSelect.add(new Option(p.planet, p.planet));
+          });
+          planetSelect.disabled = false;
+        }
+      };
+    }
+
+    if (planetSelect) {
+      planetSelect.onchange = function () {
+        const selectedPlanetName = this.value;
+        const currentStar = sysSelect ? sysSelect.value : '';
+
+        if (selectedPlanetName && currentStar && window.MissionSelectPlanet) {
+          const planetData = window.MissionSelectPlanet.find(p => p.star === currentStar && p.planet === selectedPlanetName);
+          if (planetData) {
+            if (cisEl) {
+              cisEl.textContent = planetData.cis || 'N/A';
+              cisEl.style.color = getCISColor(planetData.cisValue);
+            }
+            if (distEl) distEl.textContent = planetData.distance || '--';
+            if (timeEl) timeEl.textContent = convertToCompactTime(planetData.flightTime);
+            if (arrLabel) arrLabel.textContent = planetData.planet.toUpperCase();
+            if (arrImg && planetData.img) {
+              arrImg.src = planetData.img;
+              arrImg.style.display = 'block';
+            }
+          }
+        } else {
+          if (cisEl) { cisEl.textContent = '--'; cisEl.style.color = '#4da6ff'; }
+          if (distEl) distEl.textContent = '--';
+          if (timeEl) timeEl.textContent = '--';
+          if (arrImg) { arrImg.style.display = 'none'; arrImg.src = ''; }
+          if (arrLabel) arrLabel.textContent = 'TARGET';
+        }
+      };
+    }
+  }
+
   // === 1. ЛОГИКА АВТОРИЗАЦИИ И ПЕРЕАДРЕСАЦИИ ===
+
   function initDashboard() {
     let userDataStr = sessionStorage.getItem('currentUser');
     if (!userDataStr) {
@@ -1370,7 +1543,7 @@
     // ДЕФОЛТНЫЙ ТЕКСТ (будет перекрыт в restorePageState если есть ключ)
     const telemetry = document.getElementById('dashboard-telemetry');
     if (telemetry) {
-      telemetry.innerHTML = `> <span class="telemetry-cassan">CASSAN</span><span class="telemetry-dra">DRA</span>: <span style="color: #2ecc71;">${callsign}, SYSTEMS NOMINAL. AWAITING MISSION PARAMETERS.</span>`;
+      telemetry.innerHTML = `> <span class="telemetry-cassan">CASSAN</span><span class="telemetry-dra">DRA</span>: <span style="color: #2ecc71;">${callsign}, SYSTEMS NOMINAL. STANDING BY.</span>`;
     }
   }
 
@@ -1403,6 +1576,7 @@
   }
 
   // === 3. УНИВЕРСАЛЬНАЯ МОДАЛКА: ОТКРЫТИЕ ===
+  // === 3. УНИВЕРСАЛЬНАЯ МОДАЛКА: ОТКРЫТИЕ ===
   function openMissionModal(stepNumber) {
     const modalBackdrop = document.getElementById('mission-modal-backdrop');
     const modalContainer = document.getElementById('mission-modal');
@@ -1414,49 +1588,206 @@
 
     // Сброс состояния модалки
     modalContainer.classList.remove('no-close-btn-card-1');
+    modalContainer.classList.remove('no-close-btn-card-2');
     if (externalTitle) externalTitle.style.display = 'none';
     if (internalHeader) internalHeader.style.display = 'flex';
     if (internalTitle) internalTitle.style.display = 'block';
 
-    // Сброс кнопки на Accept
+    // Сброс кнопки на Accept и бэкапов
     if (acceptBtn) acceptBtn.textContent = 'Accept';
-    editModeBackup = null; // Сбрасываем бэкап
+    editModeBackupCard1 = null;
+    editModeBackupCard2 = null;
 
     modalBackdrop.classList.add('active');
     modalContainer.classList.add('active');
 
-    // Проверяем, есть ли сохранённые данные для этой карты
-    const storageKey = `DestinationCard${stepNumber}`;
-    const savedData = sessionStorage.getItem(storageKey);
-    const isEditMode = savedData !== null;
-
+    // === ЛОГИКА ДЛЯ КАРТЫ 1 ===
     if (stepNumber === 1) {
       if (externalTitle) externalTitle.style.display = 'block';
       modalContainer.classList.add('no-close-btn-card-1');
 
+      // Восстанавливаем исходную структуру modalBody для карты 1
+      if (modalBody && originalModalBodyHTML) {
+        modalBody.innerHTML = originalModalBodyHTML;
+        attachSelectHandlers(); // <-- ДОБАВИТЬ ВОТ ЭТУ СТРОКУ
+      }
+
+      // Проверяем, есть ли сохранённые данные
+      const savedData = sessionStorage.getItem('DestinationCard1');
+      const isEditMode = savedData !== null;
+
       // Если есть данные — меняем текст кнопки на Save и сохраняем бэкап
       if (isEditMode) {
         if (acceptBtn) acceptBtn.textContent = 'Save';
-
-        // Сохраняем исходные значения для восстановления при Cancel
         const sysSelect = document.getElementById('mission-sys-select');
         const planetSelect = document.getElementById('mission-planet-select');
-        editModeBackup = {
+        editModeBackupCard1 = {
           sys: sysSelect?.value || '',
           planet: planetSelect?.value || ''
         };
       }
 
       setupCard1Modal(isEditMode);
-    } else {
-      if (internalTitle) internalTitle.textContent = `Card ${stepNumber}`;
-      if (modalBody) {
-        modalBody.innerHTML = `<p style="text-align:center; color: #8a94b8; margin-top: 10vmin;">Content for Card ${stepNumber} is under construction.</p>`;
-      }
 
-      // Для карт 2-5 тоже меняем текст кнопки если есть данные
+      // Если режим редактирования — вручную заполняем данные
+      if (isEditMode) {
+        const savedDataStr = sessionStorage.getItem('DestinationCard1');
+        if (savedDataStr) {
+          try {
+            const savedData = JSON.parse(savedDataStr);
+
+            // Ждем немного, чтобы DOM обновился
+            setTimeout(() => {
+              const sysSelect = document.getElementById('mission-sys-select');
+              const planetSelect = document.getElementById('mission-planet-select');
+
+              // 1. Сначала устанавливаем систему
+              if (sysSelect && savedData.star) {
+                sysSelect.value = savedData.star;
+
+                // 2. Заполняем список планет для этой системы
+                if (window.MissionSelectPlanet) {
+                  const planetsInSystem = window.MissionSelectPlanet.filter(p => p.star === savedData.star);
+
+                  if (planetSelect) {
+                    planetSelect.innerHTML = '<option value="">-- Select Planet --</option>';
+                    planetsInSystem.forEach(p => {
+                      planetSelect.add(new Option(p.planet, p.planet));
+                    });
+                    planetSelect.disabled = false;
+                  }
+                }
+              }
+
+              // 3. Теперь выбираем планету
+              if (planetSelect && savedData.planet) {
+                planetSelect.value = savedData.planet;
+              }
+
+              // 4. Вручную обновляем инфо-блок
+              const cisEl = document.getElementById('mission-cis');
+              const distEl = document.getElementById('mission-distance');
+              const timeEl = document.getElementById('mission-flight-time');
+              const arrImg = document.getElementById('mission-arr-img');
+              const arrLabel = document.getElementById('mission-arr-label');
+
+              if (cisEl) {
+                cisEl.textContent = savedData.cis || '--';
+                cisEl.style.color = getCISColor(savedData.cisValue);
+              }
+              if (distEl) distEl.textContent = savedData.distance || '--';
+              if (timeEl) timeEl.textContent = convertToCompactTime(savedData.flightTime);
+
+              if (arrLabel) arrLabel.textContent = savedData.planet.toUpperCase();
+              if (arrImg && savedData.img) {
+                arrImg.src = savedData.img;
+                arrImg.style.display = 'block';
+              }
+            }, 100);
+
+          } catch (e) {
+            console.error('Failed to restore edit data', e);
+          }
+        }
+      }
+    }
+
+    // === ЛОГИКА ДЛЯ КАРТЫ 2 ===
+    else if (stepNumber === 2) {
+      if (internalTitle) internalTitle.textContent = 'Mission Directive';
+      modalContainer.classList.add('no-close-btn-card-2');
+
+      // Проверяем, есть ли сохраненные данные (режим редактирования)
+      const savedDirectiveData = sessionStorage.getItem('DirectiveCard2');
+      const isEditMode = savedDirectiveData !== null;
+
+      // Если редактируем, меняем кнопку на Save
       if (isEditMode && acceptBtn) {
         acceptBtn.textContent = 'Save';
+      }
+
+      if (modalBody) {
+        modalBody.innerHTML = `
+          <div class="directive-schema-flex">
+            <!-- Шар 1 + подпись: Orbital -->
+            <div class="directive-point">
+              <div class="route-circle-card-1 empty-sphere-blue">
+                <img src="assets/mission-control/orbital.svg" alt="Orbital" class="planet-img">
+              </div>
+              <div class="directive-label">ORBITAL</div>
+            </div>
+
+            <!-- Стрелка 1 -->
+            <div class="directive-arrow">
+              <svg width="8vmin" height="3vmin" viewBox="0 0 60 20">
+                <line x1="0" y1="10" x2="50" y2="10" stroke="#4da6ff" stroke-width="2" stroke-dasharray="4,2" />
+                <polygon points="50,5 60,10 50,15" fill="#4da6ff" />
+              </svg>
+            </div>
+
+            <!-- Шар 2 + подпись: Expedition -->
+            <div class="directive-point">
+              <div class="route-circle-card-1 empty-sphere-blue">
+                <img src="assets/mission-control/expedition.svg" alt="Expedition" class="planet-img">
+              </div>
+              <div class="directive-label">EXPEDITION</div>
+            </div>
+
+            <!-- Стрелка 2 -->
+            <div class="directive-arrow">
+              <svg width="8vmin" height="3vmin" viewBox="0 0 60 20">
+                <line x1="0" y1="10" x2="50" y2="10" stroke="#4da6ff" stroke-width="2" stroke-dasharray="4,2" />
+                <polygon points="50,5 60,10 50,15" fill="#4da6ff" />
+              </svg>
+            </div>
+
+            <!-- Шар 3 + подпись: Colonization -->
+            <div class="directive-point">
+              <div class="route-circle-card-1 empty-sphere-blue">
+                <img src="assets/mission-control/colonization.svg" alt="Colonization" class="planet-img">
+              </div>
+              <div class="directive-label">COLONIZATION</div>
+            </div>
+          </div>
+        `;
+
+        const directivePoints = modalBody.querySelectorAll('.directive-point');
+        let selectedDirective = null;
+
+        directivePoints.forEach(point => {
+          point.style.cursor = 'pointer';
+          point.addEventListener('click', function () {
+            directivePoints.forEach(p => {
+              const circle = p.querySelector('.route-circle-card-1');
+              if (circle) circle.classList.remove('directive-selected');
+            });
+
+            const circle = this.querySelector('.route-circle-card-1');
+            if (circle) circle.classList.add('directive-selected');
+
+            const label = this.querySelector('.directive-label');
+            selectedDirective = label ? label.textContent.toLowerCase() : null;
+          });
+        });
+
+        // === НОВОЕ: Подсвечиваем ранее выбранный шар при редактировании ===
+        if (isEditMode) {
+          try {
+            const parsedData = JSON.parse(savedDirectiveData);
+            const targetLabel = parsedData.directive.toUpperCase();
+
+            directivePoints.forEach(point => {
+              const label = point.querySelector('.directive-label');
+              if (label && label.textContent === targetLabel) {
+                const circle = point.querySelector('.route-circle-card-1');
+                if (circle) circle.classList.add('directive-selected');
+              }
+            });
+          } catch (e) {
+            console.error('Failed to parse DirectiveCard2 for edit mode', e);
+          }
+        }
+
       }
     }
   }
@@ -1469,18 +1800,17 @@
     const isSaveMode = acceptBtn && acceptBtn.textContent === 'Save';
 
     // Если закрываем в режиме редактирования (Save) — восстанавливаем исходные значения
-    if (isSaveMode && editModeBackup) {
+    if (isSaveMode && editModeBackupCard1) {
       const sysSelect = document.getElementById('mission-sys-select');
       const planetSelect = document.getElementById('mission-planet-select');
 
-      if (sysSelect) sysSelect.value = editModeBackup.sys;
+      if (sysSelect) sysSelect.value = editModeBackupCard1.sys;
       if (planetSelect) {
-        planetSelect.value = editModeBackup.planet;
-        // Триггерим change чтобы обновить инфо-блок
+        planetSelect.value = editModeBackupCard1.planet;
         planetSelect.dispatchEvent(new Event('change'));
       }
 
-      editModeBackup = null;
+      editModeBackupCard1 = null;
     }
 
     modalBackdrop.classList.remove('active');
@@ -1552,10 +1882,49 @@
   // === 6. ОБРАБОТКА КНОПКИ ACCEPT (С СОХРАНЕНИЕМ В SESSION STORAGE) ===
   // === 6. ОБРАБОТКА КНОПКИ ACCEPT/SAVE ===
   function handleAccept() {
+    const acceptBtn = document.getElementById('mission-modal-accept-btn');
+    const modalContainer = document.getElementById('mission-modal');
+    const isSaveMode = acceptBtn && acceptBtn.textContent === 'Save';
+
+    // === ПРОВЕРКА ДЛЯ КАРТЫ 2 (Mission Directive) — ПЕРВОЙ ===
+    if (modalContainer && modalContainer.classList.contains('no-close-btn-card-2')) {
+      const selectedCircle = document.querySelector('.directive-selected');
+      if (!selectedCircle) {
+        showError('Please select a mission directive.');
+        return;
+      }
+
+      const selectedLabel = selectedCircle.closest('.directive-point').querySelector('.directive-label');
+      const directive = selectedLabel ? selectedLabel.textContent.toLowerCase() : null;
+
+      // Сохраняем выбор
+      sessionStorage.setItem('DirectiveCard2', JSON.stringify({ directive }));
+
+      // Обновляем карту 2
+      updateCard2(directive);
+      checkCardsState();
+
+      // Обновляем телеметрию
+      let callsign = 'UNKNOWN';
+      try {
+        const userData = JSON.parse(sessionStorage.getItem('currentUser'));
+        callsign = userData.callsign ? userData.callsign.toUpperCase() : 'UNKNOWN';
+      } catch (e) { }
+
+      const telemetry = document.getElementById('dashboard-telemetry');
+      if (telemetry) {
+        telemetry.innerHTML = `> <span class="telemetry-cassan">CASSAN</span><span class="telemetry-dra">DRA</span>: <span style="color: #2ecc71;">${callsign}, DIRECTIVE CONFIRMED. MODULE 3 UNLOCKED.</span>`;
+      }
+
+      console.log(isSaveMode ? `✅ Mission Directive Updated: ${directive}` : `✅ Mission Directive Accepted: ${directive}`);
+
+      closeMissionModal();
+      return;
+    }
+
+    // === ПРОВЕРКА ДЛЯ КАРТЫ 1 (Mission Destination) ===
     const sys = document.getElementById('mission-sys-select')?.value;
     const planet = document.getElementById('mission-planet-select')?.value;
-    const acceptBtn = document.getElementById('mission-modal-accept-btn');
-    const isSaveMode = acceptBtn && acceptBtn.textContent === 'Save';
 
     // Проверка заполнения
     if (!sys || !planet) {
@@ -1566,13 +1935,14 @@
     const planetData = window.MissionSelectPlanet.find(p => p.star === sys && p.planet === planet);
 
     if (planetData) {
-      // Сохраняем в sessionStorage (перезаписываем если режим Save)
+      // 1. Сохраняем данные
       sessionStorage.setItem('DestinationCard1', JSON.stringify(planetData));
 
-      // Обновляем визуальную карточку
+      // 2. Обновляем визуал первой карты и разблокируем вторую
       updateCard1(planetData);
+      checkCardsState();
 
-      // Меняем телеметрию
+      // 3. Обновляем телеметрию
       let callsign = 'UNKNOWN';
       try {
         const userData = JSON.parse(sessionStorage.getItem('currentUser'));
@@ -1581,12 +1951,12 @@
 
       const telemetry = document.getElementById('dashboard-telemetry');
       if (telemetry) {
-        telemetry.innerHTML = `> <span class="telemetry-cassan">CASSAN</span><span class="telemetry-dra">DRA</span>: <span style="color: #2ecc71;">${callsign}, CHOOSE YOUR MISSION TARGET.</span>`;
+        telemetry.innerHTML = `> <span class="telemetry-cassan">CASSAN</span><span class="telemetry-dra">DRA</span>: <span style="color: #2ecc71;">${callsign}, CHOOSE YOUR MISSION DIRECTIVE.</span>`;
       }
 
-      checkCardsState();
-
       console.log(isSaveMode ? `✅ Mission Updated: System = ${sys}, Planet = ${planet}` : `✅ Mission Accepted: System = ${sys}, Planet = ${planet}`);
+
+      // 4. Закрываем модалку
       closeMissionModal();
     }
   }
@@ -1620,16 +1990,67 @@
     if (hint) hint.style.display = 'none';
   }
 
+  function updateCard2(directive) {
+    const card = document.querySelector('.wizard-card[data-step="2"]');
+    const title = document.getElementById('card-2-title');
+    const planetImg = document.getElementById('card-2-planet-img');
+    const planetName = document.getElementById('card-2-planet-name');
+    const directiveSubtitle = document.getElementById('card-2-directive-subtitle');
+    const status = document.getElementById('card-2-status');
+    const hint = card?.querySelector('.card-hint');
+
+    if (card) card.classList.add('active');
+    if (title) title.textContent = 'Mission Directive';
+
+    // Меняем иконку на выбранную
+    const iconMap = {
+      'orbital': 'assets/mission-control/orbital.svg',
+      'expedition': 'assets/mission-control/expedition.svg',
+      'colonization': 'assets/mission-control/colonization.svg'
+    };
+
+    if (planetImg && iconMap[directive]) {
+      planetImg.src = iconMap[directive];
+    }
+
+    // Показываем название директивы
+    if (planetName) {
+      planetName.textContent = directive.toUpperCase();
+      planetName.style.display = 'block';
+    }
+
+    // Показываем вторую строку (описание директивы)
+    const subtitleMap = {
+      'orbital': 'AUTOMATED PROBE',
+      'expedition': 'CREWED LANDING',
+      'colonization': 'PERMANENT SETTLEMENT'
+    };
+
+    if (directiveSubtitle) {
+      directiveSubtitle.textContent = subtitleMap[directive] || '';
+      directiveSubtitle.style.display = 'block';
+    }
+
+    // Показываем статус TARGET ACQUIRED
+    if (status) {
+      status.style.display = 'flex';
+    }
+
+    // Скрываем подсказку
+    if (hint) hint.style.display = 'none';
+  }
+
   // === 8. ВОССТАНОВЛЕНИЕ СОСТОЯНИЯ ПРИ ЗАГРУЗКЕ ===
   function restorePageState() {
-    const savedDataStr = sessionStorage.getItem('DestinationCard1');
+    const card1Data = sessionStorage.getItem('DestinationCard1');
+    const card2Data = sessionStorage.getItem('DirectiveCard2');
     const missionContainer = document.getElementById('mission-container');
     const wizardContainer = document.getElementById('wizard-cards-container');
 
-    if (savedDataStr) {
-      // КАРТА 1 ЗАПОЛНЕНА — показываем карточки и правильный текст
+    if (card1Data) {
+      // КАРТА 1 ЗАПОЛНЕНА — показываем карточки
       try {
-        const savedData = JSON.parse(savedDataStr);
+        const savedData = JSON.parse(card1Data);
 
         if (missionContainer) missionContainer.style.display = 'none';
         if (wizardContainer) {
@@ -1642,27 +2063,50 @@
         updateCard1(savedData);
         checkCardsState();
 
-        // Устанавливаем правильный текст телеметрии
-        let callsign = 'UNKNOWN';
-        try {
-          const userData = JSON.parse(sessionStorage.getItem('currentUser'));
-          callsign = userData.callsign ? userData.callsign.toUpperCase() : 'UNKNOWN';
-        } catch (e) { }
+        // Проверяем карту 2
+        if (card2Data) {
+          try {
+            const directiveData = JSON.parse(card2Data);
+            updateCard2(directiveData.directive);
+            checkCardsState();
 
-        const telemetry = document.getElementById('dashboard-telemetry');
-        if (telemetry) {
-          telemetry.innerHTML = `> <span class="telemetry-cassan">CASSAN</span><span class="telemetry-dra">DRA</span>: <span style="color: #2ecc71;">${callsign}, CHOOSE YOUR MISSION TARGET.</span>`;
+            // Телеметрия после восстановления обеих карт
+            let callsign = 'UNKNOWN';
+            try {
+              const userData = JSON.parse(sessionStorage.getItem('currentUser'));
+              callsign = userData.callsign ? userData.callsign.toUpperCase() : 'UNKNOWN';
+            } catch (e) { }
+
+            const telemetry = document.getElementById('dashboard-telemetry');
+            if (telemetry) {
+              telemetry.innerHTML = `> <span class="telemetry-cassan">CASSAN</span><span class="telemetry-dra">DRA</span>: <span style="color: #2ecc71;">${callsign}, DIRECTIVE CONFIRMED. MODULE 3 UNLOCKED.</span>`;
+            }
+          } catch (e) {
+            console.error('Failed to parse DirectiveCard2 from sessionStorage', e);
+            sessionStorage.removeItem('DirectiveCard2');
+          }
+        } else {
+          // Только карта 1 заполнена
+          let callsign = 'UNKNOWN';
+          try {
+            const userData = JSON.parse(sessionStorage.getItem('currentUser'));
+            callsign = userData.callsign ? userData.callsign.toUpperCase() : 'UNKNOWN';
+          } catch (e) { }
+
+          const telemetry = document.getElementById('dashboard-telemetry');
+          if (telemetry) {
+            telemetry.innerHTML = `> <span class="telemetry-cassan">CASSAN</span><span class="telemetry-dra">DRA</span>: <span style="color: #2ecc71;">${callsign}, CHOOSE YOUR MISSION DIRECTIVE.</span>`;
+          }
         }
 
         console.log('✅ Page state restored from sessionStorage');
       } catch (e) {
         console.error('Failed to parse DestinationCard1 from sessionStorage', e);
         sessionStorage.removeItem('DestinationCard1');
-        // Если данные повреждены, показываем приветствие
         if (missionContainer) missionContainer.style.display = 'flex';
       }
     } else {
-      // КАРТА 1 НЕ ЗАПОЛНЕНА — показываем приветствие (дефолтный текст уже установлен в initDashboard)
+      // КАРТА 1 НЕ ЗАПОЛНЕНА — показываем приветствие
       if (missionContainer) missionContainer.style.display = 'flex';
       if (wizardContainer) {
         wizardContainer.style.display = 'none';
@@ -1674,6 +2118,7 @@
   // === ПРОВЕРКА СОСТОЯНИЯ КАРТ (РАЗБЛОКИРОВКА) ===
   function checkCardsState() {
     const card2 = document.querySelector('.wizard-card[data-step="2"]');
+    const card2Title = document.getElementById('card-2-title');
 
     // Проверяем, заполнена ли карта 1
     const card1Data = sessionStorage.getItem('DestinationCard1');
@@ -1683,18 +2128,36 @@
       card2.classList.remove('placeholder');
       card2.classList.add('card-2-unlocked');
 
-      // Меняем подсказку на "Tap to begin"
-      const hint = card2.querySelector('.card-hint');
-      if (hint) {
-        hint.textContent = '👆 Tap to begin';
-        hint.style.display = 'flex';
+      // Меняем заголовок на Mission Directive
+      if (card2Title) card2Title.textContent = 'Mission Directive';
+
+      // Показываем подсказку только если карта 2 ещё не заполнена
+      const card2Data = sessionStorage.getItem('DirectiveCard2');
+      if (!card2Data) {
+        const hint = card2.querySelector('.card-hint');
+        if (hint) {
+          hint.textContent = '👆 Tap to begin';
+          hint.style.display = 'flex';
+        }
       }
+
     } else {
       // Карта 1 не заполнена — блокируем карту 2
       if (card2) {
         card2.classList.add('placeholder');
         card2.classList.remove('card-2-unlocked');
       }
+      // Возвращаем заголовок CLASSIFIED
+      if (card2Title) card2Title.textContent = 'CLASSIFIED';
+
+      // Скрываем подсказку и показываем замок
+      const hint = card2?.querySelector('.card-hint');
+      const lockIcon = card2?.querySelector('.card-lock-icon');
+      if (hint) {
+        hint.textContent = 'Locked';
+        hint.style.display = 'none';
+      }
+      if (lockIcon) lockIcon.style.display = 'block';
     }
   }
 
@@ -1713,9 +2176,13 @@
 
   // === 10. ИНИЦИАЛИЗАЦИЯ СОБЫТИЙ ПРИ ЗАГРУЗКЕ ===
   document.addEventListener('DOMContentLoaded', () => {
-    initDashboard();
+    // Сохраняем исходную структуру modalBody для карты 1
+    const modalBody = document.getElementById('mission-modal-body');
+    if (modalBody) {
+      originalModalBodyHTML = modalBody.innerHTML;
+    }
 
-    // ВОССТАНАВЛИВАЕМ СОСТОЯНИЕ СТРАНИЦЫ (если есть сохранённые данные)
+    initDashboard();
     restorePageState();
 
     // Клик по карточкам
@@ -1724,7 +2191,7 @@
       card.addEventListener('click', function () {
         if (this.classList.contains('placeholder')) return;
         const step = parseInt(this.getAttribute('data-step'), 10);
-        openMissionModal(step); // Просто открываем, проверка внутри функции
+        openMissionModal(step);
       });
     });
 
@@ -1736,70 +2203,8 @@
       });
     }
 
-    // ЕДИНОРАЗОВАЯ инициализация событий селектов
-    const sysSelect = document.getElementById('mission-sys-select');
-    const planetSelect = document.getElementById('mission-planet-select');
-    const cisEl = document.getElementById('mission-cis');
-    const distEl = document.getElementById('mission-distance');
-    const timeEl = document.getElementById('mission-flight-time');
-    const arrImg = document.getElementById('mission-arr-img');
-    const arrLabel = document.getElementById('mission-arr-label');
-
-    if (sysSelect) {
-      sysSelect.onchange = function () {
-        const selectedStar = this.value;
-        if (planetSelect) {
-          planetSelect.innerHTML = '<option value="">-- Select Planet --</option>';
-          planetSelect.disabled = true;
-        }
-
-        if (cisEl) { cisEl.textContent = '--'; cisEl.style.color = '#4da6ff'; }
-        if (distEl) distEl.textContent = '--';
-        if (timeEl) timeEl.textContent = '--';
-        if (arrImg) { arrImg.style.display = 'none'; arrImg.src = ''; }
-        if (arrLabel) arrLabel.textContent = 'TARGET';
-
-        if (selectedStar && window.MissionSelectPlanet && planetSelect) {
-          const planetsInSystem = window.MissionSelectPlanet.filter(p => p.star === selectedStar);
-          planetsInSystem.forEach(p => {
-            planetSelect.add(new Option(p.planet, p.planet));
-          });
-          planetSelect.disabled = false;
-        }
-      };
-    }
-
-    if (planetSelect) {
-      planetSelect.onchange = function () {
-        const selectedPlanetName = this.value;
-        const currentStar = sysSelect ? sysSelect.value : '';
-
-        if (selectedPlanetName && currentStar && window.MissionSelectPlanet) {
-          const planetData = window.MissionSelectPlanet.find(p => p.star === currentStar && p.planet === selectedPlanetName);
-
-          if (planetData) {
-            if (cisEl) {
-              cisEl.textContent = planetData.cis || 'N/A';
-              cisEl.style.color = getCISColor(planetData.cisValue);
-            }
-            if (distEl) distEl.textContent = planetData.distance || '--';
-            if (timeEl) timeEl.textContent = convertToCompactTime(planetData.flightTime);
-
-            if (arrLabel) arrLabel.textContent = planetData.planet.toUpperCase();
-            if (arrImg && planetData.img) {
-              arrImg.src = planetData.img;
-              arrImg.style.display = 'block';
-            }
-          }
-        } else {
-          if (cisEl) { cisEl.textContent = '--'; cisEl.style.color = '#4da6ff'; }
-          if (distEl) distEl.textContent = '--';
-          if (timeEl) timeEl.textContent = '--';
-          if (arrImg) { arrImg.style.display = 'none'; arrImg.src = ''; }
-          if (arrLabel) arrLabel.textContent = 'TARGET';
-        }
-      };
-    }
+    // Вызываем функцию привязки обработчиков при первой загрузке
+    attachSelectHandlers();
   });
 </script>
 
