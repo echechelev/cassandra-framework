@@ -1,4 +1,4 @@
-<img width="245" height="327" alt="image" src="https://github.com/user-attachments/assets/7ab9bb41-00f2-4142-af9d-b9c993bf1898" /><p align="center">
+<p align="center">
   <img src="https://raw.githubusercontent.com/echechelev/cassandra-framework/main/assets/evknopia-banner.png" alt="Cassandra Framework" width="300">
 </p>
 
@@ -75,7 +75,6 @@
 | **test_signup** | ✅ Completed | Регистрация, валидация полей, обработка ошибок |
 | **test_star_info** | ✅ Completed | Детальная информация о звездах |
 | **test_star_system** | ✅ Completed | Планетарные системы, орбиты |
-
 
 
 ---
