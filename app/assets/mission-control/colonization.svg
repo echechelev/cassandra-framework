@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <!-- Темный фон -->
+  <rect x="0" y="0" width="64" height="64" rx="6" fill="#0b1021"/>
+  
+  <!-- Поверхность планеты (дуга) -->
+  <path d="M 0 50 Q 32 42 64 50 L 64 64 L 0 64 Z" fill="#1a5fa8" opacity="0.3"/>
+  
+  <!-- Стебель -->
+  <path d="M 32 50 Q 32 35 32 25" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round"/>
+  
+  <!-- Левый лист -->
+  <path d="M 32 38 Q 16 38 14 28 Q 26 28 32 38 Z" fill="#4da6ff" stroke="#1a5fa8" stroke-width="1.5" stroke-linejoin="round"/>
+  
+  <!-- Правый лист -->
+  <path d="M 32 28 Q 48 28 50 18 Q 38 18 32 28 Z" fill="#4da6ff" stroke="#1a5fa8" stroke-width="1.5" stroke-linejoin="round"/>
+  
+  <!-- Верхний лист (почка) -->
+  <path d="M 32 25 Q 24 14 32 8 Q 40 14 32 25 Z" fill="#ffffff" stroke="#1a5fa8" stroke-width="1.5" stroke-linejoin="round"/>
+  
+  <!-- Корни -->
+  <path d="M 32 50 Q 28 54 24 56" fill="none" stroke="#1a5fa8" stroke-width="1.5" stroke-linecap="round"/>
+  <path d="M 32 50 Q 36 54 40 56" fill="none" stroke="#1a5fa8" stroke-width="1.5" stroke-linecap="round"/>
+</svg>
