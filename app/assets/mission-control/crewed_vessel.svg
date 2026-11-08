@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <!-- Тёмный космический фон -->
+  <rect x="0" y="0" width="64" height="64" rx="6" fill="#0b1021"/>
+  
+  <!-- Левая панель-радиатор -->
+  <rect x="6" y="28" width="16" height="14" rx="1.5" fill="#ffffff" stroke="#1a5fa8" stroke-width="2"/>
+  <line x1="14" y1="28" x2="14" y2="42" stroke="#1a5fa8" stroke-width="1.5"/>
+  
+  <!-- Правая панель-радиатор -->
+  <rect x="42" y="28" width="16" height="14" rx="1.5" fill="#4da6ff" stroke="#1a5fa8" stroke-width="2"/>
+  <line x1="50" y1="28" x2="50" y2="42" stroke="#1a5fa8" stroke-width="1.5"/>
+
+  <!-- Основной корпус (цилиндр с обтекателем) -->
+  <path d="M 24 26 Q 32 12 40 26 L 40 46 Q 40 52 32 52 Q 24 52 24 46 Z" fill="#ffffff" stroke="#1a5fa8" stroke-width="2.5"/>
+  
+  <!-- Большой командный иллюминатор -->
+  <circle cx="32" cy="32" r="4" fill="#4da6ff" stroke="#1a5fa8" stroke-width="2"/>
+  <circle cx="33.5" cy="30.5" r="1.2" fill="#ffffff"/> <!-- блик -->
+  
+  <!-- Стыковочный штырь сверху -->
+  <line x1="32" y1="16" x2="32" y2="12" stroke="#1a5fa8" stroke-width="2"/>
+  <circle cx="32" cy="11" r="1.5" fill="#4da6ff"/>
+
+  <!-- Маршевый двигатель снизу -->
+  <path d="M 26 48 L 24 56 L 40 56 L 38 48 Z" fill="#4da6ff" stroke="#1a5fa8" stroke-width="2"/>
+  <path d="M 29 50 L 32 58 L 35 50 Z" fill="#ffffff"/> <!-- свечение -->
+</svg>
