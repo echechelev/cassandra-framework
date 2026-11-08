@@ -991,7 +991,7 @@ window.CisPlanet = [
 //#region 7️⃣ 🚀 ДАННЫЕ ДЛЯ MISSION CONTROL
 // ========================================================================
 
-window.MissionSelectPlanet = [
+window.DestinationCard1 = [
 
   // --- PROXIMA CENTAURI SYSTEM ---
   {
@@ -1000,7 +1000,8 @@ window.MissionSelectPlanet = [
     cis: "50.6%",
     cisValue: 50.6,
     distance: "4.24 ly",
-    flightTime: "50 years 5 months and 14 days",
+    speed: "0.5c",
+    flightTime: "10 years 1 month and 3 days",
     img: "assets/alpha-centauri-a/proxima-b-max.jpg",
     scanned: false
   },
@@ -1010,7 +1011,8 @@ window.MissionSelectPlanet = [
     cis: "39.4%",
     cisValue: 39.4,
     distance: "4.24 ly",
-    flightTime: "50 years 5 months and 14 days",
+    speed: "0.5c",
+    flightTime: "10 years 1 month and 3 days",
     img: "assets/alpha-centauri-a/proxima-c-max.jpg",
     scanned: false
   },
@@ -1020,7 +1022,8 @@ window.MissionSelectPlanet = [
     cis: "31.1%",
     cisValue: 31.1,
     distance: "4.24 ly",
-    flightTime: "50 years 5 months and 14 days",
+    speed: "0.5c",
+    flightTime: "10 years 1 month and 3 days",
     img: "assets/alpha-centauri-a/proxima-d-max.jpg",
     scanned: false
   },
@@ -1032,7 +1035,8 @@ window.MissionSelectPlanet = [
     cis: "23.8%",
     cisValue: 23.8,
     distance: "10.5 ly",
-    flightTime: "120 years 4 months and 1 day",
+    speed: "0.5c",
+    flightTime: "24 years 1 months and 24 days",
     img: "assets/epsilon-eridani/epsilon-eridani-c-max.jpg",
     scanned: false
   },
@@ -1044,7 +1048,8 @@ window.MissionSelectPlanet = [
     cis: "65.0%",
     cisValue: 65.0,
     distance: "11.9 ly",
-    flightTime: "137 years 4 months and 23 days",
+    speed: "0.5c",
+    flightTime: "27 years 5 months and 23 days",
     img: "assets/tau-ceti/tau-ceti-e-max.jpg",
     scanned: false
   },
@@ -1054,7 +1059,8 @@ window.MissionSelectPlanet = [
     cis: "78.8%",
     cisValue: 78.8,
     distance: "11.9 ly",
-    flightTime: "137 years 4 months and 23 days",
+    speed: "0.5c",
+    flightTime: "27 years 5 months and 23 days",
     img: "assets/tau-ceti/tau-ceti-f-max.jpg",
     scanned: false
   },
@@ -1064,7 +1070,8 @@ window.MissionSelectPlanet = [
     cis: "51.5%",
     cisValue: 51.5,
     distance: "11.9 ly",
-    flightTime: "137 years 4 months and 23 days",
+    speed: "0.5c",
+    flightTime: "27 years 5 months and 23 days",
     img: "assets/tau-ceti/tau-ceti-g-max.jpg",
     scanned: false
   },
@@ -1074,7 +1081,8 @@ window.MissionSelectPlanet = [
     cis: "62.8%",
     cisValue: 62.8,
     distance: "11.9 ly",
-    flightTime: "137 years 4 months and 23 days",
+    speed: "0.5c",
+    flightTime: "27 years 5 months and 23 days",
     img: "assets/tau-ceti/tau-ceti-h-max.jpg",
     scanned: false
   },
@@ -1086,7 +1094,8 @@ window.MissionSelectPlanet = [
     cis: "55.6%",
     cisValue: 55.6,
     distance: "12.5 ly",
-    flightTime: "143 years 4 months and 25 days",
+    speed: "0.5c",
+    flightTime: "28 years 8 months and 5 days",
     img: "assets/teegarden/teegarden-b-max.jpg",
     scanned: false
   },
@@ -1096,7 +1105,8 @@ window.MissionSelectPlanet = [
     cis: "46.6%",
     cisValue: 46.6,
     distance: "12.5 ly",
-    flightTime: "143 years 4 months and 25 days",
+    speed: "0.5c",
+    flightTime: "28 years 8 months and 5 days",
     img: "assets/teegarden/teegarden-c-max.jpg",
     scanned: false
   },
@@ -1108,7 +1118,8 @@ window.MissionSelectPlanet = [
     cis: "36.6%",
     cisValue: 36.6,
     distance: "39.5 ly",
-    flightTime: "459 years 1 month and 19 days",
+    speed: "0.5c",
+    flightTime: "91 years 9 months and 28 days",
     img: "assets/trappist-1/trappist-1b-max.jpg",
     scanned: false
   },
@@ -1118,7 +1129,8 @@ window.MissionSelectPlanet = [
     cis: "42.4%",
     cisValue: 42.4,
     distance: "39.5 ly",
-    flightTime: "459 years 1 month and 19 days",
+    speed: "0.5c",
+    flightTime: "91 years 9 months and 28 days",
     img: "assets/trappist-1/trappist-1c-max.jpg",
     scanned: false
   },
@@ -1128,7 +1140,8 @@ window.MissionSelectPlanet = [
     cis: "57.2%",
     cisValue: 57.2,
     distance: "39.5 ly",
-    flightTime: "459 years 1 month and 19 days",
+    speed: "0.5c",
+    flightTime: "91 years 9 months and 28 days",
     img: "assets/trappist-1/trappist-1d-max.jpg",
     scanned: false
   },
@@ -1138,7 +1151,8 @@ window.MissionSelectPlanet = [
     cis: "77.0%",
     cisValue: 77.0,
     distance: "39.5 ly",
-    flightTime: "459 years 1 month and 19 days",
+    speed: "0.5c",
+    flightTime: "91 years 9 months and 28 days",
     img: "assets/trappist-1/trappist-1e-max.jpg",
     scanned: false
   },
@@ -1148,7 +1162,8 @@ window.MissionSelectPlanet = [
     cis: "70.5%",
     cisValue: 70.5,
     distance: "39.5 ly",
-    flightTime: "459 years 1 month and 19 days",
+    speed: "0.5c",
+    flightTime: "91 years 9 months and 28 days",
     img: "assets/trappist-1/trappist-1f-max.jpg",
     scanned: false
   },
@@ -1158,7 +1173,8 @@ window.MissionSelectPlanet = [
     cis: "62.5%",
     cisValue: 62.5,
     distance: "39.5 ly",
-    flightTime: "459 years 1 month and 19 days",
+    speed: "0.5c",
+    flightTime: "91 years 9 months and 28 days",
     img: "assets/trappist-1/trappist-1g-max.jpg",
     scanned: false
   },
@@ -1168,7 +1184,8 @@ window.MissionSelectPlanet = [
     cis: "43.0%",
     cisValue: 43.0,
     distance: "39.5 ly",
-    flightTime: "459 years 1 month and 19 days",
+    speed: "0.5c",
+    flightTime: "91 years 9 months and 28 days",
     img: "assets/trappist-1/trappist-1h-max.jpg",
     scanned: false
   }
