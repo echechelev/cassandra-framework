@@ -1191,3 +1191,67 @@ window.DestinationCard1 = [
   }
 ];
 
+window.TypeVesselCard3 = [
+  {
+    shipType: 'ORBITAL',
+    shipName: 'HORIZON',
+    img: "assets/mission-control/horizon_vessel.svg",
+
+    driveType: [
+      {
+        name: 'ION DRIVE',
+        speed: 0.5,
+        needleAngle: 150,
+        description: "High-efficiency ion propulsion system using xenon gas acceleration. Provides stable thrust for long-duration orbital missions with minimal fuel consumption."
+      },
+      {
+        name: 'PLASMA DRIVE',
+        speed: 0.7,
+        needleAngle: 210,
+        description: "Advanced plasma thruster generating electromagnetic field acceleration. Delivers superior velocity for rapid interplanetary transit while maintaining crew safety."
+      },
+      {
+        name: 'ANTIMATTER PULSE',
+        speed: 0.9,
+        needleAngle: 270,
+        description: "Experimental antimatter containment reactor producing matter-annihilation thrust. Achieves near-light-speed capability for time-critical deep space operations."
+      }
+    ]
+  },
+
+  {
+    shipType: 'EXPEDITION',
+    shipName: 'POLARIS',
+    img: "assets/mission-control/polaris_vessel.svg",
+
+    driveType: [
+      {
+        name: 'ION DRIVE',
+        speed: 0.4,
+        needleAngle: 120,
+        description: "High-efficiency ion propulsion system using xenon gas acceleration. Provides stable thrust for long-duration orbital missions with minimal fuel consumption."
+      },
+      {
+        name: 'PLASMA DRIVE',
+        speed: 0.6,
+        needleAngle: 180,
+        description: "Advanced plasma thruster generating electromagnetic field acceleration. Delivers superior velocity for rapid interplanetary transit while maintaining crew safety."
+      }
+    ]
+  },
+
+  {
+    shipType: 'COLONIZATION',
+    shipName: 'PANGAEA',
+    img: "assets/mission-control/pangaea_vessel.svg",
+
+    driveType: [
+      {
+        name: 'GENESIS CORE',
+        speed: 0.3,
+        needleAngle: 90,
+        description: "Massive fusion reactor designed for generation ship propulsion. Prioritizes reliability and sustained low-speed travel for multi-decade colonization voyages."
+      }
+    ]
+  },
+];
