@@ -18,7 +18,7 @@
 ---
 
 <p align="center">
-  <img src="assets/cis-comparison.png" alt="Сравнение индексов ESI, PHI и CIS" width="800">
+  <img src="assets/cis-comparison.png" alt="Сравнение индексов ESI, PHI и CIS" width="500">
 </p>
 <p align="center"><i>Визуальное сравнение трёх подходов: ESI (физическое сходство), PHI (биологический потенциал) и CIS (инженерная пригодность для колонизации).</i></p>
 
