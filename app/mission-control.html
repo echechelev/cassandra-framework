@@ -1478,7 +1478,7 @@
             </div>
             <p class="mission-warning-card-1-text">
               <strong>Attention:</strong> The flight time shown is an approximate calculation based on an average speed
-              of 0.5c. The exact flight time will be calculated after selecting the vessel and propulsion system.
+              of 0.5c. The precise flight time will be available on the final Mission Calculation screen.
             </p>
           </div>
         </div>
@@ -1955,155 +1955,251 @@
 
       if (modalBody) {
         modalBody.innerHTML = `
-          < div style = "display: flex; align-items: flex-start; justify-content: center; gap: 6vmin; width: 100%; margin-top: 4vmin;" >
+          <!-- КАРТА 3: ГЛАВНЫЙ КОНТЕЙНЕР (ПОЛЯ + ШАР КОРАБЛЯ) -->
+          <div class="mission-bottom-row-card-1" style="margin-top: 2vmin; align-items: flex-start;">
+
+            <!-- КАРТА 3: ЛЕВАЯ КОЛОНКА (Тип и Имя корабля) -->
+            <div class="mission-selects-column-card-1" style="flex: 1; margin-top: -4vmin;">
+              <div class="mission-input-group-card-1">
+                <label>Vessel Type</label>
+                <div class="cosmic-select-card-1" id="vessel-type-display" style="cursor: default; display: flex; align-items: center; min-height: 3.5vmin; background-image: none;"></div>
+              </div>
+
+              <div class="mission-input-group-card-1">
+                <label>Vessel Name</label>
+                <div class="cosmic-select-card-1" id="vessel-name-display" style="cursor: default; display: flex; align-items: center; min-height: 3.5vmin; background-image: none;"></div>
+              </div>
+            </div>
+
+            <!-- КАРТА 3: ПРАВАЯ КОЛОНКА (ШАР 12vmin, стиль взят от Карты 1) -->
+            <div style="display: flex; flex-direction: column; align-items: center; padding-top: 1vmin; margin-top: -4vmin;">
+              <div class="route-circle-card-1" id="vessel-sphere-photo">
+                <img src="" alt="Vessel Photo" id="vessel-photo-img" style="display: none;">
+              </div>
+            </div>
+
+          </div>
+
+          <!-- КАРТА 3: ГОРИЗОНТАЛЬНАЯ ЛИНИЯ-РАЗДЕЛИТЕЛЬ -->
+          <div style="width: 100%; height: 0.1vmin; background: linear-gradient(90deg, transparent, rgba(77, 166, 255, 0.5), transparent); margin: 3vmin 0;"></div>
+
+          <!-- КАРТА 3: БЛОК ДВИГАТЕЛЕЙ (DRIVE SYSTEM) -->
+          <div class="mission-bottom-row-card-1" style="align-items: flex-start;">
             
-            <div id="vessel-options-container" style="
-              display: flex; 
-              flex-direction: column; 
-              gap: 1vmin; 
-              min-width: 25vmin;
-              margin-top: -7vmin;
-              margin-right: -4vmin;
-            ">
-              <label style="font-size: 1.2vmin; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.05vmin; margin-bottom: 0.5vmin; text-align: center; width: 100%; display: block;">Select Vessel</label>
-              
-              <div class="vessel-option" data-vessel="scout" data-icon="assets/mission-control/scout_vessel.svg" style="
-                background: rgba(5, 8, 22, 0.6);
-                border: 1px solid rgba(77, 166, 255, 0.3);
-                border-radius: 0.6vmin;
-                padding: 1vmin;
-                cursor: pointer;
-                transition: all 0.3s ease;
-                text-align: center;
-              ">
-                <span style="font-size: 1.2vmin; color: var(--text-main); font-weight: 600; text-transform: uppercase; letter-spacing: 0.05vmin;">SCOUT PROBE - Orbital</span>
+            <!-- КАРТА 3: ЛЕВАЯ КОЛОНКА (Тип двигателя + описание) -->
+            <div class="mission-selects-column-card-1" style="flex: 1; margin-top: -5vmin;">
+              <div class="mission-input-group-card-1">
+                <label>Drive Type</label>
+                <select class="cosmic-select-card-1" id="engine-type-select">
+                  <option value="" disabled selected>-- Select Drive Type --</option>
+                </select>
               </div>
 
-              <div class="vessel-option" data-vessel="crewed" data-icon="assets/mission-control/crewed_vessel.svg" style="
+              <!-- КАРТА 3: ИНФО-БЛОК ОПИСАНИЯ ДВИГАТЕЛЯ -->
+              <div id="card-3-engine-info-container" style="
+                width: 100%;
+                max-width: 65vmin;
+                margin-top: 1vmin;
                 background: rgba(5, 8, 22, 0.6);
                 border: 1px solid rgba(77, 166, 255, 0.3);
-                border-radius: 0.6vmin;
-                padding: 1vmin;
-                cursor: pointer;
-                transition: all 0.3s ease;
-                text-align: center;
+                border-radius: 0.8vmin;
+                padding: 2vmin;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                min-height: 14vmin;
+                box-sizing: border-box;
+                overflow: hidden;
+                box-shadow: inset 0 0 1vmin rgba(77, 166, 255, 0.1);
+                transition: all 0.4s ease;
               ">
-                <span style="font-size: 1.2vmin; color: var(--text-main); font-weight: 600; text-transform: uppercase; letter-spacing: 0.05vmin;">CREWED VESSEL - Landing</span>
-              </div>
-
-              <div class="vessel-option" data-vessel="colony" data-icon="assets/mission-control/colony_vessel.svg" style="
-                background: rgba(5, 8, 22, 0.6);
-                border: 1px solid rgba(77, 166, 255, 0.3);
-                border-radius: 0.6vmin;
-                padding: 1vmin;
-                cursor: pointer;
-                transition: all 0.3s ease;
-                text-align: center;
-              ">
-                <span style="font-size: 1.2vmin; color: var(--text-main); font-weight: 600; text-transform: uppercase; letter-spacing: 0.05vmin;">COLONY ARK - Relocation</span>
+                <p id="card-3-engine-info-text" style="
+                  font-size: 1.3vmin;
+                  color: #e8ecff;
+                  margin: 0;
+                  text-align: center;
+                  letter-spacing: 0.05vmin;
+                  line-height: 1.8;
+                  transition: opacity 0.3s ease;
+                ">
+                  Please select Drive Type
+                </p>
               </div>
             </div>
 
-            <div style="
-              display: flex; 
-              flex-direction: column; 
-              align-items: center; 
-              gap: 2vmin; 
-              min-width: 35vmin; 
-              position: relative; 
-              left: 2vmin;
-              top: -3.5vmin;
-            ">
-              <div class="route-circle-card-1" id="vessel-sphere" style="width: 12vmin; height: 12vmin; display: flex; align-items: center; justify-content: center; overflow: hidden;">
-                <img id="vessel-sphere-img" src="" alt="Vessel" style="width: 100%; height: 100%; object-fit: contain; display: none;">
+            <!-- КАРТА 3: ПРАВАЯ КОЛОНКА (Спидометр скорости света, шар 12vmin как верхний) -->
+            <div style="display: flex; flex-direction: column; align-items: center; margin-top: -1vmin;">
+              <div class="route-circle-card-1" id="engine-sphere-photo" style="width: 12vmin; height: 12vmin; position: relative; overflow: hidden;">
+                <svg viewBox="0 0 200 200" width="100%" height="100%">
+                  <!-- Цифры по дуге (увеличены пропорционально) -->
+                  <text x="47"    y="158"   font-size="24" fill="#e8ecff" text-anchor="middle" font-family="monospace">0</text>
+                  <text x="27.6"  y="124"   font-size="19" fill="#e8ecff" text-anchor="middle" font-family="monospace">0.1</text>
+                  <text x="27.6"  y="85"    font-size="19" fill="#e8ecff" text-anchor="middle" font-family="monospace">0.2</text>
+                  <text x="47"    y="52"    font-size="19" fill="#e8ecff" text-anchor="middle" font-family="monospace">0.3</text>
+                  <text x="80.6"  y="32"    font-size="19" fill="#e8ecff" text-anchor="middle" font-family="monospace">0.4</text>
+                  <text x="119.4" y="32"    font-size="19" fill="#e8ecff" text-anchor="middle" font-family="monospace">0.5</text>
+                  <text x="153"   y="52"    font-size="19" fill="#e8ecff" text-anchor="middle" font-family="monospace">0.6</text>
+                  <text x="172.4" y="85"    font-size="19" fill="#e8ecff" text-anchor="middle" font-family="monospace">0.7</text>
+                  <text x="172.4" y="124"   font-size="19" fill="#e8ecff" text-anchor="middle" font-family="monospace">0.8</text>
+                  <text x="153"   y="158"   font-size="24" fill="#ff4d4d" text-anchor="middle" font-family="monospace" font-weight="bold">0.9</text>
+
+                  <!-- Стрелка (сейчас указывает на 0) -->
+                  <line id="speed-needle" x1="100" y1="100" x2="64.6" y2="135.4" stroke="#4da6ff" stroke-width="3" stroke-linecap="round" style="transform-origin: 100px 100px; transition: transform 2.5s cubic-bezier(0.34, 1.56, 0.64, 1);"/>
+                  <circle cx="100" cy="100" r="5" fill="#0a0f28" stroke="#4da6ff" stroke-width="2"/>
+                </svg>
               </div>
-              <div class="route-label-card-1" id="vessel-name-label">VESSEL NAME</div>
+              <!-- КАРТА 3: ПОДПИСЬ ПОД ШАРОМ СПИДОМЕТРА -->
+              <div class="route-label-card-1" style="margin-top: 3vmin; font-size: 1vmin; letter-spacing: 0.1vmin;">SPEED OF LIGHT</div>
             </div>
 
-          </div >
-
-          <div style="
-            position: relative;
-            left: 0vmin;
-            top: 0vmin;
-            width: 100%;
-            margin-top: 2vmin;
-          ">
-            <div style="
-              background: rgba(5, 8, 22, 0.6);
-              border: 2px solid #d4a017;
-              border-radius: 0.8vmin;
-              padding: 2vmin;
-              display: flex;
-              align-items: flex-start;
-              gap: 1.5vmin;
-              box-shadow: 0 0 1vmin rgba(212, 160, 23, 0.2);
-            ">
-              <div style="
-                background: rgba(212, 160, 23, 0.15);
-                border-radius: 0.5vmin;
-                padding: 0.8vmin 1vmin;
-                flex-shrink: 0;
-              ">
-                <span style="font-size: 2vmin;">⚠️</span>
-              </div>
-              <p style="font-size: 1.4vmin; color: #ffffff; line-height: 1.6; margin: 0; text-align: left;">
-                <strong style="color: #d4a017;">Attention:</strong> The speed for all three vessels is set to 0.1c (≈30,000 km/s).
-                This is done for the most convenient demonstration of the flight and stable communication between Earth and the expedition.
-              </p>
-            </div>
           </div>
         `;
 
-        // Обработчики клика по полям
-        const vesselOptions = document.querySelectorAll('.vessel-option');
-        const vesselSphereImg = document.getElementById('vessel-sphere-img');
-        const vesselNameLabel = document.getElementById('vessel-name-label');
-
-        vesselOptions.forEach(option => {
-          option.addEventListener('click', function () {
-            vesselOptions.forEach(opt => {
-              opt.style.borderColor = 'rgba(77, 166, 255, 0.3)';
-              opt.style.background = 'rgba(5, 8, 22, 0.6)';
-              opt.style.boxShadow = 'none';
-            });
-
-            this.style.borderColor = 'rgba(77, 166, 255, 1)';
-            this.style.background = 'rgba(77, 166, 255, 0.15)';
-            this.style.boxShadow = '0 0 2vmin rgba(77, 166, 255, 0.5)';
-
-            // Сохраняем в ГЛОБАЛЬНУЮ переменную
-            selectedVessel = this.getAttribute('data-vessel');
-            const vesselIcon = this.getAttribute('data-icon');
-            const vesselDisplayName = this.querySelector('span').textContent.split(' - ')[0];
-
-            if (vesselSphereImg && vesselIcon) {
-              vesselSphereImg.src = vesselIcon;
-              vesselSphereImg.style.display = 'block';
-            }
-
-            if (vesselNameLabel) {
-              vesselNameLabel.textContent = vesselDisplayName;
-            }
-
-            console.log('Selected vessel:', selectedVessel, 'Icon:', vesselIcon);
-          });
-        });
-
-        // Если режим редактирования — восстанавливаем выбор
-        if (isEditMode && savedVesselData) {
+        // === КАРТА 3: АВТОЗАПОЛНЕНИЕ ДАННЫХ О КОРАБЛЕ ИЗ КАРТЫ 2 ===
+        const directiveDataStr = sessionStorage.getItem('DirectiveCard2');
+        if (directiveDataStr && window.TypeVesselCard3) {
           try {
-            const parsedData = JSON.parse(savedVesselData);
-            if (parsedData.vessel) {
-              const selectedOption = document.querySelector(`.vessel - option[data - vessel="${parsedData.vessel}"]`);
-              if (selectedOption) {
-                selectedOption.click();
+            const directiveData = JSON.parse(directiveDataStr);
+            const targetShipType = directiveData.directive.toUpperCase();
+
+            // Находим нужный корабль в нашей "БД"
+            const vesselData = window.TypeVesselCard3.find(v => v.shipType === targetShipType);
+
+            if (vesselData) {
+              // 1. Заполняем поле Тип корабля
+              const typeDisplay = document.getElementById('vessel-type-display');
+              if (typeDisplay) typeDisplay.textContent = vesselData.shipType;
+
+              // 2. Заполняем поле Имя корабля
+              const nameDisplay = document.getElementById('vessel-name-display');
+              if (nameDisplay) nameDisplay.textContent = vesselData.shipName;
+
+              // 3. Заполняем первый шар картинкой корабля
+              const vesselImg = document.getElementById('vessel-photo-img');
+              if (vesselImg && vesselData.img) {
+                vesselImg.src = vesselData.img;
+                vesselImg.style.display = 'block';
+              }
+
+              // 4. Заполняем селект доступными двигателями для этого корабля
+              const engineSelect = document.getElementById('engine-type-select');
+              if (engineSelect && vesselData.driveType) {
+                // Очищаем и оставляем только плейсхолдер
+                engineSelect.innerHTML = '<option value="" disabled selected>-- Select Drive Type --</option>';
+
+                // Добавляем опции из массива driveType
+                vesselData.driveType.forEach(drive => {
+                  const option = document.createElement('option');
+                  option.value = drive.name;
+                  option.textContent = drive.name;
+                  engineSelect.appendChild(option);
+                });
+
+                // 5. Обработчик выбора двигателя: подтягиваем описание + ЦВЕТОВАЯ ИНДИКАЦИЯ + СПИДОМЕТР
+                engineSelect.addEventListener('change', function () {
+                  const selectedDriveName = this.value;
+                  const selectedDrive = vesselData.driveType.find(d => d.name === selectedDriveName);
+                  const infoText = document.getElementById('card-3-engine-info-text');
+                  const infoContainer = document.getElementById('card-3-engine-info-container');
+                  const needle = document.getElementById('speed-needle');
+
+                  if (selectedDrive && infoText && infoContainer) {
+                    infoText.style.opacity = '0.3';
+
+                    setTimeout(() => {
+                      infoText.textContent = selectedDrive.description;
+                      infoText.style.opacity = '1';
+
+                      // 🎨 ЛОГИКА ЦВЕТОВОЙ ИНДИКАЦИИ ПО СКОРОСТИ
+                      let borderColor, outerShadow, innerShadow, bgColor;
+
+                      if (selectedDrive.speed <= 0.5) {
+                        // 🔵 Штатный режим (Синий)
+                        borderColor = 'rgba(77, 166, 255, 0.8)';
+                        outerShadow = 'rgba(77, 166, 255, 0.4)';
+                        innerShadow = 'rgba(77, 166, 255, 0.15)';
+                        bgColor = 'linear-gradient(135deg, rgba(5, 8, 22, 0.8), rgba(10, 20, 50, 0.9))';
+                      } else if (selectedDrive.speed <= 0.8) {
+                        // 🟡 Повышенная нагрузка (Желтый/Золотой)
+                        borderColor = 'rgba(255, 215, 0, 0.8)';
+                        outerShadow = 'rgba(255, 215, 0, 0.4)';
+                        innerShadow = 'rgba(255, 215, 0, 0.15)';
+                        bgColor = 'linear-gradient(135deg, rgba(22, 20, 5, 0.8), rgba(40, 35, 5, 0.9))';
+                      } else {
+                        // 🔴 Красная тревога (Красный, только 0.9)
+                        borderColor = 'rgba(255, 77, 77, 0.8)';
+                        outerShadow = 'rgba(255, 77, 77, 0.4)';
+                        innerShadow = 'rgba(255, 77, 77, 0.15)';
+                        bgColor = 'linear-gradient(135deg, rgba(22, 5, 5, 0.8), rgba(50, 10, 10, 0.9))';
+                      }
+
+                      infoContainer.style.borderColor = borderColor;
+                      infoContainer.style.boxShadow = `0 0 1.5vmin ${outerShadow}, inset 0 0 1.5vmin ${innerShadow}`;
+                      infoContainer.style.background = bgColor;
+
+                      // 🚀 ПОВОРОТ СТРЕЛКИ СПИДОМЕТРА (берем точный угол из data.js)
+                      if (needle && selectedDrive.needleAngle !== undefined) {
+                        needle.style.transform = `rotate(${selectedDrive.needleAngle}deg)`;
+                      }
+                    }, 200);
+                  }
+                });
               }
             }
           } catch (e) {
-            console.error('Failed to parse VesselCard3 for edit mode', e);
+            console.error('Failed to parse DirectiveCard2 for Card 3 auto-fill', e);
           }
         }
+      }
+    }
+
+    // Обработчики клика по полям
+    const vesselOptions = document.querySelectorAll('.vessel-option');
+    const vesselSphereImg = document.getElementById('vessel-sphere-img');
+    const vesselNameLabel = document.getElementById('vessel-name-label');
+
+    vesselOptions.forEach(option => {
+      option.addEventListener('click', function () {
+        vesselOptions.forEach(opt => {
+          opt.style.borderColor = 'rgba(77, 166, 255, 0.3)';
+          opt.style.background = 'rgba(5, 8, 22, 0.6)';
+          opt.style.boxShadow = 'none';
+        });
+
+        this.style.borderColor = 'rgba(77, 166, 255, 1)';
+        this.style.background = 'rgba(77, 166, 255, 0.15)';
+        this.style.boxShadow = '0 0 2vmin rgba(77, 166, 255, 0.5)';
+
+        // Сохраняем в ГЛОБАЛЬНУЮ переменную
+        selectedVessel = this.getAttribute('data-vessel');
+        const vesselIcon = this.getAttribute('data-icon');
+        const vesselDisplayName = this.querySelector('span').textContent.split(' - ')[0];
+
+        if (vesselSphereImg && vesselIcon) {
+          vesselSphereImg.src = vesselIcon;
+          vesselSphereImg.style.display = 'block';
+        }
+
+        if (vesselNameLabel) {
+          vesselNameLabel.textContent = vesselDisplayName;
+        }
+
+        console.log('Selected vessel:', selectedVessel, 'Icon:', vesselIcon);
+      });
+    });
+
+    // Если режим редактирования — восстанавливаем выбор
+    if (isEditMode && savedVesselData) {
+      try {
+        const parsedData = JSON.parse(savedVesselData);
+        if (parsedData.vessel) {
+          const selectedOption = document.querySelector(`.vessel - option[data - vessel="${parsedData.vessel}"]`);
+          if (selectedOption) {
+            selectedOption.click();
+          }
+        }
+      } catch (e) {
+        console.error('Failed to parse VesselCard3 for edit mode', e);
       }
     }
   }
@@ -2116,13 +2212,50 @@
 
     // === ЛОГИКА ДЛЯ КАРТЫ 3 (Mission Vessel) ===
     if (modalContainer && modalContainer.classList.contains('no-close-btn-card-3')) {
-      if (!selectedVessel) {
-        showError('Please select a mission vessel.');
+      const engineSelect = document.getElementById('engine-type-select');
+      const selectedDriveName = engineSelect ? engineSelect.value : '';
+
+      // Проверка: двигатель должен быть выбран
+      if (!selectedDriveName) {
+        showError('Please select a Drive Type.');
         return;
       }
 
-      sessionStorage.setItem('VesselCard3', JSON.stringify({ vessel: selectedVessel }));
-      updateCard3(selectedVessel);
+      // 1 & 2. Получаем Тип и Имя корабля из заполненных полей
+      const shipType = document.getElementById('vessel-type-display')?.textContent || '';
+      const shipName = document.getElementById('vessel-name-display')?.textContent || '';
+
+      // 4. Находим скорость выбранного двигателя в нашей "БД" (TypeVesselCard3)
+      let driveSpeed = 0;
+      const directiveDataStr = sessionStorage.getItem('DirectiveCard2');
+      if (directiveDataStr && window.TypeVesselCard3) {
+        try {
+          const directiveData = JSON.parse(directiveDataStr);
+          const targetShipType = directiveData.directive.toUpperCase();
+          const vesselData = window.TypeVesselCard3.find(v => v.shipType === targetShipType);
+
+          if (vesselData) {
+            const drive = vesselData.driveType.find(d => d.name === selectedDriveName);
+            if (drive) driveSpeed = drive.speed;
+          }
+        } catch (e) {
+          console.error('Error finding drive speed for save', e);
+        }
+      }
+
+      // Формируем итоговый объект
+      const vesselDataToSave = {
+        shipType: shipType,
+        shipName: shipName,
+        driveName: selectedDriveName,
+        speed: driveSpeed
+      };
+
+      // Сохраняем в sessionStorage под ключом VesselCard3
+      sessionStorage.setItem('VesselCard3', JSON.stringify(vesselDataToSave));
+
+      // Обновляем вид карточки и проверяем состояние
+      updateCard3(vesselDataToSave);
       checkCardsState();
 
       let callsign = 'UNKNOWN';
@@ -2136,7 +2269,7 @@
         telemetry.innerHTML = `> <span class="telemetry-cassan">CASSAN</span><span class="telemetry-dra">DRA</span>: <span style="color: #2ecc71;">${callsign}, VESSEL CONFIRMED. MODULE 4 UNLOCKED.</span>`;
       }
 
-      console.log(isSaveMode ? `✅ Vessel Updated: ${selectedVessel} ` : `✅ Vessel Accepted: ${selectedVessel} `);
+      console.log('✅ Vessel Saved:', vesselDataToSave);
       closeMissionModal();
       return;
     }
@@ -2277,7 +2410,7 @@
     if (hint) hint.style.display = 'none';
   }
 
-  function updateCard3(vessel) {
+  function updateCard3(vesselDataObj) {
     const card = document.querySelector('.wizard-card[data-step="3"]');
     const title = document.getElementById('card-3-title');
     const vesselImg = document.getElementById('card-3-sphere')?.querySelector('img');
@@ -2289,35 +2422,24 @@
     if (card) card.classList.add('active');
     if (title) title.textContent = 'Mission Vessel';
 
-    const iconMap = {
-      'scout': 'assets/mission-control/scout_vessel.svg',
-      'crewed': 'assets/mission-control/crewed_vessel.svg',
-      'colony': 'assets/mission-control/colony_vessel.svg'
-    };
-
-    if (vesselImg && iconMap[vessel]) {
-      vesselImg.src = iconMap[vessel];
+    // Находим полные данные корабля в БД по shipType, чтобы взять правильную картинку
+    let fullVesselData = null;
+    if (window.TypeVesselCard3 && vesselDataObj.shipType) {
+      fullVesselData = window.TypeVesselCard3.find(v => v.shipType === vesselDataObj.shipType);
     }
 
-    const nameMap = {
-      'scout': 'SCOUT PROBE',
-      'crewed': 'CREWED VESSEL',
-      'colony': 'COLONY ARK'
-    };
+    if (vesselImg && fullVesselData && fullVesselData.img) {
+      vesselImg.src = fullVesselData.img;
+    }
 
     if (vesselName) {
-      vesselName.textContent = nameMap[vessel] || '';
+      vesselName.textContent = vesselDataObj.shipName || '';
       vesselName.style.display = 'block';
     }
 
-    const subtitleMap = {
-      'scout': 'ORBITAL SURVEY',
-      'crewed': 'CREWED LANDING',
-      'colony': 'PERMANENT SETTLEMENT'
-    };
-
     if (vesselSubtitle) {
-      vesselSubtitle.textContent = subtitleMap[vessel] || '';
+      // Показываем выбранный двигатель и его скорость
+      vesselSubtitle.textContent = vesselDataObj.driveName || '';
       vesselSubtitle.style.display = 'block';
     }
 
