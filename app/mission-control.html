@@ -739,6 +739,14 @@
       display: none !important;
     }
 
+    .mission-modal-container.no-close-btn-card-4 .mission-modal-close {
+      display: none !important;
+    }
+
+    .mission-modal-container.no-close-btn-card-5 .mission-modal-close {
+      display: none !important;
+    }
+
     /* === ВНУТРЕННЕЕ СОДЕРЖИМОЕ МОДАЛКИ (КАРТА 1) === */
     .mission-bottom-row-card-1 {
       display: grid;
@@ -1192,6 +1200,263 @@
     .wizard-card.card-4-unlocked .card-lock-icon {
       display: none !important;
     }
+
+    /* === УВЕЛИЧЕННАЯ МОДАЛКА ДЛЯ КАРТЫ 4 === */
+    .mission-modal-content.card-4-modal {
+      width: 100vmin;
+      max-width: 110vmin;
+      min-height: 65vmin;
+      padding: 4vmin;
+    }
+
+    /* === СТИЛИ ДЛЯ КАРТОЧЕК КОНФИГУРАЦИИ (КАРТА 4) === */
+    .config-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 3vmin;
+      width: 100%;
+      max-width: 65vmin;
+      /* Оптимально для 3 шаров по 18vmin + отступы */
+      margin: 0 auto;
+      justify-items: center;
+      /* Центрируем шары внутри своих ячеек */
+    }
+
+    .config-category {
+      display: flex;
+      flex-direction: column;
+      gap: 3.5vmin;
+      /* было 2vmin — теперь равно горизонтальному зазору */
+    }
+
+    .config-category-title {
+      font-size: 1.9vmin;
+      color: var(--neon-blue);
+      text-transform: uppercase;
+      letter-spacing: 0.12vmin;
+      font-weight: 700;
+      text-align: center;
+      margin: 0 auto 3vmin;
+      /* Центрируем + отступ снизу */
+      border-bottom: 1px solid rgba(77, 166, 255, 0.3);
+      padding-bottom: 0.5vmin;
+      width: fit-content;
+    }
+
+    .config-card {
+      background: rgba(5, 8, 22, 0.6);
+      border: 1px solid rgba(77, 166, 255, 0.3);
+      border-radius: 0.6vmin;
+      padding: 2vmin 1.2vmin;
+      /* было 2.5vmin 1.5vmin — уменьшили на ~20% */
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.8vmin;
+      /* было 1vmin — уменьшили на 20% */
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-align: center;
+      height: 100%;
+    }
+
+    .config-card:hover {
+      border-color: rgba(77, 166, 255, 0.6);
+      background: rgba(77, 166, 255, 0.05);
+    }
+
+    .config-card.active {
+      border-color: var(--neon-blue);
+      background: rgba(77, 166, 255, 0.1);
+      box-shadow: 0 0 1.5vmin rgba(77, 166, 255, 0.4);
+    }
+
+    .config-card-icon {
+      font-size: 2.5vmin;
+      line-height: 1;
+    }
+
+    .config-card-name {
+      font-size: 1.3vmin;
+      font-weight: 700;
+      color: #ffffff;
+      text-transform: uppercase;
+      letter-spacing: 0.05vmin;
+    }
+
+    .config-card-desc {
+      font-size: 1.3vmin;
+      color: var(--text-dim);
+      line-height: 1.3;
+    }
+
+    .config-card-mods {
+      display: flex;
+      flex-direction: column;
+      gap: 0.3vmin;
+      width: 100%;
+      margin-top: 0.5vmin;
+      padding-top: 0.5vmin;
+      border-top: 1px solid rgba(77, 166, 255, 0.2);
+      font-size: 1.3vmin;
+      font-family: 'Courier New', monospace;
+    }
+
+    .mod-time {
+      color: #f1c40f;
+    }
+
+    .mod-success {
+      color: #2ecc71;
+    }
+
+    .mod-negative {
+      color: #e74c3c;
+    }
+
+    /* Поднимаем содержимое Карты 4 выше */
+    .mission-modal-content.card-4-modal .mission-modal-body {
+      padding-top: 0;
+    }
+
+    .mission-modal-content.card-4-modal .config-grid {
+      margin-top: 0;
+    }
+
+    #start-config-btn:hover {
+      background: rgba(77, 166, 255, 0.15);
+      border-color: rgba(77, 166, 255, 1);
+      color: #ffffff;
+      box-shadow: 0 0 2vmin rgba(77, 166, 255, 0.4);
+    }
+
+    /* Анимация выезда первого столбца */
+    .config-category-slide-in {
+      animation: slideInFromLeft 0.6s ease-out;
+    }
+
+    @keyframes slideInFromLeft {
+      from {
+        opacity: 0;
+        transform: translateX(-5vmin);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    /* === СЕТКА ШАРОВ ДЛЯ КАРТЫ 4 === */
+    .config-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 3vmin;
+      width: 100%;
+      max-width: 70vmin;
+      margin: 0 auto;
+      /* Центрируем сетку */
+    }
+
+    /* Ряд с подписью типа корабля */
+    .config-row-label {
+      grid-column: 1 / -1;
+      /* На всю ширину */
+      text-align: center;
+      font-size: 1vmin;
+      color: var(--text-dim);
+      text-transform: uppercase;
+      letter-spacing: 0.15vmin;
+      margin-top: 1vmin;
+      opacity: 0.6;
+    }
+
+    /* Контейнер одного шара с подписью */
+    .config-orb-wrapper {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1vmin;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    /* Сам шар — увеличенный, с текстом внутри */
+    .config-orb {
+      width: 18vmin;
+      height: 18vmin;
+      border-radius: 50%;
+      background: radial-gradient(circle at 30% 30%, rgba(77, 166, 255, 0.15), rgba(5, 8, 22, 0.95));
+      border: 2px solid rgba(77, 166, 255, 0.4);
+      box-shadow: 0 0 15px rgba(77, 166, 255, 0.3), inset 0 0 15px rgba(77, 166, 255, 0.1);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5vmin;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+      padding: 1.5vmin;
+      text-align: center;
+    }
+
+    .config-orb:hover {
+      transform: scale(1.08);
+      box-shadow: 0 0 25px rgba(77, 166, 255, 0.5), inset 0 0 20px rgba(77, 166, 255, 0.2);
+    }
+
+    .config-orb.active {
+      border-color: rgba(77, 166, 255, 1);
+      box-shadow: 0 0 30px rgba(77, 166, 255, 0.7), inset 0 0 25px rgba(77, 166, 255, 0.3);
+    }
+
+    .config-orb.disabled {
+      opacity: 0.25;
+      cursor: not-allowed;
+      border-color: rgba(138, 148, 184, 0.3);
+      box-shadow: none;
+    }
+
+    .config-orb.disabled:hover {
+      transform: none;
+    }
+
+    /* Иконка внутри шара */
+    .config-orb-icon {
+      font-size: 3.5vmin;
+      filter: drop-shadow(0 0 0.8vmin rgba(77, 166, 255, 0.5));
+      margin-bottom: 0.3vmin;
+    }
+
+    /* Название внутри шара */
+    .config-orb-name {
+      font-size: 1.5vmin;
+      /* было 1.1vmin */
+      color: #ffffff;
+      text-transform: uppercase;
+      letter-spacing: 0.05vmin;
+      font-weight: 700;
+      line-height: 1.3;
+    }
+
+    /* Описание внутри шара */
+    .config-orb-desc {
+      font-size: 1.2vmin;
+      /* было 0.85vmin */
+      color: var(--text-dim);
+      line-height: 1.4;
+      max-width: 14vmin;
+    }
+
+    /* Модификаторы внутри шара */
+    .config-orb-mods {
+      font-size: 1.2vmin;
+      /* было 0.8vmin */
+      font-family: 'Courier New', monospace;
+      line-height: 1.4;
+      margin-top: 0.2vmin;
+    }
   </style>
 </head>
 
@@ -1272,7 +1537,7 @@
         <div class="vessel-subtitle" id="card-3-vessel-subtitle" style="display: none;"></div>
         <div class="target-status" id="card-3-status" style="display: none;">
           <span>✅</span>
-          <span>VESSEL ACQUIRED</span>
+          <span>TARGET ACQUIRED</span>
         </div>
       </div>
       <div class="card-lock-icon">🔒</div>
@@ -1486,9 +1751,14 @@
       </div>
 
       <!-- Кнопки действий -->
-      <div class="mission-modal-actions">
-        <button class="mission-modal-btn secondary" onclick="closeMissionModal()">Cancel</button>
-        <button class="mission-modal-btn primary" id="mission-modal-accept-btn" onclick="handleAccept()">Accept</button>
+      <!-- Навигация по шагам Карты 4 -->
+      <div class="mission-modal-actions" style="gap: 2vmin;">
+        <button class="mission-modal-btn secondary" id="mission-modal-cancel-btn"
+          onclick="closeMissionModal()">Cancel</button>
+        <button class="mission-modal-btn secondary" id="mission-modal-back-btn" style="display: none;">Back</button>
+        <button class="mission-modal-btn primary" id="mission-modal-next-btn">Next</button>
+        <button class="mission-modal-btn primary" id="mission-modal-accept-btn" style="display: none;"
+          onclick="handleAccept()">Accept</button>
       </div>
 
     </div>
@@ -1511,6 +1781,27 @@
   let editModeBackupCard2 = null;
   let originalModalBodyHTML = null;
   let selectedVessel = null; // Глобальная переменная для выбранного корабля
+
+  // === ФУНКЦИЯ ЦВЕТОВОЙ ИНДИКАЦИИ МОДИФИКАТОРОВ ===
+  function getModColor(type, value) {
+    const num = parseInt(value, 10);
+
+    // 0% — нейтрально, белый
+    if (num === 0) return '#e8ecff';
+
+    if (type === 'time') {
+      if (num > 0) return '#2ecc71';   // прибавка скорости = зелёный
+      if (num >= -7) return '#f1c40f';  // потеря до 7% = жёлтый (предупреждение)
+      return '#e74c3c';                 // потеря больше 7% = красный (серьёзно)
+    }
+
+    if (type === 'success') {
+      if (num > 0) return '#2ecc71';   // прибавка успеха = зелёный
+      return '#e74c3c';                 // потеря успеха = красный
+    }
+
+    return '#e8ecff';
+  }
 
   // === ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ ===
   function convertToCompactTime(longFormat) {
@@ -1536,9 +1827,11 @@
   function closeMissionModal() {
     const modalBackdrop = document.getElementById('mission-modal-backdrop');
     const modalContainer = document.getElementById('mission-modal');
+    const modalContent = modalContainer ? modalContainer.querySelector('.mission-modal-content') : null;
 
     if (modalBackdrop) modalBackdrop.classList.remove('active');
     if (modalContainer) modalContainer.classList.remove('active');
+    if (modalContent) modalContent.classList.remove('card-4-modal');
   }
 
   // === ФУНКЦИЯ ДЛЯ ПРИВЯЗКИ ОБРАБОТЧИКОВ ===
@@ -1687,24 +1980,49 @@
   }
 
   // === 3. УНИВЕРСАЛЬНАЯ МОДАЛКА: ОТКРЫТИЕ ===
-  function openMissionModal(stepNumber) {
+  function openMissionModal(stepNumber, keepStep) {
+    if (!keepStep) window._card4Step = 1;
+    const currentStep = window._card4Step;
+
     const modalBackdrop = document.getElementById('mission-modal-backdrop');
     const modalContainer = document.getElementById('mission-modal');
     const externalTitle = document.getElementById('mission-modal-external-title-card-1');
     const internalHeader = document.querySelector('.mission-modal-header');
     const internalTitle = document.getElementById('mission-modal-title');
     const modalBody = document.getElementById('mission-modal-body');
+
+    // === ОБЪЯВЛЯЕМ ВСЕ КНОПКИ ЗДЕСЬ, ОДИН РАЗ ===
+    const cancelBtn = document.getElementById('mission-modal-cancel-btn');
+    const backBtn = document.getElementById('mission-modal-back-btn');
+    const nextBtn = document.getElementById('mission-modal-next-btn');
     const acceptBtn = document.getElementById('mission-modal-accept-btn');
 
     // Сброс состояния модалки
     modalContainer.classList.remove('no-close-btn-card-1');
     modalContainer.classList.remove('no-close-btn-card-2');
     modalContainer.classList.remove('no-close-btn-card-3');
+    modalContainer.classList.remove('no-close-btn-card-4');
+
+    // Сброс кнопок по умолчанию
+    if (backBtn) backBtn.style.display = 'none';
+    if (nextBtn) {
+      nextBtn.style.display = 'none';
+      nextBtn.style.opacity = '0.4';
+      nextBtn.style.cursor = 'not-allowed';
+      nextBtn.disabled = true;
+      nextBtn.style.background = 'transparent';
+      nextBtn.style.borderColor = 'rgba(77, 166, 255, 0.4)';
+      nextBtn.style.color = 'white';
+      nextBtn.style.boxShadow = 'none';
+    }
+    if (acceptBtn) acceptBtn.style.display = 'block';
+    if (cancelBtn) cancelBtn.style.display = 'block';
+
     if (externalTitle) externalTitle.style.display = 'none';
     if (internalHeader) internalHeader.style.display = 'flex';
     if (internalTitle) internalTitle.style.display = 'block';
 
-    // Сброс кнопки на Accept и бэкапов
+    // Сброс текста кнопки и бэкапов
     if (acceptBtn) acceptBtn.textContent = 'Accept';
     editModeBackupCard1 = null;
     editModeBackupCard2 = null;
@@ -2153,53 +2471,314 @@
       }
     }
 
-    // Обработчики клика по полям
-    const vesselOptions = document.querySelectorAll('.vessel-option');
-    const vesselSphereImg = document.getElementById('vessel-sphere-img');
-    const vesselNameLabel = document.getElementById('vessel-name-label');
+    // === ЛОГИКА ДЛЯ КАРТЫ 4 ===
+    else if (stepNumber === 4) {
+      if (internalTitle) internalTitle.textContent = 'Mission Configuration';
+      modalContainer.classList.add('no-close-btn-card-4');
 
-    vesselOptions.forEach(option => {
-      option.addEventListener('click', function () {
-        vesselOptions.forEach(opt => {
-          opt.style.borderColor = 'rgba(77, 166, 255, 0.3)';
-          opt.style.background = 'rgba(5, 8, 22, 0.6)';
-          opt.style.boxShadow = 'none';
+      const savedConfigData = sessionStorage.getItem('ModuleCard4');
+      const isEditMode = savedConfigData !== null;
+
+      if (isEditMode && acceptBtn) {
+        acceptBtn.textContent = 'Save';
+      }
+
+      // Применяем увеличенный размер модалки
+      const modalContent = modalContainer.querySelector('.mission-modal-content');
+      if (modalContent) modalContent.classList.add('card-4-modal');
+
+      if (modalBody) {
+        // Если это редактирование ИЛИ мы уже нажали кнопку старта
+        if (isEditMode || window._card4ConfigStarted) {
+
+          // Прячем "MISSION CONFIGURATION" — он дублирует "CREW COMPOSITION"
+          if (internalHeader) internalHeader.style.display = 'none';
+
+          // === ОПРЕДЕЛЯЕМ КОНТЕНТ В ЗАВИСИМОСТИ ОТ ШАГА ===
+          let categoryTitle = '';
+          let spheresHTML = '';
+
+          if (currentStep === 1) {
+            categoryTitle = '🎯 Sensor Array';
+            spheresHTML = `
+              <div class="config-orb-wrapper" data-step="1" data-option="comms-auto" data-time="0" data-success="-3">
+                <div class="config-orb">
+                  <span class="config-orb-icon">🔍</span>
+                  <div class="config-orb-name">Basic Sensors</div>
+                  <div class="config-orb-desc">Limited range</div>
+                  <div class="config-orb-mods">
+                    <div style="color: ${getModColor('time', 0)};">Speed: 0%</div>
+                    <div style="color: ${getModColor('success', -3)};">Success: -3%</div>
+                  </div>
+                </div>
+              </div>
+              <div class="config-orb-wrapper" data-step="1" data-option="comms-partial" data-time="-4" data-success="+7">
+                <div class="config-orb">
+                  <span class="config-orb-icon">🛰️</span>
+                  <div class="config-orb-name">Standard Array</div>
+                  <div class="config-orb-desc">Balanced scan</div>
+                  <div class="config-orb-mods">
+                    <div style="color: ${getModColor('time', -4)};">Speed: -4%</div>
+                    <div style="color: ${getModColor('success', +7)};">Success: +7%</div>
+                  </div>
+                </div>
+              </div>
+              <div class="config-orb-wrapper" data-step="1" data-option="comms-full" data-time="-8" data-success="+17">
+                <div class="config-orb">
+                  <span class="config-orb-icon">📡</span>
+                  <div class="config-orb-name">Deep Scan</div>
+                  <div class="config-orb-desc">Maximum data</div>
+                  <div class="config-orb-mods">
+                    <div style="color: ${getModColor('time', -8)};">Speed: -8%</div>
+                    <div style="color: ${getModColor('success', +17)};">Success: +17%</div>
+                  </div>
+                </div>
+              </div>
+            `;
+          }
+          else if (currentStep === 2) {
+            categoryTitle = '💎 Shield Systems';
+            spheresHTML = `
+              <div class="config-orb-wrapper" data-step="2" data-option="shields-minimal" data-time="0" data-success="-3">
+                <div class="config-orb">
+                  <span class="config-orb-icon">🔹</span>
+                  <div class="config-orb-name">Minimal Shields</div>
+                  <div class="config-orb-desc">Minimal protection</div>
+                  <div class="config-orb-mods">
+                    <div style="color: ${getModColor('time', 0)};">Speed: 0%</div>
+                    <div style="color: ${getModColor('success', -3)};">Success: -3%</div>
+                  </div>
+                </div>
+              </div>
+              <div class="config-orb-wrapper" data-step="2" data-option="shields-medium" data-time="-5" data-success="+7">
+                <div class="config-orb">
+                  <span class="config-orb-icon">💠</span>
+                  <div class="config-orb-name">Medium Shields</div>
+                  <div class="config-orb-desc">Medium protection</div>
+                  <div class="config-orb-mods">
+                    <div style="color: ${getModColor('time', -5)};">Speed: -5%</div>
+                    <div style="color: ${getModColor('success', +7)};">Success: +7%</div>
+                  </div>
+                </div>
+              </div>
+              <div class="config-orb-wrapper" data-step="2" data-option="shields-full" data-time="-12" data-success="+17">
+                <div class="config-orb">
+                  <span class="config-orb-icon">🛡️</span>
+                  <div class="config-orb-name">Full Shields</div>
+                  <div class="config-orb-desc">Maximum protection</div>
+                  <div class="config-orb-mods">
+                    <div style="color: ${getModColor('time', -12)};">Speed: -12%</div>
+                    <div style="color: ${getModColor('success', +17)};">Success: +17%</div>
+                  </div>
+                </div>
+              </div>
+            `;
+          }
+          else if (currentStep === 3) {
+            categoryTitle = '⚙️ Flight Control System';
+            spheresHTML = `
+              <div class="config-orb-wrapper" data-step="3" data-option="cmd-manual" data-time="0" data-success="-4">
+                <div class="config-orb">
+                  <span class="config-orb-icon">🕹️</span>
+                  <div class="config-orb-name">PROGRAMMED</div>
+                  <div class="config-orb-desc">Fixed path. No adaptation</div>
+                  <div class="config-orb-mods">
+                    <div style="color: ${getModColor('time', 0)};">Speed: 0%</div>
+                    <div style="color: ${getModColor('success', -4)};">Success: -4%</div>
+                  </div>
+                </div>
+              </div>
+              <div class="config-orb-wrapper" data-step="3" data-option="cmd-hybrid" data-time="-6" data-success="+6">
+                <div class="config-orb">
+                  <span class="config-orb-icon">🤝</span>
+                  <div class="config-orb-name">ADAPTIVE AI</div>
+                  <div class="config-orb-desc">AI adapts locally</div>
+                  <div class="config-orb-mods">
+                    <div style="color: ${getModColor('time', -6)};">Speed: -6%</div>
+                    <div style="color: ${getModColor('success', +6)};">Success: +6%</div>
+                  </div>
+                </div>
+              </div>
+              <div class="config-orb-wrapper" data-step="3" data-option="cmd-ai" data-time="-10" data-success="+16">
+                <div class="config-orb">
+                  <span class="config-orb-icon">🤖</span>
+                  <div class="config-orb-name">AI <span style="color: #ffffff;">CASSAN</span><span style="color: #4da6ff; text-shadow: 0 0 1vmin rgba(77, 166, 255, 0.8);">DRA</span></div>
+                  <div class="config-orb-desc">Full autonomy</div>
+                  <div class="config-orb-mods">
+                    <div style="color: ${getModColor('time', -10)};">Speed: -10%</div>
+                    <div style="color: ${getModColor('success', +16)};">Success: +16%</div>
+                  </div>
+                </div>
+              </div>
+            `;
+          }
+
+          // 3. Рендерим модалку
+          modalBody.innerHTML = `
+            <!-- ЗАГОЛОВОК ПО ЦЕНТРУ -->
+            <div style="text-align: center; margin-bottom: 7vmin;">
+              <div class="config-category-title">${categoryTitle}</div>
+            </div>
+              ${''}
+            </div >
+
+            <!-- СЕТКА 3 ШАРОВ (строго по центру) -->
+            <div class="config-grid" style="grid-template-columns: repeat(3, 1fr); justify-items: center; max-width: 65vmin; margin: 0 auto;">
+              ${spheresHTML}
+            </div>
+
+             <!-- БЛОК ИТОГОВ -->
+            <div style="
+              margin-top: 6vmin;
+              padding: 2vmin 3vmin;
+              background: rgba(5, 8, 22, 0.6);
+              border: 1px solid rgba(77, 166, 255, 0.3);
+              border-radius: 0.8vmin;
+              display: grid;
+              grid-template-columns: 1fr 1fr;
+              gap: 4vmin;
+              max-width: 60vmin;
+              margin-left: auto;
+              margin-right: auto;
+            ">
+              <div style="text-align: center;">
+                <div style="font-size: 1vmin; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.1vmin;">Speed</div>
+                <div style="font-size: 1.6vmin; color: #4da6ff; font-weight: 700; font-family: 'Courier New', monospace; margin-top: 0.5vmin;" id="config-total-speed">--</div>
+              </div>
+              <div style="text-align: center;">
+                <div style="font-size: 1vmin; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.1vmin;">Success Rate</div>
+                <div style="font-size: 1.6vmin; color: #2ecc71; font-weight: 700; font-family: 'Courier New', monospace; margin-top: 0.5vmin;" id="config-total-success">50%</div>
+              </div>
+            </div>
+          `;
+
+          // === ПОДТЯГИВАЕМ БАЗОВУЮ СКОРОСТЬ ДВИГАТЕЛЯ ===
+          const vesselDataStr = sessionStorage.getItem('VesselCard3');
+          let baseSpeed = 0.5; // дефолт, если вдруг данных нет
+          if (vesselDataStr) {
+            try {
+              const vesselData = JSON.parse(vesselDataStr);
+              baseSpeed = vesselData.speed || 0.5;
+            } catch (e) {
+              console.error('Failed to parse VesselCard3 for speed', e);
+            }
+          }
+
+          const speedEl = document.getElementById('config-total-speed');
+          if (speedEl) {
+            speedEl.textContent = baseSpeed + 'c';
+          }
+
+          // === ОБРАБОТЧИК КЛИКОВ ДЛЯ ШАРОВ ===
+          const allOrbs = modalBody.querySelectorAll('.config-orb-wrapper:not(.disabled)');
+          allOrbs.forEach(orb => {
+            orb.addEventListener('click', function () {
+              modalBody.querySelectorAll('.config-orb').forEach(o => o.classList.remove('active'));
+              this.querySelector('.config-orb').classList.add('active');
+              console.log('Selected:', this.getAttribute('data-option'));
+
+              // 🎯 Будим нужную кнопку: Next на шагах 1-2, Accept на шаге 3
+              const activeBtn = (currentStep === 3) ? acceptBtn : nextBtn;
+              if (activeBtn) {
+                activeBtn.disabled = false;
+                activeBtn.style.opacity = '1';
+                activeBtn.style.cursor = 'pointer';
+                activeBtn.style.background = 'rgba(77, 166, 255, 0.25)';
+                activeBtn.style.borderColor = 'rgba(77, 166, 255, 1)';
+                activeBtn.style.color = '#ffffff';
+                activeBtn.style.boxShadow = '0 0 1.5vmin rgba(77, 166, 255, 0.5)';
+              }
+            });
+          });
+
+          // === УПРАВЛЕНИЕ КНОПКАМИ НАВИГАЦИИ ДЛЯ ШАГОВ КАРТЫ 4 ===
+
+          // === УПРАВЛЕНИЕ КНОПКАМИ НАВИГАЦИИ ДЛЯ ШАГОВ КАРТЫ 4 ===
+          // (Слово const УДАЛЕНО, так как переменные уже объявлены вверху функции)
+
+          if (currentStep === 1) {
+            if (backBtn) backBtn.style.display = 'none';
+            if (nextBtn) {
+              nextBtn.style.display = 'block';
+              nextBtn.disabled = true;        // ← кнопка некликабельна
+              nextBtn.style.opacity = '0.4';  // ← полупрозрачная
+            }
+            if (acceptBtn) acceptBtn.style.display = 'none';
+
+          } else if (currentStep === 2) {
+            if (backBtn) backBtn.style.display = 'block';
+            if (nextBtn) {
+              nextBtn.style.display = 'block';
+              nextBtn.disabled = true;        // ← снова спит, пока не выберут шар
+              nextBtn.style.opacity = '0.4';
+            }
+            if (acceptBtn) acceptBtn.style.display = 'none';
+
+          } else if (currentStep === 3) {
+            if (backBtn) backBtn.style.display = 'block';
+            if (nextBtn) nextBtn.style.display = 'none';
+            if (acceptBtn) {
+              acceptBtn.style.display = 'block';
+              acceptBtn.disabled = true;
+              acceptBtn.style.opacity = '0.4';
+              acceptBtn.style.background = 'transparent';
+              acceptBtn.style.borderColor = 'rgba(77, 166, 255, 0.4)';
+              acceptBtn.style.color = 'white';
+              acceptBtn.style.boxShadow = 'none';
+            }
+          }
+          // Обработчик NEXT
+          if (nextBtn) {
+            nextBtn.onclick = function () {
+              window._card4Step++;
+              openMissionModal(4, true);
+            };
+          }
+
+          // Обработчик BACK
+          if (backBtn) {
+            backBtn.onclick = function () {
+              window._card4Step--;
+              openMissionModal(4, true);
+            };
+          }
+
+        } else {
+          // ПЕРВЫЙ ВХОД: Показываем приветственный экран с кнопкой
+          modalBody.innerHTML = `
+            <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 40vmin; gap: 4vmin;">
+              <div style="font-size: 1.8vmin; color: var(--text-dim); text-align: center; max-width: 65vmin; line-height: 1.7;">
+                Your choices here directly shape the mission outcome. A lighter crew and aggressive cryo mode will cut transit time, but at the cost of reliability. Heavier armor and a full team increase your chances of success — but the journey will take longer.
+              </div>
+              <button id="start-config-btn" style="padding: 1.8vmin 5vmin; background: transparent; border: 0.15vmin solid rgba(77, 166, 255, 0.5); border-radius: 0.6vmin; color: #4da6ff; font-size: 1.6vmin; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1vmin; cursor: pointer; transition: all 0.3s ease; margin-top: 1vmin;">
+                Start Configuration
+              </button>
+            </div>
+          `;
+
+          const startBtn = document.getElementById('start-config-btn');
+          if (startBtn) {
+            startBtn.addEventListener('click', function () {
+              window._card4ConfigStarted = true;
+              openMissionModal(4);
+            });
+          }
+
+          if (cancelBtn) cancelBtn.style.display = 'none';
+          if (acceptBtn) acceptBtn.style.display = 'none';
+        }
+
+
+        // === ОБРАБОТЧИКИ КЛИКОВ ДЛЯ КАРТОЧЕК ЭКИПАЖА ===
+        const crewCards = modalBody.querySelectorAll('.config-card[data-category="crew"]');
+        crewCards.forEach(card => {
+          card.addEventListener('click', function () {
+            crewCards.forEach(c => c.classList.remove('active'));
+            this.classList.add('active');
+            console.log('Selected Crew:', this.getAttribute('data-option'));
+          });
         });
 
-        this.style.borderColor = 'rgba(77, 166, 255, 1)';
-        this.style.background = 'rgba(77, 166, 255, 0.15)';
-        this.style.boxShadow = '0 0 2vmin rgba(77, 166, 255, 0.5)';
-
-        // Сохраняем в ГЛОБАЛЬНУЮ переменную
-        selectedVessel = this.getAttribute('data-vessel');
-        const vesselIcon = this.getAttribute('data-icon');
-        const vesselDisplayName = this.querySelector('span').textContent.split(' - ')[0];
-
-        if (vesselSphereImg && vesselIcon) {
-          vesselSphereImg.src = vesselIcon;
-          vesselSphereImg.style.display = 'block';
-        }
-
-        if (vesselNameLabel) {
-          vesselNameLabel.textContent = vesselDisplayName;
-        }
-
-        console.log('Selected vessel:', selectedVessel, 'Icon:', vesselIcon);
-      });
-    });
-
-    // Если режим редактирования — восстанавливаем выбор
-    if (isEditMode && savedVesselData) {
-      try {
-        const parsedData = JSON.parse(savedVesselData);
-        if (parsedData.vessel) {
-          const selectedOption = document.querySelector(`.vessel - option[data - vessel="${parsedData.vessel}"]`);
-          if (selectedOption) {
-            selectedOption.click();
-          }
-        }
-      } catch (e) {
-        console.error('Failed to parse VesselCard3 for edit mode', e);
       }
     }
   }
@@ -2495,7 +3074,7 @@
         if (card3Data) {
           try {
             const vesselData = JSON.parse(card3Data);
-            updateCard3(vesselData.vessel);
+            updateCard3(vesselData);
             checkCardsState();
 
             let callsign = 'UNKNOWN';
@@ -2599,7 +3178,9 @@
     if (card3Data && card4) {
       card4.classList.remove('placeholder');
       card4.classList.add('card-4-unlocked');
-      if (card4Title) card4Title.textContent = 'Mission Module 4';
+
+      // Переименовываем карту после разблокировки
+      if (card4Title) card4Title.textContent = 'Mission Configuration';
 
       if (!sessionStorage.getItem('ModuleCard4')) {
         const hint = card4.querySelector('.card-hint');
