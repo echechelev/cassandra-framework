@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <rect x="0" y="0" width="64" height="64" rx="6" fill="#0b1021"/>
+  
+  <!-- Корпус чипа -->
+  <rect x="18" y="18" width="28" height="28" rx="2" fill="#0b1021" stroke="#ffffff" stroke-width="2"/>
+  
+  <!-- Внутреннее ядро -->
+  <rect x="26" y="26" width="12" height="12" fill="#4da6ff"/>
+  
+  <!-- Ножки сверху -->
+  <rect x="22" y="10" width="4" height="8" fill="#ffffff"/>
+  <rect x="30" y="10" width="4" height="8" fill="#ffffff"/>
+  <rect x="38" y="10" width="4" height="8" fill="#ffffff"/>
+  
+  <!-- Ножки снизу -->
+  <rect x="22" y="46" width="4" height="8" fill="#ffffff"/>
+  <rect x="30" y="46" width="4" height="8" fill="#ffffff"/>
+  <rect x="38" y="46" width="4" height="8" fill="#ffffff"/>
+  
+  <!-- Ножки слева -->
+  <rect x="10" y="22" width="8" height="4" fill="#ffffff"/>
+  <rect x="10" y="30" width="8" height="4" fill="#ffffff"/>
+  <rect x="10" y="38" width="8" height="4" fill="#ffffff"/>
+  
+  <!-- Ножки справа -->
+  <rect x="46" y="22" width="8" height="4" fill="#ffffff"/>
+  <rect x="46" y="30" width="8" height="4" fill="#ffffff"/>
+  <rect x="46" y="38" width="8" height="4" fill="#ffffff"/>
+</svg>
