@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 80">
+  <!-- Темный фон -->
+  <rect x="0" y="0" width="80" height="80" rx="8" fill="#0b1021"/>
+
+  <!-- Логотип CASSANDRA -->
+  <text x="40" y="46" text-anchor="middle"
+        font-family="'Segoe UI', 'Roboto', sans-serif"
+        font-size="12" font-weight="800" letter-spacing="0.3">
+    <tspan fill="#ffffff">CASSAN</tspan><tspan fill="#4da6ff">DRA</tspan>
+  </text>
+</svg>
